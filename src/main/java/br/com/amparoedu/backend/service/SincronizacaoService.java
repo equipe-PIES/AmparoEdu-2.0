@@ -12,6 +12,9 @@ public class SincronizacaoService {
     private final SupabaseClient nuvemClient = new SupabaseClient();
     private final Gson gson = new Gson();
     private final UsuarioRepository userRepo = new UsuarioRepository();
+    private final EducandoRepository educandoRepo = new EducandoRepository();
+    private final EnderecoRepository enderecoRepo = new EnderecoRepository();
+    private final ResponsavelRepository responsavelRepo = new ResponsavelRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -39,6 +42,9 @@ public class SincronizacaoService {
 
         try {
             sincronizarUsuarios();
+            sincronizarEducandos();
+            sincronizarEnderecos();
+            sincronizarResponsaveis();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -75,5 +81,85 @@ public class SincronizacaoService {
         }
     }
 
+    private void sincronizarEducandos() {
+        List<Educando> pendentes = educandoRepo.buscarNaoSincronizados();
+        for (Educando e : pendentes) {
+            e.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("educandos", e)) {
+                educandoRepo.atualizarSincronizacao(e.getId(), 1);
+            } else {
+                e.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("educandos");
+        if (json != null && !json.equals("[]")) {
+            Educando[] daNuvem = gson.fromJson(json, Educando[].class);
+            for (Educando eNuvem : daNuvem) {
+                eNuvem.setSincronizado(1);
+                Educando local = educandoRepo.buscarPorId(eNuvem.getId());
+                
+                if (local == null) {
+                    educandoRepo.salvar(eNuvem);
+                } else {
+                    educandoRepo.atualizarSincronizacao(eNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarEnderecos() {
+        List<Endereco> pendentes = enderecoRepo.buscarNaoSincronizados();
+        for (Endereco end : pendentes) {
+            end.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("enderecos", end)) {
+                enderecoRepo.atualizarSincronizacao(end.getId(), 1);
+            } else {
+                end.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("enderecos");
+        if (json != null && !json.equals("[]")) {
+            Endereco[] daNuvem = gson.fromJson(json, Endereco[].class);
+            for (Endereco eNuvem : daNuvem) {
+                eNuvem.setSincronizado(1);
+                Endereco local = enderecoRepo.buscarPorId(eNuvem.getId());
+                
+                if (local == null) {
+                    enderecoRepo.salvar(eNuvem);
+                } else {
+                    enderecoRepo.atualizarSincronizacao(eNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarResponsaveis() {
+        List<Responsavel> pendentes = responsavelRepo.buscarNaoSincronizados();
+        for (Responsavel r : pendentes) {
+            r.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("responsaveis", r)) {
+                responsavelRepo.atualizarSincronizacao(r.getId(), 1);
+            } else {
+                r.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("responsaveis");
+        if (json != null && !json.equals("[]")) {
+            Responsavel[] daNuvem = gson.fromJson(json, Responsavel[].class);
+            for (Responsavel rNuvem : daNuvem) {
+                rNuvem.setSincronizado(1);
+                Responsavel local = responsavelRepo.buscarPorId(rNuvem.getId());
+                
+                if (local == null) {
+                    responsavelRepo.salvar(rNuvem);
+                } else {
+                    responsavelRepo.atualizarSincronizacao(rNuvem.getId(), 1);
+                }
+            }
+        }
+    }
    
 }
