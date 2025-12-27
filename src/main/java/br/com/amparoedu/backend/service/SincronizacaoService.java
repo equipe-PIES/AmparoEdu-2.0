@@ -12,6 +12,7 @@ public class SincronizacaoService {
     private final SupabaseClient nuvemClient = new SupabaseClient();
     private final Gson gson = new Gson();
     private final UsuarioRepository userRepo = new UsuarioRepository();
+    private final ProfessorRepository professorRepo = new ProfessorRepository();
     private final EducandoRepository educandoRepo = new EducandoRepository();
     private final EnderecoRepository enderecoRepo = new EnderecoRepository();
     private final ResponsavelRepository responsavelRepo = new ResponsavelRepository();
@@ -42,6 +43,7 @@ public class SincronizacaoService {
 
         try {
             sincronizarUsuarios();
+            sincronizarProfessores();
             sincronizarEducandos();
             sincronizarEnderecos();
             sincronizarResponsaveis();
@@ -76,6 +78,33 @@ public class SincronizacaoService {
                     userRepo.salvar(uNuvem); 
                 } else {
                     userRepo.atualizar(uNuvem);
+                }
+            }
+        }
+    }
+
+    private void sincronizarProfessores() {
+        List<Professor> pendentes = professorRepo.buscarNaoSincronizados();
+        for (Professor p : pendentes) {
+            p.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("professores", p)) {
+                professorRepo.atualizarSincronizacao(p.getId(), 1);
+            } else {
+                p.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("professores");
+        if (json != null && !json.equals("[]")) {
+            Professor[] daNuvem = gson.fromJson(json, Professor[].class);
+            for (Professor pNuvem : daNuvem) {
+                pNuvem.setSincronizado(1);
+                Professor local = professorRepo.buscarPorId(pNuvem.getId());
+                
+                if (local == null) {
+                    professorRepo.salvar(pNuvem);
+                } else {
+                    professorRepo.atualizarSincronizacao(pNuvem.getId(), 1);
                 }
             }
         }
