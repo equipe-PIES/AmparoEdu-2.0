@@ -16,6 +16,8 @@ public class SincronizacaoService {
     private final EducandoRepository educandoRepo = new EducandoRepository();
     private final EnderecoRepository enderecoRepo = new EnderecoRepository();
     private final ResponsavelRepository responsavelRepo = new ResponsavelRepository();
+    private final TurmaRepository turmaRepo = new TurmaRepository();
+    private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -47,6 +49,8 @@ public class SincronizacaoService {
             sincronizarEducandos();
             sincronizarEnderecos();
             sincronizarResponsaveis();
+            sincronizarTurmas();
+            sincronizarTurmaEducandos();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -190,5 +194,58 @@ public class SincronizacaoService {
             }
         }
     }
+
+    private void sincronizarTurmas() {
+        List<Turma> pendentes = turmaRepo.buscarNaoSincronizados();
+        for (Turma t : pendentes) {
+            t.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("turmas", t)) {
+                turmaRepo.atualizarSincronizacao(t.getId(), 1);
+            } else {
+                t.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("turmas");
+        if (json != null && !json.equals("[]")) {
+            Turma[] daNuvem = gson.fromJson(json, Turma[].class);
+            for (Turma tNuvem : daNuvem) {
+                tNuvem.setSincronizado(1);
+                Turma local = turmaRepo.buscarPorId(tNuvem.getId());
+                
+                if (local == null) {
+                    turmaRepo.salvar(tNuvem);
+                } else {
+                    turmaRepo.atualizarSincronizacao(tNuvem.getId(), 1);
+                }
+            }
+        }
+    }
    
+    private void sincronizarTurmaEducandos() {
+        List<TurmaEducando> pendentes = turmaEducandoRepo.buscarNaoSincronizados();
+        for (TurmaEducando te : pendentes) {
+            te.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("turma_educando", te)) {
+                turmaEducandoRepo.atualizarSincronizacao(te.getTurma_id(), te.getEducando_id(), 1);
+            } else {
+                te.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("turma_educando");
+        if (json != null && !json.equals("[]")) {
+            TurmaEducando[] daNuvem = gson.fromJson(json, TurmaEducando[].class);
+            for (TurmaEducando teNuvem : daNuvem) {
+                teNuvem.setSincronizado(1);
+                TurmaEducando local = turmaEducandoRepo.buscarPorIds(teNuvem.getTurma_id(), teNuvem.getEducando_id());
+                
+                if (local == null) {
+                    turmaEducandoRepo.salvar(teNuvem);
+                } else {
+                    turmaEducandoRepo.atualizarSincronizacao(teNuvem.getTurma_id(), teNuvem.getEducando_id(), 1);
+                }
+            }
+        }
+    }
 }
