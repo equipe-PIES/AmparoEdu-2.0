@@ -144,8 +144,8 @@ public class PDIRepository {
         stmt.setString(index++, pdi.getRecursosNecessitamAdaptacao());
         stmt.setString(index++, pdi.getRecursosNecessitamProduzir());
         stmt.setString(index++, pdi.getParceriasNecessarias());
-        stmt.setBoolean(index++, pdi.getSincronizado());
-        stmt.setBoolean(index++, pdi.getExcluido());
+        stmt.setInt(index++, pdi.getSincronizado());
+        stmt.setInt(index++, pdi.getExcluido());
 
     }
     
@@ -170,8 +170,8 @@ public class PDIRepository {
             rs.getString("recursos_necessitam_adaptacao"),
             rs.getString("recursos_necessitam_produzir"),
             rs.getString("parcerias_necessarias"),
-            rs.getBoolean("sincronizado"),
-            rs.getBoolean("excluido")
+            rs.getInt("sincronizado"),
+            rs.getInt("excluido")
         );
     }
 
