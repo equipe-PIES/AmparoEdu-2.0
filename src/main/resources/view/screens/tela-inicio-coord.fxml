@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -10,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.InicioCoordController">
@@ -35,22 +33,10 @@
 
                <HBox alignment="CENTER_RIGHT" spacing="15.0">
       <children>
-                      <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" style="-fx-background-color: #26568C;" text="Início" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                      <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" style="-fx-background-color: #26568C;" text="Turmas" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                      <Button id="btnProfessores" fx:id="btnProfessores" onAction="#btnProfessoresClick" style="-fx-background-color: #26568C;" text="Professores" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                      <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" style="-fx-background-color: #26568C;" text="Alunos" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
+                      <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" style="-fx-background-color: #26568C;" text="Início" textFill="WHITE" />
+                      <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" style="-fx-background-color: #26568C;" text="Turmas" textFill="WHITE" />
+                      <Button id="btnProfessores" fx:id="btnProfessores" onAction="#btnProfessoresClick" style="-fx-background-color: #26568C;" text="Professores" textFill="WHITE" />
+                      <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" style="-fx-background-color: #26568C;" text="Alunos" textFill="WHITE" />
       </children>
                </HBox>
            </children>
@@ -94,9 +80,6 @@
                         <graphic>
                            <javafx.scene.shape.SVGPath content="M 17 7 L 15.59 8.41 L 18.17 11 H 8 v 2 h 10.17 l -2.58 2.58 L 17 17 l 5 -5 Z M 4 5 h 8 V 3 H 4 c -1.11 0 -2 0.89 -2 2 v 14 c 0 1.1 0.89 2 2 2 h 8 v -2 H 4 Z" fill="#808080" scaleX="1.0" scaleY="1.0" />
                         </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
                      </Button>
                   </children>
                </HBox>
@@ -118,7 +101,7 @@
                     <Insets top="10.0" />
                 </VBox.margin>
                 <children>
-                    <ImageView fitHeight="300.0" fitWidth="980.0" pickOnBounds="true">
+                    <ImageView fitWidth="980.0" fitHeight="300.0" pickOnBounds="true">
                         <image>
                             <Image url="@../images/frente_apapeq (1).png" />
                             <!-- frente_apapeq (1) -->
@@ -142,10 +125,7 @@
                            </font>
                                 </Label>
                                 <Label alignment="CENTER" text="Adicione uma nova turma à lista de turmas no seu sistema." textAlignment="CENTER" wrapText="true" />
-                                <Button fx:id="btnAddTurma" onAction="#btnAddTurmaClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: #26568C; -fx-text-fill: white;" text="Adicionar" VBox.vgrow="ALWAYS">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                                <Button fx:id="btnAddTurma" onAction="#btnAddTurmaClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: #26568C; -fx-text-fill: white;" text="Adicionar" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
 
@@ -164,10 +144,7 @@
                                 <Button fx:id="btnAddProf" onAction="#btnAddProfClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: #26568C; -fx-text-fill: white;" text="Adicionar" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets top="15.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </VBox.margin></Button>
                             </children>
                         </VBox>
 
@@ -183,10 +160,7 @@
                            </font>
                                 </Label>
                                 <Label alignment="CENTER" text="Adicione um novo aluno(a) à lista de alunos no seu sistema." textAlignment="CENTER" wrapText="true" />
-                                <Button fx:id="btnAddAluno" onAction="#btnAddAlunoClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: #26568C; -fx-text-fill: white;" text="Adicionar" VBox.vgrow="ALWAYS">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                                <Button fx:id="btnAddAluno" onAction="#btnAddAlunoClick" prefHeight="30.0" prefWidth="280.0" style="-fx-background-color: #26568C; -fx-text-fill: white;" text="Adicionar" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
                     </children>

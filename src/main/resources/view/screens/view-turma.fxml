@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.ViewTurmaController">
+
+    <!-- TOPO -->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #ffffff;">
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <children>
+                <Region prefHeight="60.0" prefWidth="15.0" />
+
+                <Button id="sairButton" fx:id="sairButton" onAction="#handleSairButtonAction" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: transparent; -fx-border-color: #808080; -fx-border-width: 2; -fx-border-radius: 17.5; -fx-background-radius: 17.5; -fx-padding: 6;">
+                   <graphic>
+                      <javafx.scene.shape.SVGPath content="M 17 7 L 15.59 8.41 L 18.17 11 H 8 v 2 h 10.17 l -2.58 2.58 L 17 17 l 5 -5 Z M 4 5 h 8 V 3 H 4 c -1.11 0 -2 0.89 -2 2 v 14 c 0 1.1 0.89 2 2 2 h 8 v -2 H 4 Z" fill="#808080" scaleX="1.0" scaleY="1.0" />
+                   </graphic>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+                </Button>
+                  <VBox prefHeight="50.0" prefWidth="187.0">
+                      <children>
+                          <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                          <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
+                      </children>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+                  </VBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <children>
+                        <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
+
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </top>
+    <center>
+    </center>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                        <Label id="indicadorDeTela" fx:id="nomeTurmaLabel" text="Nome da Turma">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Total de alunos:">
+                     <graphic>
+                        <Label fx:id="totalAlunosTurma" />
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Grau da turma:">
+                     <graphic>
+                        <Label fx:id="grauTurma">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Label>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Turno:">
+                     <graphic>
+                        <Label fx:id="turnoTurma" />
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label contentDisplay="RIGHT" text="Faixa etária:">
+                     <graphic>
+                        <Label fx:id="fxEtariaTurma" />
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+               <children>
+                  <Label id="indicadorDeTela" fx:id="nomeTurmaLabel1" text="Alunos">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="buscarAluno" alignment="CENTER" prefWidth="220.0" styleClass="campo-digite-selecione" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="buscarAlunoButton" mnemonicParsing="false" onAction="#handleBuscarAlunoAction" prefWidth="220.0" styleClass="botao-concluir" text="Buscar">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fx:id="alunosScrollPane" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <content>
+                  <FlowPane fx:id="containerAlunos" alignment="TOP_CENTER" hgap="30.0" vgap="30.0">
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </FlowPane>
+                </content>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="80.0" right="80.0" top="30.0" />
+         </padding>
+      </VBox>
+   </center>
+
+</BorderPane>
