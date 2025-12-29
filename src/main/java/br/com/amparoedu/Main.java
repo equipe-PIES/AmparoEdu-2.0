@@ -13,7 +13,7 @@ public class Main extends Application {
         // 1. Prepara o Banco e os dados iniciais
         DatabaseConfig.inicializarBanco();
         PopularDatabase.popularDadosIniciais();
-
+        
         // 2. Configura o gerenciador de telas
         GerenciadorTelas.setStage(primaryStage);
         primaryStage.setTitle("AmparoEdu - Sistema de Gestão Escolar");

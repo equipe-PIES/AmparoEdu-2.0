@@ -18,6 +18,7 @@ public class SincronizacaoService {
     private final ResponsavelRepository responsavelRepo = new ResponsavelRepository();
     private final TurmaRepository turmaRepo = new TurmaRepository();
     private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
+    private final AnamneseRepository anamneseRepo = new AnamneseRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -51,6 +52,7 @@ public class SincronizacaoService {
             sincronizarResponsaveis();
             sincronizarTurmas();
             sincronizarTurmaEducandos();
+            sincronizarAnamneses();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -244,6 +246,33 @@ public class SincronizacaoService {
                     turmaEducandoRepo.salvar(teNuvem);
                 } else {
                     turmaEducandoRepo.atualizarSincronizacao(teNuvem.getTurma_id(), teNuvem.getEducando_id(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarAnamneses() {
+        List<Anamnese> pendentes = anamneseRepo.buscarNaoSincronizados();
+        for (Anamnese a : pendentes) {
+            a.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("anamneses", a)) {
+                anamneseRepo.atualizarSincronizacao(a.getId(), 1);
+            } else {
+                a.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("anamneses");
+        if (json != null && !json.equals("[]")) {
+            Anamnese[] daNuvem = gson.fromJson(json, Anamnese[].class);
+            for (Anamnese aNuvem : daNuvem) {
+                aNuvem.setSincronizado(1);
+                Anamnese local = anamneseRepo.buscarPorId(aNuvem.getId());
+                
+                if (local == null) {
+                    anamneseRepo.salvar(aNuvem);
+                } else {
+                    anamneseRepo.atualizarSincronizacao(aNuvem.getId(), 1);
                 }
             }
         }
