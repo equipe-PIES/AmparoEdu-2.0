@@ -1,10 +1,10 @@
-br\com\amparoedu\backend\repository\DatabaseConfig.class
-br\com\amparoedu\view\GerenciadorTelas.class
-br\com\amparoedu\backend\repository\UsuarioRepository.class
-br\com\amparoedu\backend\service\SincronizacaoService.class
 br\com\amparoedu\backend\model\Usuario.class
 br\com\amparoedu\backend\repository\PopularDatabase.class
 br\com\amparoedu\backend\service\AuthService.class
 br\com\amparoedu\controller\LoginController.class
 br\com\amparoedu\backend\repository\SupabaseClient.class
+br\com\amparoedu\backend\repository\DatabaseConfig.class
+br\com\amparoedu\view\GerenciadorTelas.class
+br\com\amparoedu\backend\repository\UsuarioRepository.class
+br\com\amparoedu\backend\service\SincronizacaoService.class
 br\com\amparoedu\Main.class

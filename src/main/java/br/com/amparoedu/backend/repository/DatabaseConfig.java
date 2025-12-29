@@ -107,6 +107,7 @@ public class DatabaseConfig {
                         "turma_id TEXT NOT NULL, " +
                         "educando_id TEXT NOT NULL, " +
                         "excluido INTEGER DEFAULT 0, " +
+                        "sincronizado INTEGER DEFAULT 0, " +
                         "PRIMARY KEY(turma_id, educando_id), " +
                         "FOREIGN KEY(turma_id) REFERENCES turmas(id), " +
                         "FOREIGN KEY(educando_id) REFERENCES educandos(id))");
