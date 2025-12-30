@@ -2,23 +2,23 @@ package br.com.amparoedu.backend.model;
 
 public class PDI {
     private String id;
-    private String educandoId;
-    private String professorId;
-    private String dataCriacao;
-    private String periodoAee;
-    private String horarioAtendimento;
-    private String frequenciaAtendimento;
-    private String diasAtendimento;
-    private String composicaoGrupo;
+    private String educando_id;
+    private String professor_id;
+    private String data_criacao;
+    private String periodo_aee;
+    private String horario_atendimento;
+    private String frequencia_atendimento;
+    private String dias_atendimento;
+    private String composicao_grupo;
     private String objetivos;
     private String potencialidades;
-    private String necessidadesEspeciais;
+    private String necessidades_especiais;
     private String habilidades;
     private String atividades;
-    private String recursosMateriais;
-    private String recursosNecessitamAdaptacao;
-    private String recursosNecessitamProduzir;
-    private String parceriasNecessarias;
+    private String recursos_materiais;
+    private String recursos_necessitam_adaptacao;
+    private String recursos_necessitam_produzir;
+    private String parcerias_necessarias;
     private int sincronizado;
     private int excluido;
 
@@ -26,29 +26,29 @@ public class PDI {
     }
 
     public PDI(String id, String educandoId, String professorId, String dataCriacao, String periodoAee,
-               String horarioAtendimento, String frequenciaAtendimento, String diasAtendimento,
-               String composicaoGrupo, String objetivos, String potencialidades, String necessidadesEspeciais,
-               String habilidades, String atividades, String recursosMateriais,
-               String recursosNecessitamAdaptacao, String recursosNecessitamProduzir,
-               String parceriasNecessarias, int sincronizado, int excluido) {
+               String horario_atendimento, String frequencia_atendimento, String dias_atendimento,
+               String composicao_grupo, String objetivos, String potencialidades, String necessidades_especiais,
+               String habilidades, String atividades, String recursos_materiais,
+               String recursos_necessitam_adaptacao, String recursos_necessitam_produzir,
+               String parcerias_necessarias, int sincronizado, int excluido) {
         this.id = id;
-        this.educandoId = educandoId;
-        this.professorId = professorId;
-        this.dataCriacao = dataCriacao;
-        this.periodoAee = periodoAee;
-        this.horarioAtendimento = horarioAtendimento;
-        this.frequenciaAtendimento = frequenciaAtendimento;
-        this.diasAtendimento = diasAtendimento;
-        this.composicaoGrupo = composicaoGrupo;
+        this.educando_id = educando_id;
+        this.professor_id = professor_id;
+        this.data_criacao = data_criacao;
+        this.periodo_aee = periodo_aee;
+        this.horario_atendimento = horario_atendimento;
+        this.frequencia_atendimento = frequencia_atendimento;
+        this.dias_atendimento = dias_atendimento;
+        this.composicao_grupo = composicao_grupo;
         this.objetivos = objetivos;
         this.potencialidades = potencialidades;
-        this.necessidadesEspeciais = necessidadesEspeciais;
+        this.necessidades_especiais = necessidades_especiais;
         this.habilidades = habilidades;
         this.atividades = atividades;
-        this.recursosMateriais = recursosMateriais;
-        this.recursosNecessitamAdaptacao = recursosNecessitamAdaptacao;
-        this.recursosNecessitamProduzir = recursosNecessitamProduzir;
-        this.parceriasNecessarias = parceriasNecessarias;
+        this.recursos_materiais = recursos_materiais;
+        this.recursos_necessitam_adaptacao = recursos_necessitam_adaptacao;
+        this.recursos_necessitam_produzir = recursos_necessitam_produzir;
+        this.parcerias_necessarias = parcerias_necessarias;
         this.sincronizado = sincronizado;
         this.excluido = excluido;
     }
@@ -59,28 +59,28 @@ public class PDI {
         return id;
     }
     public String getEducandoId() {
-        return educandoId;
+        return educando_id;
     }
     public String getProfessorId() {
-        return professorId;
+        return professor_id;
     }
     public String getDataCriacao() {
-        return dataCriacao;
+        return data_criacao;
     }
     public String getPeriodoAee() {
-        return periodoAee;
+        return periodo_aee;
     }
     public String getHorarioAtendimento() {
-        return horarioAtendimento;
+        return horario_atendimento;
     }
     public String getFrequenciaAtendimento() {
-        return frequenciaAtendimento;
+        return frequencia_atendimento;
     }
     public String getDiasAtendimento() {
-        return diasAtendimento;
+        return dias_atendimento;
     }
     public String getComposicaoGrupo() {
-        return composicaoGrupo;
+        return composicao_grupo;
     }
     public String getObjetivos() {
         return objetivos;
@@ -89,7 +89,7 @@ public class PDI {
         return potencialidades;
     }
     public String getNecessidadesEspeciais() {
-        return necessidadesEspeciais;
+        return necessidades_especiais;
     }
     public String getHabilidades() {
         return habilidades;
@@ -98,16 +98,16 @@ public class PDI {
         return atividades;
     }
     public String getRecursosMateriais() {
-        return recursosMateriais;
+        return recursos_materiais;
     }
     public String getRecursosNecessitamAdaptacao() {
-        return recursosNecessitamAdaptacao;
+        return recursos_necessitam_adaptacao;
     }
     public String getRecursosNecessitamProduzir() {
-        return recursosNecessitamProduzir;
+        return recursos_necessitam_produzir;
     }
     public String getParceriasNecessarias() {
-        return parceriasNecessarias;
+        return parcerias_necessarias;
     }
     public int getSincronizado() {
         return sincronizado;
@@ -122,28 +122,28 @@ public class PDI {
         this.id = id;
     }
     public void setEducandoId(String educandoId) {
-        this.educandoId = educandoId;
+        this.educando_id = educandoId;
     }
     public void setProfessorId(String professorId) {
-        this.professorId = professorId;
+        this.professor_id = professorId;
     }
     public void setDataCriacao(String dataCriacao) {
-        this.dataCriacao = dataCriacao;
+        this.data_criacao = dataCriacao;
     }
     public void setPeriodoAee(String periodoAee) {
-        this.periodoAee = periodoAee;
+        this.periodo_aee = periodoAee;
     }
     public void setHorarioAtendimento(String horarioAtendimento) {
-        this.horarioAtendimento = horarioAtendimento;
+        this.horario_atendimento = horarioAtendimento;
     }
     public void setFrequenciaAtendimento(String frequenciaAtendimento) {
-        this.frequenciaAtendimento = frequenciaAtendimento;
+        this.frequencia_atendimento = frequenciaAtendimento;
     }
     public void setDiasAtendimento(String diasAtendimento) {
-        this.diasAtendimento = diasAtendimento;
+        this.dias_atendimento = diasAtendimento;
     }
     public void setComposicaoGrupo(String composicaoGrupo) {
-        this.composicaoGrupo = composicaoGrupo;
+        this.composicao_grupo = composicaoGrupo;
     }
     public void setObjetivos(String objetivos) {
         this.objetivos = objetivos;
@@ -152,7 +152,7 @@ public class PDI {
         this.potencialidades = potencialidades;
     }
     public void setNecessidadesEspeciais(String necessidadesEspeciais) {
-        this.necessidadesEspeciais = necessidadesEspeciais;
+        this.necessidades_especiais = necessidadesEspeciais;
     }
     public void setHabilidades(String habilidades) {
         this.habilidades = habilidades;
@@ -161,16 +161,16 @@ public class PDI {
         this.atividades = atividades;
     }
     public void setRecursosMateriais(String recursosMateriais) {
-        this.recursosMateriais = recursosMateriais;
+        this.recursos_materiais = recursosMateriais;
     }
     public void setRecursosNecessitamAdaptacao(String recursosNecessitamAdaptacao) {
-        this.recursosNecessitamAdaptacao = recursosNecessitamAdaptacao;
+        this.recursos_necessitam_adaptacao = recursosNecessitamAdaptacao;
     }
     public void setRecursosNecessitamProduzir(String recursosNecessitamProduzir) {
-        this.recursosNecessitamProduzir = recursosNecessitamProduzir;
+        this.recursos_necessitam_produzir = recursosNecessitamProduzir;
     }
     public void setParceriasNecessarias(String parceriasNecessarias) {
-        this.parceriasNecessarias = parceriasNecessarias;
+        this.parcerias_necessarias = parceriasNecessarias;
     }
     public void setSincronizado(int sincronizado) {
         this.sincronizado = sincronizado;

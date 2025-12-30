@@ -20,6 +20,7 @@ public class SincronizacaoService {
     private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
     private final AnamneseRepository anamneseRepo = new AnamneseRepository();
     private final PAEERepository paeeRepo = new PAEERepository();
+    private final PDIRepository pdiRepo = new PDIRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -55,6 +56,7 @@ public class SincronizacaoService {
             sincronizarTurmaEducandos();
             sincronizarAnamneses();
             sincronizarPAEEs();
+            sincronizarPDIs();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -280,6 +282,33 @@ public class SincronizacaoService {
         }
     }
 
+   private void sincronizarPDIs() {
+        List<PDI> pendentes = pdiRepo.buscarNaoSincronizados();
+        for (PDI p : pendentes) {
+            p.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("pdis", p)) {
+                pdiRepo.atualizarSincronizacao(p.getId(), 1);
+            } else {
+                p.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("pdis");
+        if (json != null && !json.equals("[]")) {
+            PDI[] daNuvem = gson.fromJson(json, PDI[].class);
+            for (PDI pNuvem : daNuvem) {
+                pNuvem.setSincronizado(1);
+                PDI local = pdiRepo.buscarPorId(pNuvem.getId());
+                
+                if (local == null) {
+                    pdiRepo.salvar(pNuvem);
+                } else {
+                    pdiRepo.atualizarSincronizacao(pNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+  
     private void sincronizarPAEEs() {
         List<PAEE> pendentes = paeeRepo.buscarNaoSincronizados();
         for (PAEE p : pendentes) {
