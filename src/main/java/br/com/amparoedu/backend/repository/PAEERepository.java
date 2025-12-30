@@ -13,13 +13,13 @@ public class PAEERepository {
      // Salva um novo paee
     public void salvar(PAEE paee) {
         String sql = "INSERT INTO paees (id, educando_id, professor_id, data_criacao, resumo, " +
-                "dificuldades_motoras, dificuldades_cognitivas, dificuldades_sensoriais, dificuldades_comunicacao, " +
-                "dificuldades_familiares, dificuldades_afetivas, dificuldades_raciocinio, dificuldades_avas, " +
-                "dif_des_motor, intervencoes_motor, dif_comunicacao, intervencoes_comunicacao, dif_raciocinio, " +
-                "intervencoes_raciocinio, dif_atencao, intervencoes_atencao, dif_memoria, intervencoes_memoria, " +
-                "dif_percepcao, intervencoes_percepcao, dif_sociabilidade, intervencoes_sociabilidade, objetivo_plano, " +
-                "aee, psicologo, fisioterapeuta, psicopedagogo, terapeuta_ocupacional, educacao_fisica, " +
-                "estimulacao_precoce, sincronizado, excluido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "dificuldades_motoras, dificuldades_cognitivas, dificuldades_sensoriais, dificuldades_comunicacao, " +
+            "dificuldades_familiares, dificuldades_afetivas, dificuldades_raciocinio, dificuldades_avas, " +
+            "dif_des_motor, intervencoes_motor, dif_comunicacao, intervencoes_comunicacao, dif_raciocinio, " +
+            "intervencoes_raciocinio, dif_atencao, intervencoes_atencao, dif_memoria, intervencoes_memoria, " +
+            "dif_percepcao, intervencoes_percepcao, dif_sociabilidade, intervencoes_sociabilidade, objetivo_plano, " +
+            "aee, psicologo, fisioterapeuta, psicopedagogo, terapeuta_ocupacional, educacao_fisica, " +
+            "estimulacao_precoce, sincronizado, excluido) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -48,7 +48,7 @@ public class PAEERepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             setStatementParameters(stmt, paee, false);
-            stmt.setString(58, paee.getId());
+            stmt.setString(37, paee.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
