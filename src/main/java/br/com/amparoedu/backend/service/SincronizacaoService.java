@@ -19,6 +19,7 @@ public class SincronizacaoService {
     private final TurmaRepository turmaRepo = new TurmaRepository();
     private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
     private final AnamneseRepository anamneseRepo = new AnamneseRepository();
+    private final PAEERepository paeeRepo = new PAEERepository();
     private final PDIRepository pdiRepo = new PDIRepository();
 
     private static ScheduledExecutorService scheduler;
@@ -54,6 +55,7 @@ public class SincronizacaoService {
             sincronizarTurmas();
             sincronizarTurmaEducandos();
             sincronizarAnamneses();
+            sincronizarPAEEs();
             sincronizarPDIs();
 
             System.out.println("Sincronização finalizada com sucesso!");
@@ -280,7 +282,7 @@ public class SincronizacaoService {
         }
     }
 
-    private void sincronizarPDIs() {
+   private void sincronizarPDIs() {
         List<PDI> pendentes = pdiRepo.buscarNaoSincronizados();
         for (PDI p : pendentes) {
             p.setSincronizado(1);
@@ -302,6 +304,33 @@ public class SincronizacaoService {
                     pdiRepo.salvar(pNuvem);
                 } else {
                     pdiRepo.atualizarSincronizacao(pNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+  
+    private void sincronizarPAEEs() {
+        List<PAEE> pendentes = paeeRepo.buscarNaoSincronizados();
+        for (PAEE p : pendentes) {
+            p.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("paees", p)) {
+                paeeRepo.atualizarSincronizacao(p.getId(), 1);
+            } else {
+                p.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("paees");
+        if (json != null && !json.equals("[]")) {
+            PAEE[] daNuvem = gson.fromJson(json, PAEE[].class);
+            for (PAEE pNuvem : daNuvem) {
+                pNuvem.setSincronizado(1);
+                PAEE local = paeeRepo.buscarPorId(pNuvem.getId());
+                
+                if (local == null) {
+                    paeeRepo.salvar(pNuvem);
+                } else {
+                    paeeRepo.atualizarSincronizacao(pNuvem.getId(), 1);
                 }
             }
         }
