@@ -19,6 +19,7 @@ public class SincronizacaoService {
     private final TurmaRepository turmaRepo = new TurmaRepository();
     private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
     private final AnamneseRepository anamneseRepo = new AnamneseRepository();
+    private final PAEERepository paeeRepo = new PAEERepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -53,6 +54,7 @@ public class SincronizacaoService {
             sincronizarTurmas();
             sincronizarTurmaEducandos();
             sincronizarAnamneses();
+            sincronizarPAEEs();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -273,6 +275,33 @@ public class SincronizacaoService {
                     anamneseRepo.salvar(aNuvem);
                 } else {
                     anamneseRepo.atualizarSincronizacao(aNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarPAEEs() {
+        List<PAEE> pendentes = paeeRepo.buscarNaoSincronizados();
+        for (PAEE p : pendentes) {
+            p.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("paees", p)) {
+                paeeRepo.atualizarSincronizacao(p.getId(), 1);
+            } else {
+                p.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("paees");
+        if (json != null && !json.equals("[]")) {
+            PAEE[] daNuvem = gson.fromJson(json, PAEE[].class);
+            for (PAEE pNuvem : daNuvem) {
+                pNuvem.setSincronizado(1);
+                PAEE local = paeeRepo.buscarPorId(pNuvem.getId());
+                
+                if (local == null) {
+                    paeeRepo.salvar(pNuvem);
+                } else {
+                    paeeRepo.atualizarSincronizacao(pNuvem.getId(), 1);
                 }
             }
         }
