@@ -108,7 +108,7 @@ public class PAEERepository {
     // Busca paees não sincronizados
     public List<PAEE> buscarNaoSincronizados() {
         List<PAEE> paees = new ArrayList<>();
-        String sql = "SELECT * FROM paees WHERE sincronizado = 0";
+        String sql = "SELECT * FROM paees WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

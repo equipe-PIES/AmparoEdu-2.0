@@ -92,7 +92,7 @@ public class EducandoRepository {
     // Busca educandos não sincronizados
     public List<Educando> buscarNaoSincronizados() {
         List<Educando> educandos = new ArrayList<>();
-        String sql = "SELECT * FROM educandos WHERE sincronizado = 0";
+        String sql = "SELECT * FROM educandos WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

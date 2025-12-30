@@ -25,7 +25,7 @@ public class PDI {
     public PDI() {
     }
 
-    public PDI(String id, String educandoId, String professorId, String dataCriacao, String periodoAee,
+    public PDI(String id, String educando_id, String professor_id, String data_criacao, String periodo_aee,
                String horario_atendimento, String frequencia_atendimento, String dias_atendimento,
                String composicao_grupo, String objetivos, String potencialidades, String necessidades_especiais,
                String habilidades, String atividades, String recursos_materiais,

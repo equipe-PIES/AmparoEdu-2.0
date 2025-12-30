@@ -1,16 +1,28 @@
 package br.com.amparoedu.backend.repository;
 
 import br.com.amparoedu.backend.model.Anamnese;
+import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.PDI;
 import br.com.amparoedu.backend.model.PAEE;
+import br.com.amparoedu.backend.model.Professor;
 import br.com.amparoedu.backend.model.Turma;
-import br.com.amparoedu.backend.model.TurmaEducando;
 import br.com.amparoedu.backend.model.Usuario;
+import br.com.amparoedu.backend.repository.AnamneseRepository;
+import br.com.amparoedu.backend.repository.EducandoRepository;
+import br.com.amparoedu.backend.repository.PDIRepository;
+import br.com.amparoedu.backend.repository.PAEERepository;
+import br.com.amparoedu.backend.repository.ProfessorRepository;
+import br.com.amparoedu.backend.repository.TurmaRepository;
+import br.com.amparoedu.backend.repository.UsuarioRepository;
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-// Esse arquivo será útil para popular o banco de dados com um usuário inicial e para futuramente inserir vários dados de uma vez no banco.
+// Esse arquivo é utilizado para inserir dados iniciais no banco e realizar populações de teste
+
+// Caso queira adicionar qualquer um desses elementos no banco, lembre de modifica-los e char o método na main
+// Dessa forma evitamos dados duplicados no banco
+// Não modifique o método de popularDadosIniciais
 
 public class PopularDatabase {
     public static void popularDadosIniciais() {
@@ -31,190 +43,248 @@ public class PopularDatabase {
         }
     }
 
-    public static void inserirAnamnesePDIePAEE() {
-        String educandoId = "bbf20a5d-9eb7-45fa-9810-e6f2319aa35f";
-        String professorId = "2";
-        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
-        // Verificar se educando e professor existem
-        EducandoRepository educandoRepo = new EducandoRepository();
-        ProfessorRepository professorRepo = new ProfessorRepository();
-        
-        if (educandoRepo.buscarPorId(educandoId) == null) {
-            System.err.println("Erro: Educando com ID " + educandoId + " não encontrado.");
-            return;
-        }
-        
-        if (professorRepo.buscarPorId(professorId) == null) {
-            System.err.println("Erro: Professor com ID " + professorId + " não encontrado.");
-            return;
+    public static String adicionarUsuarioCoordenador(String email, String senha) {
+        UsuarioRepository usuarioRepo = new UsuarioRepository();
+
+        // evita duplicar pelo mesmo e-mail
+        Usuario existente = usuarioRepo.buscarPorEmail(email);
+        if (existente != null) {
+            System.out.println("Coordenador já existe: " + existente.getId());
+            return existente.getId();
         }
 
-
-        // Inserir Anamnese
-        Anamnese anamnese = new Anamnese(
-            UUID.randomUUID().toString(),
-            educandoId,
-            professorId,
-            dataCriacao,
-            0, // tem_convulsao
-            0, // tem_convenio_medico
-            "", // nome_convenio
-            1, // vacinas_em_dia
-            0, // teve_doenca_contagiosa
-            "", // quais_doencas
-            0, // usa_medicacao
-            "", // quais_medicacoes
-            0, // usou_servico_saude_educacao
-            "", // quais_servicos
-            "3 anos", // inicio_escolarizacao
-            0, // apresenta_dificuldades
-            "", // quais_dificuldades
-            1, // recebe_apoio_pedagogico_casa
-            "Pais", // apoio_quem
-            "9 meses", // duracao_da_gestacao
-            1, // fez_prenatal
-            0, // houve_prematuridade
-            "", // causa_prematuridade
-            "São Paulo", // cidade_nascimento
-            "Maternidade Test", // maternidade
-            "Normal", // tipo_parto
-            1, // chorou_ao_nascer
-            0, // ficou_roxo
-            0, // usou_incubadora
-            1, // foi_amamentado
-            1, // sustentou_a_cabeca
-            "3 meses", // quantos_meses_sustentou_cabeca
-            1, // engatinhou
-            "6 meses", // quantos_meses_engatinhou
-            1, // sentou
-            "6 meses", // quantos_meses_sentou
-            1, // andou
-            "12 meses", // quantos_meses_andou
-            0, // precisou_de_terapia
-            "", // qual_motivo_terapia
-            1, // falou
-            "12 meses", // quantos_meses_falou
-            "4 meses", // quantos_meses_balbuciou
-            "12 meses", // quando_primeiras_palavras
-            "18 meses", // quando_primeiras_frases
-            "Natural", // fala_natural_inibido
-            0, // possui_disturbio
-            "", // qual_disturbio
-            "Educando sem maiores dificuldades", // observacoes_adicionais
-            1, // dorme_sozinho
-            1, // tem_seu_quarto
-            "Calmo", // sono_calmo_agitado
-            1, // respeita_regras
-            0, // e_desmotivado
-            0, // e_agressivo
-            0, // apresenta_inquietacao
-            0, // sincronizado
-            0  // excluido
-        );
-
-        AnamneseRepository anamneseRepo = new AnamneseRepository();
-        anamneseRepo.salvar(anamnese);
-        System.out.println("Anamnese inserida com sucesso.");
-
-        // Inserir PDI
-        PDI pdi = new PDI(
-            UUID.randomUUID().toString(),
-            educandoId,
-            professorId,
-            dataCriacao,
-            "Ano letivo 2025", // periodoAee
-            "13:00 - 14:00", // horarioAtendimento
-            "2 vezes por semana", // frequenciaAtendimento
-            "Segunda e Quarta", // diasAtendimento
-            "Grupo de 5 educandos", // composicaoGrupo
-            "Desenvolver habilidades de leitura e escrita", // objetivos
-            "Ótima participação em atividades em grupo", // potencialidades
-            "Dificuldade leve em concentração", // necessidadesEspeciais
-            "Comunicação clara, entende instruções", // habilidades
-            "Atividades de leitura, escrita e jogos pedagógicos", // atividades
-            "Livros, material didático, jogos", // recursosMateriais
-            "Nenhum", // recursosNecessitamAdaptacao
-            "Cartazes educativos", // recursosNecessitamProduzir
-            "Apoio da família", // parceriasNecessarias
-            0, // sincronizado
-            0  // excluido
-        );
-
-        PDIRepository pdiRepo = new PDIRepository();
-        pdiRepo.salvar(pdi);
-        System.out.println("PDI inserido com sucesso.");
-
-        // Inserir PAEE
-        PAEE paee = new PAEE(
-            UUID.randomUUID().toString(),
-            educandoId,
-            professorId,
-            dataCriacao,
-            "Educando com desenvolvimento típico, necessita de apoio em concentração", // resumo
-            0, // dificuldades_motoras
-            0, // dificuldades_cognitivas
-            0, // dificuldades_sensoriais
-            0, // dificuldades_comunicacao
-            0, // dificuldades_familiares
-            0, // dificuldades_afetivas
-            1, // dificuldades_raciocinio
-            0, // dificuldades_avas
-            "Sem dificuldades motoras", // dif_des_motor
-            "Atividades de motricidade fina diárias", // intervencoes_motor
-            "Comunicação clara e apropriada", // dif_comunicacao
-            "Estimular discussões em grupo", // intervencoes_comunicacao
-            "Dificuldade leve em raciocínio lógico", // dif_raciocinio
-            "Problemas matemáticos progressivos", // intervencoes_raciocinio
-            "Dificuldade em concentração prolongada", // dif_atencao
-            "Atividades com duração progressiva", // intervencoes_atencao
-            "Memória dentro dos padrões esperados", // dif_memoria
-            "Reforço de aprendizado com repetição", // intervencoes_memoria
-            "Percepção visual e auditiva normais", // dif_percepcao
-            "Estimulação sensorial variada", // intervencoes_percepcao
-            "Socializa bem com pares", // dif_sociabilidade
-            "Atividades em grupo diversificadas", // intervencoes_sociabilidade
-            "Melhorar concentração e desempenho acadêmico", // objetivo_plano
-            0, // aee
-            0, // psicologo
-            0, // fisioterapeuta
-            0, // psicopedagogo
-            0, // terapeuta_ocupacional
-            0, // educacao_fisica
-            0, // estimulacao_precoce
-            0, // sincronizado
-            0  // excluido
-        );
-
-        PAEERepository paeeRepo = new PAEERepository();
-        paeeRepo.salvar(paee);
-        System.out.println("PAEE inserido com sucesso.");
-
-        // Inserir Turma
-        Turma turma = new Turma(
-            UUID.randomUUID().toString(),
-            professorId,
-            "Turma AEE 2025",
-            "6-8 anos",
-            "Fundamental I",
-            "Tarde",
-            0,
-            0
-        );
-
-        TurmaRepository turmaRepo = new TurmaRepository();
-        turmaRepo.salvar(turma);
-        System.out.println("Turma inserida com sucesso.");
-
-        // Vincular educando à turma
-        TurmaEducando turmaEducando = new TurmaEducando(
-            turma.getId(),
-            educandoId,
-            0,
-            0
-        );
-
-        TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
-        turmaEducandoRepo.salvar(turmaEducando);
-        System.out.println("Educando vinculado à turma com sucesso.");
+        String usuarioId = UUID.randomUUID().toString();
+        Usuario usuario = new Usuario(usuarioId, email, senha, "COORDENADOR", 0, 0);
+        usuarioRepo.salvar(usuario);
+        System.out.println("Coordenador criado: " + usuarioId);
+        return usuarioId;
     }
+
+    public static String adicionarUsuarioProfessor(String email, String senha, String nomeProfessor) {
+        String usuarioId = UUID.randomUUID().toString();
+        String professorId = UUID.randomUUID().toString();
+
+        UsuarioRepository usuarioRepo = new UsuarioRepository();
+        ProfessorRepository professorRepo = new ProfessorRepository();
+
+        Usuario usuario = new Usuario(usuarioId, email, senha, "PROFESSOR", 0, 0);
+        usuarioRepo.salvar(usuario);
+
+        Professor professor = new Professor(
+            professorId,
+            nomeProfessor,
+            "000.000.000-00",
+            "1990-01-01",
+            "M",
+            "Professor cadastrado automaticamente",
+            0,
+            0,
+            usuarioId
+        );
+        professorRepo.salvar(professor);
+
+        System.out.println("Professor e usuário criados: " + professorId);
+        return professorId;
+    }
+
+    public static String adicionarEducando(String enderecoId, String nomeEducando) {
+        String educandoId = UUID.randomUUID().toString();
+        EducandoRepository educandoRepo = new EducandoRepository();
+
+        Educando educando = new Educando(
+            educandoId,
+            enderecoId,
+            nomeEducando,
+            "000.000.000-00",
+            "2015-01-01",
+            "F",
+            "Fundamental I",
+            "CID-10 F81",
+            "00000000000",
+            "Escola Municipal",
+            "Educando inserido automaticamente",
+            0,
+            0
+        );
+
+        educandoRepo.salvar(educando);
+        System.out.println("Educando criado: " + educandoId);
+        return educandoId;
+    }
+
+    public static String adicionarTurma(String professorId, String nomeTurma) {
+        String turmaId = UUID.randomUUID().toString();
+        TurmaRepository turmaRepo = new TurmaRepository();
+
+        Turma turma = new Turma(
+            turmaId,
+            professorId,
+            nomeTurma,
+            "Tarde",
+            "Fundamental I",
+            "6-8 anos",
+            0,
+            0
+        );
+
+        turmaRepo.salvar(turma);
+        System.out.println("Turma criada: " + turmaId);
+        return turmaId;
+    }
+
+    public static String adicionarAnamnese(String educandoId, String professorId) {
+        String anamneseId = UUID.randomUUID().toString();
+        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        AnamneseRepository repo = new AnamneseRepository();
+
+        Anamnese anamnese = new Anamnese(
+            anamneseId,
+            educandoId,
+            professorId,
+            dataCriacao,
+            0,
+            0,
+            "",
+            1,
+            0,
+            "",
+            0,
+            "",
+            0,
+            "",
+            "3 anos",
+            0,
+            "",
+            1,
+            "Pais",
+            "9 meses",
+            1,
+            0,
+            "",
+            "São Paulo",
+            "Maternidade Central",
+            "Normal",
+            1,
+            0,
+            0,
+            1,
+            1,
+            "3 meses",
+            1,
+            "6 meses",
+            1,
+            "6 meses",
+            1,
+            "12 meses",
+            0,
+            "",
+            1,
+            "12 meses",
+            "4 meses",
+            "12 meses",
+            "18 meses",
+            "Natural",
+            0,
+            "",
+            "Sem observações",
+            1,
+            1,
+            "Calmo",
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+
+        repo.salvar(anamnese);
+        System.out.println("Anamnese criada: " + anamneseId);
+        return anamneseId;
+    }
+
+    public static String adicionarPDI(String educando_id, String professor_id) {
+        String pdiId = UUID.randomUUID().toString();
+        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        PDIRepository repo = new PDIRepository();
+
+        PDI pdi = new PDI(
+            pdiId,
+            educando_id,
+            professor_id,
+            dataCriacao,
+            "2025",
+            "13:00-14:00",
+            "2x semana",
+            "Segunda e Quarta",
+            "Grupo 5",
+            "Melhorar leitura",
+            "Participa bem",
+            "Déficit de atenção leve",
+            "Compreende instruções",
+            "Leitura e jogos",
+            "Livros e jogos",
+            "Nenhum",
+            "Cartazes",
+            "Família",
+            0,
+            0
+        );
+
+        repo.salvar(pdi);
+        System.out.println("PDI criado: " + pdiId);
+        return pdiId;
+    }
+
+    public static String adicionarPAEE(String educandoId, String professorId) {
+        String paeeId = UUID.randomUUID().toString();
+        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        PAEERepository repo = new PAEERepository();
+
+        PAEE paee = new PAEE(
+            paeeId,
+            educandoId,
+            professorId,
+            dataCriacao,
+            "Plano inicial",
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            "Sem dif. motor",
+            "Motricidade fina",
+            "Sem dif. comunicacao",
+            "Discussões em grupo",
+            "Raciocínio lógico leve",
+            "Problemas progressivos",
+            "Atenção prolongada",
+            "Atividades curtas",
+            "Memória ok",
+            "Repetição",
+            "Percepção ok",
+            "Estimulação sensorial",
+            "Sociabilidade boa",
+            "Atividades em grupo",
+            "Melhorar concentração",
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        );
+
+        repo.salvar(paee);
+        System.out.println("PAEE criado: " + paeeId);
+        return paeeId;
+    }
+
+   
 }

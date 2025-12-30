@@ -82,11 +82,15 @@ public class SincronizacaoService {
             Usuario[] daNuvem = gson.fromJson(json, Usuario[].class); 
             for (Usuario uNuvem : daNuvem) {
                 uNuvem.setSincronizado(1); 
-                Usuario local = userRepo.buscarPorId(uNuvem.getId()); 
                 
-                if (local == null) {
+                // Busca por ID E por Email para evitar duplicidade
+                Usuario localPorId = userRepo.buscarPorId(uNuvem.getId());
+                Usuario localPorEmail = userRepo.buscarPorEmail(uNuvem.getEmail()); 
+                
+                if (localPorId == null && localPorEmail == null) {
                     userRepo.salvar(uNuvem); 
                 } else {
+                    // Se já existe (seja por ID ou Email), apenas atualiza
                     userRepo.atualizar(uNuvem);
                 }
             }
@@ -222,7 +226,7 @@ public class SincronizacaoService {
                 if (local == null) {
                     turmaRepo.salvar(tNuvem);
                 } else {
-                    turmaRepo.atualizarSincronizacao(tNuvem.getId(), 1);
+                    turmaRepo.atualizar(tNuvem); 
                 }
             }
         }

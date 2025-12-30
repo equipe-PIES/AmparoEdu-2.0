@@ -60,7 +60,7 @@ public class TurmaEducandoRepository {
     // buscar vinculos não sincronizados
     public List<TurmaEducando> buscarNaoSincronizados() {
         List<TurmaEducando> lista = new ArrayList<>();
-        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0";
+        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
