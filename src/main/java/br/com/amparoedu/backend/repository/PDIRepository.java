@@ -122,10 +122,6 @@ public class PDIRepository {
     private void setStatementParameters(PreparedStatement stmt, PDI pdi, boolean isInsert) throws SQLException {
         int index = 1;
         
-        if (isInsert) {
-            stmt.setString(index++, pdi.getId());
-        }
-        
         stmt.setString(index++, pdi.getId());
         stmt.setString(index++, pdi.getEducandoId());
         stmt.setString(index++, pdi.getProfessorId());

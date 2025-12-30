@@ -43,7 +43,7 @@ public class InicioProfController {
         for (Turma turma : turmas) {
             try {
                 // Carrega o FXML do Card
-                FXMLLoader carregador = new FXMLLoader(getClass().getResource("/br/com/amparoedu/view/card-turma.fxml"));
+                FXMLLoader carregador = new FXMLLoader(getClass().getResource("/view/screens/card-turma.fxml"));
                 Node card = carregador.load();
 
                 // Pega o controlador do card carregado e passa os dados da turma
