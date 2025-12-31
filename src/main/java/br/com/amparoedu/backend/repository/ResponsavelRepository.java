@@ -80,6 +80,24 @@ public class ResponsavelRepository {
         return null;
     }
 
+    // Buscar por educando
+    public Responsavel buscarPorEducando(String educandoId) {
+        String sql = "SELECT * FROM responsaveis WHERE educando_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, educandoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairResponsavel(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Buscar não sincronizados
     public List<Responsavel> buscarNaoSincronizados() {
         List<Responsavel> responsaveis = new ArrayList<>();
