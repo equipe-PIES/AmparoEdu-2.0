@@ -7,6 +7,7 @@ import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.backend.model.Professor;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
+import br.com.amparoedu.backend.model.DI;
 import br.com.amparoedu.backend.repository.AnamneseRepository;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.PDIRepository;
@@ -14,6 +15,7 @@ import br.com.amparoedu.backend.repository.PAEERepository;
 import br.com.amparoedu.backend.repository.ProfessorRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
+import br.com.amparoedu.backend.repository.DIRepository;
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -286,5 +288,35 @@ public class PopularDatabase {
         return paeeId;
     }
 
+    public static String adicionarDI(String educandoId, String professorId) {
+        String diId = UUID.randomUUID().toString();
+        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        DIRepository repo = new DIRepository();
+
+        DI di = new DI(
+            diId,                    // id
+            educandoId,              // educando_id
+            professorId,             // professor_id
+            dataCriacao,             // data_criacao
+            // Comunicação (18)
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            // Afetivas/Sociais (9)
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
+            // Sensoriais (12)
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            // Motoras (12)
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            // AVDs (12)
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            // Níveis de aprendizagem (5)
+            0, 0, 0, 0, 0,
+            // Observações e flags (3)
+            "", 0, 0
+        );
+
+        repo.salvar(di);
+        System.out.println("DI criado: " + diId);
+        return diId;
+    }
    
 }

@@ -17,6 +17,7 @@ public class Main extends Application {
         //PopularDatabase.adicionarAnamnese("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
         //PopularDatabase.adicionarPDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
         //PopularDatabase.adicionarPAEE("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        PopularDatabase.adicionarDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
         
         // 2. Configura o gerenciador de telas
         GerenciadorTelas.setStage(primaryStage);
