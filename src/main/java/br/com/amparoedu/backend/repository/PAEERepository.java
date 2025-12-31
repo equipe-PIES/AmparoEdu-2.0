@@ -57,7 +57,7 @@ public class PAEERepository {
     
     // Exclusão lógica de um paee
     public void excluir(String id) {
-        String sql = "UPDATE paees SET excluido = 1 WHERE id = ?";
+        String sql = "UPDATE paees SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             

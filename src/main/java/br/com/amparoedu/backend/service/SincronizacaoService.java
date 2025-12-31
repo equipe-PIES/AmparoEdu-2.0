@@ -21,6 +21,7 @@ public class SincronizacaoService {
     private final AnamneseRepository anamneseRepo = new AnamneseRepository();
     private final PAEERepository paeeRepo = new PAEERepository();
     private final PDIRepository pdiRepo = new PDIRepository();
+    private final DIRepository diRepo = new DIRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -55,6 +56,7 @@ public class SincronizacaoService {
             sincronizarTurmas();
             sincronizarTurmaEducandos();
             sincronizarAnamneses();
+            sincronizarDIs();
             sincronizarPAEEs();
             sincronizarPDIs();
 
@@ -66,11 +68,11 @@ public class SincronizacaoService {
 
     private void sincronizarUsuarios() {
         // upload das modificações locais 
-        List<Usuario> pendentes = userRepo.naoSincronizados();
+        List<Usuario> pendentes = userRepo.buscarNaoSincronizados();
         for (Usuario u : pendentes) {
             u.setSincronizado(1); // marca como sincronizado antes de enviar
             if (nuvemClient.enviarParaNuvem("usuarios", u)) { 
-                userRepo.atualizarStatusSincronia(u.getId());
+                userRepo.atualizarSincronizacao(u.getId(), 1);
             } else {
                 u.setSincronizado(0); // Reverte se falhar 
             }
@@ -90,7 +92,7 @@ public class SincronizacaoService {
                 if (localPorId == null && localPorEmail == null) {
                     userRepo.salvar(uNuvem); 
                 } else {
-                    // Se já existe (seja por ID ou Email), apenas atualiza
+                    // Se já existe, apenas atualiza
                     userRepo.atualizar(uNuvem);
                 }
             }
@@ -335,6 +337,33 @@ public class SincronizacaoService {
                     paeeRepo.salvar(pNuvem);
                 } else {
                     paeeRepo.atualizarSincronizacao(pNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarDIs() {
+        List<DI> pendentes = diRepo.buscarNaoSincronizados();
+        for (DI di : pendentes) {
+            di.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("dis", di)) {
+                diRepo.atualizarSincronizacao(di.getId(), 1);
+            } else {
+                di.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("dis");
+        if (json != null && !json.equals("[]")) {
+            DI[] daNuvem = gson.fromJson(json, DI[].class);
+            for (DI diNuvem : daNuvem) {
+                diNuvem.setSincronizado(1);
+                DI local = diRepo.buscarPorId(diNuvem.getId());
+
+                if (local == null) {
+                    diRepo.salvar(diNuvem);
+                } else {
+                    diRepo.atualizarSincronizacao(diNuvem.getId(), 1);
                 }
             }
         }

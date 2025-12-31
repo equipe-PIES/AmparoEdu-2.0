@@ -79,10 +79,10 @@ public class UsuarioRepository {
         } catch (SQLException e) { e.printStackTrace(); }
     }
 
-    //Busca todos os usuários não sincronizados
-     public List<Usuario> naoSincronizados() {
+    // Busca usuários não sincronizados
+    public List<Usuario> buscarNaoSincronizados() {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuarios WHERE sincronizado = 0";
+        String sql = "SELECT * FROM usuarios WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -93,13 +93,14 @@ public class UsuarioRepository {
         return usuarios;
     }
 
-    //Atualiza o status de sincronia de um usuário
-    public void atualizarStatusSincronia(String id) {
-        String sql = "UPDATE usuarios SET sincronizado = 1 WHERE id = ?";
+    // Atualiza o status de sincronização
+    public void atualizarSincronizacao(String id, int sincronizado) {
+        String sql = "UPDATE usuarios SET sincronizado = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, id);
+            stmt.setInt(1, sincronizado);
+            stmt.setString(2, id);
             stmt.executeUpdate();
             
         } catch (SQLException e) {
