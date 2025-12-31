@@ -15,6 +15,21 @@ public class GerenciadorTelas {
         stage.setMaximized(false);
     }
 
+    public static FXMLLoader getLoader(String fxmlFile) {
+        return new FXMLLoader(GerenciadorTelas.class.getResource("/view/screens/" + fxmlFile));
+    }
+
+    // Define a raiz da cena atual
+    public static void setRaiz(Parent root) {
+        if (stage.getScene() == null) {
+            stage.setScene(new Scene(root));
+        } else {
+            stage.getScene().setRoot(root);
+        }
+        stage.centerOnScreen();
+        stage.show();
+    }
+    // Troca para uma nova tela
     public static void trocarTela(String fxmlFile) {
         try {
             String path = "/view/screens/" + fxmlFile;
