@@ -8,6 +8,7 @@ import br.com.amparoedu.backend.model.Professor;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.model.DI;
+import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.backend.repository.AnamneseRepository;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.PDIRepository;
@@ -16,6 +17,7 @@ import br.com.amparoedu.backend.repository.ProfessorRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
 import br.com.amparoedu.backend.repository.DIRepository;
+import br.com.amparoedu.backend.repository.RIRepository;
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -317,6 +319,33 @@ public class PopularDatabase {
         repo.salvar(di);
         System.out.println("DI criado: " + diId);
         return diId;
+    }
+
+    public static String adicionarRI(String educandoId, String professorId) {
+        String riId = UUID.randomUUID().toString();
+        String dataCriacao = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        RIRepository repo = new RIRepository();
+
+        RI ri = new RI(
+            riId,
+            educandoId,
+            professorId,
+            dataCriacao,
+            "Dados funcionais do educando: comunica-se verbalmente, locomove-se com independência",
+            "Funcionalidade cognitiva: compreende comandos simples, responde adequadamente",
+            "Nível de alfabetização: reconhece letras e palavras simples",
+            "Adaptações curriculares necessárias: ampliação de tempo para atividades",
+            "Participação nas atividades: engajado e colaborativo",
+            1,  // autonomia (0 ou 1)
+            1,  // interacao_professora (0 ou 1)
+            "Atividades de vida diária: realiza higiene pessoal com supervisão",
+            0,
+            0
+        );
+
+        repo.salvar(ri);
+        System.out.println("RI criado: " + riId);
+        return riId;
     }
    
 }

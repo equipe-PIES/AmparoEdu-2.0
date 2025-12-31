@@ -22,6 +22,7 @@ public class SincronizacaoService {
     private final PAEERepository paeeRepo = new PAEERepository();
     private final PDIRepository pdiRepo = new PDIRepository();
     private final DIRepository diRepo = new DIRepository();
+    private final RIRepository riRepo = new RIRepository();
 
     private static ScheduledExecutorService scheduler;
 
@@ -59,6 +60,7 @@ public class SincronizacaoService {
             sincronizarDIs();
             sincronizarPAEEs();
             sincronizarPDIs();
+            sincronizarRIs();
 
             System.out.println("Sincronização finalizada com sucesso!");
         } catch (Exception e) {
@@ -364,6 +366,33 @@ public class SincronizacaoService {
                     diRepo.salvar(diNuvem);
                 } else {
                     diRepo.atualizarSincronizacao(diNuvem.getId(), 1);
+                }
+            }
+        }
+    }
+
+    private void sincronizarRIs() {
+        List<RI> pendentes = riRepo.buscarNaoSincronizados();
+        for (RI ri : pendentes) {
+            ri.setSincronizado(1);
+            if (nuvemClient.enviarParaNuvem("ris", ri)) {
+                riRepo.atualizarSincronizacao(ri.getId(), 1);
+            } else {
+                ri.setSincronizado(0);
+            }
+        }
+
+        String json = nuvemClient.buscarDaNuvem("ris");
+        if (json != null && !json.equals("[]")) {
+            RI[] daNuvem = gson.fromJson(json, RI[].class);
+            for (RI riNuvem : daNuvem) {
+                riNuvem.setSincronizado(1);
+                RI local = riRepo.buscarPorId(riNuvem.getId());
+
+                if (local == null) {
+                    riRepo.salvar(riNuvem);
+                } else {
+                    riRepo.atualizarSincronizacao(riNuvem.getId(), 1);
                 }
             }
         }
