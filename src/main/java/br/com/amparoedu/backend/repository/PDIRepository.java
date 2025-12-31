@@ -32,23 +32,24 @@ public class PDIRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             setStatementParameters(stmt, pdi, false);
+            stmt.setString(20, pdi.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    //exclusão lógica
+    // Exclusão lógica de um PDI
     public void excluir(String id) {
-            String sql = "UPDATE pdis SET excluido = 1 WHERE id = ?";
-            try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-                
-                stmt.setString(1, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        String sql = "UPDATE pdis SET excluido = 1, sincronizado = 0 WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // buscar por ID
@@ -122,7 +123,10 @@ public class PDIRepository {
     private void setStatementParameters(PreparedStatement stmt, PDI pdi, boolean isInsert) throws SQLException {
         int index = 1;
         
-        stmt.setString(index++, pdi.getId());
+        if (isInsert) {
+            stmt.setString(index++, pdi.getId());
+        }
+        
         stmt.setString(index++, pdi.getEducandoId());
         stmt.setString(index++, pdi.getProfessorId());
         stmt.setString(index++, pdi.getDataCriacao());

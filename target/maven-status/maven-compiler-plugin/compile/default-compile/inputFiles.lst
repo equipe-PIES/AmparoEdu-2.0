@@ -1,4 +1,5 @@
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Anamnese.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\DI.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Endereco.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\PAEE.java
@@ -10,6 +11,7 @@ c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backen
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Usuario.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\AnamneseRepository.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DatabaseConfig.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DIRepository.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EducandoRepository.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EnderecoRepository.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PAEERepository.java
@@ -23,6 +25,7 @@ c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backen
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\UsuarioRepository.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AnamneseService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AuthService.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\DIService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\EducandoService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PAEEService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PDIService.java

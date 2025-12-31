@@ -52,9 +52,9 @@ public class EnderecoRepository {
         }
     }
 
-    // exclusao lógica de um endereco
-    public void excluirLogicamente(String id) {
-        String sql = "UPDATE enderecos SET excluido = 1 WHERE id = ?";
+    // Exclusão lógica de um endereco
+    public void excluir(String id) {
+        String sql = "UPDATE enderecos SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -101,12 +101,13 @@ public class EnderecoRepository {
     }
 
     // Atualiza o status de sincronização
-    public void atualizarSincronizacao(String id, int status) {
-        String sql = "UPDATE enderecos SET sincronizado = 1 WHERE id = ?";
+    public void atualizarSincronizacao(String id, int sincronizado) {
+        String sql = "UPDATE enderecos SET sincronizado = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, id);
+            stmt.setInt(1, sincronizado);
+            stmt.setString(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
