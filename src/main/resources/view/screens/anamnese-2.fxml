@@ -3,7 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -13,7 +14,19 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.AnamneseController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.AnamneseController">
+   <fx:define>
+      <ToggleGroup fx:id="chorouGroup" />
+      <ToggleGroup fx:id="ficouRoxoGroup" />
+      <ToggleGroup fx:id="incubadoraGroup" />
+      <ToggleGroup fx:id="amamentadoGroup" />
+      <ToggleGroup fx:id="sustentouCabecaGroup" />
+      <ToggleGroup fx:id="engatinhouGroup" />
+      <ToggleGroup fx:id="sentouGroup" />
+      <ToggleGroup fx:id="andouGroup" />
+      <ToggleGroup fx:id="terapiaGroup" />
+      <ToggleGroup fx:id="falouGroup" />
+   </fx:define>
 
     <!-- TOPO -->
     <top>
@@ -113,69 +126,69 @@
                                       <Label text="Chorou?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="chorouSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="chorouSim" mnemonicParsing="false" text="Sim" toggleGroup="$chorouGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="chorouNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="chorouNao" mnemonicParsing="false" text="Não" toggleGroup="$chorouGroup">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                    </CheckBox>
+                                    </RadioButton>
                                  </children>
                               </HBox>
 
                                       <Label text="Ficou roxo?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="ficouRoxoSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="ficouRoxoSim" mnemonicParsing="false" text="Sim" toggleGroup="$ficouRoxoGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="ficouRoxoNao" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="ficouRoxoNao" mnemonicParsing="false" text="Não" toggleGroup="$ficouRoxoGroup">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
-                                    </CheckBox>
+                                    </RadioButton>
                                  </children>
                               </HBox>
 
                                       <Label text="Fez uso de incubadora?" />
                               <HBox>
                                  <children>
-                              <CheckBox fx:id="incubadoraSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                              <RadioButton fx:id="incubadoraSim" mnemonicParsing="false" text="Sim" toggleGroup="$incubadoraGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                              <CheckBox fx:id="incubadoraNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                              <RadioButton fx:id="incubadoraNao" mnemonicParsing="false" text="Não" toggleGroup="$incubadoraGroup">
                                   <HBox.margin>
                                      <Insets left="20.0" />
                                   </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                               </CheckBox>
+                               </RadioButton>
                                  </children>
                               </HBox>
 
                                       <Label text="Foi amamentado?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="amamentadoSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="amamentadoSim" mnemonicParsing="false" text="Sim" toggleGroup="$amamentadoGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="amamentadoNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="amamentadoNao" mnemonicParsing="false" text="Não" toggleGroup="$amamentadoGroup">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                    </CheckBox>
+                                    </RadioButton>
                                  </children>
                               </HBox>
                                   </children>
@@ -210,18 +223,18 @@
                                      <Label text="Sustentou a cabeça?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="sustentouCabecaSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="sustentouCabecaSim" mnemonicParsing="false" text="Sim" toggleGroup="$sustentouCabecaGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="sustentouCabecaNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="sustentouCabecaNao" mnemonicParsing="false" text="Não" toggleGroup="$sustentouCabecaGroup">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                    </CheckBox>
+                                    </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblSustentouCabecaMeses" text="Com quantos meses?" />
@@ -230,18 +243,18 @@
                                      <Label text="Engatinhou?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="engatinhouSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="engatinhouSim" mnemonicParsing="false" text="Sim" toggleGroup="$engatinhouGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="engatinhouNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="engatinhouNao" mnemonicParsing="false" text="Não" toggleGroup="$engatinhouGroup">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                     </CheckBox>
+                                     </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblEngatinhouMeses" text="Com quantos meses?" />
@@ -250,18 +263,18 @@
                                      <Label text="Sentou?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="sentouSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="sentouSim" mnemonicParsing="false" text="Sim" toggleGroup="$sentouGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="sentouNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="sentouNao" mnemonicParsing="false" text="Não" toggleGroup="$sentouGroup">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                     </CheckBox>
+                                     </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblSentouMeses" text="Com quantos meses?" />
@@ -270,18 +283,18 @@
                                      <Label text="Andou? " />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="andouSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="andouSim" mnemonicParsing="false" text="Sim" toggleGroup="$andouGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="andouNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="andouNao" mnemonicParsing="false" text="Não" toggleGroup="$andouGroup">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                     </CheckBox>
+                                     </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblAndouMeses" text="Com quantos meses?" />
@@ -290,18 +303,18 @@
                                      <Label text="Precisou de terapia? " />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="terapiaSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="terapiaSim" mnemonicParsing="false" text="Sim" toggleGroup="$terapiaGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="terapiaNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="terapiaNao" mnemonicParsing="false" text="Não" toggleGroup="$terapiaGroup">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                     </CheckBox>
+                                     </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblTerapiaMotivo" text="Qual o motivo?" />
@@ -310,18 +323,18 @@
                                      <Label text="Falou?" />
                               <HBox>
                                  <children>
-                                    <CheckBox fx:id="falouSim" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Sim">
+                                    <RadioButton fx:id="falouSim" mnemonicParsing="false" text="Sim" toggleGroup="$falouGroup">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
-                                          </cursor></CheckBox>
-                                    <CheckBox fx:id="falouNao" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" text="Não">
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="falouNao" mnemonicParsing="false" text="Não" toggleGroup="$falouGroup">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
-                                     </CheckBox>
+                                     </RadioButton>
                                  </children>
                               </HBox>
                               <Label fx:id="lblFalouMeses" text="Com quantos meses?" />

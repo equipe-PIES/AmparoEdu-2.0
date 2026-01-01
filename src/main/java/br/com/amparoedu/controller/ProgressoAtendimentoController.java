@@ -8,55 +8,69 @@ import javafx.stage.Stage;
 
 public class ProgressoAtendimentoController {
 
-    @FXML private Button statusDI, statusPDI, statusRI, statusAnamnese, statusPAEE;
-    @FXML private Button closeProgressoAtd;
-
     private Educando educando;
 
-    /**
-     * Recebe o educando para o qual o progresso será exibido.
-     * Aplica Especialista na Informação ao manter o estado do objeto necessário para as consultas.
-     */
+    @FXML private Button criarRI, editarRI, excluirRI, baixarRI;
+    @FXML private Button criarAnamnese, editarAnamnese, verAnamnese, excluirAnamnese;
+    @FXML private Button criarDI, editarDI, verDI, excluirDI;
+    @FXML private Button criarPDI, editarPDI, verPDI, excluirPDI;
+    @FXML private Button criarPAEE, editarPAEE, verPAEE, excluirPAEE;
+    @FXML private Button closeProgressoAtd;
+
+    
     public void setEducando(Educando educando) {
         this.educando = educando;
-        atualizarStatusDocumentos();
+        atualizarInterface();
     }
 
-    private void atualizarStatusDocumentos() {
-        // Exemplo: Se existir PDI no banco, mudar texto para "Visualizar"
-        // Este método deve usar os Repositories (Invenção Pura) para checar a existência.
+    private void atualizarInterface() {
+        if (educando != null) {
+            // Habilitar ou desabilitar botões com base nos dados do educando
+        }
+    }
+
+
+    @FXML
+    private void btnCriarAnamneseClick() {
+        /* Lógica para Anamnese */
     }
 
     @FXML
-    private void btnStatusAnamneseClick() {
-        System.out.println("Acessando Anamnese do educando: " + educando.getNome());
-        // Lógica para abrir a tela ou popup de Anamnese
-    }
+    private void btnCriarDIClick() { /* Lógica para Diagnóstico Inicial */ }
 
     @FXML
-    private void btnStatusPDIClick() {
-        System.out.println("Acessando PDI do educando: " + educando.getId());
-    }
+    private void btnCriarPDIClick() { /* Lógica para PDI */ }
 
     @FXML
-    private void btnStatusDIClick() {
-        // Ação para o Desenvolvimento Infantil
-    }
+    private void btnCriarPAEEClick() { /* Lógica para PAEE */ }
 
     @FXML
-    private void btnStatusRIClick() {
-        // Ação para o Relatório Individual
-    }
+    private void btnCriarRIClick() { /* Lógica para Relatório Individual */ }
 
     @FXML
-    private void btnStatusPAEEClick() {
-        // Ação para o Plano AEE
-    }
-
-    @FXML
-    private void btnCloseProgressoAtdClick() {
-        // Como esta tela será aberta como popup (Modal), fechamos o Stage atual
-        Stage stage = (Stage) statusDI.getScene().getWindow();
+    private void handleCloseAction() {
+        Stage stage = (Stage) closeProgressoAtd.getScene().getWindow();
         stage.close();
     }
+
+    // Métodos de edição e visualização
+    @FXML private void btnEditarAnamneseClick() {}
+    @FXML private void btnVerAnamneseClick() {}
+    @FXML private void btnExcluirAnamneseClick() {}
+    
+    @FXML private void btnEditarDIClick() {}
+    @FXML private void btnVerDIClick() {}
+    @FXML private void btnExcluirDIClick() {}
+
+    @FXML private void btnEditarPDIClick() {}
+    @FXML private void btnVerPDIClick() {}
+    @FXML private void btnExcluirPDIClick() {}
+
+    @FXML private void btnEditarPAEEClick() {}
+    @FXML private void btnVerPAEEClick() {}
+    @FXML private void btnExcluirPAEEClick() {}
+
+    @FXML private void btnEditarRIClick() {}
+    @FXML private void btnExcluirRIClick() {}
+    @FXML private void btnBaixarRIClick() {}
 }

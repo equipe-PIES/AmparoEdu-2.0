@@ -3,6 +3,7 @@ package br.com.amparoedu.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -47,5 +48,19 @@ public class GerenciadorTelas {
             System.err.println("Erro ao carregar a tela: " + fxmlFile);
             e.printStackTrace();
         }
+    }
+
+    // Abre janela em forma de popup
+    public static void abrirPopup(Parent root, String titulo) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle(titulo);
+        popupStage.initModality(Modality.WINDOW_MODAL); // Bloqueia a interação com a tela de fundo
+        popupStage.initOwner(stage);
+        
+        Scene scene = new Scene(root);
+        popupStage.setScene(scene);
+        popupStage.setResizable(false);
+        popupStage.centerOnScreen();
+        popupStage.showAndWait();
     }
 }
