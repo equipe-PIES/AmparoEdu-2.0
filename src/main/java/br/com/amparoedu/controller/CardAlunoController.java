@@ -13,15 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class CardAlunoController {
 
@@ -38,9 +36,9 @@ public class CardAlunoController {
 	private PDIRepository pdiRepo;
 
     public CardAlunoController() {
-        this.responsavelRepo = new ResponsavelRepository(); // Inicialize o repositório
-        this.enderecoRepo = new EnderecoRepository(); // Inicialize o repositório
-        this.pdiRepo = new PDIRepository(); // Inicialize o repositório
+        this.responsavelRepo = new ResponsavelRepository();
+        this.enderecoRepo = new EnderecoRepository();
+        this.pdiRepo = new PDIRepository();
     }
 
     // Preenche o card com os dados do educando
@@ -54,6 +52,21 @@ public class CardAlunoController {
 		idadeLabel.setText("Idade: " + calcularIdade(educando.getData_nascimento()));
 		cidLabel.setText("CID: " + nullSafe(educando.getCid()));
 		grauEscolaridadeLabel.setText("Grau de escolaridade: " + nullSafe(educando.getGrau_ensino()));
+	}
+
+	private Responsavel getResponsavel() {
+		if (educando == null) return null;
+		return responsavelRepo.buscarPorEducando(educando.getId());
+	}
+	private Endereco getEndereco() {
+		if (educando == null) return null;
+		return enderecoRepo.buscarPorEducando(educando.getId());
+	}
+	private PDI getPdi() {
+		if (educando == null) return null;
+		List<PDI> pdis = pdiRepo.buscarPorEducando(educando.getId());
+		if (pdis == null || pdis.isEmpty()) return null;
+		return pdis.get(0);
 	}
 
     // Calcula a idade a partir da data de nascimento
@@ -76,36 +89,28 @@ public class CardAlunoController {
 	@FXML
 	private void btnInfoClick() {
 		try {
-			// Buscar dados adicionais do educando
-			Responsavel responsavel = responsavelRepo.buscarPorEducando(educando.getId());
-			Endereco endereco = enderecoRepo.buscarPorId(educando.getEndereco_id());
-			PDI pdi = pdiRepo.buscarPorEducando(educando.getId()).stream().findFirst().orElse(null);
-
-            // Carregar a tela de informações do aluno
-            FXMLLoader loader = GerenciadorTelas.getLoader("infos-aluno.fxml");
-            Parent root = loader.load();
-
-            // Configurar os dados no controlador da tela de informações
-            InfoAlunoController controller = loader.getController();
-            controller.configurarDados(educando, responsavel, endereco, pdi);
-
-
-			// Exibir como popup modal
-			Stage popup = new Stage();
-			popup.initOwner(btnInfo.getScene().getWindow());
-			popup.initModality(Modality.APPLICATION_MODAL);
-			popup.setTitle("Informações do aluno");
-			popup.setScene(new Scene(root));
-			popup.setResizable(false);
-			popup.showAndWait();
-            
-        } catch (IOException e) {
-            System.err.println("Erro ao abrir detalhes do aluno: " + e.getMessage());
-        }
+			FXMLLoader loader = GerenciadorTelas.getLoader("infos-aluno.fxml");
+			Parent root = loader.load();
+			InfoAlunoController controller = loader.getController();
+			controller.configurarDados(this.educando, getResponsavel(), getEndereco(), getPdi());
+			GerenciadorTelas.abrirPopup(root, "Informações do Aluno");
+		} catch (IOException e) {
+			System.err.println("Erro ao carregar a tela de informações do aluno.");
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	private void btnVerProgressoClick() {
-		// fluxo para abrir progresso/relatórios do educando
+		try {
+			FXMLLoader loader = GerenciadorTelas.getLoader("progresso-atendimento.fxml");
+			Parent root = loader.load();
+			ProgressoAtendimentoController controller = loader.getController();
+			controller.setEducando(this.educando);
+			GerenciadorTelas.abrirPopup(root, "Progresso do Atendimento");
+		} catch (IOException e) {
+			System.err.println("Erro ao carregar a tela de progresso do atendimento.");
+			e.printStackTrace();
+		}
 	}
 }
