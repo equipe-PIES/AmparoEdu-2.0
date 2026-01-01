@@ -46,6 +46,24 @@ public class ProfessorRepository {
         return null;
     }
 
+    // Busca por ID do usuário
+    public Professor buscarPorUsuarioId(String usuarioId) {
+        String sql = "SELECT * FROM professores WHERE usuario_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, usuarioId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairProfessor(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Atualiza os dados
     public void atualizar(Professor professor) {
         String sql = "UPDATE professores SET nome = ?, cpf = ?, data_nascimento = ?, genero = ?, observacoes = ?, sincronizado = ?, excluido = ?, usuario_id = ? WHERE id = ?";
