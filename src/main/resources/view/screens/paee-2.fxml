@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="paee" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.PAEEController">
+
+    <!-- TOPO -->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #ffffff;">
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <children>
+                <Region prefHeight="60.0" prefWidth="15.0" />
+
+                <Button id="btnSair" fx:id="btnSair" onAction="#btnSairClick" prefWidth="100.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair">
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                </Button>
+                <VBox prefHeight="42.0" prefWidth="227.0">
+                    <children>
+                        <Label id="nomeUsuario" fx:id="nomeUsuario" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="cargoUsuario" fx:id="cargoUsuario" style="-fx-text-fill: #666;" text="Professora" />
+                    </children>
+                    <HBox.margin>
+                        <Insets top="10.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="140.0" />
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <children>
+                        <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
+                        <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </top>
+
+
+    <!-- CONTEÚDO CENTRAL -->
+    <center>
+        <VBox spacing="20" style="-fx-background-color: white;">
+            <padding>
+                <Insets bottom="20" left="30" right="30" top="30" />
+            </padding>
+
+            <children>
+                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+
+
+                <!-- OBJETIVOS DO PLANO -->
+                <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+
+                    <children>
+
+                        <Label style="-fx-font-weight: bold;" text="Desenvolvimento Motores/Psicomotores">
+                     <VBox.margin>
+                        <Insets bottom="12.0" />
+                     </VBox.margin></Label>
+
+                        <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
+                        <TextArea fx:id="desenvolvimentoMotoresPsicomotoresDificuldadesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                         <VBox.margin>
+                            <Insets bottom="12.0" />
+                         </VBox.margin></TextArea>
+                  <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
+                  <TextArea fx:id="desenvolvimentoMotoresPsicomotoresIntervencoesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+
+                    </children>
+
+                </VBox>
+            <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Comunicação e Linguagem">
+                     <VBox.margin>
+                        <Insets bottom="12.0" />
+                     </VBox.margin></Label>
+                  <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
+                  <TextArea fx:id="comunicacaoLinguagemDificuldadesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="12.0" />
+                     </VBox.margin></TextArea>
+                  <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
+                  <TextArea fx:id="comunicacaoLinguagemIntervencoesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+               </children>
+               <padding>
+                  <Insets bottom="20" left="20" right="20" top="20" />
+               </padding>
+            </VBox>
+
+      
+                      <!-- BOTÕES -->
+                <HBox alignment="CENTER_RIGHT">
+                    <children>
+                  <HBox HBox.hgrow="ALWAYS">
+                     <children>
+                              <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                     </children>
+                  </HBox>
+                  <HBox spacing="20.0">
+                     <children>
+                              <Button onAction="#btnVoltarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />
+                              <Button onAction="#btnSeguinteClick" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte" />
+                     </children>
+                  </HBox>
+                    </children>
+                </HBox>
+
+
+            </children>
+        </VBox>
+    </center>
+
+
+</BorderPane>

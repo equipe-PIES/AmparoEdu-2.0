@@ -36,9 +36,13 @@ c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backen
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\SincronizacaoService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\TurmaService.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroEducandoController.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ProgressoAtendimentoController.java
+c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
 c:\Users\emill\pies\correcao\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane style="-fx-background-radius: 8; -fx-border-radius: 8;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.ProgressoAtendimentoController">
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+         </BorderPane.margin>
+         <children>
+            <VBox style="-fx-border-color: #c0c0c0; -fx-border-radius: 8;" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="25.0" />
+               </HBox.margin>
+               <children>
+                  <Label prefHeight="32.0" prefWidth="250.0" text="Diario do Professor" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Detalhes dos Atendimentos" wrappingWidth="197.65869140625">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <VBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="30.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Button fx:id="excluirRI" mnemonicParsing="false" onAction="#btnExcluirRIClick" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: da0d0d; -fx-background-radius: 5; -fx-border-radius: 5;" text="Excluir" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="editarRI" mnemonicParsing="false" onAction="#btnEditarRIClick" prefHeight="40.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="baixarRI" mnemonicParsing="false" onAction="#btnBaixarRIClick" prefHeight="40.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Baixar Relatório Final">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="criarRI" mnemonicParsing="false" onAction="#btnCriarRIClick" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar Relatório Individual">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" style="-fx-border-color: #c0c0c0; -fx-border-radius: 8;">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Anamnese">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Análise inicial do educando" />
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <HBox.margin>
+                              <Insets left="40.0" right="10.0" />
+                           </HBox.margin>
+                           <children>
+                              <Button fx:id="excluirAnamnese" mnemonicParsing="false" onAction="#btnExcluirAnamneseClick" prefWidth="55.0" style="-fx-background-color: #da0d0d; -fx-border-radius: 5; -fx-background-radius: 5;" text="Excluir" textFill="WHITE" />
+                              <Button fx:id="editarAnamnese" mnemonicParsing="false" onAction="#btnEditarAnamneseClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="verAnamnese" mnemonicParsing="false" onAction="#btnVerAnamneseClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Ver">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Button fx:id="criarAnamnese" mnemonicParsing="false" onAction="#btnCriarAnamneseClick" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" style="-fx-border-color: #c0c0c0; -fx-border-radius: 8;">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Diagnóstico Inicial">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Percepção advinda da anamnese" />
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <HBox.margin>
+                              <Insets left="40.0" right="10.0" />
+                           </HBox.margin>
+                           <children>
+                              <Button fx:id="excluirDI" mnemonicParsing="false" onAction="#btnExcluirDIClick" prefWidth="55.0" style="-fx-background-color: #da0d0d; -fx-background-radius: 5; -fx-border-radius: 5;" text="Excluir" textFill="WHITE" />
+                              <Button fx:id="editarDI" mnemonicParsing="false" onAction="#btnEditarDIClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="verDI" mnemonicParsing="false" onAction="#btnVerDIClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Ver">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Button fx:id="criarDI" mnemonicParsing="false" onAction="#btnCriarDIClick" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="110.0" prefHeight="100.0" style="-fx-border-color: #c0c0c0; -fx-border-radius: 8;">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="PDI">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Plano de Desenvolvimento Individual" />
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <HBox.margin>
+                              <Insets left="40.0" right="10.0" />
+                           </HBox.margin>
+                           <children>
+                              <Button fx:id="excluirPDI" mnemonicParsing="false" onAction="#btnExcluirPDIClick" prefWidth="55.0" style="-fx-background-color: #da0d0d; -fx-background-radius: 5; -fx-border-radius: 5;" text="Excluir" textFill="WHITE" />
+                              <Button fx:id="editarPDI" mnemonicParsing="false" onAction="#btnEditarPDIClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="verPDI" mnemonicParsing="false" onAction="#btnVerPDIClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Ver">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Button fx:id="criarPDI" mnemonicParsing="false" onAction="#btnCriarPDIClick" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="210.0" prefHeight="100.0" style="-fx-border-color: #c0c0c0; -fx-border-radius: 8;">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="PAEE">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Plano do Atendimento Educacional Especializado" wrapText="true" />
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <HBox.margin>
+                              <Insets left="40.0" right="10.0" />
+                           </HBox.margin>
+                           <children>
+                              <Button fx:id="excluirPAEE" mnemonicParsing="false" onAction="#btnExcluirPAEEClick" prefWidth="55.0" style="-fx-background-color: #da0d0d; -fx-background-radius: 5; -fx-border-radius: 5;" text="Excluir" textFill="WHITE" />
+                              <Button fx:id="editarPAEE" mnemonicParsing="false" onAction="#btnEditarPAEEClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="verPAEE" mnemonicParsing="false" onAction="#btnVerPAEEClick" prefWidth="55.0" styleClass="botao-cancelar-voltar-sair" text="Ver">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Button fx:id="criarPAEE" mnemonicParsing="false" onAction="#btnCriarPAEEClick" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <top>
+      <HBox BorderPane.alignment="CENTER_LEFT">
+        <children>
+            <Label text="Progresso de Atendimento">
+                <font>
+                   <Font name="System Bold" size="24.0" />
+                </font>
+                <HBox.margin>
+                   <Insets right="20.0" />
+                </HBox.margin>
+            </Label>
+            <Button fx:id="closeProgressoAtd" managed="false" mnemonicParsing="false" onAction="#handleCloseAction" prefHeight="29.0" prefWidth="43.0" text="Fechar" visible="false" />
+        </children>
+         <BorderPane.margin>
+            <Insets left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+</BorderPane>

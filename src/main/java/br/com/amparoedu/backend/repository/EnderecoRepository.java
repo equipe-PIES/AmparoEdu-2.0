@@ -83,6 +83,24 @@ public class EnderecoRepository {
         return null;
     }
 
+    // buscar por educando
+    public Endereco buscarPorEducando(String educandoId) {
+        String sql = "SELECT e.* FROM enderecos e JOIN educandos ed ON e.id = ed.endereco_id WHERE ed.id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, educandoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairEndereco(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Buscar não sincronizados
     public List<Endereco> buscarNaoSincronizados() {
         String sql = "SELECT * FROM enderecos WHERE sincronizado = 0 AND excluido = 0";
