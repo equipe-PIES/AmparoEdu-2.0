@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="cadastroTurma" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.CadastroTurmaController">
+<BorderPane fx:id="cadastroTurma" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.CadastroTurmaController">
 
     <!-- TOPO -->
     <top>
@@ -40,7 +41,7 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Início" />
+                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Inicio" />
                         <Button id="turmasButton" fx:id="turmasButton" styleClass="botao-topo" text="Turmas" />
                         <Button id="professoresButton" fx:id="professoresButton" styleClass="botao-topo" text="Professores" />
                         <Button id="alunosButton" fx:id="alunosButton" styleClass="botao-topo" text="Alunos" />
@@ -50,7 +51,7 @@
         </HBox>
     </top>
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
             <children>
@@ -68,7 +69,7 @@
                                               <Insets />
                                           </VBox.margin>
                                  <font>
-                                    <Font name="System Bold" size="12.0" />
+                                    <Font name="System Bold" size="18.0" />
                                  </font>
                                       </Label>
                                       <Label text="Nome da Turma:">
@@ -91,7 +92,7 @@
                                               <Insets />
                                           </VBox.margin>
                                       </ChoiceBox>
-                                      <Label text="Faixa etária dos alunos">
+                                      <Label text="Faixa etário dos alunos">
                                           <VBox.margin>
                                               <Insets />
                                           </VBox.margin>
@@ -128,7 +129,7 @@
                               </VBox>
                         <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                            <children>
-                                        <Button fx:id="cancelCadastroBt" mnemonicParsing="false" prefHeight="30.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                                        <Button fx:id="cancelCadastroBt" mnemonicParsing="false" onAction="#handleCancelCadastroAction" prefHeight="30.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                            </children>
                         </HBox>
                      </children>
@@ -142,7 +143,7 @@
                                                 <Insets />
                                             </VBox.margin>
                                  <font>
-                                    <Font name="System Bold" size="12.0" />
+                                    <Font name="System Bold" size="18.0" />
                                  </font>
                                         </Label>
                                         <Label text="Filtrar por escolaridade">
@@ -185,7 +186,7 @@
                                                 <Insets top="20.0" />
                                             </VBox.margin>
                                  <font>
-                                    <Font name="System Bold" size="12.0" />
+                                    <Font name="System Bold" size="18.0" />
                                  </font>
                                         </Label>
                                         <ListView fx:id="ListAlunosTurma" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: #ddd;" styleClass="campo-digite-selecione">
@@ -205,7 +206,7 @@
                                 </Label>
                                 <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Button fx:id="cadastroTurmaButton" mnemonicParsing="false" prefWidth="220.0" styleClass="botao-concluir" text="Cadastrar Turma" />
+                                        <Button fx:id="cadastroTurmaButton" mnemonicParsing="false" onAction="#handleCadastroTurmaAction" prefWidth="220.0" styleClass="botao-concluir" text="Cadastrar Turma" />
                                     </children>
                                 </HBox>
                             </children>

@@ -46,6 +46,7 @@ public class ResponsavelRepository {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao atualizar responsável: " + e.getMessage(), e);
         }
     }
 
@@ -69,6 +70,24 @@ public class ResponsavelRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairResponsavel(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Busca responsavel pelo ID do educando
+    public Responsavel buscarPorEducandoId(String educandoId) {
+        String sql = "SELECT * FROM responsaveis WHERE educando_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, educandoId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return extrairResponsavel(rs);

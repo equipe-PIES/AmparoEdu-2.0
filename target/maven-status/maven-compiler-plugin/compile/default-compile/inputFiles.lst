@@ -1,19 +1,33 @@
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Endereco.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Responsavel.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Usuario.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DatabaseConfig.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EducandoRepository.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EnderecoRepository.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PopularDatabase.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ResponsavelRepository.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\SupabaseClient.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\UsuarioRepository.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AuthService.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\EducandoService.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\SincronizacaoService.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroEducandoController.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
-c:\Users\emill\pies\final\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Endereco.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Professor.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Responsavel.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Turma.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\TurmaEducando.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Usuario.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DatabaseConfig.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EducandoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EnderecoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PopularDatabase.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ProfessorRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ResponsavelRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\SupabaseClient.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\TurmaRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\UsuarioRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AuthService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\EducandoService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\ProfessorService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\SincronizacaoService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\TurmaEducandoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\TurmaService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroEducandoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroProfessorController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfosAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java

@@ -19,31 +19,53 @@ public class LoginController {
 
     @FXML
     private void btnEntrarClick() {
-        String email = txtEmail.getText();
-        String senha = txtSenha.getText();
-
-        if (email.isEmpty() || senha.isEmpty()) {
-            exibirAlerta("Campos Vazios", "Por favor, preencha todos os campos.");
-            return;
-        }
-
-        Usuario usuario = authService.fazerLogin(email, senha);
-
-        if (usuario != null) {
+        try {
+            System.out.println("Botão Entrar clicado.");
             
-            // Inicia a sincronização em segundo plano
-            new Thread(() -> {
-                new SincronizacaoService().iniciarAgendamento();
-            }).start();
-
-            // Redireciona para a tela inicial conforme o tipo de usuário
-            if (usuario.getTipo().equals("COORDENADOR")) {
-                GerenciadorTelas.trocarTela("tela-inicio-coord.fxml");
-            } else {
-                GerenciadorTelas.trocarTela("tela-inicio-professor.fxml");
+            if (txtEmail == null || txtSenha == null) {
+                exibirAlerta("Erro Interno", "Campos de texto não foram carregados corretamente.");
+                return;
             }
-        } else {
-            exibirAlerta("Erro de Login", "E-mail ou senha incorretos.");
+
+            String email = txtEmail.getText().trim();
+            String senha = txtSenha.getText().trim();
+            System.out.println("Email: " + email);
+
+            if (email.isEmpty() || senha.isEmpty()) {
+                exibirAlerta("Campos Vazios", "Por favor, preencha todos os campos.");
+                return;
+            }
+
+            System.out.println("Tentando login...");
+            Usuario usuario = authService.fazerLogin(email, senha);
+
+            if (usuario != null) {
+                System.out.println("Login bem sucedido para: " + usuario.getEmail());
+                
+                // Inicia a sincronização em segundo plano
+                new Thread(() -> {
+                    try {
+                        new SincronizacaoService().iniciarAgendamento();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
+                // Redireciona para a tela inicial conforme o tipo de usuário
+                if (usuario.getTipo().equals("COORDENADOR")) {
+                    System.out.println("Redirecionando para tela de coordenador...");
+                    GerenciadorTelas.trocarTela("tela-inicio-coord.fxml");
+                } else {
+                    System.out.println("Redirecionando para tela de professor...");
+                    GerenciadorTelas.trocarTela("tela-inicio-professor.fxml");
+                }
+            } else {
+                System.out.println("Usuario retornou null.");
+                exibirAlerta("Erro de Login", "E-mail ou senha incorretos.");
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+            exibirAlerta("Erro de Sistema", "Ocorreu um erro inesperado: " + e.getMessage());
         }
     }
 

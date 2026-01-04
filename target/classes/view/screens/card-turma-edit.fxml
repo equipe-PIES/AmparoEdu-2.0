@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="cardTurma" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: #CCCCCC; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 15;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.CardTurmaEditController">
+<VBox fx:id="cardTurma" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: #CCCCCC; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 15;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.CardTurmaEditController">
     <children>
         <Label fx:id="nomeTurmaCard" prefHeight="21.0" prefWidth="400.0" text="Nome da Turma">
             <VBox.margin>
@@ -22,7 +22,7 @@
                 <Insets left="5.0" right="5.0" />
             </VBox.margin>
         </Label>
-        <Label fx:id="faixaEtariaCard" prefWidth="400.0" text="Faixa Etária:">
+        <Label fx:id="faixaEtariaCard" prefWidth="400.0" text="Faixa EtÃ¡ria:">
             <VBox.margin>
                 <Insets left="5.0" right="5.0" />
             </VBox.margin>
@@ -39,8 +39,8 @@
         </Label>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
          <children>
-            <Button fx:id="excluirTurma" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
-            <Button fx:id="editarTurma" mnemonicParsing="false" prefWidth="150.0" text="Editar" />
+            <Button fx:id="excluirTurma" onAction="#handleExcluir" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
+            <Button fx:id="editarTurma" onAction="#handleEditar" mnemonicParsing="false" prefWidth="150.0" text="Editar" />
          </children>
       </HBox>
     </children>

@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.ViewTurmaController">
+<BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.ViewTurmaController">
 
     <!-- TOPO -->
     <top>
@@ -27,7 +27,7 @@
                 </Button>
                   <VBox prefHeight="50.0" prefWidth="187.0">
                       <children>
-                          <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                          <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                           <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                       </children>
                <HBox.margin>
@@ -92,7 +92,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label contentDisplay="RIGHT" text="Faixa etária:">
+                  <Label contentDisplay="RIGHT" text="Faixa etÃ¡ria:">
                      <graphic>
                         <Label fx:id="fxEtariaTurma" />
                      </graphic>

@@ -26,6 +26,7 @@ public class EnderecoRepository {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar endereço: " + e.getMessage(), e);
         }
     }
 
@@ -49,6 +50,7 @@ public class EnderecoRepository {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao atualizar endereço: " + e.getMessage(), e);
         }
     }
 

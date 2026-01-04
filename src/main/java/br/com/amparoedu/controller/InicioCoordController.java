@@ -26,17 +26,17 @@ public class InicioCoordController {
 
     @FXML
     private void btnTurmasClick() {
-        System.out.println("Indo para tela de turmas...");
+        GerenciadorTelas.trocarTela("view-turmas-coord.fxml");
     }
 
     @FXML
     private void btnProfessoresClick() {
-        System.out.println("Indo para tela de professores...");
+        GerenciadorTelas.trocarTela("view-profs-coord.fxml");
     }
     
     @FXML
     private void btnAlunosClick() {
-        System.out.println("Indo para tela de alunos...");
+        GerenciadorTelas.trocarTela("view-alunos-coord.fxml");
     }
 
     @FXML
@@ -47,17 +47,18 @@ public class InicioCoordController {
     
     @FXML
     private void btnAddTurmaClick() {
-        System.out.println("Indo para tela de cadastro de turma...");
+        GerenciadorTelas.trocarTela("cadastro-de-turma.fxml");
     }
 
     @FXML
     private void btnAddProfClick() {
-        System.out.println("Indo para tela de cadastro de professor...");
+        GerenciadorTelas.trocarTela("cadastro-de-prof.fxml");
     }
 
     @FXML
     private void btnAddAlunoClick() {
-
+        System.out.println("Indo para tela de cadastro de aluno...");
         GerenciadorTelas.trocarTela("cadastro-de-aluno.fxml");
+
     }
 }

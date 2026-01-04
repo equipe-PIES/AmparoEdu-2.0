@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="cardTurma" prefHeight="200" prefWidth="520.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-background-radius: 8; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.CardTurmaController">
+<VBox fx:id="cardTurma" prefHeight="200" prefWidth="520.0" spacing="10.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-background-radius: 8; -fx-border-radius: 8;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.CardTurmaController">
    <children>
       <VBox spacing="5.0" VBox.vgrow="ALWAYS">
          <children>

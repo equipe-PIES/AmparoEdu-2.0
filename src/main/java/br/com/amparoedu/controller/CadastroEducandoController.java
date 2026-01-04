@@ -7,6 +7,7 @@ import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class CadastroEducandoController {
@@ -20,8 +21,20 @@ public class CadastroEducandoController {
     @FXML private ChoiceBox<String> endUF;
     @FXML private TextField endCidade, endCEP, endRua, endNum, endBairro, endComplemento;
     @FXML private Label nomeUsuario, cargoUsuario, ErrorForm;
+    @FXML private Button cadastroBtn;
 
     private final EducandoService educandoService = new EducandoService();
+    
+    // Campos estáticos para edição
+    private static Educando alunoEdicao;
+    private static Endereco enderecoEdicao;
+    private static Responsavel responsavelEdicao;
+
+    public static void setDadosEdicao(Educando aluno, Endereco endereco, Responsavel responsavel) {
+        alunoEdicao = aluno;
+        enderecoEdicao = endereco;
+        responsavelEdicao = responsavel;
+    }
 
     @FXML
     public void initialize() {
@@ -31,6 +44,45 @@ public class CadastroEducandoController {
         adicionarMascaraCPF(cpfRespon);
         adicionarMascaraTelefone(contatoRespon);
         adicionarMascaraCep(endCEP);
+        
+        if (alunoEdicao != null) {
+            preencherCamposEdicao();
+        }
+    }
+
+    private void preencherCamposEdicao() {
+        // Preencher dados do aluno
+        nomeAluno.setText(alunoEdicao.getNome());
+        cpfAluno.setText(alunoEdicao.getCpf());
+        dtNascAluno.setValue(LocalDate.parse(alunoEdicao.getData_nascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        generoAluno.setValue(alunoEdicao.getGenero());
+        grauEscAluno.setValue(alunoEdicao.getGrau_ensino());
+        escolaAluno.setText(alunoEdicao.getEscola());
+        cidAluno.setText(alunoEdicao.getCid());
+        nisAluno.setText(alunoEdicao.getNis());
+        obsAluno.setText(alunoEdicao.getObservacoes());
+
+        // Preencher dados do responsável
+        if (responsavelEdicao != null) {
+            nomeRespon.setText(responsavelEdicao.getNome());
+            cpfRespon.setText(responsavelEdicao.getCpf());
+            parentescoRespon.setValue(responsavelEdicao.getParentesco());
+            contatoRespon.setText(responsavelEdicao.getTelefone());
+        }
+
+        // Preencher dados do endereço
+        if (enderecoEdicao != null) {
+            endUF.setValue(enderecoEdicao.getUf());
+            endCidade.setText(enderecoEdicao.getCidade());
+            endCEP.setText(enderecoEdicao.getCep());
+            endRua.setText(enderecoEdicao.getLogradouro());
+            endNum.setText(enderecoEdicao.getNumero());
+            endBairro.setText(enderecoEdicao.getBairro());
+            endComplemento.setText(enderecoEdicao.getComplemento());
+        }
+        
+        // Alterar texto do botão (se houver referência, senão apenas o comportamento muda)
+        // Como o botão tem ação definida no FXML, vamos manter o nome do método mas alterar a lógica
     }
 
     private void adicionarMascaraCPF(TextField textField) {
@@ -105,7 +157,9 @@ public class CadastroEducandoController {
     private void btnCadastroAlunoClick() {
         if (validarCampos()) {
             try {
-                Endereco endereco = new Endereco();
+                boolean isEdicao = (alunoEdicao != null);
+                
+                Endereco endereco = isEdicao ? enderecoEdicao : new Endereco();
                 endereco.setUf(endUF.getValue());
                 endereco.setCidade(endCidade.getText());
                 endereco.setBairro(endBairro.getText());
@@ -114,7 +168,7 @@ public class CadastroEducandoController {
                 endereco.setComplemento(endComplemento.getText());
                 endereco.setCep(endCEP.getText());
 
-                Educando aluno = new Educando();
+                Educando aluno = isEdicao ? alunoEdicao : new Educando();
                 aluno.setNome(nomeAluno.getText());
                 aluno.setCpf(cpfAluno.getText());
                 aluno.setData_nascimento(dtNascAluno.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -125,20 +179,27 @@ public class CadastroEducandoController {
                 aluno.setNis(nisAluno.getText());
                 aluno.setObservacoes(obsAluno.getText());
 
-                Responsavel responsavel = new Responsavel();
+                Responsavel responsavel = isEdicao ? responsavelEdicao : new Responsavel();
                 responsavel.setNome(nomeRespon.getText());
                 responsavel.setCpf(cpfRespon.getText());
                 responsavel.setParentesco(parentescoRespon.getValue());
                 responsavel.setTelefone(contatoRespon.getText());
 
-                if (educandoService.cadastrarNovoAluno(aluno, endereco, responsavel)) {
-                    exibirAlertaSucesso();
+                boolean sucesso;
+                if (isEdicao) {
+                    sucesso = educandoService.atualizarAluno(aluno, endereco, responsavel);
+                } else {
+                    sucesso = educandoService.cadastrarNovoAluno(aluno, endereco, responsavel);
+                }
+
+                if (sucesso) {
+                    exibirAlertaSucesso(isEdicao ? "Aluno atualizado com sucesso!" : "Aluno cadastrado com sucesso!");
                     limparCampos();
                 } else {
                     ErrorForm.setText("Erro ao salvar no banco de dados.");
                 }
             } catch (Exception e) {
-                ErrorForm.setText("Erro ao cadastrar aluno: " + e.getMessage());
+                ErrorForm.setText("Erro ao salvar aluno: " + e.getMessage());
             }
         }
     }
@@ -151,11 +212,11 @@ public class CadastroEducandoController {
         return true;
     }
 
-    private void exibirAlertaSucesso() {
+    private void exibirAlertaSucesso(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sucesso");
         alert.setHeaderText(null);
-        alert.setContentText("Aluno cadastrado com sucesso!");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 
@@ -166,11 +227,14 @@ public class CadastroEducandoController {
 
     @FXML private void btnSairClick() { AuthService.logout(); GerenciadorTelas.trocarTela("tela-de-login.fxml"); }
     @FXML private void btnInicioClick() { GerenciadorTelas.trocarTela("tela-inicio-coord.fxml"); }
-    @FXML private void btnTurmasClick() { /* Navegar para turmas */ }
-    @FXML private void btnProfessoresClick() { /* Navegar para professores */ }
-    @FXML private void btnAlunosClick() { GerenciadorTelas.trocarTela("tela-alunos.fxml"); }
+    @FXML private void btnTurmasClick() { GerenciadorTelas.trocarTela("view-turmas-coord.fxml"); }
+    @FXML private void btnProfessoresClick() { GerenciadorTelas.trocarTela("view-profs-coord.fxml"); }
+    @FXML private void btnAlunosClick() { GerenciadorTelas.trocarTela("view-alunos-coord.fxml"); }
 
     private void limparCampos() {
+        alunoEdicao = null;
+        enderecoEdicao = null;
+        responsavelEdicao = null;
         nomeAluno.clear();
         cpfAluno.clear();
         escolaAluno.clear();

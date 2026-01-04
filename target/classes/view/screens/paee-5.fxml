@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.PAEEController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.PAEEController">
 
     <!-- TOPO -->
     <top>
@@ -24,7 +24,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -46,7 +46,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20" style="-fx-background-color: white;">
             <padding>
@@ -80,7 +80,7 @@
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></TextArea>
-                        <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
+                        <Label prefHeight="21.0" prefWidth="444.0" text="IntervenÃ§Ãµes" />
                         <TextArea fx:id="intervencoesSociabilidadeTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                     </children>
@@ -88,7 +88,7 @@
                 </VBox>
                 <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Atividades de Vida Autônoma (AVAs)">
+                        <Label style="-fx-font-weight: bold;" text="Atividades de Vida AutÃ´noma (AVAs)">
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></Label>
@@ -97,7 +97,7 @@
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></TextArea>
-                        <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
+                        <Label prefHeight="21.0" prefWidth="444.0" text="IntervenÃ§Ãµes" />
                         <TextArea fx:id="intervencoesAVATa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                     </children>
                     <padding>
@@ -106,13 +106,13 @@
                 </VBox>
 
 
-                <!-- BOTÕES -->
+                <!-- BOTÃ•ES -->
                 <HBox alignment="CENTER_RIGHT">
                     <children>
                   <HBox HBox.hgrow="ALWAYS">
                      <children>
                               <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
-                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                      </children>
                   </HBox>
                   <HBox spacing="20.0">

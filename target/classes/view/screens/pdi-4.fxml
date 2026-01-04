@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.PDIController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.PDIController">
 
     <!-- TOPO -->
     <top>
@@ -21,7 +21,7 @@
                <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                             <children>
-                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                                 <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                             </children>
                      <VBox.margin>
@@ -44,9 +44,9 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
-        <!-- ScrollPane para garantir que o conteúdo seja rolável em telas menores -->
+        <!-- ScrollPane para garantir que o conteÃºdo seja rolÃ¡vel em telas menores -->
         <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: white;">
             <content>
                 <VBox spacing="20" style="-fx-background-color: white;">
@@ -54,7 +54,7 @@
                         <Insets bottom="30" left="30" right="30" top="30" />
                     </padding>
                     <children>
-                        <!-- Título do Formulário -->
+                        <!-- TÃ­tulo do FormulÃ¡rio -->
                         <Label text="Plano de Desenvolvimento Individual">
                      <font>
                         <Font name="System Bold" size="18.0" />
@@ -68,26 +68,26 @@
                             <children>
                                 <!-- Primeiro Label em negrito -->
                                 <Label style="-fx-font-weight: bold;" text="Recursos Materiais a serem produzidos para o educando" />
-                                <Label text="O que será produzido de forma específica para o educando." />
+                                <Label text="O que serÃ¡ produzido de forma especÃ­fica para o educando." />
                                 <TextArea fx:id="recursosProduzidosTextArea" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
 
-                        <!-- PARCERIAS NECESSÁRIAS -->
+                        <!-- PARCERIAS NECESSÃRIAS -->
                         <VBox spacing="8" style="-fx-border-color: #ddd; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-color: #ffffff;">
                             <padding>
                                 <Insets bottom="20" left="20" right="20" top="20" />
                             </padding>
                             <children>
                                 <!-- Primeiro Label em negrito -->
-                                <Label style="-fx-font-weight: bold;" text="Parcerias necessárias para aprimoramento do Atendimento da Produção de Materiais" />
-                                <Label text="Exemplo: terapeuta ocupacional, costureira, marceneiro, psicopedagoga, psicólogo." />
+                                <Label style="-fx-font-weight: bold;" text="Parcerias necessÃ¡rias para aprimoramento do Atendimento da ProduÃ§Ã£o de Materiais" />
+                                <Label text="Exemplo: terapeuta ocupacional, costureira, marceneiro, psicopedagoga, psicÃ³logo." />
                                 <TextArea fx:id="parceriasTextArea" prefHeight="200" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
 
 
-                        <!-- BOTÕES -->
+                        <!-- BOTÃ•ES -->
                         <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
                             <children>
                         <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">

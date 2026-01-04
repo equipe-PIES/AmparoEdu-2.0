@@ -16,7 +16,10 @@ public class UsuarioRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) return extrairUsuario(rs);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) { 
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao buscar usuário por email: " + e.getMessage(), e);
+        }
         return null;
     }
 
@@ -66,6 +69,7 @@ public class UsuarioRepository {
             stmt.executeUpdate(); // Executa a atualização
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage(), e);
         }
     }
 
@@ -77,6 +81,19 @@ public class UsuarioRepository {
             stmt.setString(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    // Deleta fisicamente um usuário (Hard Delete) - Usado para rollback em caso de erro
+    public void deletarFisicamente(String id) {
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao deletar usuário fisicamente: " + e.getMessage(), e);
+        }
     }
 
     //Busca todos os usuários não sincronizados

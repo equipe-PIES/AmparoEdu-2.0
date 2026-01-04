@@ -21,7 +21,7 @@ public class TurmaRepository {
     }
 
     public void salvar(Turma turma) {
-        String sql = "INSERT INTO turmas (id, professor_id, nome, turno, grau_ensino, faixa_etaria, sincronizado, excluido) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO turmas (id, professor_id, nome, turno, grau_ensino, faixa_etaria, quantidade_alunos, sincronizado, excluido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, turma.getId());
@@ -30,10 +30,14 @@ public class TurmaRepository {
             stmt.setString(4, turma.getTurno());
             stmt.setString(5, turma.getGrau_ensino());
             stmt.setString(6, turma.getFaixa_etaria());
-            stmt.setInt(7, turma.getSincronizado());
-            stmt.setInt(8, turma.getExcluido());
+            stmt.setString(7, turma.getQuantidade_alunos());
+            stmt.setInt(8, turma.getSincronizado());
+            stmt.setInt(9, turma.getExcluido());
             stmt.executeUpdate();
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) { 
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar turma: " + e.getMessage(), e);
+        }
     }
 
     public Turma buscarPorId(String id) {
@@ -52,7 +56,8 @@ public class TurmaRepository {
         String sql = "UPDATE turmas SET professor_id = ?, nome = ?, turno = ?, grau_ensino = ?, faixa_etaria = ?, sincronizado = ?, excluido = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, turma.getProfessor_id());
+            if (turma.getProfessor_id() != null) stmt.setString(1, turma.getProfessor_id());
+            else stmt.setNull(1, java.sql.Types.VARCHAR);
             stmt.setString(2, turma.getNome());
             stmt.setString(3, turma.getTurno());
             stmt.setString(4, turma.getGrau_ensino());
@@ -60,6 +65,15 @@ public class TurmaRepository {
             stmt.setInt(6, turma.getSincronizado());
             stmt.setInt(7, turma.getExcluido());
             stmt.setString(8, turma.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public void excluir(String id) {
+        String sql = "UPDATE turmas SET excluido = 1 WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
@@ -92,9 +106,10 @@ public class TurmaRepository {
             rs.getString("id"),
             rs.getString("professor_id"),
             rs.getString("nome"),
-            rs.getString("turno"),
-            rs.getString("grau_ensino"),
             rs.getString("faixa_etaria"),
+            rs.getString("grau_ensino"),
+            rs.getString("turno"),
+            rs.getString("quantidade_alunos"),
             rs.getInt("sincronizado"),
             rs.getInt("excluido")
         );

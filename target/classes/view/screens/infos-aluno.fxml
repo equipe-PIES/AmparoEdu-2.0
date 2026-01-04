@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefWidth="500.0" spacing="10" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-radius: 8; -fx-background-radius: 8;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.InfosAlunoController">
+<VBox prefWidth="500.0" spacing="10" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-radius: 8; -fx-background-radius: 8;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.InfosAlunoController">
   <children>
-    <Label style="-fx-font-weight: bold; -fx-font-size: 24px;" text="Informações do Aluno">
+    <Label style="-fx-font-weight: bold; -fx-font-size: 24px;" text="InformaÃ§Ãµes do Aluno">
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
@@ -27,7 +27,7 @@
         <Label text="CPF:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <Label fx:id="cpfLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Gênero:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="GÃªnero:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <Label fx:id="generoLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
         <Label text="CID:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
@@ -42,28 +42,28 @@
         <Label text="Escola:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
         <Label fx:id="escolaLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-        <Label text="Observações:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+        <Label text="ObservaÃ§Ãµes:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
         <Label fx:id="observacoesLabel" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-        <Label text="Responsável:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+        <Label text="ResponsÃ¡vel:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
         <Label fx:id="nomeResponsavelLabel" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
         <Label text="Parentesco:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
         <Label fx:id="parentescoLabel" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
-        <Label text="CPF Responsável:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+        <Label text="CPF ResponsÃ¡vel:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
         <Label fx:id="cpfResponsavelLabel" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
         <Label text="Telefone:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
         <Label fx:id="contatoLabel" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
-        <Label text="Endereço:" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+        <Label text="EndereÃ§o:" GridPane.columnIndex="0" GridPane.rowIndex="13" />
         <Label fx:id="enderecoLabel" GridPane.columnIndex="1" GridPane.rowIndex="13" />
 
         <Label text="Turma:" GridPane.columnIndex="0" GridPane.rowIndex="14" />
         <Label fx:id="turmaLabel" GridPane.columnIndex="1" GridPane.rowIndex="14" />
 
-        <Label text="Professora Responsável:" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+        <Label text="Professora ResponsÃ¡vel:" GridPane.columnIndex="0" GridPane.rowIndex="15" />
         <Label fx:id="professoraResponsavelLabel" GridPane.columnIndex="1" GridPane.rowIndex="15" />
 
         <Label text="Grau da Turma:" GridPane.columnIndex="0" GridPane.rowIndex="16" />
@@ -72,7 +72,7 @@
         <Label text="Turno:" GridPane.columnIndex="0" GridPane.rowIndex="17" />
         <Label fx:id="turnoLabel" GridPane.columnIndex="1" GridPane.rowIndex="17" />
 
-        <!-- <Label text="Horário AEE:" GridPane.columnIndex="0" GridPane.rowIndex="18" /> -->
+        <!-- <Label text="HorÃ¡rio AEE:" GridPane.columnIndex="0" GridPane.rowIndex="18" /> -->
         <!-- <Label fx:id="horarioAtendimentoLabel" GridPane.columnIndex="1" GridPane.rowIndex="18" /> -->
       </children>
          <rowConstraints>

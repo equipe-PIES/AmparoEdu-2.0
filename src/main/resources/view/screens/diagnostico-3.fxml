@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.DIController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.DIController">
 
     <!-- TOPO -->
     <top>
@@ -23,7 +23,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -45,7 +45,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20" style="-fx-background-color: white;">
             <padding>
@@ -69,15 +69,15 @@
 
                     <children>
 
-                        <Label style="-fx-font-weight: bold;" text="AVDs - Atividades de Vida Diária" />
+                        <Label style="-fx-font-weight: bold;" text="AVDs - Atividades de Vida DiÃ¡ria" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <CheckBox fx:id="usaSanitarioSemAjuda" mnemonicParsing="false" text="Usa o sanitário sem ajuda" />
-                                        <CheckBox fx:id="penteiaSeSo" mnemonicParsing="false" text="Penteia-se só " />
+                                        <CheckBox fx:id="usaSanitarioSemAjuda" mnemonicParsing="false" text="Usa o sanitÃ¡rio sem ajuda" />
+                                        <CheckBox fx:id="penteiaSeSo" mnemonicParsing="false" text="Penteia-se sÃ³ " />
                                         <CheckBox fx:id="consegueVestirDespirSe" mnemonicParsing="false" text="Consegue vestir-se e despir-se" />
-                                        <CheckBox fx:id="lavaSecaAsMaos" mnemonicParsing="false" text="Lava e seca as mãos" />
+                                        <CheckBox fx:id="lavaSecaAsMaos" mnemonicParsing="false" text="Lava e seca as mÃ£os" />
                                     </children>
                                     <HBox.margin>
                                         <Insets left="10.0" />
@@ -85,8 +85,8 @@
                                 </VBox>
                                 <VBox layoutX="20.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <CheckBox fx:id="banhoComModeracao" mnemonicParsing="false" text="Banha-se com moderação" />
-                                        <CheckBox fx:id="calcaSeSo" mnemonicParsing="false" text="Calça-se só" />
+                                        <CheckBox fx:id="banhoComModeracao" mnemonicParsing="false" text="Banha-se com moderaÃ§Ã£o" />
+                                        <CheckBox fx:id="calcaSeSo" mnemonicParsing="false" text="CalÃ§a-se sÃ³" />
                                         <CheckBox fx:id="reconheceRoupas" mnemonicParsing="false" text="Reconhece suas roupas" />
                                         <CheckBox fx:id="abreFechaTorneira" mnemonicParsing="false" text="Abre e fecha a torneira" />
                                     </children>
@@ -94,7 +94,7 @@
                                 <VBox alignment="CENTER_LEFT" layoutX="420.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <CheckBox fx:id="escovaDentesSemAjuda" mnemonicParsing="false" text="Escova os dentes sem ajuda" />
-                                        <CheckBox fx:id="consegueDarNosLacos" mnemonicParsing="false" text="Consegue dar nós nos laços" />
+                                        <CheckBox fx:id="consegueDarNosLacos" mnemonicParsing="false" text="Consegue dar nÃ³s nos laÃ§os" />
                                         <CheckBox fx:id="abotoaDesabotoaRoupas" mnemonicParsing="false" text="Abotoa e desabotoa roupas" />
                                         <CheckBox fx:id="identificaPartesDoCorpo" mnemonicParsing="false" text="Identifica as partes do seu corpo" />
                                     </children>
@@ -111,12 +111,12 @@
                           <children>
                                 <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
-                                    <Label style="-fx-font-weight: bold;" text="Níveis de Aprendizagem" />
+                                    <Label style="-fx-font-weight: bold;" text="NÃ­veis de Aprendizagem" />
                                         <CheckBox fx:id="garatujas" mnemonicParsing="false" text="Garatujas" />
-                                        <CheckBox fx:id="silabicoAlfabetico" mnemonicParsing="false" text="Silábico Alfabético" />
-                                        <CheckBox fx:id="alfabetico" mnemonicParsing="false" text="Alfabético" />
-                                        <CheckBox fx:id="preSilabico" mnemonicParsing="false" text="Pré-silábico" />
-                                        <CheckBox fx:id="silabico" mnemonicParsing="false" text="Silábico" />
+                                        <CheckBox fx:id="silabicoAlfabetico" mnemonicParsing="false" text="SilÃ¡bico AlfabÃ©tico" />
+                                        <CheckBox fx:id="alfabetico" mnemonicParsing="false" text="AlfabÃ©tico" />
+                                        <CheckBox fx:id="preSilabico" mnemonicParsing="false" text="PrÃ©-silÃ¡bico" />
+                                        <CheckBox fx:id="silabico" mnemonicParsing="false" text="SilÃ¡bico" />
                                     </children>
                                 </VBox>
                           </children>
@@ -131,7 +131,7 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                            <children>
-                              <Label style="-fx-font-weight: bold;" text="Observações" />
+                              <Label style="-fx-font-weight: bold;" text="ObservaÃ§Ãµes" />
                               <TextArea fx:id="observacoes" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </VBox>
@@ -144,7 +144,7 @@
             </HBox>
 
 
-                <!-- BOTÕES -->
+                <!-- BOTÃ•ES -->
                 <HBox alignment="CENTER_RIGHT" spacing="20" VBox.vgrow="ALWAYS">
                     <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
@@ -152,7 +152,7 @@
                               <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                      </children>
                   </HBox>
-                                <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                                <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                         <HBox alignment="BOTTOM_RIGHT" spacing="20.0">
                             <children>
                                         <Button onAction="#handleBackAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />

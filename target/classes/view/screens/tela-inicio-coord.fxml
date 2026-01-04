@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.InicioCoordController">
+<BorderPane fx:id="coordInicioPane" prefHeight="880.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.InicioCoordController">
 
     <!-- TOPO -->
     <top>
@@ -33,7 +40,7 @@
 
                <HBox alignment="CENTER_RIGHT" spacing="15.0">
       <children>
-                      <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" style="-fx-background-color: #26568C;" text="Início" textFill="WHITE" />
+                      <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" style="-fx-background-color: #26568C;" text="Inicio" textFill="WHITE" />
                       <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" style="-fx-background-color: #26568C;" text="Turmas" textFill="WHITE" />
                       <Button id="btnProfessores" fx:id="btnProfessores" onAction="#btnProfessoresClick" style="-fx-background-color: #26568C;" text="Professores" textFill="WHITE" />
                       <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" style="-fx-background-color: #26568C;" text="Alunos" textFill="WHITE" />
@@ -56,7 +63,7 @@
                   <Region prefHeight="45.0" prefWidth="16.0" />
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                                 <Label id="NomeUsuario" fx:id="NomeUsuario" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                                 <Label id="NomeUsuario" fx:id="NomeUsuario" style="-fx-font-weight: bold;" text="Nome de User" />
                            <Label id="CargoUsuario" fx:id="CargoUsuario" style="-fx-text-fill: #666;" text="Coordenadora" />
                      </children>
                   </VBox>
@@ -87,7 +94,7 @@
         </VBox>
     </left>
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="15.0" style="-fx-background-color: #ffffff;">
             <padding>
@@ -95,16 +102,16 @@
             </padding>
            <children>
 
-               <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Início" />
+               <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Inicio" />
             <HBox alignment="CENTER">
                 <VBox.margin>
                     <Insets top="10.0" />
                 </VBox.margin>
                 <children>
-                    <ImageView fitWidth="980.0" fitHeight="300.0" pickOnBounds="true">
+                    <ImageView fitHeight="300.0" fitWidth="980.0" pickOnBounds="true">
                         <image>
-                            <Image url="@../images/frente_apapeq (1).png" />
-                            <!-- frente_apapeq (1) -->
+                            <Image url="@../images/frente_apapeq.png" />
+                            <!-- frente_apapeq -->
                         </image>
                     </ImageView>
                 </children>

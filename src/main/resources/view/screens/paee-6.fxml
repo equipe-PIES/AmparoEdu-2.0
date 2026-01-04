@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.PAEEController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.PAEEController">
 
     <!-- TOPO -->
     <top>
@@ -24,7 +24,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -46,7 +46,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20" style="-fx-background-color: white;">
             <padding>
@@ -85,7 +85,7 @@
 
                 </VBox>
 
-                <!-- ORGANIZAÇÃO DO ATENDIMENTO -->
+                <!-- ORGANIZAÃ‡ÃƒO DO ATENDIMENTO -->
                 <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
 
                     <padding>
@@ -94,7 +94,7 @@
 
                     <children>
 
-                        <Label style="-fx-font-weight: bold;" text="Atendimentos da Instituição que deverão ser envolvidos para melhor apoio ao educando">
+                        <Label style="-fx-font-weight: bold;" text="Atendimentos da InstituiÃ§Ã£o que deverÃ£o ser envolvidos para melhor apoio ao educando">
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></Label>
@@ -108,7 +108,7 @@
 
                                         <Label text="AEE (Atendimento Educacional Especializado)" />
                                         <ChoiceBox fx:id="cbAEE" prefWidth="200.0" styleClass="campo-digite-selecione" />
-                                        <Label text="Psicólogo" />
+                                        <Label text="PsicÃ³logo" />
                                         <ChoiceBox fx:id="cbPsicologo" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                         <Label text="Fisioterapeuta" />
                                         <ChoiceBox fx:id="cbFisioterapeuta" prefWidth="200.0" styleClass="campo-digite-selecione" />
@@ -127,9 +127,9 @@
                                         <Label text="TO (Terapia Ocupacional)" />
                                         <ChoiceBox fx:id="cbTO" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                        <Label text="Educação Física" />
+                                        <Label text="EducaÃ§Ã£o FÃ­sica" />
                                         <ChoiceBox fx:id="cbEducacaoFisica" prefWidth="200.0" styleClass="campo-digite-selecione" />
-                                        <Label text="Estimulação Precoce" />
+                                        <Label text="EstimulaÃ§Ã£o Precoce" />
                                         <ChoiceBox fx:id="cbEstimulacaoPrecoce" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
@@ -143,13 +143,13 @@
                 </VBox>
 
 
-                <!-- BOTÕES -->
+                <!-- BOTÃ•ES -->
                 <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                     <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                      <children>
                               <Button fx:id="cancelButton" onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
-                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                      </children>
                   </HBox>
                   <HBox alignment="BOTTOM_RIGHT" spacing="20.0">

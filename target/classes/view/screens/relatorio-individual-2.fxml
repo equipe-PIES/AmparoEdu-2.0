@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.RelatorioIndividualController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.RelatorioIndividualController">
 
     <!-- TOPO -->
     <top>
@@ -24,7 +24,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -39,7 +39,7 @@
                     <children>
                         <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
                         <Button id="alunosButton" fx:id="alunosButton" styleClass="botao-topo" text="Alunos" />
-                        <Button id="relatoriosButton" fx:id="relatoriosButton" styleClass="botao-topo" text="Relatórios" />
+                        <Button id="relatoriosButton" fx:id="relatoriosButton" styleClass="botao-topo" text="RelatÃ³rios" />
                     </children>
                 </HBox>
             </children>
@@ -47,7 +47,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefViewportHeight="820.0" prefViewportWidth="1220.0">
             <content>
@@ -73,12 +73,12 @@
 
                             <children>
 
-                                <Label style="-fx-font-weight: bold;" text="Adaptações Curriculares">
+                                <Label style="-fx-font-weight: bold;" text="AdaptaÃ§Ãµes Curriculares">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
 
-                                <Label text="Detalhe os ajustes realizados para atender àsnecessidades do aluno. Cite a metodologia utilizada para facilitar a aprendizagem eos resultados alcançados com essas adaptações." wrapText="true" VBox.vgrow="SOMETIMES">
+                                <Label text="Detalhe os ajustes realizados para atender Ã snecessidades do aluno. Cite a metodologia utilizada para facilitar a aprendizagem eos resultados alcanÃ§ados com essas adaptaÃ§Ãµes." wrapText="true" VBox.vgrow="SOMETIMES">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></Label>
@@ -89,7 +89,7 @@
                         </VBox>
                         <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                             <children>
-                                <Label style="-fx-font-weight: bold;" text="Participação nas Atividades Propostas ">
+                                <Label style="-fx-font-weight: bold;" text="ParticipaÃ§Ã£o nas Atividades Propostas ">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
@@ -106,7 +106,7 @@
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
-                                <Label prefHeight="47.0" text="Relate como e o que é trabalhado para promover a autonomia doaluno em diferentes contextos escolares. Isso inclui habilidades para fazer escolhas,tomar iniciativas, cumprir planejamentos, atender aos próprios interesses, realizar tarefas, resolver conflitos, defender-se, explicar-se e solicitar ajuda." wrapText="true" VBox.vgrow="SOMETIMES" />
+                                <Label prefHeight="47.0" text="Relate como e o que Ã© trabalhado para promover a autonomia doaluno em diferentes contextos escolares. Isso inclui habilidades para fazer escolhas,tomar iniciativas, cumprir planejamentos, atender aos prÃ³prios interesses, realizar tarefas, resolver conflitos, defender-se, explicar-se e solicitar ajuda." wrapText="true" VBox.vgrow="SOMETIMES" />
                                 <TextArea fx:id="dificuldadesRaciocinio11" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                             </children>
                             <padding>
@@ -115,13 +115,13 @@
                         </VBox>
 
 
-                        <!-- BOTÕES -->
+                        <!-- BOTÃ•ES -->
                         <HBox alignment="CENTER_RIGHT">
                             <children>
                         <HBox HBox.hgrow="ALWAYS">
                            <children>
                                       <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
-                                      <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                                      <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                            </children>
                         </HBox>
                         <HBox spacing="20.0">

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.AnamneseController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.AnamneseController">
 
     <!-- TOPO -->
     <top>
@@ -20,7 +20,7 @@
                <children>
                         <VBox prefHeight="82.0" prefWidth="168.0">
                             <children>
-                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                                 <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                             </children>
                      <VBox.margin>
@@ -43,7 +43,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <ScrollPane fitToWidth="true" prefWidth="1220.0" style="-fx-background-color: white;">
             <VBox spacing="20" style="-fx-background-color: white;">
@@ -60,14 +60,14 @@
                        <VBox spacing="20" HBox.hgrow="ALWAYS">
       <children>
 
-                              <!-- CONDIÇÕES DA GRAVIDEZ E DO NASCIMENTO -->
+                              <!-- CONDIÃ‡Ã•ES DA GRAVIDEZ E DO NASCIMENTO -->
                               <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                                   <padding>
                                       <Insets bottom="20" left="20" right="20" top="20" />
                                   </padding>
 
                                   <children>
-                                      <Label style="-fx-font-weight: bold;" text="Condições da Gravidez e do Nascimento" />
+                                      <Label style="-fx-font-weight: bold;" text="CondiÃ§Ãµes da Gravidez e do Nascimento" />
 
                                       <Label text="Cidade de nascimento" />
                                       <TextField fx:id="cidadeNascimento" promptText="Digite" />
@@ -80,20 +80,20 @@
                                   </children>
                               </VBox>
 
-                              <!-- PRIMEIRAS REAÇÕES DO BEBÊ -->
+                              <!-- PRIMEIRAS REAÃ‡Ã•ES DO BEBÃŠ -->
                               <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                                   <padding>
                                       <Insets bottom="20" left="20" right="20" top="20" />
                                   </padding>
 
                                   <children>
-                                      <Label style="-fx-font-weight: bold;" text="Primeiras Reações do Bebê" />
+                                      <Label style="-fx-font-weight: bold;" text="Primeiras ReaÃ§Ãµes do BebÃª" />
 
                                       <Label text="Chorou?" />
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="chorouSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="chorouNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="chorouNao" mnemonicParsing="false" text="NÃ£o">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -105,7 +105,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="ficouRoxoSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="ficouRoxoNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="ficouRoxoNao" mnemonicParsing="false" text="NÃ£o">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -117,7 +117,7 @@
                               <HBox>
                                  <children>
                               <CheckBox fx:id="incubadoraSim" mnemonicParsing="false" text="Sim" />
-                              <CheckBox fx:id="incubadoraNao" mnemonicParsing="false" text="Não">
+                              <CheckBox fx:id="incubadoraNao" mnemonicParsing="false" text="NÃ£o">
                                   <HBox.margin>
                                      <Insets left="20.0" />
                                   </HBox.margin>
@@ -129,7 +129,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="amamentadoSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="amamentadoNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="amamentadoNao" mnemonicParsing="false" text="NÃ£o">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -162,11 +162,11 @@
                                  <children>
                                      <Label style="-fx-font-weight: bold;" text="Aspectos Desenvolvimento Psicomotor" />
       
-                                     <Label text="Sustentou a cabeça?" />
+                                     <Label text="Sustentou a cabeÃ§a?" />
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="sustentouCabecaSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="sustentouCabecaNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="sustentouCabecaNao" mnemonicParsing="false" text="NÃ£o">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>
@@ -180,7 +180,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="engatinhouSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="engatinhouNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="engatinhouNao" mnemonicParsing="false" text="NÃ£o">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
@@ -194,7 +194,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="sentouSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="sentouNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="sentouNao" mnemonicParsing="false" text="NÃ£o">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
@@ -208,7 +208,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="andouSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="andouNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="andouNao" mnemonicParsing="false" text="NÃ£o">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
@@ -222,7 +222,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="terapiaSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="terapiaNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="terapiaNao" mnemonicParsing="false" text="NÃ£o">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
@@ -236,7 +236,7 @@
                               <HBox>
                                  <children>
                                     <CheckBox fx:id="falouSim" mnemonicParsing="false" text="Sim" />
-                                    <CheckBox fx:id="falouNao" mnemonicParsing="false" text="Não">
+                                    <CheckBox fx:id="falouNao" mnemonicParsing="false" text="NÃ£o">
                                         <HBox.margin>
                                            <Insets left="20.0" />
                                         </HBox.margin>
@@ -250,10 +250,10 @@
                              </VBox>
             
             
-                            <!-- BOTÕES -->
+                            <!-- BOTÃ•ES -->
                             <HBox alignment="CENTER_RIGHT" spacing="20">
                                 <children>
-                                    <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                                    <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                                     <Button onAction="#handleGoToAnamnese1" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />
                                     <Button onAction="#handleGoToAnamnese3" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte" />
                                 </children>

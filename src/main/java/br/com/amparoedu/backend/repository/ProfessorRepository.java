@@ -11,11 +11,28 @@ import br.com.amparoedu.backend.model.Professor;
 
 public class ProfessorRepository {
 
+    public List<Professor> listarTodos() {
+        List<Professor> professores = new ArrayList<>();
+        String sql = "SELECT * FROM professores WHERE excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                professores.add(extrairProfessor(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return professores;
+    }
+
     public void salvar(Professor professor) {
         String sql = "INSERT INTO professores (id, nome, cpf, data_nascimento, genero, observacoes, sincronizado, excluido, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
+            System.out.println("Salvando professor: " + professor.getNome() + " | ID: " + professor.getId() + " | UsuarioID: " + professor.getUsuario_id());
+
             stmt.setString(1, professor.getId());
             stmt.setString(2, professor.getNome());
             stmt.setString(3, professor.getCpf());
@@ -26,9 +43,15 @@ public class ProfessorRepository {
             stmt.setInt(8, professor.getExcluido());
             stmt.setString(9, professor.getUsuario_id());
             
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Professor salvo com sucesso no banco.");
+            } else {
+                System.err.println("AVISO: Nenhum registro inserido na tabela professores.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar professor: " + e.getMessage(), e);
         }
     }
 
@@ -39,6 +62,24 @@ public class ProfessorRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairProfessor(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Busca por CPF
+    public Professor buscarPorCpf(String cpf) {
+        String sql = "SELECT * FROM professores WHERE cpf = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, cpf);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return extrairProfessor(rs);
@@ -69,6 +110,7 @@ public class ProfessorRepository {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Erro ao atualizar professor: " + e.getMessage(), e);
         }
     }
 

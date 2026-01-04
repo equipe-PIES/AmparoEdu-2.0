@@ -2,6 +2,7 @@ package br.com.amparoedu.backend.model;
 
 public class Educando {
     private String id;
+    private String turma_id;
     private String endereco_id;
     private String nome;
     private String cpf;
@@ -18,8 +19,9 @@ public class Educando {
     public Educando() {
     }
 
-    public Educando(String id, String endereco_id, String nome, String cpf, String data_nascimento, String genero, String grau_ensino, String cid, String nis, String escola, String observacoes, int sincronizado, int excluido) {
+    public Educando(String id, String turma_id, String endereco_id, String nome, String cpf, String data_nascimento, String genero, String grau_ensino, String cid, String nis, String escola, String observacoes, int sincronizado, int excluido) {
         this.id = id;
+        this.turma_id = turma_id;
         this.endereco_id = endereco_id;
         this.nome = nome;
         this.cpf = cpf;
@@ -36,6 +38,10 @@ public class Educando {
 
     public String getId() {
         return id;
+    }
+
+    public String getTurma_id() {
+        return turma_id;
     }
 
     public String getEndereco_id() {
@@ -88,6 +94,9 @@ public class Educando {
 
     public void setId(String id) {
         this.id = id;
+    }
+    public void setTurma_id(String turma_id) {
+        this.turma_id = turma_id;
     }
     public void setEndereco_id(String endereco_id) {
         this.endereco_id = endereco_id;

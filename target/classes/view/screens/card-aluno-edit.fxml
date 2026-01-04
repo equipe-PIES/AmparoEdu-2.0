@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="cardAluno" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="520.0" spacing="15.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 15;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.CardAlunoController">
+<VBox fx:id="cardAluno" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="520.0" spacing="15.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 15;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.CardAlunoEditController">
     <children>
         <HBox alignment="TOP_CENTER" prefHeight="124.0" prefWidth="418.0">
             <children>
@@ -50,8 +50,8 @@
                 <Insets />
             </VBox.margin>
          <children>
-            <Button fx:id="excluirAluno" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
-            <Button fx:id="editarAluno" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Editar" />
+            <Button fx:id="excluirAluno" onAction="#handleExcluir" mnemonicParsing="false" prefWidth="250.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
+            <Button fx:id="editarAluno" onAction="#handleEditar" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Editar" />
          </children>
         </HBox>
     </children>

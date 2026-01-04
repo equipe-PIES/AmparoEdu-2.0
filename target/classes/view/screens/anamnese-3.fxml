@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.AnamneseController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.AnamneseController">
 
     <!-- TOPO -->
     <top>
@@ -20,7 +20,7 @@
                <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                             <children>
-                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                                 <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                             </children>
                      <VBox.margin>
@@ -43,7 +43,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <ScrollPane fitToHeight="true" fitToWidth="true">
            <content>
@@ -61,14 +61,14 @@
                               <VBox spacing="20" HBox.hgrow="ALWAYS">
          <children>
 
-                                     <!-- COMUNICAÇÃO E LINGUAGEM -->
+                                     <!-- COMUNICAÃ‡ÃƒO E LINGUAGEM -->
                                      <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                                          <padding>
                                              <Insets bottom="20" left="20" right="20" top="20" />
                                          </padding>
 
                                          <children>
-                                             <Label style="-fx-font-weight: bold;" text="Comunicação e Linguagem" />
+                                             <Label style="-fx-font-weight: bold;" text="ComunicaÃ§Ã£o e Linguagem" />
 
                                              <Label text="Com quantos meses o primeiro balbucio?" />
                                              <ChoiceBox fx:id="balbucio" prefWidth="200.0" styleClass="campo-digite-selecione" />
@@ -82,11 +82,11 @@
                                              <Label text="Fala natural ou inibido?" />
                                              <ChoiceBox fx:id="tipoFala" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                             <Label text="Possui algum distúrbio?" />
+                                             <Label text="Possui algum distÃºrbio?" />
                                     <HBox>
                                        <children>
                                           <CheckBox fx:id="disturbioSim" mnemonicParsing="false" text="Sim" />
-                                          <CheckBox fx:id="disturbioNao" mnemonicParsing="false" text="Não">
+                                          <CheckBox fx:id="disturbioNao" mnemonicParsing="false" text="NÃ£o">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
@@ -98,14 +98,14 @@
                                          </children>
                                      </VBox>
 
-                                     <!-- SERVIÇOS -->
+                                     <!-- SERVIÃ‡OS -->
                                      <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                                          <padding>
                                              <Insets bottom="20" left="20" right="20" top="20" />
                                          </padding>
 
                                          <children>
-                                             <Label style="-fx-font-weight: bold;" text="Serviços de saúde ou educação que já frequentou" />
+                                             <Label style="-fx-font-weight: bold;" text="ServiÃ§os de saÃºde ou educaÃ§Ã£o que jÃ¡ frequentou" />
                                              <TextField fx:id="servicos" promptText="Digite" styleClass="campo-digite-selecione" />
                                          </children>
                                      </VBox>
@@ -154,18 +154,18 @@
                                              <Label text="Respeita regras?" />
                                              <ChoiceBox fx:id="respeitaRegras" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                             <Label text="É desmotivado?" />
+                                             <Label text="Ã‰ desmotivado?" />
                                              <ChoiceBox fx:id="desmotivado" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                             <Label text="É agressivo?" />
+                                             <Label text="Ã‰ agressivo?" />
                                              <ChoiceBox fx:id="agressivo" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                             <Label text="Apresenta iniquietação?" />
+                                             <Label text="Apresenta iniquietaÃ§Ã£o?" />
                                              <ChoiceBox fx:id="inquietacao" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                          </children>
                                      </VBox>
 
-                                   <!-- BOTÕES -->
+                                   <!-- BOTÃ•ES -->
                                    <HBox alignment="BOTTOM_RIGHT" spacing="20" VBox.vgrow="ALWAYS">
                                        <children>
                                            <Button onAction="#handleBackToAnamnese2" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />

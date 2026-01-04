@@ -26,7 +26,7 @@
                 </Button>
                   <VBox prefHeight="50.0" prefWidth="270.0">
                       <children>
-                          <Label id="nomeUsuario" fx:id="nomeUsuario" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                          <Label id="nomeUsuario" fx:id="nomeUsuario" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                           <Label id="cargoUsuario" fx:id="cargoUsuario" style="-fx-text-fill: #666;" text="Professora">
                      <VBox.margin>
                         <Insets />

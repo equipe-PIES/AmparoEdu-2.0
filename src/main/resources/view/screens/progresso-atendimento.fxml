@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane style="-fx-background-radius: 8; -fx-border-radius: 8;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.ProgressoAtendimentoController">
+<BorderPane style="-fx-background-radius: 8; -fx-border-radius: 8;" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.ProgressoAtendimentoController">
    <center>
       <HBox BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -45,12 +45,12 @@
                               <Insets />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="baixarRelatorioIndividual" mnemonicParsing="false" onAction="#handleViewRelatoriosAction" prefHeight="40.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Baixar Relatório Final">
+                        <Button fx:id="baixarRelatorioIndividual" mnemonicParsing="false" onAction="#handleViewRelatoriosAction" prefHeight="40.0" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Baixar RelatÃ³rio Final">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="iniciarRelatorioIndividual" mnemonicParsing="false" onAction="#handleIniciarRelatorioIndividualAction" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar Relatório Individual">
+                        <Button fx:id="iniciarRelatorioIndividual" mnemonicParsing="false" onAction="#handleIniciarRelatorioIndividualAction" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #26568c; -fx-text-fill: white;" styleClass="botao-cancelar-voltar-sair" text="Iniciar RelatÃ³rio Individual">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -70,7 +70,7 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Análise inicial do educando" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="AnÃ¡lise inicial do educando" />
                            </children>
                            <HBox.margin>
                               <Insets bottom="10.0" left="20.0" top="10.0" />
@@ -108,12 +108,12 @@
                      <children>
                         <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Diagnóstico Inicial">
+                              <Label text="DiagnÃ³stico Inicial">
                                  <font>
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Percepção advinda da anamnese" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PercepÃ§Ã£o advinda da anamnese" />
                            </children>
                            <HBox.margin>
                               <Insets bottom="10.0" left="20.0" top="10.0" />

@@ -9,6 +9,11 @@ public class DatabaseConfig {
     private static final String URL = "jdbc:sqlite:amparo_local.db";
 
     public static Connection getConnection() throws SQLException {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("Driver JDBC do SQLite não encontrado", e);
+        }
         Connection conn = DriverManager.getConnection(URL);
         
         conn.createStatement().execute("PRAGMA foreign_keys = ON;");
@@ -345,6 +350,19 @@ public class DatabaseConfig {
                             "FOREIGN KEY(professor_id) REFERENCES professores(id))");
 
             stmt.execute("COMMIT;");
+            
+            // --- ATUALIZAÇÕES DE ESQUEMA (MIGRAÇÕES) ---
+            try {
+                // Tenta adicionar colunas novas caso não existam
+                Statement migrationStmt = conn.createStatement();
+                try { migrationStmt.execute("ALTER TABLE educandos ADD COLUMN turma_id TEXT"); } catch (SQLException ignored) {}
+                try { migrationStmt.execute("ALTER TABLE turmas ADD COLUMN quantidade_alunos TEXT"); } catch (SQLException ignored) {}
+                try { migrationStmt.execute("ALTER TABLE professores ADD COLUMN usuario_id TEXT"); } catch (SQLException ignored) {}
+                try { migrationStmt.execute("ALTER TABLE professores ADD COLUMN excluido INTEGER DEFAULT 0"); } catch (SQLException ignored) {}
+            } catch (Exception e) {
+                System.err.println("Erro ao aplicar migrações: " + e.getMessage());
+            }
+
             System.out.println("Estrutura do AmparoEdu 2.0 inicializada com sucesso!");
 
         } catch (SQLException e) {

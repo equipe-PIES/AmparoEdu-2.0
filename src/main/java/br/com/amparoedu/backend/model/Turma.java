@@ -7,6 +7,7 @@ public class Turma {
     private String turno;
     private String grau_ensino;
     private String faixa_etaria;
+    private String quantidade_alunos;
     private int sincronizado;
     private int excluido;
     
@@ -14,13 +15,14 @@ public class Turma {
     public Turma() {
     }
 
-    public Turma(String id, String professor_id, String nome, String faixa_etaria, String grau_ensino, String turno, int sincronizado, int excluido) {
+    public Turma(String id, String professor_id, String nome, String faixa_etaria, String grau_ensino, String turno, String quantidade_alunos, int sincronizado, int excluido) {
         this.id = id;
         this.professor_id = professor_id;
         this.nome = nome;
         this.turno = turno;
         this.grau_ensino = grau_ensino;
         this.faixa_etaria = faixa_etaria;
+        this.quantidade_alunos = quantidade_alunos;
         this.sincronizado = sincronizado;
         this.excluido = excluido;
     }
@@ -42,6 +44,9 @@ public class Turma {
     }
     public String getFaixa_etaria() {
         return faixa_etaria;
+    }
+    public String getQuantidade_alunos() {
+        return quantidade_alunos;
     }
     public int getSincronizado() {
         return sincronizado;
@@ -68,6 +73,9 @@ public class Turma {
     }
     public void setFaixa_etaria(String faixa_etaria) {
         this.faixa_etaria = faixa_etaria;
+    }
+    public void setQuantidade_alunos(String quantidade_alunos) {
+        this.quantidade_alunos = quantidade_alunos;
     }
     public void setSincronizado(int sincronizado) {
         this.sincronizado = sincronizado;

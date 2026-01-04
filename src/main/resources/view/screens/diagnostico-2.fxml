@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.DIController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.DIController">
 
     <!-- TOPO -->
     <top>
@@ -23,7 +23,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -38,7 +38,7 @@
                     <children>
                         <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
                         <Button id="alunosButton" fx:id="alunosButton" styleClass="botao-topo" text="Alunos" />
-                        <Button id="relatoriosButton" fx:id="relatoriosButton" styleClass="botao-topo" text="Relatórios" />
+                        <Button id="relatoriosButton" fx:id="relatoriosButton" styleClass="botao-topo" text="RelatÃ³rios" />
                     </children>
                 </HBox>
             </children>
@@ -46,7 +46,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20" style="-fx-background-color: white;">
             <padding>
@@ -70,14 +70,14 @@
 
                     <children>
 
-                        <Label style="-fx-font-weight: bold;" text="Área Sensorial" />
+                        <Label style="-fx-font-weight: bold;" text="Ãrea Sensorial" />
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
                                         <CheckBox fx:id="captaDetalhesGravura" mnemonicParsing="false" text="Capta detalhes em gravura" />
                                         <CheckBox fx:id="reconheceVozes" mnemonicParsing="false" text="Reconhece vozes" />
-                                        <CheckBox fx:id="reconheceCancoes" mnemonicParsing="false" text="Reconhece canções" />
+                                        <CheckBox fx:id="reconheceCancoes" mnemonicParsing="false" text="Reconhece canÃ§Ãµes" />
                                         <CheckBox fx:id="percebeTexturas" mnemonicParsing="false" text="Percebe as texturas" />
                                     </children>
                                     <HBox.margin>
@@ -86,7 +86,7 @@
                                 </VBox>
                                 <VBox layoutX="20.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
-                                        <CheckBox fx:id="percepcaoCores" mnemonicParsing="false" text="Percepção de cores" />
+                                        <CheckBox fx:id="percepcaoCores" mnemonicParsing="false" text="PercepÃ§Ã£o de cores" />
                                         <CheckBox fx:id="discriminaSons" mnemonicParsing="false" text="Discrimina sons" />
                                         <CheckBox fx:id="discriminaOdores" mnemonicParsing="false" text="Discrimina odores" />
                                         <CheckBox fx:id="aceitaDiferentesTexturas" mnemonicParsing="false" text="Aceita diferentes texturas" />
@@ -94,8 +94,8 @@
                                 </VBox>
                                 <VBox layoutX="420.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
-                                        <CheckBox fx:id="percepcaoFormas" mnemonicParsing="false" text="Percepção de formas" />
-                                        <CheckBox fx:id="identificaDirecaoSom" mnemonicParsing="false" text="Identifica a direção do som" />
+                                        <CheckBox fx:id="percepcaoFormas" mnemonicParsing="false" text="PercepÃ§Ã£o de formas" />
+                                        <CheckBox fx:id="identificaDirecaoSom" mnemonicParsing="false" text="Identifica a direÃ§Ã£o do som" />
                                         <CheckBox fx:id="percebeDiscriminaSabores" mnemonicParsing="false" text="Percebe e discrimina sabores" />
                                         <CheckBox fx:id="acompanhaFocoLuminoso" mnemonicParsing="false" text="Acompanha foco luminoso" />
                                     </children>
@@ -108,15 +108,15 @@
                 </VBox>
                 <VBox layoutX="40.0" layoutY="95.0" prefHeight="220.0" spacing="12" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Área Motora" />
+                        <Label style="-fx-font-weight: bold;" text="Ãrea Motora" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
-                                        <CheckBox fx:id="movimentoPincaComTesoura" mnemonicParsing="false" text="Faz movimento de pinça com tesoura" />
+                                        <CheckBox fx:id="movimentoPincaComTesoura" mnemonicParsing="false" text="Faz movimento de pinÃ§a com tesoura" />
                                         <CheckBox fx:id="amassaPapel" mnemonicParsing="false" text="Amassa papel" />
                                         <CheckBox fx:id="caiComFacilidade" mnemonicParsing="false" text="Cai com facilidade" />
-                              <CheckBox fx:id="encaixaPecas" mnemonicParsing="false" text="Encaixa peças" />
+                              <CheckBox fx:id="encaixaPecas" mnemonicParsing="false" text="Encaixa peÃ§as" />
                                     </children>
                                     <HBox.margin>
                                         <Insets left="10.0" />
@@ -132,7 +132,7 @@
                                 </VBox>
                                 <VBox layoutX="420.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0" spacing="10.0">
                                     <children>
-                                        <CheckBox fx:id="agitacaoMotora" mnemonicParsing="false" text="Apresenta agitação motora" />
+                                        <CheckBox fx:id="agitacaoMotora" mnemonicParsing="false" text="Apresenta agitaÃ§Ã£o motora" />
                                         <CheckBox fx:id="andaLinhaReta" mnemonicParsing="false" text="Anda em linha reta" />
                                         <CheckBox fx:id="sobeDesceEscadas" mnemonicParsing="false" text="Sobe e desce escadas" />
                               <CheckBox fx:id="arremessaBola" mnemonicParsing="false" text="Arremessa bola" />
@@ -147,7 +147,7 @@
                 </VBox>
 
 
-                <!-- BOTÕES -->
+                <!-- BOTÃ•ES -->
                 <HBox alignment="CENTER_RIGHT" spacing="20" VBox.vgrow="ALWAYS">
                     <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
@@ -155,7 +155,7 @@
                               <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                      </children>
                   </HBox>
-                        <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                        <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                   <HBox alignment="BOTTOM_RIGHT" spacing="20.0">
                      <children>
                               <Button onAction="#handleBackAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />

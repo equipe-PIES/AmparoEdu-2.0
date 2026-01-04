@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.RelatorioIndividualController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.RelatorioIndividualController">
 
     <!-- TOPO -->
     <top>
@@ -24,7 +24,7 @@
                 </Button>
                 <VBox prefHeight="42.0" prefWidth="227.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                        <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                     </children>
                     <HBox.margin>
@@ -46,7 +46,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefViewportHeight="820.0" prefViewportWidth="1220.0">
          <content>
@@ -77,7 +77,7 @@
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
       
-                              <Label text="Introduza aqui um texto inicial, informando com que frequência semanal o educando participados atendimentos, o tempo de duração de cada atendimento e o objetivo geral dessas atividades." wrapText="true" />
+                              <Label text="Introduza aqui um texto inicial, informando com que frequÃªncia semanal o educando participados atendimentos, o tempo de duraÃ§Ã£o de cada atendimento e o objetivo geral dessas atividades." wrapText="true" />
                               <TextArea fx:id="dificuldadesRaciocinio" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
       
                           </children>
@@ -89,7 +89,7 @@
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
-                        <Label text="Refere-se às habilidades cognitivasrelacionadas à aprendizagem dos conteúdos curriculares propostos, por meio deatividades escritas, leituras, jogos e raciocínio lógico." wrapText="true" />
+                        <Label text="Refere-se Ã s habilidades cognitivasrelacionadas Ã  aprendizagem dos conteÃºdos curriculares propostos, por meio deatividades escritas, leituras, jogos e raciocÃ­nio lÃ³gico." wrapText="true" />
                         <TextArea fx:id="dificuldadesRaciocinio1" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                      </children>
                      <padding>
@@ -98,11 +98,11 @@
                   </VBox>
                   <VBox style="-fx-border-color: #ddd; -fx-border-radius: 5;">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Alfabetização e Letramento">
+                        <Label style="-fx-font-weight: bold;" text="AlfabetizaÃ§Ã£o e Letramento">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
-                        <Label text="Descreva detalhadamente como o alunofaz uso da leitura e da escrita e como se expressa em relação a essas atividades.Inclua também qual é o apoio oferecido para auxiliar o aluno nessas práticas." wrapText="true" VBox.vgrow="SOMETIMES" />
+                        <Label text="Descreva detalhadamente como o alunofaz uso da leitura e da escrita e como se expressa em relaÃ§Ã£o a essas atividades.Inclua tambÃ©m qual Ã© o apoio oferecido para auxiliar o aluno nessas prÃ¡ticas." wrapText="true" VBox.vgrow="SOMETIMES" />
                         <TextArea fx:id="dificuldadesRaciocinio11" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                      </children>
                      <padding>
@@ -114,7 +114,7 @@
                   </VBox>
       
       
-                      <!-- BOTÕES -->
+                      <!-- BOTÃ•ES -->
                       <HBox alignment="CENTER_RIGHT">
                           <children>
                         <HBox HBox.hgrow="ALWAYS">
@@ -122,7 +122,7 @@
                                     <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                            </children>
                         </HBox>
-                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                              <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                         <HBox spacing="20.0">
                            <children>
                                     <Button onAction="#handleBackAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />

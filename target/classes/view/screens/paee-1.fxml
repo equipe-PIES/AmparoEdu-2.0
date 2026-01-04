@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pies.projeto.integrado.piesfront.controllers.PAEEController">
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.PAEEController">
 
     <!-- TOPO -->
     <top>
@@ -24,7 +24,7 @@
                 </Button>
                   <VBox prefHeight="42.0" prefWidth="227.0">
                       <children>
-                          <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                          <Label id="nameUser" fx:id="nameUser" prefHeight="21.0" prefWidth="150.0" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
                           <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
                       </children>
                <HBox.margin>
@@ -46,7 +46,7 @@
     </top>
 
 
-    <!-- CONTEÚDO CENTRAL -->
+    <!-- CONTEÃšDO CENTRAL -->
     <center>
         <VBox spacing="20" style="-fx-background-color: white;">
             <padding>
@@ -79,7 +79,7 @@
 
                 </VBox>
 
-                <!-- ORGANIZAÇÃO DO ATENDIMENTO -->
+                <!-- ORGANIZAÃ‡ÃƒO DO ATENDIMENTO -->
                 <VBox spacing="12" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
 
                     <padding>
@@ -104,7 +104,7 @@
                               <Label text="Sensorial" />
                               <ChoiceBox fx:id="dificuldadesSensorialCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
-                                        <Label text="Linguagem oral/Comunicação" />
+                                        <Label text="Linguagem oral/ComunicaÃ§Ã£o" />
                               <ChoiceBox fx:id="dificuldadesLinguagemComunicacaoCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
@@ -120,7 +120,7 @@
 
                                         <Label text="Afetivo/Interpessoais" />
                               <ChoiceBox fx:id="dificuldadesAfetivoInterpessoaisCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
-                              <Label text="Raciocínio Lógico/Matemático" />
+                              <Label text="RaciocÃ­nio LÃ³gico/MatemÃ¡tico" />
                               <ChoiceBox fx:id="dificuldadesRaciocinioLogicoMatematicoCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
                               <Label text="AVAs" />
                               <ChoiceBox fx:id="dificuldadesAVAsCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
@@ -136,7 +136,7 @@
                 </VBox>
 
 
-                <!-- BOTÕES -->
+                <!-- BOTÃ•ES -->
                 <HBox alignment="CENTER_RIGHT" spacing="20" VBox.vgrow="ALWAYS">
                     <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
@@ -144,7 +144,7 @@
                               <Button onAction="#handleCancelAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                      </children>
                   </HBox>
-                        <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                        <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo estÃ¡ em branco. Preencha para prosseguir.</Label>
                   <HBox alignment="BOTTOM_RIGHT" spacing="20.0">
                      <children>
                               <Button onAction="#handleBackAction" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />
