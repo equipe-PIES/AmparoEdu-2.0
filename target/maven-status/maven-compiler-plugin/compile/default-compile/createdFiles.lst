@@ -1,9 +1,11 @@
 br\com\amparoedu\backend\service\TurmaService.class
+br\com\amparoedu\backend\model\PDI.class
 br\com\amparoedu\controller\InicioCoordController.class
 br\com\amparoedu\backend\model\Endereco.class
 br\com\amparoedu\backend\model\Turma.class
 br\com\amparoedu\backend\model\Responsavel.class
 br\com\amparoedu\backend\repository\AnamneseRepository.class
+br\com\amparoedu\backend\repository\PDIRepository.class
 br\com\amparoedu\backend\model\Usuario.class
 br\com\amparoedu\backend\repository\PopularDatabase.class
 br\com\amparoedu\backend\model\Professor.class
@@ -13,6 +15,7 @@ br\com\amparoedu\backend\model\TurmaEducando.class
 br\com\amparoedu\backend\repository\ProfessorRepository.class
 br\com\amparoedu\backend\service\EducandoService.class
 br\com\amparoedu\backend\repository\SupabaseClient.class
+br\com\amparoedu\controller\InicioProfController.class
 br\com\amparoedu\controller\CardTurmaController.class
 br\com\amparoedu\backend\repository\DatabaseConfig.class
 br\com\amparoedu\backend\repository\EnderecoRepository.class
@@ -27,4 +30,6 @@ br\com\amparoedu\backend\repository\ResponsavelRepository.class
 br\com\amparoedu\backend\repository\TurmaEducandoRepository.class
 br\com\amparoedu\backend\service\AnamneseService.class
 br\com\amparoedu\backend\service\ProfessorService.class
+br\com\amparoedu\backend\service\PDIService.class
+br\com\amparoedu\controller\CadastroEducandoController.class
 br\com\amparoedu\Main.class

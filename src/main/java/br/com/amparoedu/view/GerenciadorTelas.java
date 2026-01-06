@@ -7,9 +7,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GerenciadorTelas {
+    private static GerenciadorTelas instance;
     private static Stage stage;
 
-    // Configura o Stage principal
+    private GerenciadorTelas() {
+    }
+
+    public static GerenciadorTelas getInstance() {
+        if (instance == null) {
+            instance = new GerenciadorTelas();
+        }
+        return instance;
+    }
+
+    // Mantém métodos estáticos para compatibilidade
     public static void setStage(Stage primaryStage) {
         stage = primaryStage;
         stage.setMaximized(false);
@@ -19,13 +30,13 @@ public class GerenciadorTelas {
         try {
             String path = "/view/screens/" + fxmlFile;
             Parent root = FXMLLoader.load(GerenciadorTelas.class.getResource(path));
-            
+
             if (stage.getScene() == null) {
                 stage.setScene(new Scene(root));
             } else {
                 stage.getScene().setRoot(root);
             }
-            
+
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
