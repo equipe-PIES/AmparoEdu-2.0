@@ -9,6 +9,7 @@ br\com\amparoedu\backend\repository\PopularDatabase.class
 br\com\amparoedu\backend\service\PAEEService.class
 br\com\amparoedu\backend\model\TurmaEducando.class
 br\com\amparoedu\backend\repository\ProfessorRepository.class
+br\com\amparoedu\controller\AnamneseController$ModoAnamnese.class
 br\com\amparoedu\backend\model\DI.class
 br\com\amparoedu\backend\repository\DIRepository.class
 br\com\amparoedu\backend\repository\SupabaseClient.class
