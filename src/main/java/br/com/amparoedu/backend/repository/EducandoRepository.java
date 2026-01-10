@@ -12,20 +12,7 @@ public class EducandoRepository {
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, educando.getId());
-            stmt.setString(2, educando.getEndereco_id());
-            stmt.setString(3, educando.getNome());
-            stmt.setString(4, educando.getCpf());
-            stmt.setString(5, educando.getData_nascimento());
-            stmt.setString(6, educando.getGenero());
-            stmt.setString(7, educando.getGrau_ensino());
-            stmt.setString(8, educando.getCid());
-            stmt.setString(9, educando.getNis());
-            stmt.setString(10, educando.getEscola());
-            stmt.setString(11, educando.getObservacoes());
-            stmt.setInt(12, educando.getSincronizado());
-            stmt.setInt(13, educando.getExcluido());
-            
+            setStatementParameters(stmt, educando, true);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,20 +25,8 @@ public class EducandoRepository {
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, educando.getEndereco_id());
-            stmt.setString(2, educando.getNome());
-            stmt.setString(3, educando.getCpf());
-            stmt.setString(4, educando.getData_nascimento());
-            stmt.setString(5, educando.getGenero());
-            stmt.setString(6, educando.getGrau_ensino());
-            stmt.setString(7, educando.getCid());
-            stmt.setString(8, educando.getNis());
-            stmt.setString(9, educando.getEscola());
-            stmt.setString(10, educando.getObservacoes());
-            stmt.setInt(11, educando.getSincronizado());
-            stmt.setInt(12, educando.getExcluido());
+            setStatementParameters(stmt, educando, false);
             stmt.setString(13, educando.getId());
-            
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +35,7 @@ public class EducandoRepository {
 
     // Exclusão lógica de um educando
     public void excluir(String id) {
-        String sql = "UPDATE educandos SET excluido = 1 WHERE id = ?";
+        String sql = "UPDATE educandos SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -89,10 +64,28 @@ public class EducandoRepository {
         return null;
     }
 
+    // buscar por turma
+    public List<Educando> buscarPorTurma(String turmaId) {
+        List<Educando> lista = new ArrayList<>();
+        String sql = "SELECT e.* FROM educandos e " +
+                    "JOIN turma_educando te ON e.id = te.educando_id " +
+                    "WHERE te.turma_id = ? AND te.excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, turmaId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(extrairEducando(rs));
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return lista;
+    }
+
     // Busca educandos não sincronizados
     public List<Educando> buscarNaoSincronizados() {
         List<Educando> educandos = new ArrayList<>();
-        String sql = "SELECT * FROM educandos WHERE sincronizado = 0";
+        String sql = "SELECT * FROM educandos WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -108,10 +101,11 @@ public class EducandoRepository {
 
     // Atualiza o status de sincronização
     public void atualizarSincronizacao(String id, int sincronizado) {
-        String sql = "UPDATE educandos SET sincronizado = 1 WHERE id = ?";
+        String sql = "UPDATE educandos SET sincronizado = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, id);
+            stmt.setInt(1, sincronizado);
+            stmt.setString(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,6 +129,28 @@ public class EducandoRepository {
             rs.getInt("sincronizado"),
             rs.getInt("excluido")
         );
+    }
+
+    // Método auxiliar para setar parâmetros do PreparedStatement
+    private void setStatementParameters(PreparedStatement stmt, Educando educando, boolean isInsert) throws SQLException {
+        int index = 1;
+
+        if (isInsert) {
+            stmt.setString(index++, educando.getId());
+        }
+
+        stmt.setString(index++, educando.getEndereco_id());
+        stmt.setString(index++, educando.getNome());
+        stmt.setString(index++, educando.getCpf());
+        stmt.setString(index++, educando.getData_nascimento());
+        stmt.setString(index++, educando.getGenero());
+        stmt.setString(index++, educando.getGrau_ensino());
+        stmt.setString(index++, educando.getCid());
+        stmt.setString(index++, educando.getNis());
+        stmt.setString(index++, educando.getEscola());
+        stmt.setString(index++, educando.getObservacoes());
+        stmt.setInt(index++, educando.getSincronizado());
+        stmt.setInt(index++, educando.getExcluido());
     }
 
 }

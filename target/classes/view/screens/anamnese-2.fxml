@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="anamnese" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.AnamneseController">
+   <fx:define>
+      <ToggleGroup fx:id="chorouGroup" />
+      <ToggleGroup fx:id="ficouRoxoGroup" />
+      <ToggleGroup fx:id="incubadoraGroup" />
+      <ToggleGroup fx:id="amamentadoGroup" />
+      <ToggleGroup fx:id="sustentouCabecaGroup" />
+      <ToggleGroup fx:id="engatinhouGroup" />
+      <ToggleGroup fx:id="sentouGroup" />
+      <ToggleGroup fx:id="andouGroup" />
+      <ToggleGroup fx:id="terapiaGroup" />
+      <ToggleGroup fx:id="falouGroup" />
+   </fx:define>
+
+    <!-- TOPO -->
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #ffffff;">
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <children>
+                <Region prefHeight="60.0" prefWidth="15.0" />
+
+                            <Button id="sairButton" fx:id="btnSair" onAction="#btnSairClick" prefWidth="100.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+                <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="140.0">
+               <children>
+                        <VBox prefHeight="82.0" prefWidth="168.0">
+                            <children>
+                                <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
+                                <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Professora" />
+                            </children>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin>
+                        </VBox>
+               </children>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <children>
+                        <Button id="turmasButton" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <Button id="alunosButton" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+    </top>
+
+
+    <!-- CONTEÚDO CENTRAL -->
+    <center>
+        <ScrollPane fitToWidth="true" prefWidth="1220.0" style="-fx-background-color: white;">
+            <VBox prefHeight="837.0" prefWidth="1211.0" spacing="20" style="-fx-background-color: white;">
+                <padding>
+                    <Insets bottom="20" left="30" right="30" top="30" />
+                </padding>
+
+                <children>
+
+                <HBox spacing="20" VBox.vgrow="ALWAYS">
+   <children>
+
+                       <!-- COLUNA ESQUERDA -->
+                       <VBox spacing="20" HBox.hgrow="ALWAYS">
+      <children>
+
+                              <!-- CONDIÇÕES DA GRAVIDEZ E DO NASCIMENTO -->
+                              <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+                                  <padding>
+                                      <Insets bottom="20" left="20" right="20" top="20" />
+                                  </padding>
+
+                                  <children>
+                                      <Label style="-fx-font-weight: bold;" text="Condições da Gravidez e do Nascimento" />
+
+                                      <Label text="Cidade de nascimento" />
+                                      <TextField fx:id="cidadeNascimento" promptText="Digite" />
+
+                                      <Label text="Maternidade em que nasceu" />
+                                      <TextField fx:id="maternidade" promptText="Digite" styleClass="campo-digite-selecione" />
+
+                                      <Label text="Tipo de parto" />
+                              <ChoiceBox fx:id="tipoParto" prefWidth="200.0" styleClass="campo-digite-selecione">
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor></ChoiceBox>
+                                  </children>
+                              </VBox>
+
+                              <!-- PRIMEIRAS REAÇÕES DO BEBÊ -->
+                              <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+                                  <padding>
+                                      <Insets bottom="20" left="20" right="20" top="20" />
+                                  </padding>
+
+                                  <children>
+                                      <Label style="-fx-font-weight: bold;" text="Primeiras Reações do Bebê" />
+
+                                      <Label text="Chorou?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="chorouSim" mnemonicParsing="false" text="Sim" toggleGroup="$chorouGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="chorouNao" mnemonicParsing="false" text="Não" toggleGroup="$chorouGroup">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                    </RadioButton>
+                                 </children>
+                              </HBox>
+
+                                      <Label text="Ficou roxo?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="ficouRoxoSim" mnemonicParsing="false" text="Sim" toggleGroup="$ficouRoxoGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="ficouRoxoNao" mnemonicParsing="false" text="Não" toggleGroup="$ficouRoxoGroup">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </RadioButton>
+                                 </children>
+                              </HBox>
+
+                                      <Label text="Fez uso de incubadora?" />
+                              <HBox>
+                                 <children>
+                              <RadioButton fx:id="incubadoraSim" mnemonicParsing="false" text="Sim" toggleGroup="$incubadoraGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                              <RadioButton fx:id="incubadoraNao" mnemonicParsing="false" text="Não" toggleGroup="$incubadoraGroup">
+                                  <HBox.margin>
+                                     <Insets left="20.0" />
+                                  </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                               </RadioButton>
+                                 </children>
+                              </HBox>
+
+                                      <Label text="Foi amamentado?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="amamentadoSim" mnemonicParsing="false" text="Sim" toggleGroup="$amamentadoGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="amamentadoNao" mnemonicParsing="false" text="Não" toggleGroup="$amamentadoGroup">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                    </RadioButton>
+                                 </children>
+                              </HBox>
+                                  </children>
+                              </VBox>
+                           <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                              <children>
+                                    <Button fx:id="btnCancelar" onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar">
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor></Button>
+                              </children>
+                           </HBox>
+      </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+
+                       </VBox>
+                     <VBox spacing="20.0">
+                        <children>
+      
+      
+                             <!-- COLUNA DIREITA -->
+                             <VBox spacing="10.0" style="-fx-border-color: #ddd; -fx-border-radius: 5;">
+                                 <padding>
+                                     <Insets bottom="20" left="20" right="20" top="20" />
+                                 </padding>
+      
+                                 <children>
+                                     <Label style="-fx-font-weight: bold;" text="Aspectos Desenvolvimento Psicomotor" />
+      
+                                     <Label text="Sustentou a cabeça?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="sustentouCabecaSim" mnemonicParsing="false" text="Sim" toggleGroup="$sustentouCabecaGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="sustentouCabecaNao" mnemonicParsing="false" text="Não" toggleGroup="$sustentouCabecaGroup">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                    </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblSustentouCabecaMeses" text="Com quantos meses?" />
+                                     <TextField fx:id="sustentouCabeca" promptText="Digite" styleClass="campo-digite-selecione" />
+      
+                                     <Label text="Engatinhou?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="engatinhouSim" mnemonicParsing="false" text="Sim" toggleGroup="$engatinhouGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="engatinhouNao" mnemonicParsing="false" text="Não" toggleGroup="$engatinhouGroup">
+                                        <HBox.margin>
+                                           <Insets left="20.0" />
+                                        </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                     </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblEngatinhouMeses" text="Com quantos meses?" />
+                                     <TextField fx:id="engatinhou" promptText="Digite" styleClass="campo-digite-selecione" />
+      
+                                     <Label text="Sentou?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="sentouSim" mnemonicParsing="false" text="Sim" toggleGroup="$sentouGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="sentouNao" mnemonicParsing="false" text="Não" toggleGroup="$sentouGroup">
+                                        <HBox.margin>
+                                           <Insets left="20.0" />
+                                        </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                     </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblSentouMeses" text="Com quantos meses?" />
+                                     <TextField fx:id="sentou" promptText="Digite" styleClass="campo-digite-selecione" />
+      
+                                     <Label text="Andou? " />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="andouSim" mnemonicParsing="false" text="Sim" toggleGroup="$andouGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="andouNao" mnemonicParsing="false" text="Não" toggleGroup="$andouGroup">
+                                        <HBox.margin>
+                                           <Insets left="20.0" />
+                                        </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                     </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblAndouMeses" text="Com quantos meses?" />
+                                     <TextField fx:id="andou" promptText="Digite" styleClass="campo-digite-selecione" />
+      
+                                     <Label text="Precisou de terapia? " />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="terapiaSim" mnemonicParsing="false" text="Sim" toggleGroup="$terapiaGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="terapiaNao" mnemonicParsing="false" text="Não" toggleGroup="$terapiaGroup">
+                                        <HBox.margin>
+                                           <Insets left="20.0" />
+                                        </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                     </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblTerapiaMotivo" text="Qual o motivo?" />
+                                     <TextField fx:id="terapia" promptText="Digite" styleClass="campo-digite-selecione" />
+      
+                                     <Label text="Falou?" />
+                              <HBox>
+                                 <children>
+                                    <RadioButton fx:id="falouSim" mnemonicParsing="false" text="Sim" toggleGroup="$falouGroup">
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor></RadioButton>
+                                    <RadioButton fx:id="falouNao" mnemonicParsing="false" text="Não" toggleGroup="$falouGroup">
+                                        <HBox.margin>
+                                           <Insets left="20.0" />
+                                        </HBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                     </RadioButton>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="lblFalouMeses" text="Com quantos meses?" />
+                                     <TextField fx:id="falou" promptText="Digite" styleClass="campo-digite-selecione" />
+                                 </children>
+      
+                             </VBox>
+            
+            
+                            <!-- BOTÕES -->
+                            <HBox alignment="CENTER_RIGHT" spacing="20">
+                                <children>
+                                    <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
+                                    <Button fx:id="btnAnterior" onAction="#btnAnteriorClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar">
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor></Button>
+                                    <Button fx:id="btnSeguinte" onAction="#btnSeguinteClick" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte">
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor></Button>
+                                </children>
+                            </HBox>
+                        </children>
+                     </VBox>
+   </children>
+
+                </HBox>
+
+            </children>
+        </VBox>
+        </ScrollPane>
+    </center>
+
+
+</BorderPane>

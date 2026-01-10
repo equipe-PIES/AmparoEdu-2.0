@@ -13,13 +13,19 @@ public class Main extends Application {
         // 1. Prepara o Banco e os dados iniciais
         DatabaseConfig.inicializarBanco();
         PopularDatabase.popularDadosIniciais();
+        // Dados de teste para os documentos. Insira o id do educando que será relacionado e o do professor
+        //PopularDatabase.adicionarAnamnese("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        //PopularDatabase.adicionarPDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        //PopularDatabase.adicionarPAEE("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        //PopularDatabase.adicionarDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        //PopularDatabase.adicionarRI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
         
         // 2. Configura o gerenciador de telas
         GerenciadorTelas.setStage(primaryStage);
         primaryStage.setTitle("AmparoEdu - Sistema de Gestão Escolar");
 
         // 3. Abre a tela de login
-        GerenciadorTelas.trocarTela("tela-de-login.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
 
         primaryStage.setMaximized(true);
         primaryStage.show();

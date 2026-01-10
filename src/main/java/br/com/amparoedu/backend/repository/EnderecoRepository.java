@@ -52,9 +52,9 @@ public class EnderecoRepository {
         }
     }
 
-    // exclusao lógica de um endereco
-    public void excluirLogicamente(String id) {
-        String sql = "UPDATE enderecos SET excluido = 1 WHERE id = ?";
+    // Exclusão lógica de um endereco
+    public void excluir(String id) {
+        String sql = "UPDATE enderecos SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -83,9 +83,27 @@ public class EnderecoRepository {
         return null;
     }
 
+    // buscar por educando
+    public Endereco buscarPorEducando(String educandoId) {
+        String sql = "SELECT e.* FROM enderecos e JOIN educandos ed ON e.id = ed.endereco_id WHERE ed.id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, educandoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairEndereco(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Buscar não sincronizados
     public List<Endereco> buscarNaoSincronizados() {
-        String sql = "SELECT * FROM enderecos WHERE sincronizado = 0";
+        String sql = "SELECT * FROM enderecos WHERE sincronizado = 0 AND excluido = 0";
         List<Endereco> enderecos = new ArrayList<>();
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -101,12 +119,13 @@ public class EnderecoRepository {
     }
 
     // Atualiza o status de sincronização
-    public void atualizarSincronizacao(String id, int status) {
-        String sql = "UPDATE enderecos SET sincronizado = 1 WHERE id = ?";
+    public void atualizarSincronizacao(String id, int sincronizado) {
+        String sql = "UPDATE enderecos SET sincronizado = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, id);
+            stmt.setInt(1, sincronizado);
+            stmt.setString(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -65,7 +65,7 @@ public class AnamneseRepository {
     
     // Exclusão lógica de uma anamnese
     public void excluir(String id) {
-        String sql = "UPDATE anamneses SET excluido = 1 WHERE id = ?";
+        String sql = "UPDATE anamneses SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -116,7 +116,7 @@ public class AnamneseRepository {
     // Busca anamneses não sincronizadas
     public List<Anamnese> buscarNaoSincronizados() {
         List<Anamnese> anamneses = new ArrayList<>();
-        String sql = "SELECT * FROM anamneses WHERE sincronizado = 0";
+        String sql = "SELECT * FROM anamneses WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

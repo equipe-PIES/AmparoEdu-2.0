@@ -49,9 +49,9 @@ public class ResponsavelRepository {
         }
     }
 
-    // Exclusao lógica de um responsavel
-    public void excluirLogicamente(String id) {
-        String sql = "UPDATE responsaveis SET excluido = 1 WHERE id = ?";
+    // Exclusão lógica de um responsavel
+    public void excluir(String id) {
+        String sql = "UPDATE responsaveis SET excluido = 1, sincronizado = 0 WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -80,10 +80,28 @@ public class ResponsavelRepository {
         return null;
     }
 
+    // Buscar por educando
+    public Responsavel buscarPorEducando(String educandoId) {
+        String sql = "SELECT * FROM responsaveis WHERE educando_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, educandoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairResponsavel(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Buscar não sincronizados
     public List<Responsavel> buscarNaoSincronizados() {
         List<Responsavel> responsaveis = new ArrayList<>();
-        String sql = "SELECT * FROM responsaveis WHERE sincronizado = 0";
+        String sql = "SELECT * FROM responsaveis WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -98,11 +116,12 @@ public class ResponsavelRepository {
     }
 
     // Atualiza o status de sincronização
-    public void atualizarSincronizacao(String id, int status) {
-        String sql = "UPDATE responsaveis SET sincronizado = 1 WHERE id = ?";
+    public void atualizarSincronizacao(String id, int sincronizado) {
+        String sql = "UPDATE responsaveis SET sincronizado = ? WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, id);
+            stmt.setInt(1, sincronizado);
+            stmt.setString(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

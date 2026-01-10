@@ -64,6 +64,16 @@ public class TurmaRepository {
         } catch (SQLException e) { e.printStackTrace(); }
     }
 
+    // Exclusão lógica de uma turma
+    public void excluir(String id) {
+        String sql = "UPDATE turmas SET excluido = 1, sincronizado = 0 WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
     // buscar turmas não sincronizadas
     public List<Turma> buscarNaoSincronizados() {
         List<Turma> turmas = new ArrayList<>();

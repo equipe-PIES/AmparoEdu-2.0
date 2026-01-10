@@ -32,23 +32,24 @@ public class PDIRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             setStatementParameters(stmt, pdi, false);
+            stmt.setString(20, pdi.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    //exclusão lógica
+    // Exclusão lógica de um PDI
     public void excluir(String id) {
-            String sql = "UPDATE pdis SET excluido = 1 WHERE id = ?";
-            try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-                
-                stmt.setString(1, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        String sql = "UPDATE pdis SET excluido = 1, sincronizado = 0 WHERE id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // buscar por ID
@@ -91,7 +92,7 @@ public class PDIRepository {
     // Busca PDIs não sincronizados
     public List<PDI> buscarNaoSincronizados() {
         List<PDI> pdis = new ArrayList<>();
-        String sql = "SELECT * FROM pdis WHERE sincronizado = 0";
+        String sql = "SELECT * FROM pdis WHERE sincronizado = 0 AND excluido = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -126,7 +127,6 @@ public class PDIRepository {
             stmt.setString(index++, pdi.getId());
         }
         
-        stmt.setString(index++, pdi.getId());
         stmt.setString(index++, pdi.getEducandoId());
         stmt.setString(index++, pdi.getProfessorId());
         stmt.setString(index++, pdi.getDataCriacao());
