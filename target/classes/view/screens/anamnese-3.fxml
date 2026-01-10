@@ -28,7 +28,7 @@
             <children>
                 <Region prefHeight="60.0" prefWidth="15.0" />
 
-                            <Button id="sairButton" fx:id="sairButton" onAction="#handleSairButtonAction" prefWidth="100.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair" />
+                            <Button id="sairButton" fx:id="btnSair" onAction="#btnSairClick" prefWidth="100.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Sair" />
                 <VBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="140.0">
                <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -47,8 +47,8 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
-                        <Button id="alunosButton" fx:id="alunosButton" styleClass="botao-topo" text="Alunos" />
+                        <Button id="turmasButton" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
+                        <Button id="alunosButton" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />
                     </children>
                 </HBox>
             </children>

@@ -4,6 +4,7 @@ import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Endereco;
 import br.com.amparoedu.backend.model.Responsavel;
 import br.com.amparoedu.backend.model.PDI;
+import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.repository.EnderecoRepository;
 import br.com.amparoedu.backend.repository.PDIRepository;
 import br.com.amparoedu.backend.repository.ResponsavelRepository;
@@ -31,9 +32,10 @@ public class CardAlunoController {
 	@FXML private Button btnVerProgresso;
 
 	private Educando educando;
-	private ResponsavelRepository responsavelRepo;
-	private EnderecoRepository enderecoRepo;
-	private PDIRepository pdiRepo;
+    private Turma turma;
+    private ResponsavelRepository responsavelRepo;
+    private EnderecoRepository enderecoRepo;
+    private PDIRepository pdiRepo;
 
     public CardAlunoController() {
         this.responsavelRepo = new ResponsavelRepository();
@@ -53,6 +55,10 @@ public class CardAlunoController {
 		cidLabel.setText("CID: " + nullSafe(educando.getCid()));
 		grauEscolaridadeLabel.setText("Grau de escolaridade: " + nullSafe(educando.getGrau_ensino()));
 	}
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
+    }
 
 	private Responsavel getResponsavel() {
 		if (educando == null) return null;
@@ -107,6 +113,7 @@ public class CardAlunoController {
 			Parent root = loader.load();
 			ProgressoAtendimentoController controller = loader.getController();
 			controller.setEducando(this.educando);
+			controller.setTurma(this.turma);
 			GerenciadorTelas.abrirPopup(root, "Progresso do Atendimento");
 		} catch (IOException e) {
 			System.err.println("Erro ao carregar a tela de progresso do atendimento.");

@@ -1,6 +1,7 @@
 package br.com.amparoedu.controller;
 
 import br.com.amparoedu.backend.model.Educando;
+import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 public class ProgressoAtendimentoController {
 
     private Educando educando;
+    private Turma turma;
 
     @FXML private Button criarRI, editarRI, excluirRI, baixarRI;
     @FXML private Button criarAnamnese, editarAnamnese, verAnamnese, excluirAnamnese;
@@ -23,6 +25,10 @@ public class ProgressoAtendimentoController {
         atualizarInterface();
     }
 
+    public void setTurma(Turma turma) {
+        this.turma = turma;
+    }
+
     private void atualizarInterface() {
         if (educando != null) {
             // Habilitar ou desabilitar botões com base nos dados do educando
@@ -32,7 +38,24 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnCriarAnamneseClick() {
-        /* Lógica para Anamnese */
+        if (educando == null || educando.getId() == null) {
+            System.err.println("Erro: Educando não definido ou sem ID.");
+            return;
+        }
+        
+        // Inicializa nova anamnese e define o ID do educando
+        AnamneseController.iniciarNovaAnamnese();
+        AnamneseController.setEducandoIdParaAnamnese(educando.getId());
+        if (turma != null && turma.getId() != null) {
+            AnamneseController.setTurmaOrigem(turma.getId());
+        }
+        
+        // Fecha o popup de progresso antes de abrir a anamnese
+        Stage popupStage = (Stage) criarAnamnese.getScene().getWindow();
+        popupStage.close();
+
+        // Abre a primeira tela de anamnese
+        GerenciadorTelas.trocarTela("anamnese-1.fxml");
     }
 
     @FXML
