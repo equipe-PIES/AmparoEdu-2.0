@@ -61,6 +61,34 @@ public class Anamnese {
     private int excluido;
 
     public Anamnese() {
+        // Inicializa valores padrão para campos NOT NULL
+        this.nome_convenio = "";
+        this.quais_doencas = "";
+        this.quais_medicacoes = "";
+        this.quais_servicos = "";
+        this.inicio_escolarizacao = "";
+        this.quais_dificuldades = "";
+        this.apoio_quem = "";
+        this.duracao_da_gestacao = "";
+        this.causa_prematuridade = "";
+        this.cidade_nascimento = "";
+        this.maternidade = "";
+        this.tipo_parto = "";
+        this.quantos_meses_sustentou_cabeca = "";
+        this.quantos_meses_engatinhou = "";
+        this.quantos_meses_sentou = "";
+        this.quantos_meses_andou = "";
+        this.qual_motivo_terapia = "";
+        this.quantos_meses_falou = "";
+        this.quantos_meses_balbuciou = "";
+        this.quando_primeiras_palavras = "";
+        this.quando_primeiras_frases = "";
+        this.fala_natural_inibido = "";
+        this.qual_disturbio = "";
+        this.observacoes_adicionais = "";
+        this.sono_calmo_agitado = "";
+        this.sincronizado = 0;
+        this.excluido = 0;
     }
 
     public Anamnese(String id, String educando_id, String professor_id, String data_criacao, int tem_convulsao, int tem_convenio_medico, String nome_convenio, int vacinas_em_dia, int teve_doenca_contagiosa, String quais_doencas, int usa_medicacao, String quais_medicacoes, int usou_servico_saude_educacao, String quais_servicos, String inicio_escolarizacao, int apresenta_dificuldades, String quais_dificuldades, int recebe_apoio_pedagogico_casa, String apoio_quem, String duracao_da_gestacao, int fez_prenatal, int houve_prematuridade, String causa_prematuridade, String cidade_nascimento, String maternidade, String tipo_parto, int chorou_ao_nascer, int ficou_roxo, int usou_incubadora, int foi_amamentado, int sustentou_a_cabeca, String quantos_meses_sustentou_cabeca, int engatinhou, String quantos_meses_engatinhou, int sentou, String quantos_meses_sentou, int andou, String quantos_meses_andou, int precisou_de_terapia, String qual_motivo_terapia, int falou, String quantos_meses_falou, String quantos_meses_balbuciou, String quando_primeiras_palavras, String quando_primeiras_frases, String fala_natural_inibido, int possui_disturbio, String qual_disturbio, String observacoes_adicionais, int dorme_sozinho, int tem_seu_quarto, String sono_calmo_agitado, int respeita_regras, int e_desmotivado, int e_agressivo, int apresenta_inquietacao, int sincronizado, int excluido) {

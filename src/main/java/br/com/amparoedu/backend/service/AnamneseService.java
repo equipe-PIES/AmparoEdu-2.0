@@ -11,6 +11,22 @@ public class AnamneseService {
     private final AnamneseRepository anamneseRepo = new AnamneseRepository();
     private final EducandoRepository educandoRepo = new EducandoRepository();
 
+    // Busca um professor válido no banco
+    public String buscarProfessorValido() {
+        String sql = "SELECT id FROM professores LIMIT 1";
+        try (java.sql.Connection conn = br.com.amparoedu.backend.repository.DatabaseConfig.getConnection();
+             java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+             java.sql.ResultSet rs = stmt.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getString("id");
+            }
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean cadastrarNovaAnamnese(Anamnese anamnese) throws Exception {
 
         // Validação se o educando existe
@@ -30,12 +46,10 @@ public class AnamneseService {
             // Salva no banco
             anamneseRepo.salvar(anamnese);
 
-            System.out.println("Anamnese cadastrada com sucesso para o educando: " + anamnese.getEducando_id());
             return true;
             
         } catch (Exception e) {
-            System.err.println("Erro ao cadastrar anamnese: " + e.getMessage());
-            return false;
+            throw e;
         }
     }
 

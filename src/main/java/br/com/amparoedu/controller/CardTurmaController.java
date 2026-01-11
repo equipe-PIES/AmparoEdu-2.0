@@ -31,7 +31,7 @@ public class CardTurmaController {
     }
 
     @FXML
-    private void handleVerificarTurmaAction() {
+    private void btnVerificarTurmaClick() {
         try {
             // Carrega a tela de visualização da turma
             FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");

@@ -17,7 +17,7 @@ public class ProfessorService {
         String usuarioId = UUID.randomUUID().toString();
 
         // Define o ID e sincronização do usuario
-         usuario.setId(usuarioId);
+        usuario.setId(usuarioId);
         usuario.setSincronizado(0);
 
         // Vincula o usuário ao professor criado

@@ -382,7 +382,7 @@
                                     <HBox alignment="BOTTOM_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
                                         <children>
                                             <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
-                                            <Button fx:id="btnSeguinte" mnemonicParsing="false" onAction="#btnSeguinteClick" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte">
+                                            <Button fx:id="btnSeguinte" mnemonicParsing="false" onAction="#btnSeguinte2Click" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte">
                                     <cursor>
                                        <Cursor fx:constant="HAND" />
                                     </cursor></Button>

@@ -348,11 +348,11 @@
                             <HBox alignment="CENTER_RIGHT" spacing="20">
                                 <children>
                                     <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
-                                    <Button fx:id="btnAnterior" onAction="#btnAnteriorClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar">
+                                    <Button fx:id="btnAnterior" onAction="#btnAnterior1Click" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar">
                                     <cursor>
                                        <Cursor fx:constant="HAND" />
                                     </cursor></Button>
-                                    <Button fx:id="btnSeguinte" onAction="#btnSeguinteClick" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte">
+                                    <Button fx:id="btnSeguinte" onAction="#btnSeguinte3Click" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte">
                                     <cursor>
                                        <Cursor fx:constant="HAND" />
                                     </cursor></Button>

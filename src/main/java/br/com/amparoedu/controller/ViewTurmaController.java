@@ -63,6 +63,7 @@ public class ViewTurmaController {
                 // pega o controlador do card e passa o objeto Educando
                 CardAlunoController controller = loader.getController();
                 controller.setEducando(aluno);
+                controller.setTurma(turmaAtual);
 
                 // armazena o objeto no card para usar na busca
                 card.setUserData(aluno);
