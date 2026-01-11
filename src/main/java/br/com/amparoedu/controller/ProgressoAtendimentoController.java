@@ -38,7 +38,26 @@ public class ProgressoAtendimentoController {
 
     public void setEducando(Educando educando) {
         this.educando = educando;
+        carregarPDIAtual();
         atualizarInterface();
+    }
+
+    /**
+     * Busca o PDI mais recente do educando e atribui a pdiAtual.
+     * Se não houver, pdiAtual fica null.
+     */
+    private void carregarPDIAtual() {
+        if (educando == null || educando.getId() == null) {
+            pdiAtual = null;
+            return;
+        }
+        var lista = pdiService.buscarPorEducando(educando.getId());
+        if (lista != null && !lista.isEmpty()) {
+            // Considera o mais recente (assumindo que o primeiro é o mais novo)
+            pdiAtual = lista.get(0);
+        } else {
+            pdiAtual = null;
+        }
     }
 
     public void setTurma(Turma turma) {
@@ -77,25 +96,25 @@ public class ProgressoAtendimentoController {
     private void btnCriarDIClick() {
         /* Lógica para Diagnóstico Inicial */
     }
-    
+
     @FXML
     public void btnCriarPDIClick() {
         if (educando == null || educando.getId() == null) {
             System.err.println("Erro: Educando não definido ou sem ID.");
             return;
         }
-        
+
         // Inicializa novo PDI e define o ID do educando
         PDIController.iniciarNovoPDI();
         PDIController.setEducandoIdParaPDI(educando.getId());
         if (turma != null && turma.getId() != null) {
             PDIController.setTurmaIdOrigem(turma.getId());
         }
-        
+
         // Fecha o popup de progresso antes de abrir o PDI
         Stage popupStage = (Stage) criarPDI.getScene().getWindow();
         popupStage.close();
-        
+
         // Abre a primeira tela do PDI
         GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
     }
@@ -228,24 +247,24 @@ public class ProgressoAtendimentoController {
             exibirAlerta("Erro", "Nenhum educando selecionado.");
             return;
         }
-        
+
         if (pdiAtual == null) {
             exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
             return;
         }
-        
+
         try {
             PDIController.editarPDIExistente(pdiAtual);
-            
+
             if (turma != null && turma.getId() != null) {
                 PDIController.setTurmaIdOrigem(turma.getId());
             }
-            
+
             Stage popupStage = (Stage) editarPDI.getScene().getWindow();
             popupStage.close();
-            
+
             GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
-            
+
         } catch (Exception e) {
             exibirAlerta("Erro", "Erro ao editar PDI: " + e.getMessage());
             e.printStackTrace();
@@ -258,24 +277,24 @@ public class ProgressoAtendimentoController {
             exibirAlerta("Erro", "Nenhum educando selecionado.");
             return;
         }
-        
+
         if (pdiAtual == null) {
             exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
             return;
         }
-        
+
         try {
             PDIController.visualizarPDI(pdiAtual);
-            
+
             if (turma != null && turma.getId() != null) {
                 PDIController.setTurmaIdOrigem(turma.getId());
             }
-            
+
             Stage popupStage = (Stage) verPDI.getScene().getWindow();
             popupStage.close();
-            
+
             GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
-            
+
         } catch (Exception e) {
             exibirAlerta("Erro", "Erro ao visualizar PDI: " + e.getMessage());
             e.printStackTrace();
@@ -288,25 +307,25 @@ public class ProgressoAtendimentoController {
             exibirAlerta("Erro", "Nenhum educando selecionado.");
             return;
         }
-        
+
         if (pdiAtual == null) {
             exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
             return;
         }
-        
+
         Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacao.setTitle("Confirmar Exclusão");
         confirmacao.setHeaderText("Deseja realmente excluir este PDI?");
         confirmacao.setContentText("Esta ação não pode ser desfeita.");
-        
+
         var resultado = confirmacao.showAndWait();
         if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
             return;
         }
-        
+
         try {
             boolean sucesso = pdiService.excluirPDI(pdiAtual.getId());
-            
+
             if (sucesso) {
                 exibirAlerta("Sucesso", "PDI excluído com sucesso!");
                 pdiAtual = null;
@@ -314,7 +333,7 @@ public class ProgressoAtendimentoController {
             } else {
                 exibirAlerta("Erro", "Não foi possível excluir o PDI.");
             }
-            
+
         } catch (Exception e) {
             exibirAlerta("Erro", "Erro ao excluir PDI: " + e.getMessage());
             e.printStackTrace();
@@ -347,7 +366,7 @@ public class ProgressoAtendimentoController {
 
     private void exibirAlerta(String titulo, String mensagem) {
         Alert.AlertType tipo;
-        
+
         switch (titulo.toLowerCase()) {
             case "erro":
                 tipo = Alert.AlertType.ERROR;
@@ -361,7 +380,7 @@ public class ProgressoAtendimentoController {
             default:
                 tipo = Alert.AlertType.INFORMATION;
         }
-        
+
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
