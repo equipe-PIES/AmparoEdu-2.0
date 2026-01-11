@@ -348,7 +348,8 @@ public class PDIController implements Initializable {
                     }
                 }).start();
             } else {
-                exibirMensagemErro(edicao ? "Erro ao atualizar PDI. Tente novamente." : "Erro ao cadastrar PDI. Tente novamente.");
+                exibirMensagemErro(
+                        edicao ? "Erro ao atualizar PDI. Tente novamente." : "Erro ao cadastrar PDI. Tente novamente.");
             }
 
         } catch (Exception e) {
@@ -366,7 +367,6 @@ public class PDIController implements Initializable {
         if (pdiCompartilhada == null) {
             return false;
         }
-
 
         // Validação da Tela 1
         if (pdiCompartilhada.getPeriodoAee() == null || pdiCompartilhada.getPeriodoAee().trim().isEmpty()) {
