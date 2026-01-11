@@ -20,19 +20,19 @@ import java.util.function.BooleanSupplier;
 
 public class AnamneseController implements Initializable {
 
+    // Modo de uso
+    public enum ModoAnamnese { NOVA, EDICAO, VISUALIZACAO }
+
+    // Estado e serviços
     private final AnamneseService anamneseService = new AnamneseService();
     private Anamnese anamneseAtual = new Anamnese();
-    
-    // Rastreia a tela atual (1, 2 ou 3)
-    private static int telaAtual = 1;
-    
-    // Armazena a anamnese entre as telas para não perder dados
+    private static int telaAtual = 1; // 1, 2 ou 3
     private static Anamnese anamneseCompartilhada;
-    
-    // Armazena a turma de onde veio o educando para poder voltar
     private static String turmaIdOrigem;
+    private static ModoAnamnese modoAtual = ModoAnamnese.NOVA;
+    private static boolean navegandoEntreTelas;
     
-    // ToggleGroups para gerenciar os RadioButtons
+    // Controles (ToggleGroups)
     private final ToggleGroup convulsaoGroup = new ToggleGroup();
     private final ToggleGroup convenioGroup = new ToggleGroup();
     private final ToggleGroup vacinacaoGroup = new ToggleGroup();
@@ -53,7 +53,7 @@ public class AnamneseController implements Initializable {
     private final ToggleGroup falouGroup = new ToggleGroup();
     private final ToggleGroup disturbioGroup = new ToggleGroup();
 
-    // Tela 1
+    // Controles (Tela 1)
     @FXML private RadioButton convulsaoSim;
     @FXML private RadioButton convulsaoNao;
     @FXML private RadioButton convenioSim;
@@ -88,7 +88,7 @@ public class AnamneseController implements Initializable {
     @FXML private Label questApioPedagogico;
     @FXML private Label questCausaPrematuridade1;
 
-    // Tela 2
+    // Controles (Tela 2)
     @FXML private TextField cidadeNascimento;
     @FXML private TextField maternidade;
     @FXML private ChoiceBox<String> tipoParto;
@@ -119,7 +119,7 @@ public class AnamneseController implements Initializable {
     @FXML private RadioButton falouNao;
     @FXML private TextField falou;
 
-    // Tela 3
+    // Controles (Tela 3)
     @FXML private ChoiceBox<String> balbucio;
     @FXML private TextField primeiraPalavra;
     @FXML private TextField primeiraFrase;
@@ -138,10 +138,14 @@ public class AnamneseController implements Initializable {
 
     // Botões e Mensagens
     @FXML private Label validationMsg;
+    @FXML private Button btnConcluir;
     
-    // Inicializa o controller configurando os ToggleGroups e valores padrão.
+    // Ciclo de vida
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        boolean vindoDeNavegacao = navegandoEntreTelas;
+        navegandoEntreTelas = false;
+
         // Detecta qual tela está carregada pelos controles presentes
         if (convulsaoSim != null) {
             telaAtual = 1;
@@ -151,8 +155,22 @@ public class AnamneseController implements Initializable {
             telaAtual = 3;
         }
 
-        // Se é a primeira tela e não há estado compartilhado, cria uma nova anamnese
-        if (telaAtual == 1 && anamneseCompartilhada == null) {
+        // Se não veio de navegação, prepara estado conforme o modo selecionado
+        if (!vindoDeNavegacao) {
+            if (modoAtual == ModoAnamnese.NOVA) {
+                telaAtual = 1;
+                // Só cria nova anamnese se não houver uma já compartilhada (com educando_id já setado)
+                if (anamneseCompartilhada == null || anamneseCompartilhada.getEducando_id() == null) {
+                    anamneseCompartilhada = new Anamnese();
+                }
+            } else {
+                if (anamneseCompartilhada == null) {
+                    anamneseCompartilhada = new Anamnese();
+                }
+                telaAtual = 1;
+            }
+        } else if (telaAtual == 1 && anamneseCompartilhada == null) {
+            // fallback: se por algum motivo não existir, cria
             anamneseCompartilhada = new Anamnese();
         }
 
@@ -161,9 +179,14 @@ public class AnamneseController implements Initializable {
             anamneseAtual = anamneseCompartilhada;
         }
         
+        // Primeiro esconde campos condicionais antes de criar vínculos de visibilidade
+        ocultarCamposCondicionais();
         configurarToggleGroups();
         inicializarChoiceBoxes();
-        ocultarCamposCondicionais();
+        if (modoAtual != ModoAnamnese.NOVA) {
+            preencherCamposComDadosExistentes();
+        }
+        desabilitarEdicaoSeVisualizacao();
     }
     
     // Configura os ToggleGroups para os RadioButtons.
@@ -179,6 +202,48 @@ public class AnamneseController implements Initializable {
             configurarToggle(medicacaoSim, medicacaoNao, medicacaoGroup, medicacoes);
             configurarToggle(prematuridadeSim, prematuridadeNao, prematuridadeGroup, prematuridade1);
         }
+            // Tela 1 com labels
+            if (convulsaoSim != null) {
+                configurarToggle(convenioSim, convenioNao, convenioGroup, convenio, questConvenio);
+                configurarToggle(doencaContagiosaSim, doencaContagiosaNao, doencaContagiosaGroup, doencaContagiosa, questDoencaContagiosa);
+                configurarToggle(dificuldadesSim, dificuldadesNao, dificuldadesGroup, dificuldades, questDificuldade);
+                configurarToggle(apoioPedagogicoSim, apoioPedagogicoNao, apoioPedagogicoGroup, apoioPedagogico, questApioPedagogico);
+                configurarToggle(medicacaoSim, medicacaoNao, medicacaoGroup, medicacoes, questMedicacao);
+                configurarToggle(prematuridadeSim, prematuridadeNao, prematuridadeGroup, prematuridade1, questCausaPrematuridade1);
+            }
+            // Tela 1
+            if (convulsaoSim != null) {
+                configurarToggle(convulsaoSim, convulsaoNao, convulsaoGroup, null, null);
+                configurarToggle(convenioSim, convenioNao, convenioGroup, convenio, questConvenio);
+                configurarToggle(vacinacaoSim, vacinacaoNao, vacinacaoGroup, null, null);
+                configurarToggle(doencaContagiosaSim, doencaContagiosaNao, doencaContagiosaGroup, doencaContagiosa, questDoencaContagiosa);
+                configurarToggle(dificuldadesSim, dificuldadesNao, dificuldadesGroup, dificuldades, questDificuldade);
+                configurarToggle(apoioPedagogicoSim, apoioPedagogicoNao, apoioPedagogicoGroup, apoioPedagogico, questApioPedagogico);
+                configurarToggle(medicacaoSim, medicacaoNao, medicacaoGroup, medicacoes, questMedicacao);
+                configurarToggle(prematuridadeSim, prematuridadeNao, prematuridadeGroup, prematuridade1, questCausaPrematuridade1);
+            }
+            // Tela 1
+            if (convulsaoSim != null) {
+                configurarToggle(convulsaoSim, convulsaoNao, convulsaoGroup, null, null);
+                configurarToggle(convenioSim, convenioNao, convenioGroup, convenio, questConvenio);
+                configurarToggle(vacinacaoSim, vacinacaoNao, vacinacaoGroup, null, null);
+                configurarToggle(doencaContagiosaSim, doencaContagiosaNao, doencaContagiosaGroup, doencaContagiosa, questDoencaContagiosa);
+                configurarToggle(dificuldadesSim, dificuldadesNao, dificuldadesGroup, dificuldades, questDificuldade);
+                configurarToggle(apoioPedagogicoSim, apoioPedagogicoNao, apoioPedagogicoGroup, apoioPedagogico, questApioPedagogico);
+                configurarToggle(medicacaoSim, medicacaoNao, medicacaoGroup, medicacoes, questMedicacao);
+                configurarToggle(prematuridadeSim, prematuridadeNao, prematuridadeGroup, prematuridade1, questCausaPrematuridade1);
+            }
+            // Tela 1
+            if (convulsaoSim != null) {
+                configurarToggle(convulsaoSim, convulsaoNao, convulsaoGroup, null, null);
+                configurarToggle(convenioSim, convenioNao, convenioGroup, convenio, questConvenio);
+                configurarToggle(vacinacaoSim, vacinacaoNao, vacinacaoGroup, null, null);
+                configurarToggle(doencaContagiosaSim, doencaContagiosaNao, doencaContagiosaGroup, doencaContagiosa, questDoencaContagiosa);
+                configurarToggle(dificuldadesSim, dificuldadesNao, dificuldadesGroup, dificuldades, questDificuldade);
+                configurarToggle(apoioPedagogicoSim, apoioPedagogicoNao, apoioPedagogicoGroup, apoioPedagogico, questApioPedagogico);
+                configurarToggle(medicacaoSim, medicacaoNao, medicacaoGroup, medicacoes, questMedicacao);
+                configurarToggle(prematuridadeSim, prematuridadeNao, prematuridadeGroup, prematuridade1, questCausaPrematuridade1);
+            }
         
         // Tela 2
         if (chorouSim != null) {
@@ -202,32 +267,54 @@ public class AnamneseController implements Initializable {
     
     // Método utilitário para configurar RadioButton em ToggleGroup e habilitar/desabilitar campo opcional.
     private void configurarToggle(RadioButton sim, RadioButton nao, ToggleGroup grupo, TextField campoOpcional) {
-        if (sim == null || nao == null || grupo == null) {
-            return;
-        }
+        if (sim == null || nao == null || grupo == null) return;
+    
         sim.setToggleGroup(grupo);
         nao.setToggleGroup(grupo);
+
         if (campoOpcional != null) {
-            // Oculta o campo inicialmente
-            campoOpcional.setVisible(false);
-            campoOpcional.setManaged(false);
-            // Mostra/oculta o campo conforme o RadioButton é selecionado
-            sim.selectedProperty().addListener((obs, old, selected) -> {
-                campoOpcional.setVisible(selected);
-                campoOpcional.setManaged(selected);
-                if (!selected) {
-                    campoOpcional.clear();
-                }
+            // Vincula a visibilidade do campo diretamente à seleção do RadioButton "Sim"
+            campoOpcional.visibleProperty().bind(sim.selectedProperty());
+            campoOpcional.managedProperty().bind(sim.selectedProperty());
+            
+            // Limpa o texto se o usuário mudar de "Sim" para "Não"
+            nao.selectedProperty().addListener((obs, old, selected) -> {
+                if (selected) campoOpcional.clear();
             });
         }
     }
     
     // Métodos Auxiliares Genéricos
+
+        // Sobrecarga: configurar RadioButton com Label também
+        private void configurarToggle(RadioButton sim, RadioButton nao, ToggleGroup grupo, TextField campoOpcional, Label labelOpcional) {
+            if (sim == null || nao == null || grupo == null) return;
+    
+            sim.setToggleGroup(grupo);
+            nao.setToggleGroup(grupo);
+
+            if (campoOpcional != null) {
+                // Vincula a visibilidade do campo diretamente à seleção do RadioButton "Sim"
+                campoOpcional.visibleProperty().bind(sim.selectedProperty());
+                campoOpcional.managedProperty().bind(sim.selectedProperty());
+            
+                // Limpa o texto se o usuário mudar de "Sim" para "Não"
+                nao.selectedProperty().addListener((obs, old, selected) -> {
+                    if (selected) campoOpcional.clear();
+                });
+            }
+        
+            if (labelOpcional != null) {
+                // Vincula a visibilidade da label ao RadioButton "Sim"
+                labelOpcional.visibleProperty().bind(sim.selectedProperty());
+                labelOpcional.managedProperty().bind(sim.selectedProperty());
+            }
+        }
     
     // Valida se um campo de texto obrigatório está preenchido.
     private boolean validarCampoObrigatorio(TextField campo, String mensagemErro) {
         if (campo == null || campo.getText() == null || campo.getText().trim().isEmpty()) {
-            exibirMensagemErro(mensagemErro);
+            exibirMensagemErro("Preencha todos os campos.");
             return false;
         }
         return true;
@@ -236,7 +323,7 @@ public class AnamneseController implements Initializable {
     // Valida se um ToggleGroup tem uma opção selecionada.
     private boolean validarToggleObrigatorio(ToggleGroup grupo, String mensagemErro) {
         if (grupo.getSelectedToggle() == null) {
-            exibirMensagemErro(mensagemErro);
+            exibirMensagemErro("Preencha todos os campos.");
             return false;
         }
         return true;
@@ -245,7 +332,7 @@ public class AnamneseController implements Initializable {
     // Valida se um ChoiceBox tem um valor selecionado.
     private boolean validarChoiceBoxObrigatorio(ChoiceBox<?> choiceBox, String mensagemErro) {
         if (choiceBox == null || choiceBox.getValue() == null) {
-            exibirMensagemErro(mensagemErro);
+            exibirMensagemErro("Preencha todos os campos.");
             return false;
         }
         return true;
@@ -337,7 +424,7 @@ public class AnamneseController implements Initializable {
         }
     }
 
-    // Métodos de Validação
+    // Validação
     
     // Valida os campos obrigatórios da Tela 1.
     private boolean validarTela1() {
@@ -404,11 +491,19 @@ public class AnamneseController implements Initializable {
         if (!validarChoiceBoxObrigatorio(tipoFala, "Por favor, selecione o tipo de fala do educando.")) return false;
         if (!validarToggleObrigatorio(disturbioGroup, "Por favor, informe se o educando possui distúrbio.")) return false;
         if (!validarCampoCondicional(disturbioSim, disturbio, "Por favor, especifique qual é o distúrbio.")) return false;
+        // Validar campos adicionais para evitar valores indefinidos
+        if (!validarChoiceBoxObrigatorio(dormeSozinho, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(temQuarto, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(sono, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(respeitaRegras, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(desmotivado, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(agressivo, "Preencha todos os campos.")) return false;
+        if (!validarChoiceBoxObrigatorio(inquietacao, "Preencha todos os campos.")) return false;
         
         return true;
     }
     
-    // Métodos auxiliares para preencher objeto
+    // Preenchimento do modelo
     
     //Preenche os dados da Tela 1 no objeto Anamnese.
     private void preencherDadosTela1() {
@@ -494,15 +589,15 @@ public class AnamneseController implements Initializable {
         
         // Preenche os campos opcionais da Tela 3 (sleep)
         if (dormeSozinho.getValue() != null) {
-            anamneseAtual.setDorme_sozinho(converterSimNao(dormeSozinho.getValue()));
+            anamneseAtual.setDorme_sozinho(converterSimNaoAsVezes(dormeSozinho.getValue()));
         } else {
-            anamneseAtual.setDorme_sozinho(-1);
+            anamneseAtual.setDorme_sozinho(0);
         }
         
         if (temQuarto.getValue() != null) {
-            anamneseAtual.setTem_seu_quarto(converterSimNao(temQuarto.getValue()));
+            anamneseAtual.setTem_seu_quarto(converterSimNaoAsVezes(temQuarto.getValue()));
         } else {
-            anamneseAtual.setTem_seu_quarto(-1);
+            anamneseAtual.setTem_seu_quarto(0);
         }
         
         String sonoVal = sono.getValue();
@@ -510,45 +605,242 @@ public class AnamneseController implements Initializable {
         
         // Aspectos sociais
         if (respeitaRegras.getValue() != null) {
-            anamneseAtual.setRespeita_regras(converterSimNao(respeitaRegras.getValue()));
+            anamneseAtual.setRespeita_regras(converterEscalaFrequencia(respeitaRegras.getValue()));
         } else {
-            anamneseAtual.setRespeita_regras(-1);
+            anamneseAtual.setRespeita_regras(0);
         }
         
         if (desmotivado.getValue() != null) {
-            anamneseAtual.setE_desmotivado(converterSimNao(desmotivado.getValue()));
+            anamneseAtual.setE_desmotivado(converterEscalaFrequencia(desmotivado.getValue()));
         } else {
-            anamneseAtual.setE_desmotivado(-1);
+            anamneseAtual.setE_desmotivado(0);
         }
         
         if (agressivo.getValue() != null) {
-            anamneseAtual.setE_agressivo(converterSimNao(agressivo.getValue()));
+            anamneseAtual.setE_agressivo(converterEscalaFrequencia(agressivo.getValue()));
         } else {
-            anamneseAtual.setE_agressivo(-1);
+            anamneseAtual.setE_agressivo(0);
         }
         
         if (inquietacao.getValue() != null) {
-            anamneseAtual.setApresenta_inquietacao(converterSimNao(inquietacao.getValue()));
+            anamneseAtual.setApresenta_inquietacao(converterEscalaFrequencia(inquietacao.getValue()));
         } else {
-            anamneseAtual.setApresenta_inquietacao(-1);
+            anamneseAtual.setApresenta_inquietacao(0);
         }
     }
     
     // Métodos Auxiliares
     
-    //Converte valores de ChoiceBox (Sim/Não) para inteiro.
-    private int converterSimNao(String valor) {
+
+    // Seleciona RadioButtons a partir de um valor inteiro (1 = sim, 0 = não)
+    private void selecionarToggle(RadioButton sim, RadioButton nao, int valor) {
+        if (sim == null || nao == null) return;
+        if (valor == 1) {
+            sim.setSelected(true);
+        } else if (valor == 0) {
+            nao.setSelected(true);
+        }
+    }
+
+
+    // Converte ChoiceBox Sim/Não/Às vezes para inteiro
+    private int converterSimNaoAsVezes(String valor) {
         if (valor == null) return -1;
         return switch (valor) {
             case "Sim" -> 1;
             case "Não" -> 0;
+            case "Às vezes" -> 2;
             default -> -1;
         };
     }
+
+    // Converte ChoiceBox de frequência para inteiro (Sempre=3, Às vezes=2, Raramente=1, Nunca=0)
+    private int converterEscalaFrequencia(String valor) {
+        if (valor == null) return -1;
+        return switch (valor) {
+            case "Sempre" -> 3;
+            case "Às vezes" -> 2;
+            case "Raramente" -> 1;
+            case "Nunca" -> 0;
+            default -> -1;
+        };
+    }
+
+    // Mapeia inteiros para ChoiceBox Sim/Não/Às vezes
+    private String toChoiceSimNaoAsVezes(int valor) {
+        return switch (valor) {
+            case 1 -> "Sim";
+            case 0 -> "Não";
+            case 2 -> "Às vezes";
+            default -> null;
+        };
+    }
+
+    // Mapeia inteiros para ChoiceBox de frequência
+    private String toChoiceFrequencia(int valor) {
+        return switch (valor) {
+            case 3 -> "Sempre";
+            case 2 -> "Às vezes";
+            case 1 -> "Raramente";
+            case 0 -> "Nunca";
+            default -> null;
+        };
+    }
+
+    // Preenche os campos da tela com os dados já digitados ao navegar para trás
+    private void preencherCamposComDadosExistentes() {
+        if (anamneseAtual == null) return;
+
+        // Tela 1
+        if (convulsaoSim != null) {
+            selecionarToggle(convulsaoSim, convulsaoNao, anamneseAtual.getTem_convulsao());
+            selecionarToggle(convenioSim, convenioNao, anamneseAtual.getTem_convenio_medico());
+            if (convenio != null) convenio.setText(anamneseAtual.getNome_convenio());
+
+            selecionarToggle(vacinacaoSim, vacinacaoNao, anamneseAtual.getVacinas_em_dia());
+
+            selecionarToggle(doencaContagiosaSim, doencaContagiosaNao, anamneseAtual.getTeve_doenca_contagiosa());
+            if (doencaContagiosa != null) doencaContagiosa.setText(anamneseAtual.getQuais_doencas());
+
+            if (inicioEscolarizacao != null) inicioEscolarizacao.setText(anamneseAtual.getInicio_escolarizacao());
+
+            selecionarToggle(dificuldadesSim, dificuldadesNao, anamneseAtual.getApresenta_dificuldades());
+            if (dificuldades != null) dificuldades.setText(anamneseAtual.getQuais_dificuldades());
+
+            selecionarToggle(apoioPedagogicoSim, apoioPedagogicoNao, anamneseAtual.getRecebe_apoio_pedagogico_casa());
+            if (apoioPedagogico != null) apoioPedagogico.setText(anamneseAtual.getApoio_quem());
+
+            selecionarToggle(medicacaoSim, medicacaoNao, anamneseAtual.getUsa_medicacao());
+            if (medicacoes != null) medicacoes.setText(anamneseAtual.getQuais_medicacoes());
+
+            if (servicosFrequentados1 != null) servicosFrequentados1.setText(anamneseAtual.getQuais_servicos());
+
+            selecionarToggle(preNatalSim, preNatalNao, anamneseAtual.getFez_prenatal());
+            if (duracaoGestacao1 != null) duracaoGestacao1.setText(anamneseAtual.getDuracao_da_gestacao());
+
+            selecionarToggle(prematuridadeSim, prematuridadeNao, anamneseAtual.getHouve_prematuridade());
+            if (prematuridade1 != null) prematuridade1.setText(anamneseAtual.getCausa_prematuridade());
+            return;
+        }
+
+        // Tela 2
+        if (chorouSim != null) {
+            if (cidadeNascimento != null) cidadeNascimento.setText(anamneseAtual.getCidade_nascimento());
+            if (maternidade != null) maternidade.setText(anamneseAtual.getMaternidade());
+            if (tipoParto != null && anamneseAtual.getTipo_parto() != null && !anamneseAtual.getTipo_parto().isEmpty()) {
+                tipoParto.setValue(anamneseAtual.getTipo_parto());
+            }
+
+            selecionarToggle(chorouSim, chorouNao, anamneseAtual.getChorou_ao_nascer());
+            selecionarToggle(ficouRoxoSim, ficouRoxoNao, anamneseAtual.getFicou_roxo());
+            selecionarToggle(incubadoraSim, incubadoraNao, anamneseAtual.getUsou_incubadora());
+            selecionarToggle(amamentadoSim, amamentadoNao, anamneseAtual.getFoi_amamentado());
+
+            selecionarToggle(sustentouCabecaSim, sustentouCabecaNao, anamneseAtual.getSustentou_a_cabeca());
+            if (sustentouCabeca != null) sustentouCabeca.setText(anamneseAtual.getQuantos_meses_sustentou_cabeca());
+
+            selecionarToggle(engatinhouSim, engatinhouNao, anamneseAtual.getEngatinhou());
+            if (engatinhou != null) engatinhou.setText(anamneseAtual.getQuantos_meses_engatinhou());
+
+            selecionarToggle(sentouSim, sentouNao, anamneseAtual.getSentou());
+            if (sentou != null) sentou.setText(anamneseAtual.getQuantos_meses_sentou());
+
+            selecionarToggle(andouSim, andouNao, anamneseAtual.getAndou());
+            if (andou != null) andou.setText(anamneseAtual.getQuantos_meses_andou());
+
+            selecionarToggle(terapiaSim, terapiaNao, anamneseAtual.getPrecisou_de_terapia());
+            if (terapia != null) terapia.setText(anamneseAtual.getQual_motivo_terapia());
+
+            selecionarToggle(falouSim, falouNao, anamneseAtual.getFalou());
+            if (falou != null) falou.setText(anamneseAtual.getQuantos_meses_falou());
+            return;
+        }
+
+        // Tela 3
+        if (disturbioSim != null || balbucio != null) {
+            if (balbucio != null && anamneseAtual.getQuantos_meses_balbuciou() != null && !anamneseAtual.getQuantos_meses_balbuciou().isEmpty()) {
+                balbucio.setValue(anamneseAtual.getQuantos_meses_balbuciou());
+            }
+
+            if (primeiraPalavra != null) primeiraPalavra.setText(anamneseAtual.getQuando_primeiras_palavras());
+            if (primeiraFrase != null) primeiraFrase.setText(anamneseAtual.getQuando_primeiras_frases());
+
+            if (tipoFala != null && anamneseAtual.getFala_natural_inibido() != null && !anamneseAtual.getFala_natural_inibido().isEmpty()) {
+                tipoFala.setValue(anamneseAtual.getFala_natural_inibido());
+            }
+
+            selecionarToggle(disturbioSim, disturbioNao, anamneseAtual.getPossui_disturbio());
+            if (disturbio != null) disturbio.setText(anamneseAtual.getQual_disturbio());
+
+            if (servicos != null) servicos.setText(anamneseAtual.getQuais_servicos());
+
+            if (dormeSozinho != null) dormeSozinho.setValue(toChoiceSimNaoAsVezes(anamneseAtual.getDorme_sozinho()));
+            if (temQuarto != null) temQuarto.setValue(toChoiceSimNaoAsVezes(anamneseAtual.getTem_seu_quarto()));
+            if (sono != null && anamneseAtual.getSono_calmo_agitado() != null && !anamneseAtual.getSono_calmo_agitado().isEmpty()) {
+                sono.setValue(anamneseAtual.getSono_calmo_agitado());
+            }
+
+            if (respeitaRegras != null) respeitaRegras.setValue(toChoiceFrequencia(anamneseAtual.getRespeita_regras()));
+            if (desmotivado != null) desmotivado.setValue(toChoiceFrequencia(anamneseAtual.getE_desmotivado()));
+            if (agressivo != null) agressivo.setValue(toChoiceFrequencia(anamneseAtual.getE_agressivo()));
+            if (inquietacao != null) inquietacao.setValue(toChoiceFrequencia(anamneseAtual.getApresenta_inquietacao()));
+        }
+    }
+
+    // Desabilita edição quando em modo de visualização
+    private void desabilitarEdicaoSeVisualizacao() {
+        if (modoAtual != ModoAnamnese.VISUALIZACAO) return;
+
+        desabilitarControlesTextuais(convenio, doencaContagiosa, inicioEscolarizacao, dificuldades, apoioPedagogico,
+                medicacoes, servicosFrequentados1, prematuridade1, duracaoGestacao1, cidadeNascimento, maternidade,
+                sustentouCabeca, engatinhou, sentou, andou, terapia, falou, primeiraPalavra, primeiraFrase, disturbio,
+                servicos);
+
+        desabilitarRadios(convulsaoSim, convulsaoNao, convenioSim, convenioNao, vacinacaoSim, vacinacaoNao,
+                doencaContagiosaSim, doencaContagiosaNao, dificuldadesSim, dificuldadesNao, apoioPedagogicoSim,
+                apoioPedagogicoNao, medicacaoSim, medicacaoNao, preNatalSim, preNatalNao, prematuridadeSim,
+                prematuridadeNao, chorouSim, chorouNao, ficouRoxoSim, ficouRoxoNao, incubadoraSim, incubadoraNao,
+                amamentadoSim, amamentadoNao, sustentouCabecaSim, sustentouCabecaNao, engatinhouSim, engatinhouNao,
+                sentouSim, sentouNao, andouSim, andouNao, terapiaSim, terapiaNao, falouSim, falouNao, disturbioSim,
+                disturbioNao);
+
+        desabilitarChoices(tipoParto, balbucio, tipoFala, dormeSozinho, temQuarto, sono, respeitaRegras, desmotivado,
+                agressivo, inquietacao);
+
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
+    }
+
+    private void desabilitarControlesTextuais(TextField... campos) {
+        for (TextField campo : campos) {
+            if (campo != null) {
+                campo.setEditable(false);
+                campo.setDisable(true);
+            }
+        }
+    }
+
+    private void desabilitarRadios(RadioButton... radios) {
+        for (RadioButton rb : radios) {
+            if (rb != null) {
+                rb.setDisable(true);
+            }
+        }
+    }
+
+    private void desabilitarChoices(ChoiceBox<?>... choices) {
+        for (ChoiceBox<?> cb : choices) {
+            if (cb != null) {
+                cb.setDisable(true);
+            }
+        }
+    }
     
-    // Navega delta telas, aplicando validação e salvamento opcionais.
-    private void navegarDelta(int delta, Runnable salvarDados, BooleanSupplier validarAntes, String mensagemLimite) {
-        int novaTela = telaAtual + delta;
+    // Navegação
+    // Navega entre telas, aplicando validação e salvamento opcionais.
+    private void navegarEntreTelas(int passo, Runnable salvarDados, BooleanSupplier validarAntes, String mensagemLimite) {
+        int novaTela = telaAtual + passo;
 
         // Limites de navegação
         if (novaTela < 1 || novaTela > 3) {
@@ -556,23 +848,43 @@ public class AnamneseController implements Initializable {
             return;
         }
 
-        if (validarAntes != null && !validarAntes.getAsBoolean()) {
+        if (modoAtual != ModoAnamnese.VISUALIZACAO && validarAntes != null && !validarAntes.getAsBoolean()) {
             return;
         }
 
-        if (salvarDados != null) {
+        if (modoAtual != ModoAnamnese.VISUALIZACAO && salvarDados != null) {
             salvarDados.run();
         }
 
         anamneseCompartilhada = anamneseAtual;
         telaAtual = novaTela;
+        navegandoEntreTelas = true;
         GerenciadorTelas.getInstance().trocarTela("anamnese-" + novaTela + ".fxml");
     }
     
+    // Abertura de fluxos
     // Inicia uma nova anamnese.
     public static void iniciarNovaAnamnese() {
+        modoAtual = ModoAnamnese.NOVA;
         telaAtual = 1;
         anamneseCompartilhada = new Anamnese();
+        navegandoEntreTelas = false;
+    }
+
+    // Inicia modo edição com uma anamnese já existente
+    public static void editarAnamneseExistente(Anamnese existente) {
+        modoAtual = ModoAnamnese.EDICAO;
+        telaAtual = 1;
+        anamneseCompartilhada = (existente != null) ? existente : new Anamnese();
+        navegandoEntreTelas = false;
+    }
+
+    // Inicia modo visualização com uma anamnese já existente
+    public static void visualizarAnamnese(Anamnese existente) {
+        modoAtual = ModoAnamnese.VISUALIZACAO;
+        telaAtual = 1;
+        anamneseCompartilhada = existente;
+        navegandoEntreTelas = false;
     }
     
     // Define o ID do educando para a anamnese
@@ -589,6 +901,7 @@ public class AnamneseController implements Initializable {
     }
     
     
+    // Mensagens
     //Exibe mensagem de erro para o usuário.
     private void exibirMensagemErro(String mensagem) {
         if (validationMsg != null) {
@@ -619,6 +932,7 @@ public class AnamneseController implements Initializable {
         }
     }
     
+    // Handlers de UI
     //Handler para o botão Sair - fecha a janela/volta para a tela anterior
     @FXML
     private void btnSairClick() {
@@ -635,8 +949,9 @@ public class AnamneseController implements Initializable {
         alert.setContentText("Todos os dados preenchidos serão perdidos.");
         
         if (alert.showAndWait().get() == ButtonType.OK) {
-            resetarAnamnese();
+            // Salva o educando ID antes de resetar
             String educandoId = anamneseAtual.getEducando_id();
+            resetarAnamnese();
             voltarComPopup(educandoId);
         }
     }
@@ -724,71 +1039,90 @@ public class AnamneseController implements Initializable {
     // Handler para o botão Seguinte da tela 1 - valida e avança para tela 2
     @FXML
     private void btnSeguinte2Click() {
-        navegarDelta(1, this::preencherDadosTela1, this::validarTela1,
-                "Você já está na primeira tela. Avance para continuar.");
+        navegarEntreTelas(1, this::preencherDadosTela1, this::validarTela1,
+            "Você já está na primeira tela. Avance para continuar.");
     }
     
     // Handler para o botão Anterior da tela 2 - volta para tela 1
     @FXML
     private void btnAnterior1Click() {
-        navegarDelta(-1, this::preencherDadosTela2, null,
-                "Você já está na primeira tela.");
+        navegarEntreTelas(-1, this::preencherDadosTela2, null, "Você já está na primeira tela.");
     }
     
     // Handler para o botão Seguinte da tela 2 - valida e avança para tela 3
     @FXML
     private void btnSeguinte3Click() {
-        navegarDelta(1, this::preencherDadosTela2, this::validarTela2,
-                "Você já está na última tela. Clique em Concluir para salvar.");
+        navegarEntreTelas(1, this::preencherDadosTela2, this::validarTela2, "Você já está na última tela.");
     }
     
     // Handler para o botão Anterior da tela 3 - volta para tela 2
     @FXML
     private void btnAnterior2Click() {
-        navegarDelta(-1, this::preencherDadosTela3, null,
+        navegarEntreTelas(-1, this::preencherDadosTela3, null,
                 "Você já está na primeira tela.");
     }
     
     // Handler para o botão Concluir da tela 3 - valida e salva a anamnese
     @FXML
     private void btnConcluirClick() {
-        if (validarTela3()) {
-            preencherDadosTela3();
-            // Garante que o objeto compartilhado tenha os dados mais recentes
-            anamneseCompartilhada = anamneseAtual;
-            
-            try {
-                // Busca um professor válido no banco de dados
-                String professorId = anamneseService.buscarProfessorValido();
-                if (professorId != null) {
-                    anamneseCompartilhada.setProfessor_id(professorId);
-                }
-                
-                // Metadados obrigatórios para persistência
-                anamneseCompartilhada.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
-                
-                anamneseService.cadastrarNovaAnamnese(anamneseCompartilhada);
-                
-                exibirMensagemSucesso("Anamnese criada com sucesso!");
-                
-                // Após 2s, volta para o popup de progresso do aluno
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                        javafx.application.Platform.runLater(() -> {
-                            resetarAnamnese();
-                            String educandoId = anamneseAtual.getEducando_id();
-                            voltarComPopup(educandoId);
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-                
-            } catch (Exception e) {
-                exibirMensagemErro("Erro ao salvar anamnese: " + e.getMessage());
-                e.printStackTrace();
+        if (modoAtual == ModoAnamnese.VISUALIZACAO) {
+            exibirMensagemErro("Modo visualização: não é possível salvar.");
+            return;
+        }
+
+        // Valida a última tela antes de exibir o alerta
+        if (!validarTela3()) {
+            exibirMensagemErro("Preencha todos os campos para concluir.");
+            return;
+        }
+
+        // Mostra aviso antes de salvar
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Concluir Anamnese");
+        alerta.setHeaderText("Preencha todos os campos para concluir.");
+        alerta.setContentText("Deseja salvar a anamnese agora?");
+        var opcao = alerta.showAndWait();
+        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+            return;
+        }
+
+        preencherDadosTela3();
+        // Garante que o objeto compartilhado tenha os dados mais recentes
+        anamneseCompartilhada = anamneseAtual;
+        
+        // Salva o educando ID antes de resetar
+        String educandoId = anamneseCompartilhada.getEducando_id();
+        
+        try {
+            // Busca um professor válido no banco de dados
+            String professorId = anamneseService.buscarProfessorValido();
+            if (professorId != null) {
+                anamneseCompartilhada.setProfessor_id(professorId);
             }
+            
+            // Metadados obrigatórios para persistência
+            anamneseCompartilhada.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            
+            anamneseService.cadastrarNovaAnamnese(anamneseCompartilhada);
+            
+            exibirMensagemSucesso("Anamnese criada com sucesso!");
+            
+            // Após 2s, volta para o popup de progresso do aluno
+            new Thread(() -> {
+                try {
+                    Thread.sleep(2000);
+                    javafx.application.Platform.runLater(() -> {
+                        resetarAnamnese();
+                        voltarComPopup(educandoId);
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+            
+        } catch (Exception e) {
+            exibirMensagemErro("Erro ao salvar anamnese: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

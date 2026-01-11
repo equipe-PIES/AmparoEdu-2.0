@@ -9,6 +9,7 @@ br\com\amparoedu\backend\repository\PopularDatabase.class
 br\com\amparoedu\backend\service\PAEEService.class
 br\com\amparoedu\backend\model\TurmaEducando.class
 br\com\amparoedu\backend\repository\ProfessorRepository.class
+br\com\amparoedu\controller\AnamneseController$ModoAnamnese.class
 br\com\amparoedu\backend\model\DI.class
 br\com\amparoedu\backend\repository\DIRepository.class
 br\com\amparoedu\backend\repository\SupabaseClient.class
@@ -33,10 +34,12 @@ br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.class
 br\com\amparoedu\backend\model\Endereco.class
 br\com\amparoedu\backend\model\Responsavel.class
 br\com\amparoedu\backend\repository\RIRepository.class
+br\com\amparoedu\controller\PDIController$ModoPDI.class
 br\com\amparoedu\backend\model\Usuario.class
 br\com\amparoedu\backend\model\Professor.class
 br\com\amparoedu\backend\repository\PAEERepository.class
 br\com\amparoedu\backend\service\AuthService.class
+br\com\amparoedu\controller\PDIController.class
 br\com\amparoedu\controller\LoginController.class
 br\com\amparoedu\backend\service\EducandoService.class
 br\com\amparoedu\backend\repository\DatabaseConfig.class

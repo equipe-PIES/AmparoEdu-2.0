@@ -1,6 +1,12 @@
 package br.com.amparoedu.backend.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import br.com.amparoedu.backend.model.Usuario;
+import br.com.amparoedu.backend.repository.DatabaseConfig;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
 
 public class AuthService {
@@ -23,6 +29,25 @@ public class AuthService {
     public static Usuario getUsuarioLogado() {
         return usuarioLogado;
     }
+
+    public static String getIdProfessorLogado() {
+    Usuario usuario = getUsuarioLogado();
+    if (usuario == null) return null;
+    
+    String sql = "SELECT id FROM professores WHERE usuario_id = ?";
+    try (Connection conn = DatabaseConfig.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+        stmt.setString(1, usuario.getId());
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getString("id"); // ID da tabela professores
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 
     public static void logout() {
         usuarioLogado = null;
