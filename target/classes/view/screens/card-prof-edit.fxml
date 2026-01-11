@@ -17,12 +17,12 @@
                   <Insets />
                </HBox.margin>
                   </Label>
-                <Button fx:id="excluirProf" mnemonicParsing="false" prefWidth="200.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE">
+                <Button fx:id="excluirProf" mnemonicParsing="false" onAction="#handleExcluirAction" prefWidth="200.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-                <Button fx:id="editarProf" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
+                <Button fx:id="editarProf" mnemonicParsing="false" onAction="#handleEditarAction" prefHeight="30.0" prefWidth="200.0" styleClass="botao-cancelar-voltar-sair" text="Editar">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>

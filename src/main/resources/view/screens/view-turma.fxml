@@ -92,7 +92,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Label contentDisplay="RIGHT" text="Faixa etÃ¡ria:">
+                  <Label contentDisplay="RIGHT" text="Faixa Etária:">
                      <graphic>
                         <Label fx:id="fxEtariaTurma" />
                      </graphic>

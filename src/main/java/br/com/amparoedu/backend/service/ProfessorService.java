@@ -48,4 +48,27 @@ public class ProfessorService {
         return true;
     }
     
+    public boolean atualizarProfessor(Professor professor, Usuario usuario) {
+        // Validação básica
+        if (professor.getNome() == null || professor.getNome().isEmpty()) {
+            throw new RuntimeException("Nome do professor é obrigatório.");
+        }
+        
+        // Atualiza usuário
+        try {
+            usuario.setSincronizado(0); // Marca para sincronização
+            usuarioRepo.atualizar(usuario);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar usuário do professor: " + e.getMessage(), e);
+        }
+        
+        // Atualiza professor
+        try {
+            professor.setSincronizado(0); // Marca para sincronização
+            professorRepo.atualizar(professor);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar dados do professor: " + e.getMessage(), e);
+        }
+    }
 }

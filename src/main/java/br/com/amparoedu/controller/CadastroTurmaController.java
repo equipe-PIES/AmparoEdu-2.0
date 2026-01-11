@@ -46,6 +46,7 @@ public class CadastroTurmaController {
     @FXML private TextField buscarAlunoNome;
     @FXML private ListView<Educando> SugestoesAlunosList;
     @FXML private Button adicionarAlunoButton;
+    @FXML private Button cadastroTurmaButton;
     @FXML private ListView<Educando> ListAlunosTurma;
     
     @FXML private Label nameUser;
@@ -79,6 +80,7 @@ public class CadastroTurmaController {
             preencherCamposEdicao();
         } else {
             carregarTodosAlunos();
+            if (cadastroTurmaButton != null) cadastroTurmaButton.setText("Cadastrar Turma");
         }
     }
     
@@ -212,32 +214,46 @@ public class CadastroTurmaController {
     }
     
     private void preencherCamposEdicao() {
-        nomeTurmaField.setText(turmaEdicao.getNome());
-        grauTurma.setValue(turmaEdicao.getGrau_ensino());
-        idadeAlunos.setValue(turmaEdicao.getFaixa_etaria());
-        turnoTurma.setValue(turmaEdicao.getTurno());
-        
-        // Selecionar professor
-        for (Map.Entry<String, String> entry : professorMap.entrySet()) {
-            if (entry.getValue().equals(turmaEdicao.getProfessor_id())) {
-                profRespon.setValue(entry.getKey());
-                break;
-            }
-        }
-        
-        // Carregar alunos da turma e outros
-        List<Educando> todos = educandoRepo.listarTodos();
-        todosAlunos = FXCollections.observableArrayList(todos);
-        
-        // Separa os que são da turma
-        List<Educando> daTurma = todos.stream()
-            .filter(a -> turmaEdicao.getId().equals(a.getTurma_id()))
-            .collect(Collectors.toList());
+        try {
+            nomeTurmaField.setText(turmaEdicao.getNome());
+            grauTurma.setValue(turmaEdicao.getGrau_ensino());
+            idadeAlunos.setValue(turmaEdicao.getFaixa_etaria());
+            turnoTurma.setValue(turmaEdicao.getTurno());
             
-        alunosTurma.setAll(daTurma);
-        alunosOriginaisTurma.addAll(daTurma); // Salva cópia para saber quem saiu depois
-        
-        filtrarSugestoes();
+            // Selecionar professor
+            if (turmaEdicao.getProfessor_id() != null) {
+                for (Map.Entry<String, String> entry : professorMap.entrySet()) {
+                    if (entry.getValue().equals(turmaEdicao.getProfessor_id())) {
+                        profRespon.setValue(entry.getKey());
+                        break;
+                    }
+                }
+            }
+            
+            // Carregar alunos da turma e outros
+            List<Educando> todos = educandoRepo.listarTodos();
+            todosAlunos = FXCollections.observableArrayList(todos);
+            
+            // Separa os que são da turma
+            List<Educando> daTurma = todos.stream()
+                .filter(a -> a.getTurma_id() != null && turmaEdicao.getId() != null && 
+                             turmaEdicao.getId().trim().equals(a.getTurma_id().trim()))
+                .collect(Collectors.toList());
+                
+            System.out.println("Turma ID: " + turmaEdicao.getId());
+            System.out.println("Total alunos encontrados: " + todos.size());
+            System.out.println("Alunos na turma: " + daTurma.size());
+            
+            alunosTurma.setAll(daTurma);
+            alunosOriginaisTurma.addAll(daTurma); // Salva cópia para saber quem saiu depois
+            
+            filtrarSugestoes();
+            
+            if (cadastroTurmaButton != null) cadastroTurmaButton.setText("Salvar Alterações");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erro ao preencher campos de edição: " + e.getMessage());
+        }
     }
 
     private void configuringTopo() {
@@ -380,6 +396,7 @@ public class CadastroTurmaController {
         if (alunosOriginaisTurma != null) alunosOriginaisTurma.clear();
         if (buscarAlunoNome != null) buscarAlunoNome.clear();
         if (filtroEscolaridade != null) filtroEscolaridade.setValue(null);
+        if (cadastroTurmaButton != null) cadastroTurmaButton.setText("Cadastrar Turma");
         carregarTodosAlunos(); // Recarrega para resetar estado
     }
 

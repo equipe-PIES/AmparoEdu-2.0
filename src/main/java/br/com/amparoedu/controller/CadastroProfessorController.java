@@ -21,12 +21,51 @@ public class CadastroProfessorController {
     @FXML private Button cadastroProfBt, cancelCadastroBt;
 
     private final ProfessorService professorService = new ProfessorService();
+    
+    private static Professor professorEdicao;
+    private static Usuario usuarioEdicao;
+
+    public static void setDadosEdicao(Professor professor, Usuario usuario) {
+        professorEdicao = professor;
+        usuarioEdicao = usuario;
+    }
 
     @FXML
     public void initialize() {
         configurarTopo();
         popularChoiceBoxes();
         adicionarMascaraCPF(cpfProf);
+        
+        if (professorEdicao != null) {
+            preencherCamposEdicao();
+        } else {
+            if (cadastroProfBt != null) cadastroProfBt.setText("Cadastrar");
+        }
+    }
+    
+    private void preencherCamposEdicao() {
+        nomeProf.setText(professorEdicao.getNome());
+        cpfProf.setText(professorEdicao.getCpf());
+        
+        if (professorEdicao.getData_nascimento() != null && !professorEdicao.getData_nascimento().isEmpty()) {
+            try {
+                dtNascProf.setValue(java.time.LocalDate.parse(professorEdicao.getData_nascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            } catch (Exception e) {
+                // Ignora data inválida
+            }
+        }
+        
+        generoProf.setValue(professorEdicao.getGenero());
+        obsProf.setText(professorEdicao.getObservacoes());
+        
+        if (usuarioEdicao != null) {
+            emailProf.setText(usuarioEdicao.getEmail());
+            // Senha não é preenchida por segurança, só altera se o usuário digitar nova
+        }
+        
+        if (cadastroProfBt != null) {
+            cadastroProfBt.setText("Salvar Alterações");
+        }
     }
 
     private void configurarTopo() {
@@ -73,51 +112,77 @@ public class CadastroProfessorController {
                     erroEscolhaSenha.setText("As senhas não coincidem.");
                     return;
                 }
+                
+                boolean isEdicao = (professorEdicao != null);
+                Professor professor = isEdicao ? professorEdicao : new Professor();
+                Usuario usuario = isEdicao ? usuarioEdicao : new Usuario();
 
-                Professor professor = new Professor();
                 professor.setNome(nomeProf.getText());
                 professor.setCpf(cpfProf.getText());
                 if (dtNascProf.getValue() != null) {
                     professor.setData_nascimento(dtNascProf.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                } else {
+                    professor.setData_nascimento(null);
                 }
                 professor.setGenero(generoProf.getValue());
                 professor.setObservacoes(obsProf.getText());
 
-                Usuario usuario = new Usuario();
                 usuario.setEmail(emailProf.getText());
-                usuario.setSenha(passwordProf.getText());
+                
+                // Só atualiza a senha se o campo não estiver vazio ou se for novo cadastro
+                if (!passwordProf.getText().isEmpty()) {
+                    usuario.setSenha(passwordProf.getText());
+                }
                 usuario.setTipo("Professor"); 
 
-                if (professorService.cadastrarNovoProfessor(professor, usuario)) {
-                    exibirAlertaSucesso();
+                boolean sucesso;
+                if (isEdicao) {
+                    sucesso = professorService.atualizarProfessor(professor, usuario);
+                } else {
+                    sucesso = professorService.cadastrarNovoProfessor(professor, usuario);
+                }
+
+                if (sucesso) {
+                    exibirAlertaSucesso(isEdicao ? "Dados atualizados com sucesso!" : "Professor cadastrado com sucesso!");
                     limparCampos();
                 } else {
                     erroEscolhaSenha.setText("Erro ao salvar no banco de dados.");
                 }
             } catch (Exception e) {
-                erroEscolhaSenha.setText("Erro ao cadastrar professor: " + e.getMessage());
+                erroEscolhaSenha.setText("Erro ao salvar professor: " + e.getMessage());
                 e.printStackTrace();
             }
         }
     }
 
     private boolean validarCampos() {
-        if (nomeProf.getText().isEmpty() || cpfProf.getText().isEmpty() || dtNascProf.getValue() == null || emailProf.getText().isEmpty() || passwordProf.getText().isEmpty()) {
-            erroEscolhaSenha.setText("Por favor, preencha todos os campos obrigatórios.");
+        // Se for edição, senha é opcional
+        boolean senhaObrigatoria = (professorEdicao == null);
+        
+        if (nomeProf.getText().isEmpty() || cpfProf.getText().isEmpty() || emailProf.getText().isEmpty()) {
+             erroEscolhaSenha.setText("Por favor, preencha os campos obrigatórios (Nome, CPF, Email).");
+             return false;
+        }
+        
+        if (senhaObrigatoria && passwordProf.getText().isEmpty()) {
+            erroEscolhaSenha.setText("A senha é obrigatória para novos cadastros.");
             return false;
         }
+        
         return true;
     }
-
-    private void exibirAlertaSucesso() {
+    
+    private void exibirAlertaSucesso(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sucesso");
         alert.setHeaderText(null);
-        alert.setContentText("Professor cadastrado com sucesso!");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 
     private void limparCampos() {
+        professorEdicao = null;
+        usuarioEdicao = null;
         nomeProf.clear();
         cpfProf.clear();
         dtNascProf.setValue(null);
@@ -127,6 +192,7 @@ public class CadastroProfessorController {
         passwordProf.clear();
         confirmPasswordProf.clear();
         erroEscolhaSenha.setText("");
+        if (cadastroProfBt != null) cadastroProfBt.setText("Cadastrar");
     }
 
     @FXML

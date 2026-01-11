@@ -55,6 +55,25 @@ public class ProfessorRepository {
         }
     }
 
+    // Busca por Nome (Parcial)
+    public List<Professor> buscarPorNome(String nome) {
+        List<Professor> professores = new ArrayList<>();
+        String sql = "SELECT * FROM professores WHERE nome LIKE ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, "%" + nome + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    professores.add(extrairProfessor(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return professores;
+    }
+
     // Busca por ID 
     public Professor buscarPorId(String id) {
         String sql = "SELECT * FROM professores WHERE id = ?";

@@ -41,10 +41,10 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Inicio" />
-                        <Button id="turmasButton" fx:id="turmasButton" styleClass="botao-topo" text="Turmas" />
-                        <Button id="professoresButton" fx:id="professoresButton" styleClass="botao-topo" text="Professores" />
-                        <Button id="alunosButton" fx:id="alunosButton" styleClass="botao-topo" text="Alunos" />
+                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Início" />
+                        <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
+                        <Button id="professoresButton" fx:id="professoresButton" onAction="#handleProfessoresButtonAction" styleClass="botao-topo" text="Professores" />
+                        <Button id="alunosButton" fx:id="alunosButton" onAction="#handleAlunosButtonAction" styleClass="botao-topo" text="Alunos" />
                     </children>
                 </HBox>
             </children>
@@ -189,11 +189,11 @@
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                                         </Label>
-                                        <ListView fx:id="ListAlunosTurma" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: #ddd;" styleClass="campo-digite-selecione">
-                                            <VBox.margin>
-                                                <Insets />
-                                            </VBox.margin>
-                                        </ListView>
+                                        <ListView fx:id="ListAlunosTurma" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: #ddd;" styleClass="campo-digite-selecione" VBox.vgrow="ALWAYS">
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </ListView>
                                     </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

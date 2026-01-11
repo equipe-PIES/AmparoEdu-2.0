@@ -24,10 +24,17 @@ c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de So
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroProfessorController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroTurmaController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoEditController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfosAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfosProfessorController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewAlunosCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewProfsCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
 c:\Users\Mel\Documents\UFC\Semestre 2025.2\Projeto Integrado em Engenharia de Software I\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java

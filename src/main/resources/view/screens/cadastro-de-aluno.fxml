@@ -41,7 +41,7 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" styleClass="botao-topo" text="Inicio" />
+                        <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" styleClass="botao-topo" text="Início" />
                         <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
                         <Button id="btnProfessores" fx:id="btnProfessores" onAction="#btnProfessoresClick" styleClass="botao-topo" text="Professores" />
                         <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />

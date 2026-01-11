@@ -28,7 +28,7 @@
                 </Button>
                 <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="270.0">
                     <children>
-                        <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de UsuÃ¡rio" />
+                        <Label id="nameUser" fx:id="nameUser" style="-fx-font-weight: bold;" text="Nome de Usuário" />
                         <Label id="cargoUser" fx:id="cargoUser" style="-fx-text-fill: #666;" text="Coordenadora" />
                     </children>
                 </VBox>
@@ -37,7 +37,7 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="InÃ­cio" />
+                        <Button id="inicioButton" fx:id="inicioButton" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Início" />
                         <Button id="turmasButton" fx:id="turmasButton" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
                         <Button id="professoresButton" fx:id="professoresButton" onAction="#handleProfessoresButtonAction" styleClass="botao-topo" text="Professores" />
                         <Button id="alunosButton" fx:id="alunosButton" onAction="#handleAlunosButtonAction" styleClass="botao-topo" text="Alunos" />
@@ -67,7 +67,7 @@
                         </VBox>
                         <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0">
                             <children>
-                                <Label text="OpÃ§Ãµes: " />
+                                <Label text="Opções: " />
                                 <ChoiceBox fx:id="filterOpcoes" prefWidth="220.0" styleClass="campo-digite-selecione" />
                             </children>
                         </VBox>
