@@ -600,7 +600,8 @@ public class PDIController implements Initializable {
 
     }
 
-    // Handler para o botão Cancelar - volta para tela de progresso ou popup (padrão Anamnese)
+    // Handler para o botão Cancelar - volta para tela de progresso ou popup (padrão
+    // Anamnese)
     @FXML
     private void btnCancelClick() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

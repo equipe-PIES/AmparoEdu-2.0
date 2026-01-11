@@ -304,10 +304,11 @@ public class ProgressoAtendimentoController {
     @FXML
     private void btnExcluirPDIClick() {
 
-        // Garante que temos um ID de educando válido, mesmo se o objeto educando estiver null
+        // Garante que temos um ID de educando válido, mesmo se o objeto educando
+        // estiver null
         String educandoId = (educando != null && educando.getId() != null)
-            ? educando.getId()
-            : (pdiAtual != null ? pdiAtual.getEducandoId() : null);
+                ? educando.getId()
+                : (pdiAtual != null ? pdiAtual.getEducandoId() : null);
         if (educandoId == null) {
             exibirAlerta("Erro", "Nenhum educando selecionado.");
             return;
