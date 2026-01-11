@@ -326,12 +326,16 @@ public class PDIController implements Initializable {
             // 4. Metadados obrigatórios
             pdiCompartilhada.setDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
 
-            // 5. Salva o PDI
-            boolean sucesso = pdiService.cadastrarNovoPDI(pdiCompartilhada);
+            boolean sucesso;
+            boolean edicao = modoAtual == ModoPDI.EDICAO;
+            if (edicao) {
+                sucesso = pdiService.atualizarPDI(pdiCompartilhada);
+            } else {
+                sucesso = pdiService.cadastrarNovoPDI(pdiCompartilhada);
+            }
 
             if (sucesso) {
-                exibirMensagemSucesso("PDI criado com sucesso!");
-
+                exibirMensagemSucesso(edicao ? "PDI atualizado com sucesso!" : "PDI criado com sucesso!");
                 new Thread(() -> {
                     try {
                         Thread.sleep(2000);
@@ -344,7 +348,7 @@ public class PDIController implements Initializable {
                     }
                 }).start();
             } else {
-                exibirMensagemErro("Erro ao cadastrar PDI. Tente novamente.");
+                exibirMensagemErro(edicao ? "Erro ao atualizar PDI. Tente novamente." : "Erro ao cadastrar PDI. Tente novamente.");
             }
 
         } catch (Exception e) {
