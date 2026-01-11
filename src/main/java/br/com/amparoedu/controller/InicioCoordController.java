@@ -53,6 +53,7 @@ public class InicioCoordController {
     @FXML
     private void btnAddProfClick() {
         System.out.println("Indo para tela de cadastro de professor...");
+        GerenciadorTelas.getInstance().trocarTela("cadastro-de-prof.fxml");
     }
 
     @FXML

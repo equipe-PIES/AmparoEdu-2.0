@@ -34,10 +34,12 @@ public class UsuarioRepository {
     }
 
     //Salva um novo usuário no banco de dados
-    public void salvar(Usuario usuario) {
+    // Salva um novo usuário no banco de dados
+    public int salvar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (id, email, senha, tipo, sincronizado, excluido) VALUES (?, ?, ?, ?, ?, ?)";
+        
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, usuario.getId());
             stmt.setString(2, usuario.getEmail());
@@ -45,10 +47,15 @@ public class UsuarioRepository {
             stmt.setString(4, usuario.getTipo());
             stmt.setInt(5, usuario.getSincronizado());
             stmt.setInt(6, 0);
-            stmt.executeUpdate(); // Executa a inserção
+            
+            int linhasAfetadas = stmt.executeUpdate();
+            System.out.println("DEBUG: Usuario salvo - Linhas afetadas: " + linhasAfetadas);
+            return linhasAfetadas;
             
         } catch (SQLException e) {
+            System.err.println("ERRO ao salvar usuário: " + e.getMessage());
             e.printStackTrace();
+            return 0;
         }
     }
 
