@@ -600,10 +600,20 @@ public class PDIController implements Initializable {
 
     }
 
-    // Handler para o botão Cancelar - volta para tela de progresso ou popup
+    // Handler para o botão Cancelar - volta para tela de progresso ou popup (padrão Anamnese)
     @FXML
     private void btnCancelClick() {
-        GerenciadorTelas.getInstance().trocarTela("progresso-atendimento.fxml");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar PDI");
+        alert.setHeaderText("Deseja realmente cancelar?");
+        alert.setContentText("Todos os dados preenchidos serão perdidos.");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            // Salva o educando ID antes de resetar
+            String educandoId = pdiAtual != null ? pdiAtual.getEducandoId() : null;
+            resetarPDI();
+            voltarComPopup(educandoId);
+        }
     }
 
     // Métodos de fluxo

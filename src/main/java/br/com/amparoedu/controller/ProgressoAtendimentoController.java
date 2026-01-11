@@ -303,7 +303,12 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnExcluirPDIClick() {
-        if (educando == null || educando.getId() == null) {
+
+        // Garante que temos um ID de educando válido, mesmo se o objeto educando estiver null
+        String educandoId = (educando != null && educando.getId() != null)
+            ? educando.getId()
+            : (pdiAtual != null ? pdiAtual.getEducandoId() : null);
+        if (educandoId == null) {
             exibirAlerta("Erro", "Nenhum educando selecionado.");
             return;
         }
@@ -329,7 +334,12 @@ public class ProgressoAtendimentoController {
             if (sucesso) {
                 exibirAlerta("Sucesso", "PDI excluído com sucesso!");
                 pdiAtual = null;
-                // verificarPDIExistente();
+                atualizarInterface();
+                // Fecha o popup de progresso, se estiver aberto
+                if (excluirPDI != null && excluirPDI.getScene() != null) {
+                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirPDI.getScene().getWindow();
+                    stage.close();
+                }
             } else {
                 exibirAlerta("Erro", "Não foi possível excluir o PDI.");
             }
