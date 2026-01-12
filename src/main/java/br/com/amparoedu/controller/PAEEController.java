@@ -170,7 +170,7 @@ public class PAEEController implements Initializable {
         desabilitarEdicaoSeVisualizacao();
     }
 
-    // Inicializa os valores das ChoiceBoxes.
+    // Inicializa os valores das ChoiceBoxes
     private void inicializarChoiceBoxes() {
         // Tela 1 - Dificuldades (Sim/Não)
         if (dificuldadesMotoras != null) {
@@ -392,7 +392,7 @@ public class PAEEController implements Initializable {
         if (intervencoesSociabilidade != null && paeeAtual.getIntervencoesSociabilidade() != null) {
             intervencoesSociabilidade.setText(paeeAtual.getIntervencoesSociabilidade());
         }
-        // Nota: AVA não tem campo específico no modelo
+        // OBS: AVA não tem campo específico no modelo
 
         // Tela 6
         if (resumoObjetivoPlano != null && paeeAtual.getObjetivoPlano() != null) {
@@ -498,12 +498,6 @@ public class PAEEController implements Initializable {
 
         // Salva os dados da tela atual primeiro
         salvarDadosTelaAtual();
-
-        // Valida todos os campos obrigatórios (opcional - pode ser implementado)
-        // if (!validarTodosCampos()) {
-        //     exibirMensagemErro("Preencha todos os campos obrigatórios para concluir.");
-        //     return;
-        // }
 
         // Mostra aviso antes de salvar
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
