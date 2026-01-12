@@ -64,6 +64,39 @@ public class EducandoService {
         }
     }
 
+    public boolean atualizarAluno(Educando aluno, Endereco endereco, Responsavel responsavel) throws Exception {
+        
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataNascimento = LocalDate.parse(aluno.getData_nascimento(), formatador);
+        // Validação da data de nascimento
+        if (dataNascimento.isAfter(LocalDate.now())) {
+            throw new Exception("A data de nascimento não pode ser no futuro.");
+        }
+
+        // Validação de CPF
+        if (!isCPFValido(aluno.getCpf()) || !isCPFValido(responsavel.getCpf())) {
+            throw new Exception("Um dos CPFs informados é inválido.");
+        }
+        try {
+            // Atualiza sincronização para pendente
+            endereco.setSincronizado(0);
+            aluno.setSincronizado(0);
+            responsavel.setSincronizado(0);
+
+            // Atualiza os dados no banco
+            enderecoRepo.atualizar(endereco);
+            educandoRepo.atualizar(aluno);
+            responsavelRepo.atualizar(responsavel);
+
+            System.out.println("Atualização realizada com sucesso para: " + aluno.getNome());
+            return true;
+            
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar o aluno: " + e.getMessage());
+            return false;
+        }
+    }
+
     // Validação básica de CPF
     private boolean isCPFValido(String cpf) {
         cpf = cpf.replaceAll("\\D", "");

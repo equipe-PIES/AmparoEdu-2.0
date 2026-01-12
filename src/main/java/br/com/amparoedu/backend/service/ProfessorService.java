@@ -55,8 +55,22 @@ public class ProfessorService {
     }
     
     public boolean atualizarProfessor(Professor professor, Usuario usuario) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizarProfessor'");
+        try {
+            // Atualiza o professor
+            professor.setSincronizado(0); // Marca como não sincronizado para upload
+            professorRepo.atualizar(professor);
+            
+            // Atualiza o usuário
+            usuario.setSincronizado(0);
+            usuarioRepo.atualizar(usuario);
+            
+            System.out.println("DEBUG: Professor e usuário atualizados: " + professor.getNome());
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar professor: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
     
 }
