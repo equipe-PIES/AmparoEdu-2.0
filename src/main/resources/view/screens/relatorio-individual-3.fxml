@@ -57,7 +57,7 @@
                     </padding>
 
                     <children>
-                        <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                        <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Relatório Individual">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -79,7 +79,7 @@
                            </VBox.margin></Label>
 
                                 <Label alignment="TOP_LEFT" text="Descrever como o aluno se relaciona e qual a intervenção para que a interação ocorra de forma efetiva." wrapText="true" />
-                                <TextArea fx:id="dificuldadesRaciocinio" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                                <TextArea fx:id="interacaoProfessora" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                             </children>
 
@@ -95,7 +95,7 @@
                                 <!-- Ajustes feitos aqui -->
                                 <Label prefHeight="35.0" text="Informar se o aluno possui habilidades de autocuidado como: higiene pessoal, alimentação, vestuário, autonomia para utilizar o banheiro, faz uso de fraldas, qual dificuldade motora possui (caso afirmativo), necessidade de auxílio na locomoção." wrapText="true" VBox.vgrow="ALWAYS" />
 
-                                <TextArea fx:id="dificuldadesRaciocinio1" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                                <TextArea fx:id="atividadesVidaDiaria" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                             </children>
                             <padding>
                                 <Insets bottom="20" left="20" right="20" top="20" />
@@ -108,7 +108,7 @@
                             <children>
                         <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                                      <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                                      <Button onAction="#btnCancelClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                                       <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
                            </children>
                         </HBox>

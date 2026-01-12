@@ -1,3 +1,4 @@
+br\com\amparoedu\controller\RIController.class
 br\com\amparoedu\controller\AnamneseController.class
 br\com\amparoedu\backend\repository\AnamneseRepository.class
 br\com\amparoedu\backend\model\TurmaEducando.class
@@ -14,6 +15,7 @@ br\com\amparoedu\backend\service\ProfessorService.class
 br\com\amparoedu\controller\CadastroEducandoController.class
 br\com\amparoedu\controller\InfoAlunoController.class
 br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.class
+br\com\amparoedu\controller\PAEEController.class
 br\com\amparoedu\backend\model\Endereco.class
 br\com\amparoedu\backend\repository\RIRepository.class
 br\com\amparoedu\controller\PDIController$ModoPDI.class
@@ -21,6 +23,7 @@ br\com\amparoedu\backend\model\Professor.class
 br\com\amparoedu\backend\repository\PAEERepository.class
 br\com\amparoedu\controller\PDIController.class
 br\com\amparoedu\controller\LoginController.class
+br\com\amparoedu\controller\PAEEController$ModoPAEE.class
 br\com\amparoedu\backend\repository\DatabaseConfig.class
 br\com\amparoedu\backend\repository\EnderecoRepository.class
 br\com\amparoedu\backend\service\DIService.class
@@ -51,6 +54,7 @@ br\com\amparoedu\backend\model\Responsavel.class
 br\com\amparoedu\backend\model\Usuario.class
 br\com\amparoedu\backend\service\AuthService.class
 br\com\amparoedu\backend\service\EducandoService.class
+br\com\amparoedu\controller\RIController$ModoRI.class
 br\com\amparoedu\util\SimpleObservable.class
 br\com\amparoedu\view\GerenciadorTelas.class
 br\com\amparoedu\backend\service\RIService.class

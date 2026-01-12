@@ -54,7 +54,7 @@
             </padding>
 
             <children>
-                  <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                  <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Plano de Atendimento Educacional Especializado">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -73,7 +73,7 @@
                         <Label style="-fx-font-weight: bold;" text="Resumo" />
 
                         <Label prefHeight="21.0" prefWidth="444.0" text="Apresente o resumo de caso do educando." />
-                        <TextArea fx:id="resumoCaso" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="resumoTela1" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                     </children>
 
@@ -98,14 +98,14 @@
                                     <children>
 
                                         <Label text="Motores/Psicomotores" />
-                              <ChoiceBox fx:id="dificuldadesMotoresPsicomotoresCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesMotoras" prefWidth="200.0" styleClass="campo-digite-selecione" />
                               <Label text="Cognitivo" />
-                              <ChoiceBox fx:id="dificuldadesCognitivoCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesCognitivas" prefWidth="200.0" styleClass="campo-digite-selecione" />
                               <Label text="Sensorial" />
-                              <ChoiceBox fx:id="dificuldadesSensorialCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesSensoriais" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
                                         <Label text="Linguagem oral/Comunicação" />
-                              <ChoiceBox fx:id="dificuldadesLinguagemComunicacaoCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesComunicacao" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
                                 </VBox>
@@ -116,14 +116,14 @@
                                     <children>
 
                                         <Label text="Familiar" />
-                              <ChoiceBox fx:id="dificuldadesFamiliarCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesFamiliares" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
                                         <Label text="Afetivo/Interpessoais" />
-                              <ChoiceBox fx:id="dificuldadesAfetivoInterpessoaisCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesAfetivas" prefWidth="200.0" styleClass="campo-digite-selecione" />
                               <Label text="Raciocínio Lógico/Matemático" />
-                              <ChoiceBox fx:id="dificuldadesRaciocinioLogicoMatematicoCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesRaciocinio" prefWidth="200.0" styleClass="campo-digite-selecione" />
                               <Label text="AVAs" />
-                              <ChoiceBox fx:id="dificuldadesAVAsCb" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                              <ChoiceBox fx:id="dificuldadesAvas" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
                                 </VBox>

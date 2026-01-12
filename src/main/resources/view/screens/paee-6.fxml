@@ -54,7 +54,7 @@
             </padding>
 
             <children>
-                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Plano de Atendimento Educacional Especializado">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -76,7 +76,7 @@
                      </VBox.margin></Label>
 
                         <Label fx:id="objetivosPAEE" prefHeight="21.0" prefWidth="444.0" text="Apresente o objetivo dos Atendimentos fornecidos ao educando" />
-                        <TextArea fx:id="objetivosPlano" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="resumoObjetivoPlano" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                     </children>
                <VBox.margin>
@@ -107,14 +107,14 @@
                                     <children>
 
                                         <Label text="AEE (Atendimento Educacional Especializado)" />
-                                        <ChoiceBox fx:id="cbAEE" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoAee" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                         <Label text="Psicólogo" />
-                                        <ChoiceBox fx:id="cbPsicologo" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoPsicologo" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                         <Label text="Fisioterapeuta" />
-                                        <ChoiceBox fx:id="cbFisioterapeuta" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoFisioterapeuta" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
                                         <Label text="Psicopedagogo" />
-                                        <ChoiceBox fx:id="cbPsicopedagogo" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoPsicopedagogo" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
                                 </VBox>
@@ -125,12 +125,12 @@
                                     <children>
 
                                         <Label text="TO (Terapia Ocupacional)" />
-                                        <ChoiceBox fx:id="cbTO" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoTerapeutaOcupacional" prefWidth="200.0" styleClass="campo-digite-selecione" />
 
                                         <Label text="Educação Física" />
-                                        <ChoiceBox fx:id="cbEducacaoFisica" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoEducacaoFisica" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                         <Label text="Estimulação Precoce" />
-                                        <ChoiceBox fx:id="cbEstimulacaoPrecoce" prefWidth="200.0" styleClass="campo-digite-selecione" />
+                                        <ChoiceBox fx:id="atendimentoEstimulacaoPrecoce" prefWidth="200.0" styleClass="campo-digite-selecione" />
                                     </children>
 
                                 </VBox>
