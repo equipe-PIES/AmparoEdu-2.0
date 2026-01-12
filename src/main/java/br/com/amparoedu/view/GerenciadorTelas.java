@@ -8,9 +8,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GerenciadorTelas {
+    private static GerenciadorTelas instance;
     private static Stage stage;
 
-    // Configura o Stage principal
+    private GerenciadorTelas() {
+    }
+
+    public static GerenciadorTelas getInstance() {
+        if (instance == null) {
+            instance = new GerenciadorTelas();
+        }
+        return instance;
+    }
+
+    // Mantém métodos estáticos para compatibilidade
     public static void setStage(Stage primaryStage) {
         stage = primaryStage;
         stage.setMaximized(false);
@@ -31,17 +42,17 @@ public class GerenciadorTelas {
         stage.show();
     }
     // Troca para uma nova tela
-    public static void trocarTela(String fxmlFile) {
+    public void trocarTela(String fxmlFile) {
         try {
             String path = "/view/screens/" + fxmlFile;
             Parent root = FXMLLoader.load(GerenciadorTelas.class.getResource(path));
-            
+
             if (stage.getScene() == null) {
                 stage.setScene(new Scene(root));
             } else {
                 stage.getScene().setRoot(root);
             }
-            
+
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
@@ -51,10 +62,10 @@ public class GerenciadorTelas {
     }
 
     // Abre janela em forma de popup
-    public static void abrirPopup(Parent root, String titulo) {
+    public void abrirPopup(Parent root, String titulo) {
         Stage popupStage = new Stage();
         popupStage.setTitle(titulo);
-        popupStage.initModality(Modality.WINDOW_MODAL); // Bloqueia a interação com a tela de fundo
+        popupStage.initModality(Modality.WINDOW_MODAL); 
         popupStage.initOwner(stage);
         
         Scene scene = new Scene(root);

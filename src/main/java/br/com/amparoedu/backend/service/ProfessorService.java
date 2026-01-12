@@ -16,21 +16,47 @@ public class ProfessorService {
         String professorId = UUID.randomUUID().toString();
         String usuarioId = UUID.randomUUID().toString();
 
-        // Define o ID e sincronização do usuario
-         usuario.setId(usuarioId);
-        usuario.setSincronizado(0);
+        try {
+            // Define o ID e sincronização do usuario
+            usuario.setId(usuarioId);
+            usuario.setSincronizado(0);
 
-        // Vincula o usuário ao professor criado
-        professor.setId(professorId);
-        professor.setUsuario_id(usuarioId);
-        professor.setSincronizado(0);
+            // Define o ID do professor e vincula o usuário
+            professor.setId(professorId);
+            professor.setUsuario_id(usuarioId);
+            professor.setSincronizado(0);
 
-        // Salva os dados no banco
-        professorRepo.salvar(professor);
-        usuarioRepo.salvar(usuario);
-
-        System.out.println("Cadastro realizado com sucesso para: " + professor.getNome());
-        return true;
+            System.out.println("DEBUG: Salvando usuário ID: " + usuarioId);
+            boolean usuarioSalvo = usuarioRepo.salvar(usuario) > 0;
+            
+            if (!usuarioSalvo) {
+                System.out.println("DEBUG: Falha ao salvar usuário!");
+                return false;
+            }
+            
+            System.out.println("DEBUG: Usuário salvo. Salvando professor ID: " + professorId);
+            boolean professorSalvo = professorRepo.salvar(professor) > 0;
+            
+            if (!professorSalvo) {
+                System.out.println("DEBUG: Falha ao salvar professor!");
+                // Opcional: reverter o usuário salvo
+                usuarioRepo.excluir(usuarioId);
+                return false;
+            }
+            
+            System.out.println("Cadastro realizado com sucesso para: " + professor.getNome());
+            return true;
+            
+        } catch (Exception e) {
+            System.out.println("DEBUG: Erro ao cadastrar professor: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean atualizarProfessor(Professor professor, Usuario usuario) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'atualizarProfessor'");
     }
     
 }

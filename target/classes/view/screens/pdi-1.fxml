@@ -134,13 +134,13 @@
                     <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                      <children>
-                              <Button alignment="CENTER" onAction="#btnCancelClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                              <Button alignment="CENTER" onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                      </children>
                   </HBox>
                         <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
                   <HBox alignment="BOTTOM_RIGHT" spacing="20.0" HBox.hgrow="ALWAYS">
                      <children>
-                              <Button onAction="#btnVoltarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />
+                              <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Voltar" />
                               <Button onAction="#btnSeguinteClick" prefWidth="220.0" styleClass="botao-seguinte" text="Seguinte" />
                      </children>
                   </HBox>

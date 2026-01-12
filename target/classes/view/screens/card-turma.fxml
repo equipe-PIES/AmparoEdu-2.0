@@ -41,7 +41,7 @@
       </VBox>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="verificarTurmaButton" mnemonicParsing="false" onAction="#handleVerificarTurmaAction" prefWidth="220.0" style="-fx-background-color: #26568C;" text="Verificar turma" textFill="WHITE">
+            <Button fx:id="btnVerificarTurma" mnemonicParsing="false" onAction="#btnVerificarTurmaClick" prefWidth="220.0" style="-fx-background-color: #26568C;" text="Verificar turma" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

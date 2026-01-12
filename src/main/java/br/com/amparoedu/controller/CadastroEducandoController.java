@@ -161,14 +161,14 @@ public class CadastroEducandoController {
 
     @FXML
     private void btnCancelaCadastroClick() {
-        GerenciadorTelas.trocarTela("tela-inicio-coord.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-inicio-coord.fxml");
     }
 
-    @FXML private void btnSairClick() { AuthService.logout(); GerenciadorTelas.trocarTela("tela-de-login.fxml"); }
-    @FXML private void btnInicioClick() { GerenciadorTelas.trocarTela("tela-inicio-coord.fxml"); }
+    @FXML private void btnSairClick() { AuthService.logout(); GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml"); }
+    @FXML private void btnInicioClick() { GerenciadorTelas.getInstance().trocarTela("tela-inicio-coord.fxml"); }
     @FXML private void btnTurmasClick() { /* Navegar para turmas */ }
     @FXML private void btnProfessoresClick() { /* Navegar para professores */ }
-    @FXML private void btnAlunosClick() { GerenciadorTelas.trocarTela("tela-alunos.fxml"); }
+    @FXML private void btnAlunosClick() { GerenciadorTelas.getInstance().trocarTela("tela-alunos.fxml"); }
 
     private void limparCampos() {
         nomeAluno.clear();

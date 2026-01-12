@@ -63,6 +63,7 @@ public class ViewTurmaController {
                 // pega o controlador do card e passa o objeto Educando
                 CardAlunoController controller = loader.getController();
                 controller.setEducando(aluno);
+                controller.setTurma(turmaAtual);
 
                 // armazena o objeto no card para usar na busca
                 card.setUserData(aluno);
@@ -93,13 +94,13 @@ public class ViewTurmaController {
     // Navega de volta para a tela de turmas
     @FXML
     private void btnTurmasClick() {
-        GerenciadorTelas.trocarTela("tela-inicio-professor.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
     // Realiza logout e volta para a tela de login
     @FXML
     private void btnSairClick() {
         AuthService.logout();
-        GerenciadorTelas.trocarTela("tela-de-login.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
 }

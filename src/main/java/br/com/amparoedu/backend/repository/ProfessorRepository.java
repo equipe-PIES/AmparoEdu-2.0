@@ -7,10 +7,13 @@ import java.util.List;
 
 public class ProfessorRepository {
 
-    public void salvar(Professor professor) {
-        String sql = "INSERT INTO professores (id, nome, cpf, data_nascimento, genero, observacoes, sincronizado, excluido, usuario_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public int salvar(Professor professor) {
+        
+        String sql = "INSERT INTO professores (id, nome, cpf, data_nascimento, genero, observacoes, usuario_id, sincronizado) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, professor.getId());
             stmt.setString(2, professor.getNome());
@@ -18,13 +21,17 @@ public class ProfessorRepository {
             stmt.setString(4, professor.getData_nascimento());
             stmt.setString(5, professor.getGenero());
             stmt.setString(6, professor.getObservacoes());
-            stmt.setInt(7, professor.getSincronizado());
-            stmt.setInt(8, professor.getExcluido());
-            stmt.setString(9, professor.getUsuario_id());
+            stmt.setString(7, professor.getUsuario_id());
+            stmt.setInt(8, professor.getSincronizado());
             
-            stmt.executeUpdate();
+            int linhasAfetadas = stmt.executeUpdate();
+            System.out.println("DEBUG: Professor salvo - Linhas afetadas: " + linhasAfetadas);
+            return linhasAfetadas;
+            
         } catch (SQLException e) {
+            System.err.println("ERRO ao salvar professor: " + e.getMessage());
             e.printStackTrace();
+            return 0;
         }
     }
 
@@ -35,6 +42,24 @@ public class ProfessorRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return extrairProfessor(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Busca por ID do usuário
+    public Professor buscarPorUsuarioId(String usuarioId) {
+        String sql = "SELECT * FROM professores WHERE usuario_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, usuarioId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return extrairProfessor(rs);

@@ -38,9 +38,9 @@ public class LoginController {
 
             // Redireciona para a tela inicial conforme o tipo de usuário
             if (usuario.getTipo().equals("COORDENADOR")) {
-                GerenciadorTelas.trocarTela("tela-inicio-coord.fxml");
+                GerenciadorTelas.getInstance().trocarTela("tela-inicio-coord.fxml");
             } else {
-                GerenciadorTelas.trocarTela("tela-inicio-professor.fxml");
+                GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
             }
         } else {
             exibirAlerta("Erro de Login", "E-mail ou senha incorretos.");

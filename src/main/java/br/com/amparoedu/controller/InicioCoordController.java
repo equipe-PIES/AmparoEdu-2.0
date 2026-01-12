@@ -42,7 +42,7 @@ public class InicioCoordController {
     @FXML
     private void btnSairClick() {
         AuthService.logout();
-        GerenciadorTelas.trocarTela("tela-de-login.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
     
     @FXML
@@ -53,11 +53,12 @@ public class InicioCoordController {
     @FXML
     private void btnAddProfClick() {
         System.out.println("Indo para tela de cadastro de professor...");
+        GerenciadorTelas.getInstance().trocarTela("cadastro-de-prof.fxml");
     }
 
     @FXML
     private void btnAddAlunoClick() {
 
-        GerenciadorTelas.trocarTela("cadastro-de-aluno.fxml");
+        GerenciadorTelas.getInstance().trocarTela("cadastro-de-aluno.fxml");
     }
 }

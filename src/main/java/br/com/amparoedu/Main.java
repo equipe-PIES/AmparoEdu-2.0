@@ -25,7 +25,7 @@ public class Main extends Application {
         primaryStage.setTitle("AmparoEdu - Sistema de Gestão Escolar");
 
         // 3. Abre a tela de login
-        GerenciadorTelas.trocarTela("tela-de-login.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
 
         primaryStage.setMaximized(true);
         primaryStage.show();

@@ -54,7 +54,7 @@
             </padding>
 
             <children>
-                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Plano de Atendimento Educacional Especializado">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -76,12 +76,12 @@
                      </VBox.margin></Label>
 
                         <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
-                        <TextArea fx:id="dificuldadesSociabilidadeTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                        <TextArea fx:id="difSociabilidade" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></TextArea>
                         <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
-                        <TextArea fx:id="intervencoesSociabilidadeTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="intervencoesSociabilidade" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                     </children>
 
@@ -93,12 +93,12 @@
                         <Insets bottom="12.0" />
                      </VBox.margin></Label>
                         <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
-                        <TextArea fx:id="dificuldadesAVATa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                        <TextArea fx:id="difAva" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></TextArea>
                         <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
-                        <TextArea fx:id="intervencoesAVATa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="intervencoesAva" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                     </children>
                     <padding>
                         <Insets bottom="20" left="20" right="20" top="20" />
@@ -111,7 +111,7 @@
                     <children>
                   <HBox HBox.hgrow="ALWAYS">
                      <children>
-                              <Button onAction="#btnCancelClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                              <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                               <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
                      </children>
                   </HBox>

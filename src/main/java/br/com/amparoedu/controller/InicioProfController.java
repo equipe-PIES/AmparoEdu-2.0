@@ -66,6 +66,6 @@ public class InicioProfController {
     @FXML
     private void btnSairClick() {
         AuthService.logout();
-        GerenciadorTelas.trocarTela("tela-de-login.fxml");
+        GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
 }

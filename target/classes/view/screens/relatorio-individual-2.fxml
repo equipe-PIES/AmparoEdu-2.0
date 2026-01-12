@@ -57,7 +57,7 @@
                     </padding>
 
                     <children>
-                        <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                        <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Relatório Individual">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -82,7 +82,7 @@
                            <VBox.margin>
                               <Insets />
                            </VBox.margin></Label>
-                                <TextArea fx:id="dificuldadesRaciocinio" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                                <TextArea fx:id="adaptacoesCurriculares" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                             </children>
 
@@ -94,7 +94,7 @@
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
                                 <Label text="Descreva como o alunoparticipa das atividades. Indique os momentos em que demonstra interesse oudesinteresse durante as aulas." wrapText="true" VBox.vgrow="SOMETIMES" />
-                                <TextArea fx:id="dificuldadesRaciocinio1" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                                <TextArea fx:id="participacaoAtividade" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                             </children>
                             <padding>
                                 <Insets bottom="20" left="20" right="20" top="20" />
@@ -107,7 +107,7 @@
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
                                 <Label prefHeight="47.0" text="Relate como e o que é trabalhado para promover a autonomia doaluno em diferentes contextos escolares. Isso inclui habilidades para fazer escolhas,tomar iniciativas, cumprir planejamentos, atender aos próprios interesses, realizar tarefas, resolver conflitos, defender-se, explicar-se e solicitar ajuda." wrapText="true" VBox.vgrow="SOMETIMES" />
-                                <TextArea fx:id="dificuldadesRaciocinio11" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                                <TextArea fx:id="autonomia" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                             </children>
                             <padding>
                                 <Insets bottom="20" left="20" right="20" top="20" />
@@ -120,7 +120,7 @@
                             <children>
                         <HBox HBox.hgrow="ALWAYS">
                            <children>
-                                      <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                                      <Button onAction="#btnCancelClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                                       <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
                            </children>
                         </HBox>

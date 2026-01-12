@@ -17,7 +17,7 @@
             <children>
                 <Region prefHeight="60.0" prefWidth="15.0" />
 
-                <Button id="btnSair" fx:id="btnSair" onAction="#btnSairClick" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: transparent; -fx-border-color: #808080; -fx-border-width: 2; -fx-border-radius: 17.5; -fx-background-radius: 17.5; -fx-padding: 6;">
+                <Button id="btnSair" fx:id="btnSair" onAction="#handleSairButtonAction" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: transparent; -fx-border-color: #808080; -fx-border-width: 2; -fx-border-radius: 17.5; -fx-background-radius: 17.5; -fx-padding: 6;">
                    <graphic>
                       <javafx.scene.shape.SVGPath content="M 17 7 L 15.59 8.41 L 18.17 11 H 8 v 2 h 10.17 l -2.58 2.58 L 17 17 l 5 -5 Z M 4 5 h 8 V 3 H 4 c -1.11 0 -2 0.89 -2 2 v 14 c 0 1.1 0.89 2 2 2 h 8 v -2 H 4 Z" fill="#808080" scaleX="1.0" scaleY="1.0" />
                    </graphic>
@@ -40,10 +40,10 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
-                        <Button id="btnInicio" fx:id="btnInicio" onAction="#btnInicioClick" styleClass="botao-topo" text="Início" />
-                        <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
-                        <Button id="btnProfessores" fx:id="btnProfessores" onAction="#btnProfessoresClick" styleClass="botao-topo" text="Professores" />
-                        <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />
+                        <Button id="btnInicio" fx:id="btnInicio" onAction="#handleInicioButtonAction" styleClass="botao-topo" text="Início" />
+                        <Button id="btnTurmas" fx:id="btnTurmas" onAction="#handleTurmasButtonAction" styleClass="botao-topo" text="Turmas" />
+                        <Button id="btnProfessores" fx:id="btnProfessores" onAction="#handleProfessoresButtonAction" styleClass="botao-topo" text="Professores" />
+                        <Button id="btnAlunos" fx:id="btnAlunos" onAction="#handleAlunosButtonAction" styleClass="botao-topo" text="Alunos" />
                     </children>
                 </HBox>
             </children>
@@ -128,7 +128,7 @@
                               </VBox>
                         <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                            <children>
-                                        <Button fx:id="btnCancelCadastro" mnemonicParsing="false" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                                        <Button fx:id="btnCancelCadastro" onAction="#handleCancelCadastroAction" mnemonicParsing="false" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                            </children>
                         </HBox>
                      </children>
@@ -189,7 +189,7 @@
                                 <HBox alignment="BOTTOM_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
                                     <children>
                                         <Region prefHeight="31.0" prefWidth="13.0" />
-                                        <Button fx:id="cadastroProfBt" mnemonicParsing="false" prefWidth="220.0" styleClass="botao-concluir" text="Cadastrar Professor(a)" />
+                                        <Button fx:id="cadastroProfBt" onAction="#handleCadastroProfClick" mnemonicParsing="false" prefWidth="220.0" styleClass="botao-concluir" text="Cadastrar Professor(a)" />
                                     </children>
                                 </HBox>
                             </children>
