@@ -54,7 +54,7 @@
             </padding>
 
             <children>
-                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Plano de Atendimento Educacional Especializado">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -76,12 +76,12 @@
                      </VBox.margin></Label>
 
                         <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
-                        <TextArea fx:id="desenvolvimentoMotoresPsicomotoresDificuldadesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                        <TextArea fx:id="difDesenvolvimentoMotor" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
                          <VBox.margin>
                             <Insets bottom="12.0" />
                          </VBox.margin></TextArea>
                   <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
-                  <TextArea fx:id="desenvolvimentoMotoresPsicomotoresIntervencoesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                  <TextArea fx:id="intervencoesMotor" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
 
                     </children>
 
@@ -93,12 +93,12 @@
                         <Insets bottom="12.0" />
                      </VBox.margin></Label>
                   <Label prefHeight="21.0" prefWidth="444.0" text="Dificuldades" />
-                  <TextArea fx:id="comunicacaoLinguagemDificuldadesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
+                  <TextArea fx:id="difComunicacaoLinguagem" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="12.0" />
                      </VBox.margin></TextArea>
                   <Label prefHeight="21.0" prefWidth="444.0" text="Intervenções" />
-                  <TextArea fx:id="comunicacaoLinguagemIntervencoesTa" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                  <TextArea fx:id="intervencoesComunicacao" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                </children>
                <padding>
                   <Insets bottom="20" left="20" right="20" top="20" />

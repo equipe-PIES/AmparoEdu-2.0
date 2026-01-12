@@ -56,7 +56,7 @@
                   </padding>
       
                   <children>
-                      <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="indicadorDeTela">
+                      <Label id="indicadorDeTela" fx:id="indicadorDeTela" prefHeight="35.0" prefWidth="516.0" text="Relatório Individual">
                           <font>
                               <Font name="System Bold" size="24.0" />
                           </font>
@@ -78,7 +78,7 @@
                            </VBox.margin></Label>
       
                               <Label text="Introduza aqui um texto inicial, informando com que frequência semanal o educando participados atendimentos, o tempo de duração de cada atendimento e o objetivo geral dessas atividades." wrapText="true" />
-                              <TextArea fx:id="dificuldadesRaciocinio" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                              <TextArea fx:id="dadosFuncionais" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
       
                           </children>
       
@@ -90,7 +90,7 @@
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
                         <Label text="Refere-se às habilidades cognitivasrelacionadas à aprendizagem dos conteúdos curriculares propostos, por meio deatividades escritas, leituras, jogos e raciocínio lógico." wrapText="true" />
-                        <TextArea fx:id="dificuldadesRaciocinio1" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="funcionalidadeCognitiva" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="20" left="20" right="20" top="20" />
@@ -103,7 +103,7 @@
                               <Insets bottom="12.0" />
                            </VBox.margin></Label>
                         <Label text="Descreva detalhadamente como o alunofaz uso da leitura e da escrita e como se expressa em relação a essas atividades.Inclua também qual é o apoio oferecido para auxiliar o aluno nessas práticas." wrapText="true" VBox.vgrow="SOMETIMES" />
-                        <TextArea fx:id="dificuldadesRaciocinio11" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
+                        <TextArea fx:id="alfabetizacao" prefHeight="120" promptText="Digite" styleClass="campo-digite-selecione" wrapText="true" />
                      </children>
                      <padding>
                         <Insets bottom="20" left="20" right="20" top="20" />
@@ -119,7 +119,7 @@
                           <children>
                         <HBox HBox.hgrow="ALWAYS">
                            <children>
-                                    <Button onAction="#btnCancelarClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
+                                    <Button onAction="#btnCancelClick" prefWidth="220.0" styleClass="botao-cancelar-voltar-sair" text="Cancelar" />
                            </children>
                         </HBox>
                               <Label fx:id="validationMsg" textFill="#e74c3c" visible="false">Algum campo está em branco. Preencha para prosseguir.</Label>
