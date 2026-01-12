@@ -47,7 +47,7 @@ public class InicioCoordController {
     
     @FXML
     private void btnAddTurmaClick() {
-        System.out.println("Indo para tela de cadastro de turma...");
+        GerenciadorTelas.getInstance().trocarTela("cadastro-de-turma.fxml");
     }
 
     @FXML

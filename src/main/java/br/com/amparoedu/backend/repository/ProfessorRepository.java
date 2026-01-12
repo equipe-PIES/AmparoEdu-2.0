@@ -105,6 +105,23 @@ public class ProfessorRepository {
         }
     }
 
+    // Listar todos os professores ativos
+    public List<Professor> listarTodos() {
+        List<Professor> professores = new ArrayList<>();
+        String sql = "SELECT * FROM professores WHERE excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                professores.add(extrairProfessor(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return professores;
+    }
+
     // buscar professores não sincronizados
     public List<Professor> buscarNaoSincronizados() {
         List<Professor> professores = new ArrayList<>();
