@@ -43,6 +43,12 @@ public class CadastroTurmaController {
     private List<Educando> todosAlunos;
     private final ObservableList<Educando> alunosSelecionados = FXCollections.observableArrayList();
 
+    private static Turma turmaEdicao;
+
+    public static void setTurmaEdicao(Turma turma) {
+        turmaEdicao = turma;
+    }
+
     @FXML
     public void initialize() {
         configurarTopo();
@@ -52,8 +58,37 @@ public class CadastroTurmaController {
         configurarBuscaAlunos();
         configurarListas();
         
+        if (turmaEdicao != null) {
+            preencherCamposEdicao();
+        } else {
+            if (btnCadastroTurma != null) btnCadastroTurma.setText("Cadastrar Turma");
+        }
+        
         ListAlunosTurma.setItems(alunosSelecionados);
         filtrarAlunos("");
+    }
+    
+    private void preencherCamposEdicao() {
+        nomeTurmaField.setText(turmaEdicao.getNome());
+        grauTurma.setValue(turmaEdicao.getGrau_ensino());
+        idadeAlunos.setValue(turmaEdicao.getFaixa_etaria());
+        turnoTurma.setValue(turmaEdicao.getTurno());
+        
+        // Find professor name by ID
+        for (Map.Entry<String, String> entry : professorMap.entrySet()) {
+            if (entry.getValue().equals(turmaEdicao.getProfessor_id())) {
+                profRespon.setValue(entry.getKey());
+                break;
+            }
+        }
+        
+        // Load students
+        List<Educando> alunosDaTurma = educandoRepo.buscarPorTurma(turmaEdicao.getId());
+        alunosSelecionados.setAll(alunosDaTurma);
+        
+        if (btnCadastroTurma != null) {
+            btnCadastroTurma.setText("Salvar Alterações");
+        }
     }
     
     private void configuringTopo() {
@@ -203,7 +238,9 @@ public class CadastroTurmaController {
         }
 
         try {
-            Turma turma = new Turma();
+            boolean isEdicao = (turmaEdicao != null);
+            Turma turma = isEdicao ? turmaEdicao : new Turma();
+            
             turma.setNome(nomeTurmaField.getText());
             turma.setGrau_ensino(grauTurma.getValue());
             turma.setFaixa_etaria(idadeAlunos.getValue());
@@ -213,20 +250,53 @@ public class CadastroTurmaController {
             String idProfessor = professorMap.get(nomeProfessor);
             turma.setProfessor_id(idProfessor);
 
-            boolean sucesso = turmaService.cadastrarNovaTurma(turma);
+            boolean sucesso;
+            if (isEdicao) {
+                sucesso = turmaService.atualizarTurma(turma);
+            } else {
+                sucesso = turmaService.cadastrarNovaTurma(turma);
+            }
 
             if (sucesso) {
-                // Salvar os alunos vinculados à turma
-                salvarAlunosTurma(turma.getId());
+                // Atualizar alunos
+                if (isEdicao) {
+                    atualizarAlunosTurma(turma.getId());
+                } else {
+                    salvarAlunosTurma(turma.getId());
+                }
                 
-                exibirAlertaSucesso();
+                exibirAlertaSucesso(isEdicao ? "Turma atualizada com sucesso!" : "Turma cadastrada com sucesso!");
                 limparCampos();
+                
+                if (isEdicao) {
+                    GerenciadorTelas.getInstance().trocarTela("view-turmas-coord.fxml");
+                }
             } else {
-                erroMensagem.setText("Erro ao cadastrar turma. Tente novamente.");
+                erroMensagem.setText("Erro ao salvar turma. Tente novamente.");
             }
         } catch (Exception e) {
             erroMensagem.setText("Erro: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+    
+    private void atualizarAlunosTurma(String turmaId) {
+        List<Educando> atuais = educandoRepo.buscarPorTurma(turmaId);
+        List<String> idsAtuais = atuais.stream().map(Educando::getId).collect(Collectors.toList());
+        List<String> idsNovos = alunosSelecionados.stream().map(Educando::getId).collect(Collectors.toList());
+        
+        // Remover os que não estão mais na lista
+        for (Educando aluno : atuais) {
+            if (!idsNovos.contains(aluno.getId())) {
+                turmaService.desvincularAlunoDaTurma(turmaId, aluno.getId());
+            }
+        }
+        
+        // Adicionar os novos
+        for (Educando aluno : alunosSelecionados) {
+            if (!idsAtuais.contains(aluno.getId())) {
+                turmaService.atribuirAlunoATurma(turmaId, aluno.getId());
+            }
         }
     }
     
@@ -256,15 +326,16 @@ public class CadastroTurmaController {
         return true;
     }
 
-    private void exibirAlertaSucesso() {
+    private void exibirAlertaSucesso(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sucesso");
         alert.setHeaderText(null);
-        alert.setContentText("Turma cadastrada com sucesso!");
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 
     private void limparCampos() {
+        turmaEdicao = null;
         nomeTurmaField.clear();
         grauTurma.setValue(null);
         idadeAlunos.setValue(null);

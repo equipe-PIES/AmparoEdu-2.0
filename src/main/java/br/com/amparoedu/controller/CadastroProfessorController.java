@@ -146,6 +146,10 @@ public class CadastroProfessorController {
                 if (sucesso) {
                     exibirAlertaSucesso(isEdicao ? "Dados atualizados com sucesso!" : "Professor cadastrado com sucesso!");
                     limparCampos();
+                    
+                    if (isEdicao) {
+                        GerenciadorTelas.getInstance().trocarTela("view-profs-coord.fxml");
+                    }
                 } else {
                     erroEscolhaSenha.setText("Erro ao salvar no banco de dados.");
                 }

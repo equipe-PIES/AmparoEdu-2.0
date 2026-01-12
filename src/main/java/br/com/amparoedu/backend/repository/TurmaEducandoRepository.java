@@ -57,6 +57,28 @@ public class TurmaEducandoRepository {
         return null;
     }
 
+    public List<TurmaEducando> buscarPorEducando(String educandoId) {
+        List<TurmaEducando> lista = new ArrayList<>();
+        String sql = "SELECT * FROM turma_educando WHERE educando_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, educandoId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new TurmaEducando(
+                        rs.getString("turma_id"),
+                        rs.getString("educando_id"),
+                        rs.getInt("sincronizado"),
+                        rs.getInt("excluido")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     // buscar vinculos não sincronizados
     public List<TurmaEducando> buscarNaoSincronizados() {
         List<TurmaEducando> lista = new ArrayList<>();

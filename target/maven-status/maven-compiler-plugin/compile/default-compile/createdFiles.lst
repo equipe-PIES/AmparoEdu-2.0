@@ -12,8 +12,10 @@ br\com\amparoedu\backend\repository\ViewsRepository.class
 br\com\amparoedu\controller\CadastroTurmaController$2$1.class
 br\com\amparoedu\backend\repository\UsuarioRepository.class
 br\com\amparoedu\backend\model\Anamnese.class
+br\com\amparoedu\controller\ViewProfsCoordController.class
 br\com\amparoedu\backend\service\ProfessorService.class
 br\com\amparoedu\controller\CadastroEducandoController.class
+br\com\amparoedu\controller\ViewTurmasCoordController.class
 br\com\amparoedu\controller\InfoAlunoController.class
 br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.class
 br\com\amparoedu\controller\PAEEController.class
@@ -22,6 +24,7 @@ br\com\amparoedu\backend\repository\RIRepository.class
 br\com\amparoedu\controller\PDIController$ModoPDI.class
 br\com\amparoedu\controller\CadastroTurmaController$1.class
 br\com\amparoedu\backend\model\Professor.class
+br\com\amparoedu\controller\CardAlunoEditController.class
 br\com\amparoedu\backend\repository\PAEERepository.class
 br\com\amparoedu\controller\PDIController.class
 br\com\amparoedu\controller\LoginController.class
@@ -29,6 +32,7 @@ br\com\amparoedu\controller\PAEEController$ModoPAEE.class
 br\com\amparoedu\backend\repository\DatabaseConfig.class
 br\com\amparoedu\backend\repository\EnderecoRepository.class
 br\com\amparoedu\backend\service\DIService.class
+br\com\amparoedu\controller\CardProfEditController.class
 br\com\amparoedu\backend\repository\EducandoRepository.class
 br\com\amparoedu\backend\service\SincronizacaoService.class
 br\com\amparoedu\controller\ProgressoAtendimentoController.class
@@ -38,6 +42,7 @@ br\com\amparoedu\backend\service\TurmaService.class
 br\com\amparoedu\controller\CadastroProfessorController.class
 br\com\amparoedu\backend\model\PDI.class
 br\com\amparoedu\controller\InicioCoordController.class
+br\com\amparoedu\controller\ViewAlunosCoordController.class
 br\com\amparoedu\backend\model\Turma.class
 br\com\amparoedu\backend\repository\PDIRepository.class
 br\com\amparoedu\backend\repository\PopularDatabase.class
@@ -65,3 +70,4 @@ br\com\amparoedu\backend\service\RIService.class
 br\com\amparoedu\backend\repository\TurmaEducandoRepository.class
 br\com\amparoedu\controller\CadastroTurmaController$1$1.class
 br\com\amparoedu\Main.class
+br\com\amparoedu\controller\CardTurmaEditController.class

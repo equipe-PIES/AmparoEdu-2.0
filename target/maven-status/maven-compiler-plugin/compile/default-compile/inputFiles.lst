@@ -43,7 +43,10 @@ C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-deskto
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroProfessorController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroTurmaController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoEditController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
@@ -52,7 +55,10 @@ C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-deskto
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\PDIController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ProgressoAtendimentoController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\RIController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewAlunosCoordController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewProfsCoordController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
+C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObservable.java
 C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObserver.java

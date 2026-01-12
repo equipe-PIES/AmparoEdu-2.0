@@ -32,6 +32,20 @@ public class TurmaService {
         }
     }
 
+    public boolean atualizarTurma(Turma turma) throws Exception {
+        if (turma.getNome() == null || turma.getNome().trim().isEmpty()) {
+            throw new Exception("O nome da turma é obrigatório.");
+        }
+
+        try {
+            turma.setSincronizado(0);
+            turmaRepo.atualizar(turma);
+            return true;
+        } catch (Exception e) {
+            throw new Exception("Erro ao atualizar a turma: " + e.getMessage());
+        }
+    }
+
     public boolean atribuirAlunoATurma(String turmaId, String educandoId) {
         try {
             turmaEducandoRepo.salvar(new TurmaEducando(turmaId, educandoId, 0, 0));
