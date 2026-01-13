@@ -1,5 +1,7 @@
 package br.com.amparoedu.backend.service;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
 
@@ -12,8 +14,8 @@ public class AuthService {
     public Usuario fazerLogin(String email, String senha) {
         Usuario usuario = usuarioRepository.buscarPorEmail(email);
 
-        // Validação simples de senha
-        if (usuario != null && usuario.getSenha().equals(senha)) {
+        // validação da senha usando bcrypt
+        if (usuario != null && BCrypt.checkpw(senha, usuario.getSenha())) {
             usuarioLogado = usuario;
             return usuario;
         }

@@ -156,74 +156,74 @@ public class DIRepository {
         stmt.setString(index++, di.getEducando_id());
         stmt.setString(index++, di.getProfessor_id());
         stmt.setString(index++, di.getData_criacao());
-        stmt.setInt(index++, di.getFala_nome());
-        stmt.setInt(index++, di.getFala_nascimento());
-        stmt.setInt(index++, di.getLe_palavras());
-        stmt.setInt(index++, di.getFala_telefone());
-        stmt.setInt(index++, di.getEmite_respostas());
-        stmt.setInt(index++, di.getTransmite_recados());
-        stmt.setInt(index++, di.getFala_endereco());
-        stmt.setInt(index++, di.getFala_nome_pais());
-        stmt.setInt(index++, di.getCompreende_ordens());
-        stmt.setInt(index++, di.getExpoe_ideias());
-        stmt.setInt(index++, di.getReconta_historia());
-        stmt.setInt(index++, di.getUsa_sistema_ca());
-        stmt.setInt(index++, di.getRelata_fatos());
-        stmt.setInt(index++, di.getPronuncia_letras());
-        stmt.setInt(index++, di.getVerbaliza_musicas());
-        stmt.setInt(index++, di.getInterpreta_historias());
-        stmt.setInt(index++, di.getFormula_perguntas());
-        stmt.setInt(index++, di.getUtiliza_gestos());
-        stmt.setInt(index++, di.getDemonstra_cooperacao());
-        stmt.setInt(index++, di.getTimido());
-        stmt.setInt(index++, di.getBirra());
-        stmt.setInt(index++, di.getPede_ajuda());
-        stmt.setInt(index++, di.getRi());
-        stmt.setInt(index++, di.getCompartilha());
-        stmt.setInt(index++, di.getDemonstra_amor());
-        stmt.setInt(index++, di.getChora());
-        stmt.setInt(index++, di.getInterage());
-        stmt.setInt(index++, di.getDetalhes_gravura());
-        stmt.setInt(index++, di.getReconhece_vozes());
-        stmt.setInt(index++, di.getReconhece_cancoes());
-        stmt.setInt(index++, di.getPercebe_texturas());
-        stmt.setInt(index++, di.getPercebe_cores());
-        stmt.setInt(index++, di.getDiscrimina_sons());
-        stmt.setInt(index++, di.getDiscrimina_odores());
-        stmt.setInt(index++, di.getAceita_texturas());
-        stmt.setInt(index++, di.getPercepcao_formas());
-        stmt.setInt(index++, di.getIdentifica_direcao_sons());
-        stmt.setInt(index++, di.getDiscrimina_sabores());
-        stmt.setInt(index++, di.getAcompanha_luz());
-        stmt.setInt(index++, di.getMovimento_pinca());
-        stmt.setInt(index++, di.getAmassa_papel());
-        stmt.setInt(index++, di.getCai_facilmente());
-        stmt.setInt(index++, di.getEncaixa_pecas());
-        stmt.setInt(index++, di.getRecorta());
-        stmt.setInt(index++, di.getUne_pontos());
-        stmt.setInt(index++, di.getCorre());
-        stmt.setInt(index++, di.getEmpilha());
-        stmt.setInt(index++, di.getAgitacao_motora());
-        stmt.setInt(index++, di.getAnda_reto());
-        stmt.setInt(index++, di.getSobe_escada());
-        stmt.setInt(index++, di.getArremessa_bola());
-        stmt.setInt(index++, di.getUsa_sanitario());
-        stmt.setInt(index++, di.getPenteia_cabelo());
-        stmt.setInt(index++, di.getVeste_se());
-        stmt.setInt(index++, di.getLava_maos());
-        stmt.setInt(index++, di.getBanha_se());
-        stmt.setInt(index++, di.getCalca_se());
-        stmt.setInt(index++, di.getReconhece_roupas());
-        stmt.setInt(index++, di.getAbre_torneira());
-        stmt.setInt(index++, di.getEscova_dentes());
-        stmt.setInt(index++, di.getDa_nos());
-        stmt.setInt(index++, di.getAbotoa_roupas());
-        stmt.setInt(index++, di.getIdentifica_partes_corpo());
-        stmt.setInt(index++, di.getGaratujas());
-        stmt.setInt(index++, di.getSilabico_alfabetico());
-        stmt.setInt(index++, di.getAlfabetico());
-        stmt.setInt(index++, di.getPre_silabico());
-        stmt.setInt(index++, di.getSilabico());
+        stmt.setString(index++, di.getFala_nome());
+        stmt.setString(index++, di.getFala_nascimento());
+        stmt.setString(index++, di.getLe_palavras());
+        stmt.setString(index++, di.getFala_telefone());
+        stmt.setString(index++, di.getEmite_respostas());
+        stmt.setString(index++, di.getTransmite_recados());
+        stmt.setString(index++, di.getFala_endereco());
+        stmt.setString(index++, di.getFala_nome_pais());
+        stmt.setString(index++, di.getCompreende_ordens());
+        stmt.setString(index++, di.getExpoe_ideias());
+        stmt.setString(index++, di.getReconta_historia());
+        stmt.setString(index++, di.getUsa_sistema_ca());
+        stmt.setString(index++, di.getRelata_fatos());
+        stmt.setString(index++, di.getPronuncia_letras());
+        stmt.setString(index++, di.getVerbaliza_musicas());
+        stmt.setString(index++, di.getInterpreta_historias());
+        stmt.setString(index++, di.getFormula_perguntas());
+        stmt.setString(index++, di.getUtiliza_gestos());
+        stmt.setString(index++, di.getDemonstra_cooperacao());
+        stmt.setString(index++, di.getTimido());
+        stmt.setString(index++, di.getBirra());
+        stmt.setString(index++, di.getPede_ajuda());
+        stmt.setString(index++, di.getRi());
+        stmt.setString(index++, di.getCompartilha());
+        stmt.setString(index++, di.getDemonstra_amor());
+        stmt.setString(index++, di.getChora());
+        stmt.setString(index++, di.getInterage());
+        stmt.setString(index++, di.getDetalhes_gravura());
+        stmt.setString(index++, di.getReconhece_vozes());
+        stmt.setString(index++, di.getReconhece_cancoes());
+        stmt.setString(index++, di.getPercebe_texturas());
+        stmt.setString(index++, di.getPercebe_cores());
+        stmt.setString(index++, di.getDiscrimina_sons());
+        stmt.setString(index++, di.getDiscrimina_odores());
+        stmt.setString(index++, di.getAceita_texturas());
+        stmt.setString(index++, di.getPercepcao_formas());
+        stmt.setString(index++, di.getIdentifica_direcao_sons());
+        stmt.setString(index++, di.getDiscrimina_sabores());
+        stmt.setString(index++, di.getAcompanha_luz());
+        stmt.setString(index++, di.getMovimento_pinca());
+        stmt.setString(index++, di.getAmassa_papel());
+        stmt.setString(index++, di.getCai_facilmente());
+        stmt.setString(index++, di.getEncaixa_pecas());
+        stmt.setString(index++, di.getRecorta());
+        stmt.setString(index++, di.getUne_pontos());
+        stmt.setString(index++, di.getCorre());
+        stmt.setString(index++, di.getEmpilha());
+        stmt.setString(index++, di.getAgitacao_motora());
+        stmt.setString(index++, di.getAnda_reto());
+        stmt.setString(index++, di.getSobe_escada());
+        stmt.setString(index++, di.getArremessa_bola());
+        stmt.setString(index++, di.getUsa_sanitario());
+        stmt.setString(index++, di.getPenteia_cabelo());
+        stmt.setString(index++, di.getVeste_se());
+        stmt.setString(index++, di.getLava_maos());
+        stmt.setString(index++, di.getBanha_se());
+        stmt.setString(index++, di.getCalca_se());
+        stmt.setString(index++, di.getReconhece_roupas());
+        stmt.setString(index++, di.getAbre_torneira());
+        stmt.setString(index++, di.getEscova_dentes());
+        stmt.setString(index++, di.getDa_nos());
+        stmt.setString(index++, di.getAbotoa_roupas());
+        stmt.setString(index++, di.getIdentifica_partes_corpo());
+        stmt.setString(index++, di.getGaratujas());
+        stmt.setString(index++, di.getSilabico_alfabetico());
+        stmt.setString(index++, di.getAlfabetico());
+        stmt.setString(index++, di.getPre_silabico());
+        stmt.setString(index++, di.getSilabico());
         stmt.setString(index++, di.getObservacoes());
         stmt.setInt(index++, di.getSincronizado());
         stmt.setInt(index++, di.getExcluido());
@@ -236,74 +236,74 @@ public class DIRepository {
             rs.getString("educando_id"),
             rs.getString("professor_id"),
             rs.getString("data_criacao"),
-            rs.getInt("fala_nome"),
-            rs.getInt("fala_nascimento"),
-            rs.getInt("le_palavras"),
-            rs.getInt("fala_telefone"),
-            rs.getInt("emite_respostas"),
-            rs.getInt("transmite_recados"),
-            rs.getInt("fala_endereco"),
-            rs.getInt("fala_nome_pais"),
-            rs.getInt("compreende_ordens"),
-            rs.getInt("expoe_ideias"),
-            rs.getInt("reconta_historia"),
-            rs.getInt("usa_sistema_ca"),
-            rs.getInt("relata_fatos"),
-            rs.getInt("pronuncia_letras"),
-            rs.getInt("verbaliza_musicas"),
-            rs.getInt("interpreta_historias"),
-            rs.getInt("formula_perguntas"),
-            rs.getInt("utiliza_gestos"),
-            rs.getInt("demonstra_cooperacao"),
-            rs.getInt("timido"),
-            rs.getInt("birra"),
-            rs.getInt("pede_ajuda"),
-            rs.getInt("ri"),
-            rs.getInt("compartilha"),
-            rs.getInt("demonstra_amor"),
-            rs.getInt("chora"),
-            rs.getInt("interage"),
-            rs.getInt("detalhes_gravura"),
-            rs.getInt("reconhece_vozes"),
-            rs.getInt("reconhece_cancoes"),
-            rs.getInt("percebe_texturas"),
-            rs.getInt("percebe_cores"),
-            rs.getInt("discrimina_sons"),
-            rs.getInt("discrimina_odores"),
-            rs.getInt("aceita_texturas"),
-            rs.getInt("percepcao_formas"),
-            rs.getInt("identifica_direcao_sons"),
-            rs.getInt("discrimina_sabores"),
-            rs.getInt("acompanha_luz"),
-            rs.getInt("movimento_pinca"),
-            rs.getInt("amassa_papel"),
-            rs.getInt("cai_facilmente"),
-            rs.getInt("encaixa_pecas"),
-            rs.getInt("recorta"),
-            rs.getInt("une_pontos"),
-            rs.getInt("corre"),
-            rs.getInt("empilha"),
-            rs.getInt("agitacao_motora"),
-            rs.getInt("anda_reto"),
-            rs.getInt("sobe_escada"),
-            rs.getInt("arremessa_bola"),
-            rs.getInt("usa_sanitario"),
-            rs.getInt("penteia_cabelo"),
-            rs.getInt("veste_se"),
-            rs.getInt("lava_maos"),
-            rs.getInt("banha_se"),
-            rs.getInt("calca_se"),
-            rs.getInt("reconhece_roupas"),
-            rs.getInt("abre_torneira"),
-            rs.getInt("escova_dentes"),
-            rs.getInt("da_nos"),
-            rs.getInt("abotoa_roupas"),
-            rs.getInt("identifica_partes_corpo"),
-            rs.getInt("garatujas"),
-            rs.getInt("silabico_alfabetico"),
-            rs.getInt("alfabetico"),
-            rs.getInt("pre_silabico"),
-            rs.getInt("silabico"),
+            rs.getString("fala_nome"),
+            rs.getString("fala_nascimento"),
+            rs.getString("le_palavras"),
+            rs.getString("fala_telefone"),
+            rs.getString("emite_respostas"),
+            rs.getString("transmite_recados"),
+            rs.getString("fala_endereco"),
+            rs.getString("fala_nome_pais"),
+            rs.getString("compreende_ordens"),
+            rs.getString("expoe_ideias"),
+            rs.getString("reconta_historia"),
+            rs.getString("usa_sistema_ca"),
+            rs.getString("relata_fatos"),
+            rs.getString("pronuncia_letras"),
+            rs.getString("verbaliza_musicas"),
+            rs.getString("interpreta_historias"),
+            rs.getString("formula_perguntas"),
+            rs.getString("utiliza_gestos"),
+            rs.getString("demonstra_cooperacao"),
+            rs.getString("timido"),
+            rs.getString("birra"),
+            rs.getString("pede_ajuda"),
+            rs.getString("ri"),
+            rs.getString("compartilha"),
+            rs.getString("demonstra_amor"),
+            rs.getString("chora"),
+            rs.getString("interage"),
+            rs.getString("detalhes_gravura"),
+            rs.getString("reconhece_vozes"),
+            rs.getString("reconhece_cancoes"),
+            rs.getString("percebe_texturas"),
+            rs.getString("percebe_cores"),
+            rs.getString("discrimina_sons"),
+            rs.getString("discrimina_odores"),
+            rs.getString("aceita_texturas"),
+            rs.getString("percepcao_formas"),
+            rs.getString("identifica_direcao_sons"),
+            rs.getString("discrimina_sabores"),
+            rs.getString("acompanha_luz"),
+            rs.getString("movimento_pinca"),
+            rs.getString("amassa_papel"),
+            rs.getString("cai_facilmente"),
+            rs.getString("encaixa_pecas"),
+            rs.getString("recorta"),
+            rs.getString("une_pontos"),
+            rs.getString("corre"),
+            rs.getString("empilha"),
+            rs.getString("agitacao_motora"),
+            rs.getString("anda_reto"),
+            rs.getString("sobe_escada"),
+            rs.getString("arremessa_bola"),
+            rs.getString("usa_sanitario"),
+            rs.getString("penteia_cabelo"),
+            rs.getString("veste_se"),
+            rs.getString("lava_maos"),
+            rs.getString("banha_se"),
+            rs.getString("calca_se"),
+            rs.getString("reconhece_roupas"),
+            rs.getString("abre_torneira"),
+            rs.getString("escova_dentes"),
+            rs.getString("da_nos"),
+            rs.getString("abotoa_roupas"),
+            rs.getString("identifica_partes_corpo"),
+            rs.getString("garatujas"),
+            rs.getString("silabico_alfabetico"),
+            rs.getString("alfabetico"),
+            rs.getString("pre_silabico"),
+            rs.getString("silabico"),
             rs.getString("observacoes"),
             rs.getInt("sincronizado"),
             rs.getInt("excluido")

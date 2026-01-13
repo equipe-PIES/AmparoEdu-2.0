@@ -21,6 +21,7 @@ import br.com.amparoedu.backend.repository.RIRepository;
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.mindrot.jbcrypt.BCrypt;
 
 // Esse arquivo é utilizado para inserir dados iniciais no banco e realizar populações de teste
 
@@ -34,10 +35,12 @@ public class PopularDatabase {
         
         // Verifica se já existe um admin para não duplicar
         if (repo.buscarPorEmail("coordenador@test.com") == null) {
+            // Gera hash da senha padrão para o coordenador inicial
+            String senhaHasheada = BCrypt.hashpw("1234", BCrypt.gensalt());
             Usuario admin = new Usuario(
                 UUID.randomUUID().toString(), 
                 "coordenador@test.com", 
-                "1234", 
+                senhaHasheada, 
                 "COORDENADOR",
                 0, // indica que o novo usuário ainda não está sincronizado ao supabase
                 0
@@ -58,7 +61,9 @@ public class PopularDatabase {
         }
 
         String usuarioId = UUID.randomUUID().toString();
-        Usuario usuario = new Usuario(usuarioId, email, senha, "COORDENADOR", 0, 0);
+        // Hash da senha antes de persistir
+        String senhaHasheada = BCrypt.hashpw(senha, BCrypt.gensalt());
+        Usuario usuario = new Usuario(usuarioId, email, senhaHasheada, "COORDENADOR", 0, 0);
         usuarioRepo.salvar(usuario);
         System.out.println("Coordenador criado: " + usuarioId);
         return usuarioId;
@@ -146,58 +151,58 @@ public class PopularDatabase {
             educandoId,
             professorId,
             dataCriacao,
-            0,
-            0,
+            "não",
+            "não",
             "",
-            1,
-            0,
+            "sim",
+            "não",
             "",
-            0,
+            "não",
             "",
-            0,
+            "não",
             "",
             "3 anos",
-            0,
+            "não",
             "",
-            1,
+            "sim",
             "Pais",
             "9 meses",
-            1,
-            0,
+            "sim",
+            "não",
             "",
             "São Paulo",
             "Maternidade Central",
             "Normal",
-            1,
-            0,
-            0,
-            1,
-            1,
+            "sim",
+            "não",
+            "não",
+            "sim",
+            "sim",
             "3 meses",
-            1,
+            "sim",
             "6 meses",
-            1,
+            "sim",
             "6 meses",
-            1,
+            "sim",
             "12 meses",
-            0,
+            "não",
             "",
-            1,
+            "sim",
             "12 meses",
             "4 meses",
             "12 meses",
             "18 meses",
             "Natural",
-            0,
+            "não",
             "",
             "Sem observações",
-            1,
-            1,
+            "sim",
+            "sim",
             "Calmo",
-            1,
-            0,
-            0,
-            0,
+            "sim",
+            "não",
+            "não",
+            "não",
             0,
             0
         );
@@ -251,14 +256,14 @@ public class PopularDatabase {
             professorId,
             dataCriacao,
             "Plano inicial",
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
+            "não",
+            "não",
+            "não",
+            "não",
+            "não",
+            "não",
+            "sim",
+            "não",
             "Sem dif. motor",
             "Motricidade fina",
             "Sem dif. comunicacao",
@@ -274,13 +279,13 @@ public class PopularDatabase {
             "Sociabilidade boa",
             "Atividades em grupo",
             "Melhorar concentração",
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            "não",
+            "não",
+            "não",
+            "não",
+            "não",
+            "não",
+            "não",
             0,
             0
         );
@@ -301,17 +306,17 @@ public class PopularDatabase {
             professorId,             // professor_id
             dataCriacao,             // data_criacao
             // Comunicação (18)
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não",
             // Afetivas/Sociais (9)
-            0, 0, 0, 0, 0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não", "não", "não", "não", "não",
             // Sensoriais (12)
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não",
             // Motoras (12)
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não",
             // AVDs (12)
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não", "não",
             // Níveis de aprendizagem (5)
-            0, 0, 0, 0, 0,
+            "não", "não", "não", "não", "não",
             // Observações e flags (3)
             "", 0, 0
         );
@@ -336,8 +341,8 @@ public class PopularDatabase {
             "Nível de alfabetização: reconhece letras e palavras simples",
             "Adaptações curriculares necessárias: ampliação de tempo para atividades",
             "Participação nas atividades: engajado e colaborativo",
-            1,  // autonomia (0 ou 1)
-            1,  // interacao_professora (0 ou 1)
+            "sim",  // autonomia
+            "sim",  // interacao_professora
             "Atividades de vida diária: realiza higiene pessoal com supervisão",
             0,
             0
