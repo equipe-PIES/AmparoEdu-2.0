@@ -1,6 +1,7 @@
 package br.com.amparoedu.controller;
 
 import br.com.amparoedu.backend.model.Anamnese;
+import br.com.amparoedu.backend.model.DI;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.backend.model.PDI;
@@ -8,6 +9,7 @@ import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.repository.PDIRepository;
 import br.com.amparoedu.backend.service.AnamneseService;
+import br.com.amparoedu.backend.service.DIService;
 import br.com.amparoedu.backend.service.PAEEService;
 import br.com.amparoedu.backend.service.PDIService;
 import br.com.amparoedu.backend.service.RIService;
@@ -25,10 +27,12 @@ public class ProgressoAtendimentoController {
     private PDI pdiAtual;
     private PAEE paeeAtual;
     private RI riAtual;
+    private DI diAtual;
     private final AnamneseService anamneseService = new AnamneseService();
     private final PDIService pdiService = new PDIService();
     private final PAEEService paeeService = new PAEEService();
     private final RIService riService = new RIService();
+    private final DIService diService = new DIService();
     private final PDIRepository pdiRepository = new PDIRepository();
 
     @FXML
@@ -49,6 +53,7 @@ public class ProgressoAtendimentoController {
         carregarPDIAtual();
         carregarPAEEAtual();
         carregarRIAtual();
+        carregarDIAtual();
         atualizarInterface();
     }
 
@@ -106,6 +111,24 @@ public class ProgressoAtendimentoController {
         }
     }
 
+    /**
+     * Busca o DI mais recente do educando e atribui a diAtual.
+     * Se não houver, diAtual fica null.
+     */
+    private void carregarDIAtual() {
+        if (educando == null || educando.getId() == null) {
+            diAtual = null;
+            return;
+        }
+        var lista = diService.buscarPorEducando(educando.getId());
+        if (lista != null && !lista.isEmpty()) {
+            // Considera o mais recente (assumindo que o primeiro é o mais novo)
+            diAtual = lista.get(0);
+        } else {
+            diAtual = null;
+        }
+    }
+
     public void setTurma(Turma turma) {
         this.turma = turma;
     }
@@ -140,7 +163,24 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnCriarDIClick() {
-        /* Lógica para Diagnóstico Inicial */
+        if (educando == null || educando.getId() == null) {
+            System.err.println("Erro: Educando não definido ou sem ID.");
+            return;
+        }
+
+        // Inicializa novo DI e define o ID do educando
+        DIController.iniciarNovoDI();
+        DIController.setEducandoIdParaDI(educando.getId());
+        if (turma != null && turma.getId() != null) {
+            DIController.setTurmaIdOrigem(turma.getId());
+        }
+
+        // Fecha o popup de progresso antes de abrir o DI
+        Stage popupStage = (Stage) criarDI.getScene().getWindow();
+        popupStage.close();
+
+        // Abre a primeira tela do DI
+        GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
     }
 
     @FXML
@@ -311,14 +351,111 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnEditarDIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        try {
+            DIController.editarDIExistente(diAtual);
+
+            if (turma != null && turma.getId() != null) {
+                DIController.setTurmaIdOrigem(turma.getId());
+            }
+
+            Stage popupStage = (Stage) editarDI.getScene().getWindow();
+            popupStage.close();
+
+            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
+
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao editar Diagnóstico Inicial: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void btnVerDIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        try {
+            DIController.visualizarDI(diAtual);
+
+            if (turma != null && turma.getId() != null) {
+                DIController.setTurmaIdOrigem(turma.getId());
+            }
+
+            Stage popupStage = (Stage) verDI.getScene().getWindow();
+            popupStage.close();
+
+            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
+
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao visualizar Diagnóstico Inicial: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void btnExcluirDIClick() {
+        // Garante que temos um ID de educando válido, mesmo se o objeto educando
+        // estiver null
+        String educandoId = (educando != null && educando.getId() != null)
+                ? educando.getId()
+                : (diAtual != null ? diAtual.getEducando_id() : null);
+        if (educandoId == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Confirmar Exclusão");
+        confirmacao.setHeaderText("Deseja realmente excluir este Diagnóstico Inicial?");
+        confirmacao.setContentText("Esta ação não pode ser desfeita.");
+
+        var resultado = confirmacao.showAndWait();
+        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
+            return;
+        }
+
+        try {
+            boolean sucesso = diService.excluirDI(diAtual.getId());
+
+            if (sucesso) {
+                exibirAlerta("Sucesso", "Diagnóstico Inicial excluído com sucesso!");
+                diAtual = null;
+                atualizarInterface();
+                // Fecha o popup de progresso, se estiver aberto
+                if (excluirDI != null && excluirDI.getScene() != null) {
+                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirDI.getScene().getWindow();
+                    stage.close();
+                }
+            } else {
+                exibirAlerta("Erro", "Não foi possível excluir o Diagnóstico Inicial.");
+            }
+
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao excluir Diagnóstico Inicial: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
