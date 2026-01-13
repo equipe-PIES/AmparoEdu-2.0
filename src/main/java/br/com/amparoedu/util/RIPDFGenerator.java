@@ -138,92 +138,41 @@ public class RIPDFGenerator {
     private String gerarTextoRelatorio(Educando educando, RI ri) {
         StringBuilder texto = new StringBuilder();
         
-        // Dados do Educando
-        texto.append("DADOS DO EDUCANDO\n");
-        texto.append("-----------------\n");
+        // Cabeçalho com instituição (será formatado no PDF)
+        texto.append("APAPEQ\n");
+        texto.append("CENTRO DE ATENDIMENTO EDUCACIONAL ESPECIALIZADO DR. MARCELLO CANDIA\n");
+        texto.append("\n");
+        
+        // Título principal
+        texto.append("AVALIACAO DESCRITIVA\n");
+        int anoAtual = LocalDate.now().getYear();
+        texto.append("ATENDIMENTO EDUCACIONAL ESPECIALIZADO - ").append(anoAtual).append("\n");
+        texto.append("\n");
+        
+        // Seção 1: IDENTIFICAÇÃO DO(A) ALUNO(A)
+        texto.append("1. IDENTIFICACAO DO(A) ALUNO(A):\n");
         texto.append("Nome: ").append(safe(educando.getNome())).append("\n");
-        texto.append("CPF: ").append(safe(educando.getCpf())).append("\n");
-        texto.append("Data de Nascimento: ").append(formatarData(educando.getData_nascimento())).append("\n");
-        texto.append("Genero: ").append(safe(educando.getGenero())).append("\n");
-        texto.append("Grau de Ensino: ").append(safe(educando.getGrau_ensino())).append("\n");
-        texto.append("CID: ").append(safe(educando.getCid())).append("\n");
-        texto.append("NIS: ").append(safe(educando.getNis())).append("\n");
-        texto.append("Escola: ").append(safe(educando.getEscola())).append("\n");
-        if (educando.getObservacoes() != null && !educando.getObservacoes().isBlank()) {
-            texto.append("Observacoes: ").append(educando.getObservacoes()).append("\n");
-        }
+        String dataNasc = formatarData(educando.getData_nascimento());
+        texto.append("Data de Nascimento: ").append(dataNasc);
+        texto.append("  Periodo: ").append(anoAtual).append("\n");
+        texto.append("Diagnostico: ").append(safe(educando.getCid())).append("\n");
         texto.append("\n");
-
-        // Relatório Individual
-        texto.append("RELATORIO INDIVIDUAL\n");
-        texto.append("--------------------\n");
-        texto.append("Data de Criacao: ").append(formatarData(ri.getData_criacao())).append("\n");
-        texto.append("\n");
-
-        // Dados Funcionais
+        
+        // Seção 2: DADOS FUNCIONAIS
+        texto.append("2. DADOS FUNCIONAIS:\n");
+        
+        // Primeiro o texto de dados funcionais (se houver)
         if (ri.getDados_funcionais() != null && !ri.getDados_funcionais().isBlank()) {
-            texto.append("DADOS FUNCIONAIS\n");
-            texto.append("----------------\n");
             texto.append(ri.getDados_funcionais()).append("\n");
-            texto.append("\n");
         }
-
-        // Funcionalidade Cognitiva
-        if (ri.getFuncionalidade_cognitiva() != null && !ri.getFuncionalidade_cognitiva().isBlank()) {
-            texto.append("FUNCIONALIDADE COGNITIVA\n");
-            texto.append("-----------------------\n");
-            texto.append(ri.getFuncionalidade_cognitiva()).append("\n");
-            texto.append("\n");
-        }
-
-        // Alfabetização
-        if (ri.getAlfabetizacao() != null && !ri.getAlfabetizacao().isBlank()) {
-            texto.append("ALFABETIZACAO\n");
-            texto.append("-------------\n");
-            texto.append(ri.getAlfabetizacao()).append("\n");
-            texto.append("\n");
-        }
-
-        // Adaptações Curriculares
-        if (ri.getAdaptacoes_curriculares() != null && !ri.getAdaptacoes_curriculares().isBlank()) {
-            texto.append("ADAPTACOES CURRICULARES\n");
-            texto.append("----------------------\n");
-            texto.append(ri.getAdaptacoes_curriculares()).append("\n");
-            texto.append("\n");
-        }
-
-        // Participação em Atividades
-        if (ri.getParticipacao_atividade() != null && !ri.getParticipacao_atividade().isBlank()) {
-            texto.append("PARTICIPACAO EM ATIVIDADES\n");
-            texto.append("-------------------------\n");
-            texto.append(ri.getParticipacao_atividade()).append("\n");
-            texto.append("\n");
-        }
-
-        // Autonomia
-        texto.append("AUTONOMIA\n");
-        texto.append("---------\n");
-        texto.append(simNao(ri.getAutonomia())).append("\n");
-        texto.append("\n");
-
-        // Interação com Professora
-        texto.append("INTERACAO COM PROFESSORA\n");
-        texto.append("-----------------------\n");
-        texto.append(simNao(ri.getInteracao_professora())).append("\n");
-        texto.append("\n");
-
-        // Atividades de Vida Diária
-        if (ri.getAtividades_vida_diaria() != null && !ri.getAtividades_vida_diaria().isBlank()) {
-            texto.append("ATIVIDADES DE VIDA DIARIA\n");
-            texto.append("------------------------\n");
-            texto.append(ri.getAtividades_vida_diaria()).append("\n");
-            texto.append("\n");
-        }
-
-        // Rodapé
-        texto.append("\n\n");
-        texto.append("Relatorio gerado em: ").append(LocalDate.now().format(DATE_FORMATTER)).append("\n");
-        texto.append("Sistema AmparoEdu 2.0\n");
+        
+        // Depois lista os campos específicos
+        texto.append("FUNCIONALIDADE COGNITIVA: ").append(safe(ri.getFuncionalidade_cognitiva())).append("\n");
+        texto.append("ALFABETIZACAO E LETRAMENTO: ").append(safe(ri.getAlfabetizacao())).append("\n");
+        texto.append("ADAPTACOES CURRICULARES: ").append(safe(ri.getAdaptacoes_curriculares())).append("\n");
+        texto.append("PARTICIPACAO NAS ATIVIDADES PROPOSTAS: ").append(safe(ri.getParticipacao_atividade())).append("\n");
+        texto.append("AUTONOMIA: ").append(simNao(ri.getAutonomia())).append("\n");
+        texto.append("INTERACAO COM A PROFESSORA: ").append(simNao(ri.getInteracao_professora())).append("\n");
 
         return texto.toString();
     }
@@ -239,38 +188,86 @@ public class RIPDFGenerator {
         // Inicia o texto
         stream.append("BT\n");
         
-        // Título principal
-        stream.append("/F2 18 Tf\n");
-        stream.append("50 ").append(y).append(" Td\n");
-        String titulo = removerAcentos("RELATORIO INDIVIDUAL");
-        stream.append("(").append(escaparPDF(titulo)).append(") Tj\n");
-        stream.append("0 -30 Td\n");
-        stream.append("/F1 11 Tf\n");
-        y -= 35;
-        
         // Processa todas as linhas do texto
-        for (String linha : linhas) {
-            // Pula linha vazia
-            if (linha.trim().isEmpty()) {
-                stream.append("0 -10 Td\n");
-                y -= 10;
-                continue;
-            }
+        for (int i = 0; i < linhas.length; i++) {
+            String linha = linhas[i];
+            String linhaTrim = linha.trim();
             
             // Se chegou no final da página, reinicia (simplificado - continua na mesma página)
             if (y < 50) {
                 y = 750;
                 stream.append("ET\n");
                 stream.append("BT\n");
-                stream.append("/F1 11 Tf\n");
+            }
+            
+            // Cabeçalho APAPEQ (primeira linha)
+            if (i == 0 && linhaTrim.equals("APAPEQ")) {
+                stream.append("/F2 14 Tf\n");
+                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
+                String apapeq = removerAcentos(linhaTrim);
+                stream.append("(").append(escaparPDF(apapeq)).append(") Tj\n");
+                stream.append("0 -20 Td\n");
+                y -= 20;
+                continue;
+            }
+            
+            // Nome da instituição (segunda linha)
+            if (i == 1 && linhaTrim.contains("CENTRO DE ATENDIMENTO")) {
+                stream.append("/F1 10 Tf\n");
                 stream.append("50 ").append(y).append(" Td\n");
+                String instituicao = removerAcentos(linhaTrim);
+                stream.append("(").append(escaparPDF(instituicao)).append(") Tj\n");
+                stream.append("0 -25 Td\n");
+                y -= 25;
+                continue;
+            }
+            
+            // Título "AVALIAÇÃO DESCRITIVA"
+            if (linhaTrim.equals("AVALIACAO DESCRITIVA")) {
+                stream.append("/F2 16 Tf\n");
+                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
+                String titulo = removerAcentos(linhaTrim);
+                stream.append("(").append(escaparPDF(titulo)).append(") Tj\n");
+                stream.append("0 -20 Td\n");
+                stream.append("/F1 11 Tf\n");
+                y -= 20;
+                continue;
+            }
+            
+            // Subtítulo "ATENDIMENTO EDUCACIONAL ESPECIALIZADO - XXXX"
+            if (linhaTrim.startsWith("ATENDIMENTO EDUCACIONAL")) {
+                stream.append("/F1 11 Tf\n");
+                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
+                String subtitulo = removerAcentos(linhaTrim);
+                stream.append("(").append(escaparPDF(subtitulo)).append(") Tj\n");
+                stream.append("0 -20 Td\n");
+                y -= 20;
+                continue;
+            }
+            
+            // Linha vazia
+            if (linhaTrim.isEmpty()) {
+                stream.append("0 -10 Td\n");
+                y -= 10;
+                continue;
             }
             
             // Remove acentos e escapa caracteres especiais
             String linhaSemAcentos = removerAcentos(linha);
             String linhaEscapada = escaparPDF(linhaSemAcentos);
             
-            // Quebra linha se muito longa (mantém mais caracteres)
+            // Determina fonte baseado no conteúdo
+            boolean isTituloSecao = linhaSemAcentos.matches("^[12]\\. .+:");
+            if (isTituloSecao) {
+                stream.append("/F2 12 Tf\n");
+            } else {
+                stream.append("/F1 11 Tf\n");
+            }
+            
+            // Posiciona na esquerda (50)
+            stream.append("50 ").append(y).append(" Td\n");
+            
+            // Quebra linha se muito longa
             if (linhaEscapada.length() > 100) {
                 // Quebra em múltiplas linhas
                 int pos = 0;
