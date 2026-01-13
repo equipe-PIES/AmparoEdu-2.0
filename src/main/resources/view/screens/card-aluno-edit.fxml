@@ -51,7 +51,7 @@
             </VBox.margin>
          <children>
             <Button fx:id="excluirAluno" mnemonicParsing="false" onAction="#excluirAlunoClick" prefWidth="250.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
-            <Button fx:id="editarAluno" mnemonicParsing="false" onAction="#editarAlunoClick" prefHeight="40.0" prefWidth="250.0" text="Editar" />
+            <Button fx:id="editarAluno" mnemonicParsing="false" onAction="#editarAlunoClick" prefHeight="40.0" prefWidth="250.0" styleClass="botao-cancelar-voltar-sair" text="Editar" />
          </children>
         </HBox>
     </children>

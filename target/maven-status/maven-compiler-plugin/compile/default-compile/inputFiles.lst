@@ -1,65 +1,65 @@
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Anamnese.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\DI.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Endereco.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\MediaTempoGestacao.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\PAEE.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\PDI.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Professor.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Responsavel.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\RI.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Turma.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\TurmaEducando.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Usuario.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\AnamneseRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DatabaseConfig.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DIRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EducandoRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EnderecoRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PAEERepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PDIRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PopularDatabase.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ProfessorRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ResponsavelRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\RIRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\SupabaseClient.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\TurmaEducandoRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\TurmaRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\UsuarioRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ViewsRepository.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AnamneseService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AuthService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\DIService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\EducandoService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PAEEService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PDIService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\ProfessorService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\RIService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\SincronizacaoService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\TurmaService.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\AnamneseController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroEducandoController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroProfessorController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroTurmaController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoEditController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\PAEEController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\PDIController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ProgressoAtendimentoController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\RIController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewAlunosCoordController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewProfsCoordController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObservable.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObserver.java
-C:\Users\Usuario\Desktop\Estudos UFC\4º semestre\PIES\Refaoracao-projeto-desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Anamnese.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\DI.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Endereco.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\MediaTempoGestacao.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\PAEE.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\PDI.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Professor.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Responsavel.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\RI.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Turma.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\TurmaEducando.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Usuario.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\AnamneseRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DatabaseConfig.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\DIRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EducandoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\EnderecoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PAEERepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PDIRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\PopularDatabase.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ProfessorRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ResponsavelRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\RIRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\SupabaseClient.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\TurmaEducandoRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\TurmaRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\UsuarioRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\repository\ViewsRepository.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AnamneseService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\AuthService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\DIService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\EducandoService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PAEEService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\PDIService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\ProfessorService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\RIService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\SincronizacaoService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\service\TurmaService.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\AnamneseController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroEducandoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroProfessorController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CadastroTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardAlunoEditController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\LoginController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\PAEEController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\PDIController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ProgressoAtendimentoController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\RIController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewAlunosCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewProfsCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObservable.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObserver.java
+c:\Users\Mel\Documents\UFC\Semestre 2025.2\PIES\amparo-edu\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java

@@ -39,7 +39,6 @@
                     <children>
                         <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
                         <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />
-                        <Button id="btnRelatorios" fx:id="btnRelatorios" onAction="#btnRelatoriosClick" styleClass="botao-topo" text="Relatórios" />
                     </children>
                 </HBox>
             </children>
