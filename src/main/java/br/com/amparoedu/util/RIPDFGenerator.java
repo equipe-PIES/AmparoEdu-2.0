@@ -207,12 +207,12 @@ public class RIPDFGenerator {
         yAtual -= espacamento;
         
         // AUTONOMIA
-        String autonomia = ri.getAutonomia() == 1 ? "Sim" : "Nao";
+        String autonomia = "1".equals(ri.getAutonomia()) ? "Sim" : "Nao";
         bulletItem(stream, "AUTONOMIA:", autonomia, yAtual);
         yAtual -= espacamento;
         
         // INTERAÇÃO COM A PROFESSORA
-        String interacao = ri.getInteracao_professora() == 1 ? "Sim" : "Nao";
+        String interacao = "1".equals(ri.getInteracao_professora()) ? "Sim" : "Nao";
         bulletItem(stream, "INTERACAO COM A PROFESSORA:", interacao, yAtual);
         yAtual -= espacamento;
         

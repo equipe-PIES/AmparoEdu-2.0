@@ -14,11 +14,11 @@ public class Main extends Application {
         DatabaseConfig.inicializarBanco();
         PopularDatabase.popularDadosIniciais();
         // Dados de teste para os documentos. Insira o id do educando que será relacionado e o do professor
-        //PopularDatabase.adicionarAnamnese("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
-        //PopularDatabase.adicionarPDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
-        //PopularDatabase.adicionarPAEE("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
-        //PopularDatabase.adicionarDI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
-        //PopularDatabase.adicionarRI("bbf20a5d-9eb7-45fa-9810-e6f2319aa35f", "2");
+        //PopularDatabase.adicionarAnamnese("8a26add8-f9c1-40de-b4c5-ac2c63fc68a0", "2");
+        //PopularDatabase.adicionarPDI("8a26add8-f9c1-40de-b4c5-ac2c63fc68a0", "2");
+        //PopularDatabase.adicionarPAEE("8a26add8-f9c1-40de-b4c5-ac2c63fc68a0", "2");
+        //PopularDatabase.adicionarDI("8a26add8-f9c1-40de-b4c5-ac2c63fc68a0", "2");
+        //PopularDatabase.adicionarRI("8a26add8-f9c1-40de-b4c5-ac2c63fc68a0", "2");
         
         // 2. Configura o gerenciador de telas
         GerenciadorTelas.setStage(primaryStage);

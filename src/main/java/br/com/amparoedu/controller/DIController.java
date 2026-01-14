@@ -567,19 +567,19 @@ public class DIController implements Initializable {
 
         // Tela 3: Níveis de Aprendizagem
         if (garatujas != null) {
-            garatujas.setSelected(converterIntParaBoolean(diAtual.getGaratujas()));
+            garatujas.setSelected("1".equals(diAtual.getGaratujas()));
         }
         if (silabicoAlfabetico != null) {
-            silabicoAlfabetico.setSelected(converterIntParaBoolean(diAtual.getSilabico_alfabetico()));
+            silabicoAlfabetico.setSelected("1".equals(diAtual.getSilabico_alfabetico()));
         }
         if (alfabetico != null) {
-            alfabetico.setSelected(converterIntParaBoolean(diAtual.getAlfabetico()));
+            alfabetico.setSelected("1".equals(diAtual.getAlfabetico()));
         }
         if (preSilabico != null) {
-            preSilabico.setSelected(converterIntParaBoolean(diAtual.getPre_silabico()));
+            preSilabico.setSelected("1".equals(diAtual.getPre_silabico()));
         }
         if (silabico != null) {
-            silabico.setSelected(converterIntParaBoolean(diAtual.getSilabico()));
+            silabico.setSelected("1".equals(diAtual.getSilabico()));
         }
 
         // Tela 3: Observações
@@ -588,9 +588,26 @@ public class DIController implements Initializable {
         }
     }
 
-    // Converte int (0/1) para boolean (false/true)
+    // Converte int (0/1) para boolean (false/true), tratando nulos e outros valores
     private boolean converterIntParaBoolean(int valor) {
         return valor == 1;
+    }
+
+    private boolean converterIntParaBoolean(Integer valor) {
+        if (valor == null)
+            return false;
+        return valor.intValue() == 1;
+    }
+
+    // Adiciona suporte para String
+    private boolean converterIntParaBoolean(String valor) {
+        if (valor == null)
+            return false;
+        try {
+            return Integer.parseInt(valor) == 1;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     // Converte boolean (false/true) para int (0/1)
@@ -606,218 +623,240 @@ public class DIController implements Initializable {
 
         // Tela 1: Comunicação
         if (falaSeuNome != null) {
-            diCompartilhada.setFala_nome(converterBooleanParaInt(falaSeuNome.isSelected()));
+            diCompartilhada.setFala_nome(String.valueOf(converterBooleanParaInt(falaSeuNome.isSelected())));
         }
         if (dizDataNascimento != null) {
-            diCompartilhada.setFala_nascimento(converterBooleanParaInt(dizDataNascimento.isSelected()));
+            diCompartilhada.setFala_nascimento(String.valueOf(converterBooleanParaInt(dizDataNascimento.isSelected())));
         }
         if (lePalavras != null) {
-            diCompartilhada.setLe_palavras(converterBooleanParaInt(lePalavras.isSelected()));
+            diCompartilhada.setLe_palavras(String.valueOf(converterBooleanParaInt(lePalavras.isSelected())));
         }
         if (informaNumeroTelefone != null) {
-            diCompartilhada.setFala_telefone(converterBooleanParaInt(informaNumeroTelefone.isSelected()));
+            diCompartilhada
+                    .setFala_telefone(String.valueOf(converterBooleanParaInt(informaNumeroTelefone.isSelected())));
         }
         if (emiteRespostas != null) {
-            diCompartilhada.setEmite_respostas(converterBooleanParaInt(emiteRespostas.isSelected()));
+            diCompartilhada.setEmite_respostas(String.valueOf(converterBooleanParaInt(emiteRespostas.isSelected())));
         }
         if (transmiteRecado != null) {
-            diCompartilhada.setTransmite_recados(converterBooleanParaInt(transmiteRecado.isSelected()));
+            diCompartilhada.setTransmite_recados(String.valueOf(converterBooleanParaInt(transmiteRecado.isSelected())));
         }
         if (informaEndereco != null) {
-            diCompartilhada.setFala_endereco(converterBooleanParaInt(informaEndereco.isSelected()));
+            diCompartilhada.setFala_endereco(String.valueOf(converterBooleanParaInt(informaEndereco.isSelected())));
         }
         if (informaNomePais != null) {
-            diCompartilhada.setFala_nome_pais(converterBooleanParaInt(informaNomePais.isSelected()));
+            diCompartilhada.setFala_nome_pais(String.valueOf(converterBooleanParaInt(informaNomePais.isSelected())));
         }
         if (compreendeOrdens != null) {
-            diCompartilhada.setCompreende_ordens(converterBooleanParaInt(compreendeOrdens.isSelected()));
+            diCompartilhada
+                    .setCompreende_ordens(String.valueOf(converterBooleanParaInt(compreendeOrdens.isSelected())));
         }
         if (expoeIdeias != null) {
-            diCompartilhada.setExpoe_ideias(converterBooleanParaInt(expoeIdeias.isSelected()));
+            diCompartilhada.setExpoe_ideias(String.valueOf(converterBooleanParaInt(expoeIdeias.isSelected())));
         }
         if (recontaHistorias != null) {
-            diCompartilhada.setReconta_historia(converterBooleanParaInt(recontaHistorias.isSelected()));
+            diCompartilhada.setReconta_historia(String.valueOf(converterBooleanParaInt(recontaHistorias.isSelected())));
         }
         if (usaSistemaCA != null) {
-            diCompartilhada.setUsa_sistema_ca(converterBooleanParaInt(usaSistemaCA.isSelected()));
+            diCompartilhada.setUsa_sistema_ca(String.valueOf(converterBooleanParaInt(usaSistemaCA.isSelected())));
         }
         if (relataFatosComCoerencia != null) {
-            diCompartilhada.setRelata_fatos(converterBooleanParaInt(relataFatosComCoerencia.isSelected()));
+            diCompartilhada
+                    .setRelata_fatos(String.valueOf(converterBooleanParaInt(relataFatosComCoerencia.isSelected())));
         }
         if (pronunciaLetrasAlfabeto != null) {
-            diCompartilhada.setPronuncia_letras(converterBooleanParaInt(pronunciaLetrasAlfabeto.isSelected()));
+            diCompartilhada
+                    .setPronuncia_letras(String.valueOf(converterBooleanParaInt(pronunciaLetrasAlfabeto.isSelected())));
         }
         if (verbalizaMusicas != null) {
-            diCompartilhada.setVerbaliza_musicas(converterBooleanParaInt(verbalizaMusicas.isSelected()));
+            diCompartilhada
+                    .setVerbaliza_musicas(String.valueOf(converterBooleanParaInt(verbalizaMusicas.isSelected())));
         }
         if (interpretaHistorias != null) {
-            diCompartilhada.setInterpreta_historias(converterBooleanParaInt(interpretaHistorias.isSelected()));
+            diCompartilhada
+                    .setInterpreta_historias(String.valueOf(converterBooleanParaInt(interpretaHistorias.isSelected())));
         }
         if (formulaPerguntas != null) {
-            diCompartilhada.setFormula_perguntas(converterBooleanParaInt(formulaPerguntas.isSelected()));
+            diCompartilhada
+                    .setFormula_perguntas(String.valueOf(converterBooleanParaInt(formulaPerguntas.isSelected())));
         }
         if (utilizaGestosParaSeComunicar != null) {
-            diCompartilhada.setUtiliza_gestos(converterBooleanParaInt(utilizaGestosParaSeComunicar.isSelected()));
+            diCompartilhada.setUtiliza_gestos(
+                    String.valueOf(converterBooleanParaInt(utilizaGestosParaSeComunicar.isSelected())));
         }
 
         // Tela 1: Afetiva
         if (demonstraCooperacao != null) {
-            diCompartilhada.setDemonstra_cooperacao(converterBooleanParaInt(demonstraCooperacao.isSelected()));
+            diCompartilhada
+                    .setDemonstra_cooperacao(String.valueOf(converterBooleanParaInt(demonstraCooperacao.isSelected())));
         }
         if (timidoInseguro != null) {
-            diCompartilhada.setTimido(converterBooleanParaInt(timidoInseguro.isSelected()));
+            diCompartilhada.setTimido(String.valueOf(converterBooleanParaInt(timidoInseguro.isSelected())));
         }
         if (fazBirra != null) {
-            diCompartilhada.setBirra(converterBooleanParaInt(fazBirra.isSelected()));
+            diCompartilhada.setBirra(String.valueOf(converterBooleanParaInt(fazBirra.isSelected())));
         }
         if (solicitaOfereceAjuda != null) {
-            diCompartilhada.setPede_ajuda(converterBooleanParaInt(solicitaOfereceAjuda.isSelected()));
+            diCompartilhada.setPede_ajuda(String.valueOf(converterBooleanParaInt(solicitaOfereceAjuda.isSelected())));
         }
         if (riComFrequencia != null) {
-            diCompartilhada.setRi(converterBooleanParaInt(riComFrequencia.isSelected()));
+            diCompartilhada.setRi(String.valueOf(converterBooleanParaInt(riComFrequencia.isSelected())));
         }
         if (compartilhaOQueESeu != null) {
-            diCompartilhada.setCompartilha(converterBooleanParaInt(compartilhaOQueESeu.isSelected()));
+            diCompartilhada.setCompartilha(String.valueOf(converterBooleanParaInt(compartilhaOQueESeu.isSelected())));
         }
         if (demonstraAmorGentilezaAtencao != null) {
-            diCompartilhada.setDemonstra_amor(converterBooleanParaInt(demonstraAmorGentilezaAtencao.isSelected()));
+            diCompartilhada.setDemonstra_amor(
+                    String.valueOf(converterBooleanParaInt(demonstraAmorGentilezaAtencao.isSelected())));
         }
         if (choraComFrequencia != null) {
-            diCompartilhada.setChora(converterBooleanParaInt(choraComFrequencia.isSelected()));
+            diCompartilhada.setChora(String.valueOf(converterBooleanParaInt(choraComFrequencia.isSelected())));
         }
         if (interageComColegas != null) {
-            diCompartilhada.setInterage(converterBooleanParaInt(interageComColegas.isSelected()));
+            diCompartilhada.setInterage(String.valueOf(converterBooleanParaInt(interageComColegas.isSelected())));
         }
 
         // Tela 2: Sensorial
         if (captaDetalhesGravura != null) {
-            diCompartilhada.setDetalhes_gravura(converterBooleanParaInt(captaDetalhesGravura.isSelected()));
+            diCompartilhada
+                    .setDetalhes_gravura(String.valueOf(converterBooleanParaInt(captaDetalhesGravura.isSelected())));
         }
         if (reconheceVozes != null) {
-            diCompartilhada.setReconhece_vozes(converterBooleanParaInt(reconheceVozes.isSelected()));
+            diCompartilhada.setReconhece_vozes(String.valueOf(converterBooleanParaInt(reconheceVozes.isSelected())));
         }
         if (reconheceCancoes != null) {
-            diCompartilhada.setReconhece_cancoes(converterBooleanParaInt(reconheceCancoes.isSelected()));
+            diCompartilhada
+                    .setReconhece_cancoes(String.valueOf(converterBooleanParaInt(reconheceCancoes.isSelected())));
         }
         if (percebeTexturas != null) {
-            diCompartilhada.setPercebe_texturas(converterBooleanParaInt(percebeTexturas.isSelected()));
+            diCompartilhada.setPercebe_texturas(String.valueOf(converterBooleanParaInt(percebeTexturas.isSelected())));
         }
         if (percepcaoCores != null) {
-            diCompartilhada.setPercebe_cores(converterBooleanParaInt(percepcaoCores.isSelected()));
+            diCompartilhada.setPercebe_cores(String.valueOf(converterBooleanParaInt(percepcaoCores.isSelected())));
         }
         if (discriminaSons != null) {
-            diCompartilhada.setDiscrimina_sons(converterBooleanParaInt(discriminaSons.isSelected()));
+            diCompartilhada.setDiscrimina_sons(String.valueOf(converterBooleanParaInt(discriminaSons.isSelected())));
         }
         if (discriminaOdores != null) {
-            diCompartilhada.setDiscrimina_odores(converterBooleanParaInt(discriminaOdores.isSelected()));
+            diCompartilhada
+                    .setDiscrimina_odores(String.valueOf(converterBooleanParaInt(discriminaOdores.isSelected())));
         }
         if (aceitaDiferentesTexturas != null) {
-            diCompartilhada.setAceita_texturas(converterBooleanParaInt(aceitaDiferentesTexturas.isSelected()));
+            diCompartilhada
+                    .setAceita_texturas(String.valueOf(converterBooleanParaInt(aceitaDiferentesTexturas.isSelected())));
         }
         if (percepcaoFormas != null) {
-            diCompartilhada.setPercepcao_formas(converterBooleanParaInt(percepcaoFormas.isSelected()));
+            diCompartilhada.setPercepcao_formas(String.valueOf(converterBooleanParaInt(percepcaoFormas.isSelected())));
         }
         if (identificaDirecaoSom != null) {
-            diCompartilhada.setIdentifica_direcao_sons(converterBooleanParaInt(identificaDirecaoSom.isSelected()));
+            diCompartilhada.setIdentifica_direcao_sons(
+                    String.valueOf(converterBooleanParaInt(identificaDirecaoSom.isSelected())));
         }
         if (percebeDiscriminaSabores != null) {
-            diCompartilhada.setDiscrimina_sabores(converterBooleanParaInt(percebeDiscriminaSabores.isSelected()));
+            diCompartilhada.setDiscrimina_sabores(
+                    String.valueOf(converterBooleanParaInt(percebeDiscriminaSabores.isSelected())));
         }
         if (acompanhaFocoLuminoso != null) {
-            diCompartilhada.setAcompanha_luz(converterBooleanParaInt(acompanhaFocoLuminoso.isSelected()));
+            diCompartilhada
+                    .setAcompanha_luz(String.valueOf(converterBooleanParaInt(acompanhaFocoLuminoso.isSelected())));
         }
 
         // Tela 2: Motora
         if (movimentoPincaComTesoura != null) {
-            diCompartilhada.setMovimento_pinca(converterBooleanParaInt(movimentoPincaComTesoura.isSelected()));
+            diCompartilhada
+                    .setMovimento_pinca(String.valueOf(converterBooleanParaInt(movimentoPincaComTesoura.isSelected())));
         }
         if (amassaPapel != null) {
-            diCompartilhada.setAmassa_papel(converterBooleanParaInt(amassaPapel.isSelected()));
+            diCompartilhada.setAmassa_papel(String.valueOf(converterBooleanParaInt(amassaPapel.isSelected())));
         }
         if (caiComFacilidade != null) {
-            diCompartilhada.setCai_facilmente(converterBooleanParaInt(caiComFacilidade.isSelected()));
+            diCompartilhada.setCai_facilmente(String.valueOf(converterBooleanParaInt(caiComFacilidade.isSelected())));
         }
         if (encaixaPecas != null) {
-            diCompartilhada.setEncaixa_pecas(converterBooleanParaInt(encaixaPecas.isSelected()));
+            diCompartilhada.setEncaixa_pecas(String.valueOf(converterBooleanParaInt(encaixaPecas.isSelected())));
         }
         if (recorta != null) {
-            diCompartilhada.setRecorta(converterBooleanParaInt(recorta.isSelected()));
+            diCompartilhada.setRecorta(String.valueOf(converterBooleanParaInt(recorta.isSelected())));
         }
         if (unePontos != null) {
-            diCompartilhada.setUne_pontos(converterBooleanParaInt(unePontos.isSelected()));
+            diCompartilhada.setUne_pontos(String.valueOf(converterBooleanParaInt(unePontos.isSelected())));
         }
         if (consegueCorrer != null) {
-            diCompartilhada.setCorre(converterBooleanParaInt(consegueCorrer.isSelected()));
+            diCompartilhada.setCorre(String.valueOf(converterBooleanParaInt(consegueCorrer.isSelected())));
         }
         if (empilha != null) {
-            diCompartilhada.setEmpilha(converterBooleanParaInt(empilha.isSelected()));
+            diCompartilhada.setEmpilha(String.valueOf(converterBooleanParaInt(empilha.isSelected())));
         }
         if (agitacaoMotora != null) {
-            diCompartilhada.setAgitacao_motora(converterBooleanParaInt(agitacaoMotora.isSelected()));
+            diCompartilhada.setAgitacao_motora(String.valueOf(converterBooleanParaInt(agitacaoMotora.isSelected())));
         }
         if (andaLinhaReta != null) {
-            diCompartilhada.setAnda_reto(converterBooleanParaInt(andaLinhaReta.isSelected()));
+            diCompartilhada.setAnda_reto(String.valueOf(converterBooleanParaInt(andaLinhaReta.isSelected())));
         }
         if (sobeDesceEscadas != null) {
-            diCompartilhada.setSobe_escada(converterBooleanParaInt(sobeDesceEscadas.isSelected()));
+            diCompartilhada.setSobe_escada(String.valueOf(converterBooleanParaInt(sobeDesceEscadas.isSelected())));
         }
         if (arremessaBola != null) {
-            diCompartilhada.setArremessa_bola(converterBooleanParaInt(arremessaBola.isSelected()));
+            diCompartilhada.setArremessa_bola(String.valueOf(converterBooleanParaInt(arremessaBola.isSelected())));
         }
 
         // Tela 3: AVDs
         if (usaSanitarioSemAjuda != null) {
-            diCompartilhada.setUsa_sanitario(converterBooleanParaInt(usaSanitarioSemAjuda.isSelected()));
+            diCompartilhada
+                    .setUsa_sanitario(String.valueOf(converterBooleanParaInt(usaSanitarioSemAjuda.isSelected())));
         }
         if (penteiaSeSo != null) {
-            diCompartilhada.setPenteia_cabelo(converterBooleanParaInt(penteiaSeSo.isSelected()));
+            diCompartilhada.setPenteia_cabelo(String.valueOf(converterBooleanParaInt(penteiaSeSo.isSelected())));
         }
         if (consegueVestirDespirSe != null) {
-            diCompartilhada.setVeste_se(converterBooleanParaInt(consegueVestirDespirSe.isSelected()));
+            diCompartilhada.setVeste_se(String.valueOf(converterBooleanParaInt(consegueVestirDespirSe.isSelected())));
         }
         if (lavaSecaAsMaos != null) {
-            diCompartilhada.setLava_maos(converterBooleanParaInt(lavaSecaAsMaos.isSelected()));
+            diCompartilhada.setLava_maos(String.valueOf(converterBooleanParaInt(lavaSecaAsMaos.isSelected())));
         }
         if (banhoComModeracao != null) {
-            diCompartilhada.setBanha_se(converterBooleanParaInt(banhoComModeracao.isSelected()));
+            diCompartilhada.setBanha_se(String.valueOf(converterBooleanParaInt(banhoComModeracao.isSelected())));
         }
         if (calcaSeSo != null) {
-            diCompartilhada.setCalca_se(converterBooleanParaInt(calcaSeSo.isSelected()));
+            diCompartilhada.setCalca_se(String.valueOf(converterBooleanParaInt(calcaSeSo.isSelected())));
         }
         if (reconheceRoupas != null) {
-            diCompartilhada.setReconhece_roupas(converterBooleanParaInt(reconheceRoupas.isSelected()));
+            diCompartilhada.setReconhece_roupas(String.valueOf(converterBooleanParaInt(reconheceRoupas.isSelected())));
         }
         if (abreFechaTorneira != null) {
-            diCompartilhada.setAbre_torneira(converterBooleanParaInt(abreFechaTorneira.isSelected()));
+            diCompartilhada.setAbre_torneira(String.valueOf(converterBooleanParaInt(abreFechaTorneira.isSelected())));
         }
         if (escovaDentesSemAjuda != null) {
-            diCompartilhada.setEscova_dentes(converterBooleanParaInt(escovaDentesSemAjuda.isSelected()));
+            diCompartilhada
+                    .setEscova_dentes(String.valueOf(converterBooleanParaInt(escovaDentesSemAjuda.isSelected())));
         }
         if (consegueDarNosLacos != null) {
-            diCompartilhada.setDa_nos(converterBooleanParaInt(consegueDarNosLacos.isSelected()));
+            diCompartilhada.setDa_nos(String.valueOf(converterBooleanParaInt(consegueDarNosLacos.isSelected())));
         }
         if (abotoaDesabotoaRoupas != null) {
-            diCompartilhada.setAbotoa_roupas(converterBooleanParaInt(abotoaDesabotoaRoupas.isSelected()));
+            diCompartilhada
+                    .setAbotoa_roupas(String.valueOf(converterBooleanParaInt(abotoaDesabotoaRoupas.isSelected())));
         }
         if (identificaPartesDoCorpo != null) {
-            diCompartilhada.setIdentifica_partes_corpo(converterBooleanParaInt(identificaPartesDoCorpo.isSelected()));
+            diCompartilhada.setIdentifica_partes_corpo(
+                    String.valueOf(converterBooleanParaInt(identificaPartesDoCorpo.isSelected())));
         }
 
         // Tela 3: Níveis de Aprendizagem
         if (garatujas != null) {
-            diCompartilhada.setGaratujas(converterBooleanParaInt(garatujas.isSelected()));
+            diCompartilhada.setGaratujas(garatujas.isSelected() ? "1" : "0");
         }
         if (silabicoAlfabetico != null) {
-            diCompartilhada.setSilabico_alfabetico(converterBooleanParaInt(silabicoAlfabetico.isSelected()));
+            diCompartilhada.setSilabico_alfabetico(silabicoAlfabetico.isSelected() ? "1" : "0");
         }
         if (alfabetico != null) {
-            diCompartilhada.setAlfabetico(converterBooleanParaInt(alfabetico.isSelected()));
+            diCompartilhada.setAlfabetico(alfabetico.isSelected() ? "1" : "0");
         }
         if (preSilabico != null) {
-            diCompartilhada.setPre_silabico(converterBooleanParaInt(preSilabico.isSelected()));
+            diCompartilhada.setPre_silabico(preSilabico.isSelected() ? "1" : "0");
         }
         if (silabico != null) {
-            diCompartilhada.setSilabico(converterBooleanParaInt(silabico.isSelected()));
+            diCompartilhada.setSilabico(silabico.isSelected() ? "1" : "0");
         }
 
         // Tela 3: Observações
@@ -864,7 +903,8 @@ public class DIController implements Initializable {
 
             // 2. Verifica se é professor
             if (!"PROFESSOR".equalsIgnoreCase(usuarioLogado.getTipo())) {
-                exibirMensagemErro("Apenas professores podem criar Diagnósticos Iniciais. Tipo do usuário: " + usuarioLogado.getTipo());
+                exibirMensagemErro("Apenas professores podem criar Diagnósticos Iniciais. Tipo do usuário: "
+                        + usuarioLogado.getTipo());
                 return;
             }
 
@@ -886,7 +926,8 @@ public class DIController implements Initializable {
             }
 
             if (sucesso) {
-                exibirMensagemSucesso(edicao ? "Diagnóstico Inicial atualizado com sucesso!" : "Diagnóstico Inicial criado com sucesso!");
+                exibirMensagemSucesso(edicao ? "Diagnóstico Inicial atualizado com sucesso!"
+                        : "Diagnóstico Inicial criado com sucesso!");
                 new Thread(() -> {
                     try {
                         Thread.sleep(2000);
@@ -899,7 +940,8 @@ public class DIController implements Initializable {
                     }
                 }).start();
             } else {
-                exibirMensagemErro(edicao ? "Erro ao atualizar Diagnóstico Inicial. Tente novamente." : "Erro ao cadastrar Diagnóstico Inicial. Tente novamente.");
+                exibirMensagemErro(edicao ? "Erro ao atualizar Diagnóstico Inicial. Tente novamente."
+                        : "Erro ao cadastrar Diagnóstico Inicial. Tente novamente.");
             }
 
         } catch (Exception e) {

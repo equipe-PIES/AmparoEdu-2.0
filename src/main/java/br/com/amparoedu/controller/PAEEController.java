@@ -287,58 +287,50 @@ public class PAEEController implements Initializable {
             resumoTela1.setText(paeeAtual.getResumo());
         }
         if (dificuldadesMotoras != null) {
-            int valorInt = paeeAtual.getDificuldadesMotoras();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesMotoras();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesMotoras.setValue(valor);
             }
         }
         if (dificuldadesCognitivas != null) {
-            int valorInt = paeeAtual.getDificuldadesCognitivas();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesCognitivas();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesCognitivas.setValue(valor);
             }
         }
         if (dificuldadesSensoriais != null) {
-            int valorInt = paeeAtual.getDificuldadesSensoriais();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesSensoriais();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesSensoriais.setValue(valor);
             }
         }
         if (dificuldadesComunicacao != null) {
-            int valorInt = paeeAtual.getDificuldadesComunicacao();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesComunicacao();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesComunicacao.setValue(valor);
             }
         }
         if (dificuldadesFamiliares != null) {
-            int valorInt = paeeAtual.getDificuldadesFamiliares();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesFamiliares();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesFamiliares.setValue(valor);
             }
         }
         if (dificuldadesAfetivas != null) {
-            int valorInt = paeeAtual.getDificuldadesAfetivas();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesAfetivas();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesAfetivas.setValue(valor);
             }
         }
         if (dificuldadesRaciocinio != null) {
-            int valorInt = paeeAtual.getDificuldadesRaciocinio();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesRaciocinio();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesRaciocinio.setValue(valor);
             }
         }
         if (dificuldadesAvas != null) {
-            int valorInt = paeeAtual.getDificuldadesAvas();
-            if (valorInt == 0 || valorInt == 1) {
-                String valor = converterIntParaSimNao(valorInt);
+            String valor = paeeAtual.getDificuldadesAvas();
+            if (valor != null && !valor.isEmpty()) {
                 dificuldadesAvas.setValue(valor);
             }
         }
@@ -398,63 +390,27 @@ public class PAEEController implements Initializable {
         if (resumoObjetivoPlano != null && paeeAtual.getObjetivoPlano() != null) {
             resumoObjetivoPlano.setText(paeeAtual.getObjetivoPlano());
         }
-        if (atendimentoAee != null && paeeAtual.getAee() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getAee());
-            if (valor != null) {
-                atendimentoAee.setValue(valor);
-            }
+        if (atendimentoAee != null && paeeAtual.getAee() != null && !paeeAtual.getAee().isEmpty()) {
+            atendimentoAee.setValue(paeeAtual.getAee());
         }
-        if (atendimentoPsicologo != null && paeeAtual.getPsicologo() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getPsicologo());
-            if (valor != null) {
-                atendimentoPsicologo.setValue(valor);
-            }
+        if (atendimentoPsicologo != null && paeeAtual.getPsicologo() != null && !paeeAtual.getPsicologo().isEmpty()) {
+            atendimentoPsicologo.setValue(paeeAtual.getPsicologo());
         }
-        if (atendimentoFisioterapeuta != null && paeeAtual.getFisioterapeuta() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getFisioterapeuta());
-            if (valor != null) {
-                atendimentoFisioterapeuta.setValue(valor);
-            }
+        if (atendimentoFisioterapeuta != null && paeeAtual.getFisioterapeuta() != null && !paeeAtual.getFisioterapeuta().isEmpty()) {
+            atendimentoFisioterapeuta.setValue(paeeAtual.getFisioterapeuta());
         }
-        if (atendimentoPsicopedagogo != null && paeeAtual.getPsicopedagogo() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getPsicopedagogo());
-            if (valor != null) {
-                atendimentoPsicopedagogo.setValue(valor);
-            }
+        if (atendimentoPsicopedagogo != null && paeeAtual.getPsicopedagogo() != null && !paeeAtual.getPsicopedagogo().isEmpty()) {
+            atendimentoPsicopedagogo.setValue(paeeAtual.getPsicopedagogo());
         }
-        if (atendimentoTerapeutaOcupacional != null && paeeAtual.getTerapeutaOcupacional() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getTerapeutaOcupacional());
-            if (valor != null) {
-                atendimentoTerapeutaOcupacional.setValue(valor);
-            }
+        if (atendimentoTerapeutaOcupacional != null && paeeAtual.getTerapeutaOcupacional() != null && !paeeAtual.getTerapeutaOcupacional().isEmpty()) {
+            atendimentoTerapeutaOcupacional.setValue(paeeAtual.getTerapeutaOcupacional());
         }
-        if (atendimentoEducacaoFisica != null && paeeAtual.getEducacaoFisica() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getEducacaoFisica());
-            if (valor != null) {
-                atendimentoEducacaoFisica.setValue(valor);
-            }
+        if (atendimentoEducacaoFisica != null && paeeAtual.getEducacaoFisica() != null && !paeeAtual.getEducacaoFisica().isEmpty()) {
+            atendimentoEducacaoFisica.setValue(paeeAtual.getEducacaoFisica());
         }
-        if (atendimentoEstimulacaoPrecoce != null && paeeAtual.getEstimulacaoPrecoce() >= 0) {
-            String valor = converterIntParaSimNao(paeeAtual.getEstimulacaoPrecoce());
-            if (valor != null) {
-                atendimentoEstimulacaoPrecoce.setValue(valor);
-            }
+        if (atendimentoEstimulacaoPrecoce != null && paeeAtual.getEstimulacaoPrecoce() != null && !paeeAtual.getEstimulacaoPrecoce().isEmpty()) {
+            atendimentoEstimulacaoPrecoce.setValue(paeeAtual.getEstimulacaoPrecoce());
         }
-    }
-
-    // Converte int para Sim/Não
-    private String converterIntParaSimNao(int valor) {
-        if (valor == 1) {
-            return "Sim";
-        } else if (valor == 0) {
-            return "Não";
-        }
-        return null; // Retorna null se não há valor definido (não selecionado)
-    }
-
-    // Converte Sim/Não para int
-    private int converterSimNaoParaInt(String valor) {
-        return "Sim".equals(valor) ? 1 : 0;
     }
 
     // Mensagens
@@ -743,29 +699,29 @@ public class PAEEController implements Initializable {
             String valor = resumoTela1.getText().trim();
             paeeCompartilhada.setResumo(valor);
         }
-        if (dificuldadesMotoras != null && dificuldadesMotoras.getValue() != null) {
-            paeeCompartilhada.setDificuldades_motoras(converterSimNaoParaInt(dificuldadesMotoras.getValue()));
+        if (dificuldadesMotoras != null) {
+            paeeCompartilhada.setDificuldades_motoras(dificuldadesMotoras.getValue() != null ? dificuldadesMotoras.getValue() : "Não");
         }
-        if (dificuldadesCognitivas != null && dificuldadesCognitivas.getValue() != null) {
-            paeeCompartilhada.setDificuldades_cognitivas(converterSimNaoParaInt(dificuldadesCognitivas.getValue()));
+        if (dificuldadesCognitivas != null) {
+            paeeCompartilhada.setDificuldades_cognitivas(dificuldadesCognitivas.getValue() != null ? dificuldadesCognitivas.getValue() : "Não");
         }
-        if (dificuldadesSensoriais != null && dificuldadesSensoriais.getValue() != null) {
-            paeeCompartilhada.setDificuldades_sensoriais(converterSimNaoParaInt(dificuldadesSensoriais.getValue()));
+        if (dificuldadesSensoriais != null) {
+            paeeCompartilhada.setDificuldades_sensoriais(dificuldadesSensoriais.getValue() != null ? dificuldadesSensoriais.getValue() : "Não");
         }
-        if (dificuldadesComunicacao != null && dificuldadesComunicacao.getValue() != null) {
-            paeeCompartilhada.setDificuldades_comunicacao(converterSimNaoParaInt(dificuldadesComunicacao.getValue()));
+        if (dificuldadesComunicacao != null) {
+            paeeCompartilhada.setDificuldades_comunicacao(dificuldadesComunicacao.getValue() != null ? dificuldadesComunicacao.getValue() : "Não");
         }
-        if (dificuldadesFamiliares != null && dificuldadesFamiliares.getValue() != null) {
-            paeeCompartilhada.setDificuldades_familiares(converterSimNaoParaInt(dificuldadesFamiliares.getValue()));
+        if (dificuldadesFamiliares != null) {
+            paeeCompartilhada.setDificuldades_familiares(dificuldadesFamiliares.getValue() != null ? dificuldadesFamiliares.getValue() : "Não");
         }
-        if (dificuldadesAfetivas != null && dificuldadesAfetivas.getValue() != null) {
-            paeeCompartilhada.setDificuldades_afetivas(converterSimNaoParaInt(dificuldadesAfetivas.getValue()));
+        if (dificuldadesAfetivas != null) {
+            paeeCompartilhada.setDificuldades_afetivas(dificuldadesAfetivas.getValue() != null ? dificuldadesAfetivas.getValue() : "Não");
         }
-        if (dificuldadesRaciocinio != null && dificuldadesRaciocinio.getValue() != null) {
-            paeeCompartilhada.setDificuldades_raciocinio(converterSimNaoParaInt(dificuldadesRaciocinio.getValue()));
+        if (dificuldadesRaciocinio != null) {
+            paeeCompartilhada.setDificuldades_raciocinio(dificuldadesRaciocinio.getValue() != null ? dificuldadesRaciocinio.getValue() : "Não");
         }
-        if (dificuldadesAvas != null && dificuldadesAvas.getValue() != null) {
-            paeeCompartilhada.setDificuldades_avas(converterSimNaoParaInt(dificuldadesAvas.getValue()));
+        if (dificuldadesAvas != null) {
+            paeeCompartilhada.setDificuldades_avas(dificuldadesAvas.getValue() != null ? dificuldadesAvas.getValue() : "Não");
         }
 
         // Tela 2
@@ -808,26 +764,26 @@ public class PAEEController implements Initializable {
         // Tela 6
         if (resumoObjetivoPlano != null)
             paeeCompartilhada.setObjetivo_plano(resumoObjetivoPlano.getText().trim());
-        if (atendimentoAee != null && atendimentoAee.getValue() != null) {
-            paeeCompartilhada.setAee(converterSimNaoParaInt(atendimentoAee.getValue()));
+        if (atendimentoAee != null) {
+            paeeCompartilhada.setAee(atendimentoAee.getValue() != null ? atendimentoAee.getValue() : "Não");
         }
-        if (atendimentoPsicologo != null && atendimentoPsicologo.getValue() != null) {
-            paeeCompartilhada.setPsicologo(converterSimNaoParaInt(atendimentoPsicologo.getValue()));
+        if (atendimentoPsicologo != null) {
+            paeeCompartilhada.setPsicologo(atendimentoPsicologo.getValue() != null ? atendimentoPsicologo.getValue() : "Não");
         }
-        if (atendimentoFisioterapeuta != null && atendimentoFisioterapeuta.getValue() != null) {
-            paeeCompartilhada.setFisioterapeuta(converterSimNaoParaInt(atendimentoFisioterapeuta.getValue()));
+        if (atendimentoFisioterapeuta != null) {
+            paeeCompartilhada.setFisioterapeuta(atendimentoFisioterapeuta.getValue() != null ? atendimentoFisioterapeuta.getValue() : "Não");
         }
-        if (atendimentoPsicopedagogo != null && atendimentoPsicopedagogo.getValue() != null) {
-            paeeCompartilhada.setPsicopedagogo(converterSimNaoParaInt(atendimentoPsicopedagogo.getValue()));
+        if (atendimentoPsicopedagogo != null) {
+            paeeCompartilhada.setPsicopedagogo(atendimentoPsicopedagogo.getValue() != null ? atendimentoPsicopedagogo.getValue() : "Não");
         }
-        if (atendimentoTerapeutaOcupacional != null && atendimentoTerapeutaOcupacional.getValue() != null) {
-            paeeCompartilhada.setTerapeuta_ocupacional(converterSimNaoParaInt(atendimentoTerapeutaOcupacional.getValue()));
+        if (atendimentoTerapeutaOcupacional != null) {
+            paeeCompartilhada.setTerapeuta_ocupacional(atendimentoTerapeutaOcupacional.getValue() != null ? atendimentoTerapeutaOcupacional.getValue() : "Não");
         }
-        if (atendimentoEducacaoFisica != null && atendimentoEducacaoFisica.getValue() != null) {
-            paeeCompartilhada.setEducacao_fisica(converterSimNaoParaInt(atendimentoEducacaoFisica.getValue()));
+        if (atendimentoEducacaoFisica != null) {
+            paeeCompartilhada.setEducacao_fisica(atendimentoEducacaoFisica.getValue() != null ? atendimentoEducacaoFisica.getValue() : "Não");
         }
-        if (atendimentoEstimulacaoPrecoce != null && atendimentoEstimulacaoPrecoce.getValue() != null) {
-            paeeCompartilhada.setEstimulacao_precoce(converterSimNaoParaInt(atendimentoEstimulacaoPrecoce.getValue()));
+        if (atendimentoEstimulacaoPrecoce != null) {
+            paeeCompartilhada.setEstimulacao_precoce(atendimentoEstimulacaoPrecoce.getValue() != null ? atendimentoEstimulacaoPrecoce.getValue() : "Não");
         }
     }
 

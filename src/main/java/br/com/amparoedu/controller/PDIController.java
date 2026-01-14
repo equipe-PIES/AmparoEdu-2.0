@@ -1,14 +1,12 @@
 package br.com.amparoedu.controller;
 
 import br.com.amparoedu.backend.model.PDI;
-import br.com.amparoedu.backend.model.Anamnese;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.service.PDIService;
-import br.com.amparoedu.controller.AnamneseController.ModoAnamnese;
 import br.com.amparoedu.backend.service.AuthService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
@@ -19,7 +17,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.function.BooleanSupplier;
 
 public class PDIController implements Initializable {
 
@@ -227,15 +224,6 @@ public class PDIController implements Initializable {
         if (parceriasTextArea != null && pdiAtual.getParceriasNecessarias() != null) {
             parceriasTextArea.setText(pdiAtual.getParceriasNecessarias());
         }
-    }
-
-    // Valida se um campo de texto obrigatório está preenchido.
-    private boolean validarCampoObrigatorio(TextField campo, String mensagemErro) {
-        if (campo == null || campo.getText() == null || campo.getText().trim().isEmpty()) {
-            exibirMensagemErro("Preencha todos os campos.");
-            return false;
-        }
-        return true;
     }
 
     // Mensagens
