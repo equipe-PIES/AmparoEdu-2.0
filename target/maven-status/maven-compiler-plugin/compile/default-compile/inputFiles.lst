@@ -1,7 +1,10 @@
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\builder\AnamneseBuilder.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\builder\DIBuilder.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\builder\PAEEBuilder.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\builder\PDIBuilder.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\builder\RIBuilder.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\AnamneseFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\DIFluxo.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\DocumentoFluxo.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\DocumentoFluxoFactory.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\PAEEFluxo.java
@@ -57,6 +60,7 @@ c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\C
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\DIController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\DocumentoControllerBase.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
@@ -71,6 +75,5 @@ c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\V
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
-c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObservable.java
-c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObserver.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\RIPDFGenerator.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java

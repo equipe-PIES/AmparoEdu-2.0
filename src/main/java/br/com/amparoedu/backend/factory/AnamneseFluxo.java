@@ -3,9 +3,7 @@ package br.com.amparoedu.backend.factory;
 import br.com.amparoedu.backend.model.Anamnese;
 import br.com.amparoedu.controller.AnamneseController;
 
-/**
- * Implementação do fluxo de documentos para Anamnese
- */
+// Implementação do fluxo de documentos para Anamnese
 public class AnamneseFluxo implements DocumentoFluxo<Anamnese> {
     
     @Override

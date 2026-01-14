@@ -1,6 +1,7 @@
 package br.com.amparoedu.backend.builder;
 import br.com.amparoedu.backend.model.PAEE;
 
+// Builder para PAEE
 public class PAEEBuilder {
     private PAEE documento = new PAEE();
 
@@ -208,7 +209,6 @@ public class PAEEBuilder {
     }
 
     public PAEE build() {
-        // Validação final de consistência
         if (documento.getEducandoId() == null) {
             throw new IllegalStateException("Todo PAEE deve ter um Educando ID");
         }

@@ -113,8 +113,8 @@ public class CardAlunoController {
 			Parent root = loader.load();
 			ProgressoAtendimentoController controller = loader.getController();
 			controller.setEducando(this.educando);
-			GerenciadorTelas.getInstance().abrirPopup(root, "Progresso do Atendimento");
 			controller.setTurma(this.turma);
+			GerenciadorTelas.getInstance().abrirPopup(root, "Progresso do Atendimento");
 		} catch (IOException e) {
 			System.err.println("Erro ao carregar a tela de progresso do atendimento.");
 			e.printStackTrace();

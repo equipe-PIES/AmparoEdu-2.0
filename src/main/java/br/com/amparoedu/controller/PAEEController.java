@@ -17,9 +17,7 @@ import br.com.amparoedu.backend.service.PAEEService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -121,7 +119,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
     @FXML
     private Label cargoUsuario;
 
-    // ========== Implementação dos Métodos Abstratos ==========
+    //  Implementação dos Métodos Abstratos
 
     @Override
     protected EstadoDocumento<PAEE> getEstado() {
@@ -202,7 +200,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
         if (atendimentoEducacaoFisica != null && atendimentoEducacaoFisica.getValue() != null) builder.comEducacaoFisica(atendimentoEducacaoFisica.getValue());
         if (atendimentoEstimulacaoPrecoce != null && atendimentoEstimulacaoPrecoce.getValue() != null) builder.comEstimulacaoPrecoce(atendimentoEstimulacaoPrecoce.getValue());
 
-        // Atualiza documento compartilhado a partir do builder (sem validação durante navegação)
+        // Atualiza documento compartilhado a partir do builder
         ESTADO.documentoCompartilhado = builder.buildPartial();
         documentoAtual = ESTADO.documentoCompartilhado;
     }
@@ -279,7 +277,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
 
     @Override
     protected boolean validarTelaAtual() {
-        return true; // PAEE não tem validação específica entre telas
+        return true;
     }
 
     @Override
@@ -339,7 +337,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
         if (campo != null) campo.setDisable(true);
     }
 
-    // ========== Ciclo de Vida ==========
+    // Ciclo de Vida
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -410,12 +408,9 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
         salvarDadosTelaAtual();
 
         // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir PAEE");
-        alerta.setHeaderText("Deseja salvar o PAEE agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (!exibirConfirmacao("Concluir PAEE", 
+                               "Deseja salvar o PAEE agora?", 
+                               "Todos os dados serão salvos no sistema.")) {
             return;
         }
 
@@ -507,7 +502,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
 
 
     // Volta para a turma com popup do educando
-    private void voltarComPopup(String educandoId) {
+    protected void voltarComPopup(String educandoId) {
         if (ESTADO.turmaIdOrigem != null) {
             try {
                 TurmaRepository turmaRepo = new TurmaRepository();

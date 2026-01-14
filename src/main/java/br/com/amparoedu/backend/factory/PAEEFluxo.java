@@ -3,9 +3,7 @@ package br.com.amparoedu.backend.factory;
 import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.controller.PAEEController;
 
-/**
- * Implementação do fluxo de documentos para PAEE
- */
+// Implementação do fluxo de documentos para PAEE
 public class PAEEFluxo implements DocumentoFluxo<PAEE> {
     
     @Override

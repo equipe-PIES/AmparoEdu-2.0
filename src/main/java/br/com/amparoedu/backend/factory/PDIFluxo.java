@@ -3,9 +3,7 @@ package br.com.amparoedu.backend.factory;
 import br.com.amparoedu.backend.model.PDI;
 import br.com.amparoedu.controller.PDIController;
 
-/**
- * Implementação do fluxo de documentos para PDI
- */
+// Implementação do fluxo de documentos para PDI
 public class PDIFluxo implements DocumentoFluxo<PDI> {
     
     @Override

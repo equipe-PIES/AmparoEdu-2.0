@@ -2,6 +2,7 @@ package br.com.amparoedu.backend.builder;
 
 import br.com.amparoedu.backend.model.PDI;
 
+// Builder para PDI
 public class PDIBuilder {
     private PDI documento = new PDI();
 

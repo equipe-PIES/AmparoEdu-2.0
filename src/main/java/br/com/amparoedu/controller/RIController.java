@@ -12,12 +12,11 @@ import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.service.AuthService;
 import br.com.amparoedu.backend.service.RIService;
+import br.com.amparoedu.backend.builder.RIBuilder;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
@@ -25,6 +24,7 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
 
     // Estado estático compartilhado entre telas
     private static final EstadoDocumento<RI> ESTADO = new EstadoDocumento<>();
+    private static boolean salvando = false;
 
     // Serviço
     private final RIService riService = new RIService();
@@ -94,36 +94,36 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
 
     @Override
     protected void salvarDadosTelaAtual() {
-        if (documentoAtual == null) return;
+        RIBuilder builder = obterOuCriarBuilder();
 
         // Tela 1
         if (dadosFuncionais != null) {
-            documentoAtual.setDados_funcionais(dadosFuncionais.getText().trim());
+            builder.comDadosFuncionais(dadosFuncionais.getText().trim());
         }
         if (funcionalidadeCognitiva != null) {
-            documentoAtual.setFuncionalidade_cognitiva(funcionalidadeCognitiva.getText().trim());
+            builder.comFuncionalidadeCognitiva(funcionalidadeCognitiva.getText().trim());
         }
         if (alfabetizacao != null) {
-            documentoAtual.setAlfabetizacao(alfabetizacao.getText().trim());
+            builder.comAlfabetizacao(alfabetizacao.getText().trim());
         }
 
         // Tela 2
         if (adaptacoesCurriculares != null) {
-            documentoAtual.setAdaptacoes_curriculares(adaptacoesCurriculares.getText().trim());
+            builder.comAdaptacoesCurriculares(adaptacoesCurriculares.getText().trim());
         }
         if (participacaoAtividade != null) {
-            documentoAtual.setParticipacao_atividade(participacaoAtividade.getText().trim());
+            builder.comParticipacaoAtividade(participacaoAtividade.getText().trim());
         }
         if (autonomia != null) {
-            documentoAtual.setAutonomia(autonomia.getText().trim());
+            builder.comAutonomia(autonomia.getText().trim());
         }
 
         // Tela 3
         if (interacaoProfessora != null) {
-            documentoAtual.setInteracao_professora(interacaoProfessora.getText().trim());
+            builder.comInteracaoProfessora(interacaoProfessora.getText().trim());
         }
         if (atividadesVidaDiaria != null) {
-            documentoAtual.setAtividades_vida_diaria(atividadesVidaDiaria.getText().trim());
+            builder.comAtividadesVidaDiaria(atividadesVidaDiaria.getText().trim());
         }
     }
 
@@ -204,53 +204,68 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
         if (campo != null) campo.setDisable(true);
     }
 
-    // ========== Ciclo de Vida ==========
+    // Ciclo de Vida
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         inicializarBase();
     }
 
-    // ========== Handlers de UI ==========
+    // Handlers de UI
 
     @FXML
-    private void btnConcluirClick() {
+    protected void btnConcluirClick() {
         EstadoDocumento<RI> estado = getEstado();
         if (estado.modoAtual == ModoDocumento.VISUALIZACAO) {
             exibirErro("Modo visualização: não é possível salvar.");
             return;
         }
 
-        salvarDadosTelaAtual();
-
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir Relatório Individual");
-        alerta.setHeaderText("Deseja salvar o Relatório Individual agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (salvando) {
             return;
         }
 
-        String educandoId = documentoAtual.getEducando_id();
+        salvarDadosTelaAtual();
+
+        if (!exibirConfirmacao("Concluir Relatório Individual", 
+                               "Deseja salvar o Relatório Individual agora?", 
+                               "Todos os dados serão salvos no sistema.")) {
+            return;
+        }
+
+        salvando = true;
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
+
+        String educandoId = documentoAtual != null ? documentoAtual.getEducando_id() : null;
+        RIBuilder builder = obterOuCriarBuilder();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
 
         try {
             Usuario usuarioLogado = AuthService.getUsuarioLogado();
             if (usuarioLogado == null) {
                 exibirErro("Usuário não está logado. Faça login novamente.");
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
                 return;
             }
 
             if (!"PROFESSOR".equalsIgnoreCase(usuarioLogado.getTipo())) {
                 exibirErro("Apenas professores podem criar Relatórios Individuais.");
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
                 return;
             }
 
-            documentoAtual.setProfessor_id(AuthService.getIdProfessorLogado());
-            documentoAtual.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
-
+            builder.comProfessorId(AuthService.getIdProfessorLogado());
+            builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            
+            RI riParaSalvar = builder.build();
             boolean edicao = estado.modoAtual == ModoDocumento.EDICAO;
-            boolean sucesso = edicao ? riService.atualizarRI(documentoAtual) : riService.cadastrarNovoRI(documentoAtual);
+            boolean sucesso = edicao ? riService.atualizarRI(riParaSalvar) : riService.cadastrarNovoRI(riParaSalvar);
 
             if (sucesso) {
                 exibirSucesso(edicao ? "Relatório Individual atualizado com sucesso!" : "Relatório Individual criado com sucesso!");
@@ -258,6 +273,7 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
                     try {
                         Thread.sleep(2000);
                         javafx.application.Platform.runLater(() -> {
+                            salvando = false;
                             limparEstado();
                             voltarComPopup(educandoId);
                         });
@@ -266,9 +282,13 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
                     }
                 }).start();
             } else {
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
                 exibirErro(edicao ? "Erro ao atualizar Relatório Individual." : "Erro ao cadastrar Relatório Individual.");
             }
         } catch (Exception e) {
+            salvando = false;
+            if (btnConcluir != null) btnConcluir.setDisable(false);
             exibirErro("Erro ao salvar Relatório Individual: " + e.getMessage());
             e.printStackTrace();
         }
@@ -278,26 +298,6 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
     private void btnSairClick() {
         AuthService.logout();
         GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
-    }
-
-    @FXML
-    @Override
-    protected void btnCancelarClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar Relatório Individual");
-        alert.setHeaderText("Deseja realmente cancelar?");
-        alert.setContentText("Todos os dados preenchidos serão perdidos.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            String educandoId = documentoAtual != null ? documentoAtual.getEducando_id() : null;
-            limparEstado();
-            voltarComPopup(educandoId);
-        }
-    }
-
-    @FXML
-    private void btnCancelClick() {
-        btnCancelarClick();
     }
 
     @FXML
@@ -316,17 +316,26 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
     }
 
     @FXML
-    private void btnSeguinteClick() {
-        navegarTela(1, null);
+    protected void btnCancelarClick() {
+        super.btnCancelarClick();
     }
 
     @FXML
-    @Override
-    protected void btnVoltarClick() {
-        navegarTela(-1, null);
+    private void btnCancelClick() {
+        btnCancelarClick();
     }
 
-    // ========== Métodos Auxiliares ==========
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
+
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
+    }
+
+    // Métodos Auxiliares
 
     @Override
     protected void atualizarUsuarioLogado() {
@@ -341,7 +350,7 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
         }
     }
 
-    private void voltarComPopup(String educandoId) {
+    protected void voltarComPopup(String educandoId) {
         EstadoDocumento<RI> estado = getEstado();
         if (estado.turmaIdOrigem != null) {
             try {
@@ -395,10 +404,37 @@ public class RIController extends DocumentoControllerBase<RI> implements Initial
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    // ========== Métodos Estáticos para Factory ==========
+    private RIBuilder obterOuCriarBuilder() {
+        EstadoDocumento<RI> estado = getEstado();
+        if (estado.builder instanceof RIBuilder) {
+            return (RIBuilder) estado.builder;
+        }
+
+        RI base = documentoAtual != null ? documentoAtual : new RI();
+        RIBuilder builder = new RIBuilder(base);
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        estado.builder = builder;
+        return builder;
+    }
+
+    // Métodos Estáticos para Factory
 
     public static void iniciarNovoRI() {
+        salvando = false;
+        String educandoIdPreservado = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdPreservado = ESTADO.documentoCompartilhado.getEducando_id();
+        }
+
         iniciarNovo(ESTADO, new RI());
+        ESTADO.builder = null;
+
+        if (educandoIdPreservado != null) {
+            ((RI) ESTADO.documentoCompartilhado).setEducando_id(educandoIdPreservado);
+        }
         GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
     }
 

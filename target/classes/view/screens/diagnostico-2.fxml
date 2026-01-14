@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="diagnostico" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.DIController">
+<BorderPane fx:id="diagnostico" prefHeight="880.0" prefWidth="1220.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.amparoedu.controller.DIController">
 
     <!-- TOPO -->
     <top>
@@ -38,7 +39,6 @@
                     <children>
                         <Button id="btnTurmas" fx:id="btnTurmas" onAction="#btnTurmasClick" styleClass="botao-topo" text="Turmas" />
                         <Button id="btnAlunos" fx:id="btnAlunos" onAction="#btnAlunosClick" styleClass="botao-topo" text="Alunos" />
-                        <Button id="btnRelatorios" fx:id="btnRelatorios" onAction="#btnRelatoriosClick" styleClass="botao-topo" text="Relatórios" />
                     </children>
                 </HBox>
             </children>

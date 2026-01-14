@@ -1,12 +1,10 @@
 package br.com.amparoedu.backend.factory;
 
-/**
- * Enumeração dos tipos de documentos disponíveis no sistema
- */
+// Tipos de documentos suportados no sistema
 public enum TipoDocumento {
     ANAMNESE,
     PDI,
     PAEE,
-
+    DI,
     RI
 }

@@ -40,7 +40,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
          <children>
             <Button fx:id="excluirTurma" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: ff0000;" text="Excluir" textFill="WHITE" />
-            <Button fx:id="editarTurma" mnemonicParsing="false" prefWidth="150.0" text="Editar" />
+            <Button fx:id="editarTurma" mnemonicParsing="false" prefWidth="150.0" styleClass="botao-cancelar-voltar-sair" text="Editar" />
          </children>
       </HBox>
     </children>

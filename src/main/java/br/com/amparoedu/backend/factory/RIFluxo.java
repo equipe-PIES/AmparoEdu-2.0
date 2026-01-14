@@ -3,9 +3,7 @@ package br.com.amparoedu.backend.factory;
 import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.controller.RIController;
 
-/**
- * Implementação do fluxo de documentos para RI (Relatório Individual)
- */
+// Implementação do fluxo de documentos para RI
 public class RIFluxo implements DocumentoFluxo<RI> {
     
     @Override

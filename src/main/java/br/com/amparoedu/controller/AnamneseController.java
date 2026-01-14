@@ -51,100 +51,184 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     private final ToggleGroup disturbioGroup = new ToggleGroup();
 
     // Controles (Tela 1)
-    @FXML private RadioButton convulsaoSim;
-    @FXML private RadioButton convulsaoNao;
-    @FXML private RadioButton convenioSim;
-    @FXML private RadioButton convenioNao;
-    @FXML private TextField convenio;
-    @FXML private RadioButton vacinacaoSim;
-    @FXML private RadioButton vacinacaoNao;
-    @FXML private RadioButton doencaContagiosaSim;
-    @FXML private RadioButton doencaContagiosaNao;
-    @FXML private TextField doencaContagiosa;
-    @FXML private TextField inicioEscolarizacao;
-    @FXML private RadioButton dificuldadesSim;
-    @FXML private RadioButton dificuldadesNao;
-    @FXML private TextField dificuldades;
-    @FXML private RadioButton apoioPedagogicoSim;
-    @FXML private RadioButton apoioPedagogicoNao;
-    @FXML private TextField apoioPedagogico;
-    @FXML private RadioButton medicacaoSim;
-    @FXML private RadioButton medicacaoNao;
-    @FXML private TextField medicacoes;
-    @FXML private TextField servicosFrequentados1;
-    @FXML private RadioButton preNatalSim;
-    @FXML private RadioButton preNatalNao;
-    @FXML private RadioButton prematuridadeSim;
-    @FXML private RadioButton prematuridadeNao;
-    @FXML private TextField prematuridade1;
-    @FXML private TextField duracaoGestacao1;
-    @FXML private Label questConvenio;
-    @FXML private Label questDoencaContagiosa;
-    @FXML private Label questMedicacao;
-    @FXML private Label questDificuldade;
-    @FXML private Label questApioPedagogico;
-    @FXML private Label questCausaPrematuridade1;
+    @FXML
+    private RadioButton convulsaoSim;
+    @FXML
+    private RadioButton convulsaoNao;
+    @FXML
+    private RadioButton convenioSim;
+    @FXML
+    private RadioButton convenioNao;
+    @FXML
+    private TextField convenio;
+    @FXML
+    private RadioButton vacinacaoSim;
+    @FXML
+    private RadioButton vacinacaoNao;
+    @FXML
+    private RadioButton doencaContagiosaSim;
+    @FXML
+    private RadioButton doencaContagiosaNao;
+    @FXML
+    private TextField doencaContagiosa;
+    @FXML
+    private TextField inicioEscolarizacao;
+    @FXML
+    private RadioButton dificuldadesSim;
+    @FXML
+    private RadioButton dificuldadesNao;
+    @FXML
+    private TextField dificuldades;
+    @FXML
+    private RadioButton apoioPedagogicoSim;
+    @FXML
+    private RadioButton apoioPedagogicoNao;
+    @FXML
+    private TextField apoioPedagogico;
+    @FXML
+    private RadioButton medicacaoSim;
+    @FXML
+    private RadioButton medicacaoNao;
+    @FXML
+    private TextField medicacoes;
+    @FXML
+    private TextField servicosFrequentados1;
+    @FXML
+    private RadioButton preNatalSim;
+    @FXML
+    private RadioButton preNatalNao;
+    @FXML
+    private RadioButton prematuridadeSim;
+    @FXML
+    private RadioButton prematuridadeNao;
+    @FXML
+    private TextField prematuridade1;
+    @FXML
+    private TextField duracaoGestacao1;
+    @FXML
+    private Label questConvenio;
+    @FXML
+    private Label questDoencaContagiosa;
+    @FXML
+    private Label questMedicacao;
+    @FXML
+    private Label questDificuldade;
+    @FXML
+    private Label questApioPedagogico;
+    @FXML
+    private Label questCausaPrematuridade1;
 
     // Controles (Tela 2)
-    @FXML private TextField cidadeNascimento;
-    @FXML private TextField maternidade;
-    @FXML private ChoiceBox<String> tipoParto;
-    @FXML private RadioButton chorouSim;
-    @FXML private RadioButton chorouNao;
-    @FXML private RadioButton ficouRoxoSim;
-    @FXML private RadioButton ficouRoxoNao;
-    @FXML private RadioButton incubadoraSim;
-    @FXML private RadioButton incubadoraNao;
-    @FXML private RadioButton amamentadoSim;
-    @FXML private RadioButton amamentadoNao;
-    @FXML private RadioButton sustentouCabecaSim;
-    @FXML private RadioButton sustentouCabecaNao;
-    @FXML private TextField sustentouCabeca;
-    @FXML private Label lblSustentouCabecaMeses;
-    @FXML private RadioButton engatinhouSim;
-    @FXML private RadioButton engatinhouNao;
-    @FXML private TextField engatinhou;
-    @FXML private Label lblEngatinhouMeses;
-    @FXML private RadioButton sentouSim;
-    @FXML private RadioButton sentouNao;
-    @FXML private TextField sentou;
-    @FXML private Label lblSentouMeses;
-    @FXML private RadioButton andouSim;
-    @FXML private RadioButton andouNao;
-    @FXML private TextField andou;
-    @FXML private Label lblAndouMeses;
-    @FXML private RadioButton terapiaSim;
-    @FXML private RadioButton terapiaNao;
-    @FXML private TextField terapia;
-    @FXML private Label lblTerapiaMotivo;
-    @FXML private RadioButton falouSim;
-    @FXML private RadioButton falouNao;
-    @FXML private TextField falou;
-    @FXML private Label lblFalouMeses;
+    @FXML
+    private TextField cidadeNascimento;
+    @FXML
+    private TextField maternidade;
+    @FXML
+    private ChoiceBox<String> tipoParto;
+    @FXML
+    private RadioButton chorouSim;
+    @FXML
+    private RadioButton chorouNao;
+    @FXML
+    private RadioButton ficouRoxoSim;
+    @FXML
+    private RadioButton ficouRoxoNao;
+    @FXML
+    private RadioButton incubadoraSim;
+    @FXML
+    private RadioButton incubadoraNao;
+    @FXML
+    private RadioButton amamentadoSim;
+    @FXML
+    private RadioButton amamentadoNao;
+    @FXML
+    private RadioButton sustentouCabecaSim;
+    @FXML
+    private RadioButton sustentouCabecaNao;
+    @FXML
+    private TextField sustentouCabeca;
+    @FXML
+    private Label lblSustentouCabecaMeses;
+    @FXML
+    private RadioButton engatinhouSim;
+    @FXML
+    private RadioButton engatinhouNao;
+    @FXML
+    private TextField engatinhou;
+    @FXML
+    private Label lblEngatinhouMeses;
+    @FXML
+    private RadioButton sentouSim;
+    @FXML
+    private RadioButton sentouNao;
+    @FXML
+    private TextField sentou;
+    @FXML
+    private Label lblSentouMeses;
+    @FXML
+    private RadioButton andouSim;
+    @FXML
+    private RadioButton andouNao;
+    @FXML
+    private TextField andou;
+    @FXML
+    private Label lblAndouMeses;
+    @FXML
+    private RadioButton terapiaSim;
+    @FXML
+    private RadioButton terapiaNao;
+    @FXML
+    private TextField terapia;
+    @FXML
+    private Label lblTerapiaMotivo;
+    @FXML
+    private RadioButton falouSim;
+    @FXML
+    private RadioButton falouNao;
+    @FXML
+    private TextField falou;
+    @FXML
+    private Label lblFalouMeses;
 
     // Controles (Tela 3)
-    @FXML private ChoiceBox<String> balbucio;
-    @FXML private TextField primeiraPalavra;
-    @FXML private TextField primeiraFrase;
-    @FXML private ChoiceBox<String> tipoFala;
-    @FXML private RadioButton disturbioSim;
-    @FXML private RadioButton disturbioNao;
-    @FXML private TextField disturbio;
-    @FXML private Label questDisturbio;
-    @FXML private ChoiceBox<String> dormeSozinho;
-    @FXML private ChoiceBox<String> temQuarto;
-    @FXML private ChoiceBox<String> sono;
-    @FXML private ChoiceBox<String> respeitaRegras;
-    @FXML private ChoiceBox<String> desmotivado;
-    @FXML private ChoiceBox<String> agressivo;
-    @FXML private ChoiceBox<String> inquietacao;
-    @FXML private TextField servicos;
+    @FXML
+    private ChoiceBox<String> balbucio;
+    @FXML
+    private TextField primeiraPalavra;
+    @FXML
+    private TextField primeiraFrase;
+    @FXML
+    private ChoiceBox<String> tipoFala;
+    @FXML
+    private RadioButton disturbioSim;
+    @FXML
+    private RadioButton disturbioNao;
+    @FXML
+    private TextField disturbio;
+    @FXML
+    private Label questDisturbio;
+    @FXML
+    private ChoiceBox<String> dormeSozinho;
+    @FXML
+    private ChoiceBox<String> temQuarto;
+    @FXML
+    private ChoiceBox<String> sono;
+    @FXML
+    private ChoiceBox<String> respeitaRegras;
+    @FXML
+    private ChoiceBox<String> desmotivado;
+    @FXML
+    private ChoiceBox<String> agressivo;
+    @FXML
+    private ChoiceBox<String> inquietacao;
+    @FXML
+    private TextField servicos;
 
     // Botões e Mensagens
     @FXML private Label validationMsg;
     @FXML private Button btnConcluir;
 
-    // ========== Implementação dos Métodos Abstratos ==========
+    //  Implementação dos Métodos Abstratos 
 
     @Override
     protected EstadoDocumento<Anamnese> getEstado() {
@@ -293,7 +377,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
             configurarToggle(terapiaSim, terapiaNao, terapiaGroup, terapia, lblTerapiaMotivo);
             configurarToggle(falouSim, falouNao, falouGroup, falou, lblFalouMeses);
         }
-        
+
         // Tela 3
         if (disturbioSim != null) {
             configurarToggle(disturbioSim, disturbioNao, disturbioGroup, disturbio, questDisturbio);
@@ -333,7 +417,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         }
         return true;
     }
-    
+
     // Valida se um ToggleGroup tem uma opção selecionada.
     private boolean validarToggleObrigatorio(ToggleGroup grupo, String mensagemErro) {
         if (grupo.getSelectedToggle() == null) {
@@ -342,7 +426,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         }
         return true;
     }
-    
+
     // Valida se um ChoiceBox tem um valor selecionado.
     private boolean validarChoiceBoxObrigatorio(ChoiceBox<?> choiceBox, String mensagemErro) {
         if (choiceBox == null || choiceBox.getValue() == null) {
@@ -351,13 +435,14 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         }
         return true;
     }
-    
+
     // Retorna "Sim" se o RadioButton está selecionado, "Não" caso contrário.
     private String getValorToggle(RadioButton radioButton) {
         return radioButton != null && radioButton.isSelected() ? "Sim" : "Não";
     }
-    
-    // Retorna o texto do campo se o RadioButton está selecionado, string vazia caso contrário.
+
+    // Retorna o texto do campo se o RadioButton está selecionado, string vazia caso
+    // contrário.
     private String getTextoSeSelecionado(RadioButton radioButtonSim, TextField campo) {
         if (radioButtonSim.isSelected()) {
             String texto = campo.getText();
@@ -365,63 +450,64 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         }
         return "";
     }
-    
-    // Valida campo condicional: só valida se o RadioButton "Sim" estiver selecionado
+
+    // Valida campo condicional: só valida se o RadioButton "Sim" estiver
+    // selecionado
     private boolean validarCampoCondicional(RadioButton sim, TextField campo, String mensagemErro) {
         return !sim.isSelected() || validarCampoObrigatorio(campo, mensagemErro);
     }
-    
+
     // Preenche flag e texto de forma consolidada
     private void preencherCampo(RadioButton sim, TextField campo,
-                                java.util.function.Consumer<String> setFlag,
-                                java.util.function.Consumer<String> setTexto) {
+            java.util.function.Consumer<String> setFlag,
+            java.util.function.Consumer<String> setTexto) {
         setFlag.accept(getValorToggle(sim));
         setTexto.accept(getTextoSeSelecionado(sim, campo));
     }
-    
+
     // Inicializa os valores das ChoiceBoxes.
     private void inicializarChoiceBoxes() {
         if (tipoParto != null) {
             tipoParto.getItems().setAll("Normal", "Cesariana", "Fórceps");
         }
-        
+
         if (balbucio != null) {
             balbucio.getItems().setAll("0-6 meses", "6-12 meses", "12-18 meses", "Não balbuciou");
         }
-        
+
         if (tipoFala != null) {
             tipoFala.getItems().setAll("Natural", "Inibido", "Gagueja", "Outro");
         }
-        
+
         if (dormeSozinho != null) {
             dormeSozinho.getItems().setAll("Sim", "Não", "Às vezes");
         }
-        
+
         if (temQuarto != null) {
             temQuarto.getItems().setAll("Sim", "Não", "Compartilhado");
         }
-        
+
         if (sono != null) {
             sono.getItems().setAll("Tranquilo", "Agitado", "Pesadelos", "Insônia");
         }
-        
+
         if (respeitaRegras != null) {
             respeitaRegras.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
-        
+
         if (desmotivado != null) {
             desmotivado.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
-        
+
         if (agressivo != null) {
             agressivo.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
-        
+
         if (inquietacao != null) {
             inquietacao.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
     }
-    
+
     // Oculta campos condicionais no carregamento inicial.
     private void ocultarCamposCondicionais() {
         ocultarNos(
@@ -437,10 +523,9 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
                 andou, lblAndouMeses,
                 terapia, lblTerapiaMotivo,
                 falou, lblFalouMeses,
-                disturbio, questDisturbio
-        );
+                disturbio, questDisturbio);
     }
-    
+
     // Oculta múltiplos nós de uma vez (TextField, Label, etc.)
     private void ocultarNos(Node... nos) {
         for (Node no : nos) {
@@ -452,84 +537,134 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     }
 
     // Validação
-    
+
     // Valida os campos obrigatórios da Tela 1.
     private boolean validarTela1() {
-        if (!validarToggleObrigatorio(convulsaoGroup, "Por favor, informe se o educando teve convulsão.")) return false;
-        if (!validarToggleObrigatorio(convenioGroup, "Por favor, informe se o educando possui convênio médico.")) return false;
-        if (!validarCampoCondicional(convenioSim, convenio, "Por favor, informe o nome do convênio médico.")) return false;
-        
-        if (!validarToggleObrigatorio(vacinacaoGroup, "Por favor, informe se a vacinação está em dias.")) return false;
-        
-        if (!validarToggleObrigatorio(doencaContagiosaGroup, "Por favor, informe se o educando teve doença contagiosa.")) return false;
-        if (!validarCampoCondicional(doencaContagiosaSim, doencaContagiosa, "Por favor, especifique quais doenças contagiosas.")) return false;
-        
-        if (!validarCampoObrigatorio(inicioEscolarizacao, "Por favor, informe o início da escolarização.")) return false;
-        
-        if (!validarToggleObrigatorio(dificuldadesGroup, "Por favor, informe se o educando apresenta dificuldades.")) return false;
-        if (!validarCampoCondicional(dificuldadesSim, dificuldades, "Por favor, especifique quais dificuldades.")) return false;
-        
-        if (!validarToggleObrigatorio(apoioPedagogicoGroup, "Por favor, informe se o educando recebe apoio pedagógico em casa.")) return false;
-        if (!validarCampoCondicional(apoioPedagogicoSim, apoioPedagogico, "Por favor, especifique quem oferece o apoio.")) return false;
-        
-        if (!validarToggleObrigatorio(medicacaoGroup, "Por favor, informe se o educando faz uso de medicações.")) return false;
-        if (!validarCampoCondicional(medicacaoSim, medicacoes, "Por favor, especifique quais medicações.")) return false;
-        
-        if (!validarCampoObrigatorio(servicosFrequentados1, "Por favor, informe os serviços de saúde ou educação frequentados.")) return false;
-        
+        if (!validarToggleObrigatorio(convulsaoGroup, "Por favor, informe se o educando teve convulsão."))
+            return false;
+        if (!validarToggleObrigatorio(convenioGroup, "Por favor, informe se o educando possui convênio médico."))
+            return false;
+        if (!validarCampoCondicional(convenioSim, convenio, "Por favor, informe o nome do convênio médico."))
+            return false;
+
+        if (!validarToggleObrigatorio(vacinacaoGroup, "Por favor, informe se a vacinação está em dias."))
+            return false;
+
+        if (!validarToggleObrigatorio(doencaContagiosaGroup,
+                "Por favor, informe se o educando teve doença contagiosa."))
+            return false;
+        if (!validarCampoCondicional(doencaContagiosaSim, doencaContagiosa,
+                "Por favor, especifique quais doenças contagiosas."))
+            return false;
+
+        if (!validarCampoObrigatorio(inicioEscolarizacao, "Por favor, informe o início da escolarização."))
+            return false;
+
+        if (!validarToggleObrigatorio(dificuldadesGroup, "Por favor, informe se o educando apresenta dificuldades."))
+            return false;
+        if (!validarCampoCondicional(dificuldadesSim, dificuldades, "Por favor, especifique quais dificuldades."))
+            return false;
+
+        if (!validarToggleObrigatorio(apoioPedagogicoGroup,
+                "Por favor, informe se o educando recebe apoio pedagógico em casa."))
+            return false;
+        if (!validarCampoCondicional(apoioPedagogicoSim, apoioPedagogico,
+                "Por favor, especifique quem oferece o apoio."))
+            return false;
+
+        if (!validarToggleObrigatorio(medicacaoGroup, "Por favor, informe se o educando faz uso de medicações."))
+            return false;
+        if (!validarCampoCondicional(medicacaoSim, medicacoes, "Por favor, especifique quais medicações."))
+            return false;
+
+        if (!validarCampoObrigatorio(servicosFrequentados1,
+                "Por favor, informe os serviços de saúde ou educação frequentados."))
+            return false;
+
         return true;
     }
-    
+
     // Valida os campos obrigatórios da Tela 2.
     private boolean validarTela2() {
-        if (!validarCampoObrigatorio(cidadeNascimento, "Por favor, informe a cidade de nascimento.")) return false;
-        if (!validarCampoObrigatorio(maternidade, "Por favor, informe a maternidade/hospital.")) return false;
-        if (!validarChoiceBoxObrigatorio(tipoParto, "Por favor, selecione o tipo de parto.")) return false;
-        
-        if (!validarToggleObrigatorio(chorouGroup, "Por favor, informe se o educando chorou ao nascer.")) return false;
-        if (!validarToggleObrigatorio(ficouRoxoGroup, "Por favor, informe se o educando ficou roxo.")) return false;
-        if (!validarToggleObrigatorio(incubadoraGroup, "Por favor, informe se o educando usou incubadora.")) return false;
-        if (!validarToggleObrigatorio(amamentadoGroup, "Por favor, informe se o educando foi amamentado.")) return false;
-        
-        if (!validarToggleObrigatorio(sustentouCabecaGroup, "Por favor, informe se o educando sustentou a cabeça.")) return false;
-        if (!validarCampoCondicional(sustentouCabecaSim, sustentouCabeca, "Por favor, informe quantos meses sustentou a cabeça.")) return false;
-        
-        if (!validarToggleObrigatorio(engatinhouGroup, "Por favor, informe se o educando engatinhou.")) return false;
-        if (!validarCampoCondicional(engatinhouSim, engatinhou, "Por favor, informe quantos meses engatinhou.")) return false;
-        
-        if (!validarToggleObrigatorio(sentouGroup, "Por favor, informe se o educando sentou.")) return false;
-        if (!validarCampoCondicional(sentouSim, sentou, "Por favor, informe quantos meses sentou.")) return false;
-        
-        if (!validarToggleObrigatorio(andouGroup, "Por favor, informe se o educando andou.")) return false;
-        if (!validarCampoCondicional(andouSim, andou, "Por favor, informe quantos meses andou.")) return false;
-        
-        if (!validarToggleObrigatorio(terapiaGroup, "Por favor, informe se o educando precisou de terapia.")) return false;
-        if (!validarCampoCondicional(terapiaSim, terapia, "Por favor, informe qual o motivo da terapia.")) return false;
-        
-        if (!validarToggleObrigatorio(falouGroup, "Por favor, informe se o educando falou.")) return false;
-        if (!validarCampoCondicional(falouSim, falou, "Por favor, informe quantos meses falou.")) return false;
-        
+        if (!validarCampoObrigatorio(cidadeNascimento, "Por favor, informe a cidade de nascimento."))
+            return false;
+        if (!validarCampoObrigatorio(maternidade, "Por favor, informe a maternidade/hospital."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(tipoParto, "Por favor, selecione o tipo de parto."))
+            return false;
+
+        if (!validarToggleObrigatorio(chorouGroup, "Por favor, informe se o educando chorou ao nascer."))
+            return false;
+        if (!validarToggleObrigatorio(ficouRoxoGroup, "Por favor, informe se o educando ficou roxo."))
+            return false;
+        if (!validarToggleObrigatorio(incubadoraGroup, "Por favor, informe se o educando usou incubadora."))
+            return false;
+        if (!validarToggleObrigatorio(amamentadoGroup, "Por favor, informe se o educando foi amamentado."))
+            return false;
+
+        if (!validarToggleObrigatorio(sustentouCabecaGroup, "Por favor, informe se o educando sustentou a cabeça."))
+            return false;
+        if (!validarCampoCondicional(sustentouCabecaSim, sustentouCabeca,
+                "Por favor, informe quantos meses sustentou a cabeça."))
+            return false;
+
+        if (!validarToggleObrigatorio(engatinhouGroup, "Por favor, informe se o educando engatinhou."))
+            return false;
+        if (!validarCampoCondicional(engatinhouSim, engatinhou, "Por favor, informe quantos meses engatinhou."))
+            return false;
+
+        if (!validarToggleObrigatorio(sentouGroup, "Por favor, informe se o educando sentou."))
+            return false;
+        if (!validarCampoCondicional(sentouSim, sentou, "Por favor, informe quantos meses sentou."))
+            return false;
+
+        if (!validarToggleObrigatorio(andouGroup, "Por favor, informe se o educando andou."))
+            return false;
+        if (!validarCampoCondicional(andouSim, andou, "Por favor, informe quantos meses andou."))
+            return false;
+
+        if (!validarToggleObrigatorio(terapiaGroup, "Por favor, informe se o educando precisou de terapia."))
+            return false;
+        if (!validarCampoCondicional(terapiaSim, terapia, "Por favor, informe qual o motivo da terapia."))
+            return false;
+
+        if (!validarToggleObrigatorio(falouGroup, "Por favor, informe se o educando falou."))
+            return false;
+        if (!validarCampoCondicional(falouSim, falou, "Por favor, informe quantos meses falou."))
+            return false;
+
         return true;
     }
-    
+
     // Valida os campos obrigatórios da Tela 3.
     private boolean validarTela3() {
-        if (!validarChoiceBoxObrigatorio(balbucio, "Por favor, selecione quando o educando começou a balbuciar.")) return false;
-        if (!validarChoiceBoxObrigatorio(tipoFala, "Por favor, selecione o tipo de fala do educando.")) return false;
-        if (!validarToggleObrigatorio(disturbioGroup, "Por favor, informe se o educando possui distúrbio.")) return false;
-        if (!validarCampoCondicional(disturbioSim, disturbio, "Por favor, especifique qual é o distúrbio.")) return false;
+        if (!validarChoiceBoxObrigatorio(balbucio, "Por favor, selecione quando o educando começou a balbuciar."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(tipoFala, "Por favor, selecione o tipo de fala do educando."))
+            return false;
+        if (!validarToggleObrigatorio(disturbioGroup, "Por favor, informe se o educando possui distúrbio."))
+            return false;
+        if (!validarCampoCondicional(disturbioSim, disturbio, "Por favor, especifique qual é o distúrbio."))
+            return false;
         // Validar campos adicionais para evitar valores indefinidos
-        if (!validarChoiceBoxObrigatorio(dormeSozinho, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(temQuarto, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(sono, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(respeitaRegras, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(desmotivado, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(agressivo, "Preencha todos os campos.")) return false;
-        if (!validarChoiceBoxObrigatorio(inquietacao, "Preencha todos os campos.")) return false;
-        
+        if (!validarChoiceBoxObrigatorio(dormeSozinho, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(temQuarto, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(sono, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(respeitaRegras, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(desmotivado, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(agressivo, "Preencha todos os campos."))
+            return false;
+        if (!validarChoiceBoxObrigatorio(inquietacao, "Preencha todos os campos."))
+            return false;
+
         return true;
     }
-    
+
     // Preenchimento do modelo
     
     //Preenche os dados da Tela 1 no objeto Anamnese.
@@ -613,20 +748,20 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
                 builder.comUsouServicoSaudeEducacao("Sim");
             }
         }
-        
+
         // Preenche os campos opcionais da Tela 3 (sleep)
         if (dormeSozinho != null && dormeSozinho.getValue() != null) {
             builder.comDormeSozinho(dormeSozinho.getValue());
         } else {
             builder.comDormeSozinho("Não");
         }
-        
+
         if (temQuarto != null && temQuarto.getValue() != null) {
             builder.comTemSeuQuarto(temQuarto.getValue());
         } else {
             builder.comTemSeuQuarto("Não");
         }
-        
+
         String sonoVal = sono.getValue();
         builder.comSonoCalmoAgitado(sonoVal != null ? sonoVal : "");
         
@@ -636,32 +771,31 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         } else {
             builder.comRespeitaRegras("Nunca");
         }
-        
+
         if (desmotivado != null && desmotivado.getValue() != null) {
             builder.comDesmotivado(desmotivado.getValue());
         } else {
             builder.comDesmotivado("Nunca");
         }
-        
+
         if (agressivo != null && agressivo.getValue() != null) {
             builder.comAgressivo(agressivo.getValue());
         } else {
             builder.comAgressivo("Nunca");
         }
-        
+
         if (inquietacao != null && inquietacao.getValue() != null) {
             builder.comApresentaInquietacao(inquietacao.getValue());
         } else {
             builder.comApresentaInquietacao("Nunca");
         }
     }
-    
-    // Métodos Auxiliares
-    
 
+    // Métodos Auxiliares
     // Seleciona RadioButtons a partir de um valor textual ("Sim"/"Não")
     private void selecionarToggle(RadioButton sim, RadioButton nao, String valor) {
-        if (sim == null || nao == null) return;
+        if (sim == null || nao == null)
+            return;
         if (valor != null && valor.trim().equalsIgnoreCase("Sim")) {
             sim.setSelected(true);
         } else if (valor != null && (valor.trim().equalsIgnoreCase("Não") || valor.trim().equalsIgnoreCase("Nao"))) {
@@ -800,7 +934,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         iniciarVisualizacao(ESTADO, existente);
         ESTADO.builder = new AnamneseBuilder((Anamnese) ESTADO.documentoCompartilhado);
     }
-    
+
     // Define o ID do educando para a anamnese
     public static void setEducandoIdParaAnamnese(String educandoId) {
         if (ESTADO.documentoCompartilhado == null) {
@@ -812,7 +946,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         ESTADO.builder = new AnamneseBuilder((Anamnese) ESTADO.documentoCompartilhado);
         ((AnamneseBuilder) ESTADO.builder).comEducandoId(educandoId);
     }
-    
+
     // Define a turma de origem para poder voltar
     public static void setTurmaOrigem(String turmaId) {
         setTurmaOrigem(ESTADO, turmaId);
@@ -827,25 +961,25 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         AuthService.logout();
         GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
-    
-    //Handler para o botão Cancelar - cancela o processo de anamnese
+
+    // Handler para o botão Cancelar - cancela o processo de anamnese
     @FXML
     protected void btnCancelarClick() {
         super.btnCancelarClick();
     }
-    
-    //Handler para o botão Turmas - navega para a tela de turmas
+
+    // Handler para o botão Turmas - navega para a tela de turmas
     @FXML
     private void btnTurmasClick() {
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
-    
+
     // Handler para o botão Alunos - navega para a tela de alunos
     @FXML
     private void btnAlunosClick() {
         voltarParaTurma();
     }
-    
+
     // Método auxiliar para voltar à turma de origem
     private void voltarParaTurma() {
         EstadoDocumento<Anamnese> estado = getEstado();
@@ -869,7 +1003,7 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     }
     
     // Volta para a turma com popup do educando
-    private void voltarComPopup(String educandoId) {
+    protected void voltarComPopup(String educandoId) {
         EstadoDocumento<Anamnese> estado = getEstado();
         if (estado.turmaIdOrigem != null) {
             try {
@@ -886,7 +1020,8 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
                         Educando educando = educandoRepo.buscarPorId(educandoId);
 
                         if (educando != null) {
-                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas.getLoader("progresso-atendimento.fxml");
+                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas
+                                    .getLoader("progresso-atendimento.fxml");
                             javafx.scene.Parent popupRoot = popupLoader.load();
                             ProgressoAtendimentoController popupController = popupLoader.getController();
                             popupController.setTurma(turma);
@@ -905,31 +1040,31 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         estado.turmaIdOrigem = null;
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
-    
+
     // Handler para o botão Seguinte da tela 1 - valida e avança para tela 2
     @FXML
     private void btnSeguinte2Click() {
         navegarTela(1, this::validarTelaAtual);
     }
-    
+
     // Handler para o botão Anterior da tela 2 - volta para tela 1
     @FXML
     private void btnAnterior1Click() {
         navegarTela(-1, null);
     }
-    
+
     // Handler para o botão Seguinte da tela 2 - valida e avança para tela 3
     @FXML
     private void btnSeguinte3Click() {
         navegarTela(1, this::validarTelaAtual);
     }
-    
+
     // Handler para o botão Anterior da tela 3 - volta para tela 2
     @FXML
     private void btnAnterior2Click() {
         navegarTela(-1, null);
     }
-    
+
     // Handler para o botão Concluir da tela 3 - valida e salva a anamnese
     @FXML
     private void btnConcluirClick() {
@@ -951,12 +1086,9 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
         }
 
         // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir Anamnese");
-        alerta.setHeaderText("Preencha todos os campos para concluir.");
-        alerta.setContentText("Deseja salvar a anamnese agora?");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (!exibirConfirmacao("Concluir Anamnese", 
+                               "Preencha todos os campos para concluir.", 
+                               "Deseja salvar a anamnese agora?")) {
             return;
         }
 
@@ -981,7 +1113,8 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
                 professorId = anamneseService.buscarProfessorValido();
             }
             if (professorId == null || professorId.isBlank()) {
-                exibirMensagemErro("Não foi possível identificar um professor para vincular à anamnese. Faça login como professor ou cadastre um professor.");
+                exibirMensagemErro(
+                        "Não foi possível identificar um professor para vincular à anamnese. Faça login como professor ou cadastre um professor.");
                 return;
             }
 

@@ -75,7 +75,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
     @FXML
     private Label cargoUsuario;
 
-    // ========== Implementação dos Métodos Abstratos ==========
+    // Implementação dos Métodos Abstratos
 
     @Override
     protected EstadoDocumento<PDI> getEstado() {
@@ -121,7 +121,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
             preencherDadosTela4(builder);
         }
 
-        // Atualiza estado compartilhado com dados parciais (sem validação completa)
+        // Atualiza estado compartilhado com dados parciais
         ESTADO.documentoCompartilhado = builder.buildPartial();
         documentoAtual = ESTADO.documentoCompartilhado;
     }
@@ -186,7 +186,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
 
     @Override
     protected boolean validarTelaAtual() {
-        return true; // PDI não tem validação específica entre telas
+        return true;
     }
 
     @Override
@@ -225,7 +225,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
         if (btnConcluir != null) btnConcluir.setDisable(true);
     }
 
-    // ========== Ciclo de Vida ==========
+    // Ciclo de Vida
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -307,12 +307,9 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
         }
 
         // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir PDI");
-        alerta.setHeaderText("Deseja salvar o PDI agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (!exibirConfirmacao("Concluir PDI", 
+                               "Deseja salvar o PDI agora?", 
+                               "Todos os dados serão salvos no sistema.")) {
             return;
         }
 
@@ -422,16 +419,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
     @FXML
     @Override
     protected void btnCancelarClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar PDI");
-        alert.setHeaderText("Deseja realmente cancelar?");
-        alert.setContentText("Todos os dados preenchidos serão perdidos.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            String educandoId = documentoAtual != null ? documentoAtual.getEducandoId() : null;
-            limparEstado();
-            voltarComPopup(educandoId);
-        }
+        super.btnCancelarClick();
     }
 
     @FXML
@@ -460,9 +448,9 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
         voltarParaTurma();
     }
 
-    // ========== Métodos Auxiliares ==========
+    // Métodos Auxiliares
 
-    private void voltarComPopup(String educandoId) {
+    protected void voltarComPopup(String educandoId) {
         EstadoDocumento<PDI> estado = getEstado();
         if (estado.turmaIdOrigem != null) {
             try {
@@ -529,7 +517,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
         }
     }
 
-    // ========== Métodos Estáticos para Factory ===========
+    // Métodos Estáticos para Factory
 
     public static void iniciarNovoPDI() {
         salvando = false;
@@ -574,7 +562,7 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
         setTurmaOrigem(ESTADO, turmaId);
     }
 
-    // ========== Builder helpers e preenchimento por tela ==========
+    //  Builder helpers e preenchimento por tela
 
     private PDIBuilder obterOuCriarBuilder() {
         if (ESTADO.builder instanceof PDIBuilder) {

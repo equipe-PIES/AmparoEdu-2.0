@@ -6,13 +6,7 @@ package br.com.amparoedu.backend.factory;
  */
 public class DocumentoFluxoFactory {
     
-    /**
-     * Cria uma instância de DocumentoFluxo apropriada para o tipo de documento especificado
-     * 
-     * @param tipo O tipo de documento desejado
-     * @return Uma instância de DocumentoFluxo para o tipo especificado
-     * @throws IllegalArgumentException se o tipo não for suportado
-     */
+    // Cria uma instância de DocumentoFluxo conforme o TipoDocumento fornecido
     public static DocumentoFluxo<?> criar(TipoDocumento tipo) {
         switch (tipo) {
             case ANAMNESE:
@@ -21,6 +15,8 @@ public class DocumentoFluxoFactory {
                 return new PDIFluxo();
             case PAEE:
                 return new PAEEFluxo();
+            case DI:
+                return new DIFluxo();
             case RI:
                 return new RIFluxo();
             default:
@@ -28,14 +24,7 @@ public class DocumentoFluxoFactory {
         }
     }
     
-    /**
-     * Método de conveniência para criar um fluxo e já configurar educando e turma
-     * 
-     * @param tipo O tipo de documento desejado
-     * @param educandoId ID do educando
-     * @param turmaId ID da turma (pode ser null)
-     * @return Uma instância de DocumentoFluxo configurada
-     */
+    // Método de conveniência para criar um fluxo e já configurar educando e turma
     public static DocumentoFluxo<?> criarComContexto(TipoDocumento tipo, String educandoId, String turmaId) {
         DocumentoFluxo<?> fluxo = criar(tipo);
         fluxo.setEducandoId(educandoId);

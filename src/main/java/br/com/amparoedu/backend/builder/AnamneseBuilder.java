@@ -2,6 +2,7 @@ package br.com.amparoedu.backend.builder;
 
 import br.com.amparoedu.backend.model.Anamnese;
 
+// Builder para Anamnese
 public class AnamneseBuilder {
     private Anamnese documento = new Anamnese();
 

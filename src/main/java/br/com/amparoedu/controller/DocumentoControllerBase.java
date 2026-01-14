@@ -10,17 +10,11 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-/**
- * Classe base abstrata para controllers de documentos multi-tela (PDI, PAEE, RI, Anamnese).
- * Centraliza toda a lógica comum de navegação, estado e gerenciamento de modo.
- * 
- * @param <T> O tipo do documento (PDI, PAEE, RI, Anamnese)
- */
+/** Classe base abstrata para controllers de documentos multi-tela (PDI, PAEE, RI, Anamnese).
+    Centraliza toda a lógica comum de navegação, estado e gerenciamento de modo. */
 public abstract class DocumentoControllerBase<T> {
 
-    /**
-     * Enum genérico para modo de operação do documento
-     */
+    // Modos de operação do documento
     public enum ModoDocumento {
         NOVA, EDICAO, VISUALIZACAO
     }
@@ -32,75 +26,49 @@ public abstract class DocumentoControllerBase<T> {
         String turmaIdOrigem;
         ModoDocumento modoAtual = ModoDocumento.NOVA;
         boolean navegandoEntreTelas;
-        // Espaço para builder específico do documento (ex.: PAEEBuilder)
         Object builder;
     }
 
     protected final TurmaRepository turmaRepo = new TurmaRepository();
     protected T documentoAtual;
 
-    /**
-     * Retorna o estado específico do tipo de documento.
-     * Cada subclasse deve manter seu próprio estado estático.
-     */
+    // Retorna o estado compartilhado do documento.
     protected abstract EstadoDocumento<T> getEstado();
 
-    /**
-     * Retorna o número total de telas do fluxo.
-     */
+    // Retorna o total de telas do documento.
     protected abstract int getTotalTelas();
 
-    /**
-     * Retorna o prefixo do nome da tela (ex: "pdi", "paee", "relatorio-individual").
-     */
+    // Retorna o prefixo do nome das telas FXML.
     protected abstract String getPrefixoTela();
 
-    /**
-     * Cria uma nova instância do documento.
-     */
+    // Cria uma nova instância do documento.
     protected abstract T criarNovoDocumento();
 
-    /**
-     * Detecta qual tela está carregada baseado nos controles presentes.
-     * @return número da tela (1, 2, 3, etc)
-     */
+    // Detecta qual tela está atualmente carregada.
     protected abstract int detectarTelaAtual();
 
-    /**
-     * Salva os dados da tela atual no documento compartilhado.
-     */
+    // Salva os dados da tela atual no documento.
     protected abstract void salvarDadosTelaAtual();
 
-    /**
-     * Carrega os dados do documento compartilhado na tela atual.
-     */
+    // Carrega os dados do documento na tela atual.
     protected abstract void carregarDadosNaTela();
 
-    /**
-     * Valida os dados da tela atual.
-     * @return true se válidos, false caso contrário
-     */
+    // valida a tela atual antes de avançar.
     protected abstract boolean validarTelaAtual();
 
-    /**
-     * Define o ID do educando no documento.
-     */
+    // Define o ID do educando no documento.
     protected abstract void setEducandoIdNoDocumento(String educandoId);
 
-    /**
-     * Obtém o ID do educando do documento.
-     */
+    // Retorna o ID do educando do documento.
     protected abstract String getEducandoIdDoDocumento();
 
-    /**
-     * Obtém o nome do documento para mensagens (ex: "PDI", "PAEE").
-     */
+    // Retorna o nome do tipo de documento.
     protected abstract String getNomeDocumento();
 
-    /**
-     * Inicialização comum para todos os controllers de documento.
-     * Deve ser chamado no initialize() da subclasse.
-     */
+    // Volta para a tela anterior com popup de confirmação.
+    protected abstract void voltarComPopup(String educandoId);
+
+    // Inicializa o estado base do documento.
     protected void inicializarBase() {
         EstadoDocumento<T> estado = getEstado();
         boolean vindoDeNavegacao = estado.navegandoEntreTelas;
@@ -143,23 +111,22 @@ public abstract class DocumentoControllerBase<T> {
         }
     }
 
-    /**
-     * Navega entre telas do fluxo.
-     * @param passo +1 para avançar, -1 para voltar
-     * @param validarAntes Função que valida antes de avançar (opcional)
-     */
+    // Navega para a próxima ou anterior tela.
     protected void navegarTela(int passo, BooleanSupplier validarAntes) {
         EstadoDocumento<T> estado = getEstado();
         int novaTela = estado.telaAtual + passo;
+        int totalTelas = getTotalTelas();
 
-        // Verifica limites
-        if (novaTela < 1 || novaTela > getTotalTelas()) {
-            return;
+        // Verifica limites - bloqueia navegação inválida
+        if (novaTela < 1 || novaTela > totalTelas) {
+            return; // Silenciosamente ignora navegação fora dos limites
         }
 
         // Valida antes de avançar (apenas em modos editáveis)
-        if (estado.modoAtual != ModoDocumento.VISUALIZACAO && validarAntes != null && !validarAntes.getAsBoolean()) {
-            return;
+        if (estado.modoAtual != ModoDocumento.VISUALIZACAO && passo > 0 && validarAntes != null) {
+            if (!validarAntes.getAsBoolean()) {
+                return; // Validação falhou, não avança
+            }
         }
 
         // Salva dados da tela atual (apenas em modos editáveis)
@@ -174,23 +141,17 @@ public abstract class DocumentoControllerBase<T> {
         GerenciadorTelas.getInstance().trocarTela(getPrefixoTela() + "-" + novaTela + ".fxml");
     }
 
-    /**
-     * Volta para a tela anterior.
-     */
+    // Volta para a tela anterior.
     protected void btnVoltarClick() {
         navegarTela(-1, null);
     }
 
-    /**
-     * Avança para próxima tela.
-     */
+    // Avança para a próxima tela.
     protected void btnProximoClick() {
         navegarTela(1, this::validarTelaAtual);
     }
 
-    /**
-     * Retorna à tela de origem (turma ou início).
-     */
+    // Volta para a tela ou dashboard de origem.
     protected void voltarParaOrigem() {
         EstadoDocumento<T> estado = getEstado();
         
@@ -216,44 +177,32 @@ public abstract class DocumentoControllerBase<T> {
         }
     }
 
-    /**
-     * Obtém o cargo do usuário logado (deve ser implementado ou injetado).
-     */
+    // Obtém o cargo do usuário logado.
     protected String obterCargoUsuarioLogado() {
         try {
             Usuario usuario = br.com.amparoedu.backend.service.AuthService.getUsuarioLogado();
             return usuario != null ? usuario.getTipo() : "Professor";
         } catch (Exception e) {
-            return "Professor"; // Fallback
+            return "Professor";
         }
     }
 
-    /**
-     * Cancela a operação e volta para origem.
-     */
+    // Cancela a operação e volta para origem com popup.
     protected void btnCancelarClick() {
-        EstadoDocumento<T> estado = getEstado();
-        
-        if (estado.modoAtual == ModoDocumento.VISUALIZACAO) {
-            voltarParaOrigem();
-            return;
-        }
-
         Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacao.setTitle("Confirmar Cancelamento");
-        confirmacao.setHeaderText("Deseja cancelar?");
-        confirmacao.setContentText("Os dados não salvos serão perdidos.");
+        confirmacao.setTitle("Cancelar " + getNomeDocumento());
+        confirmacao.setHeaderText("Deseja realmente cancelar?");
+        confirmacao.setContentText("Todos os dados preenchidos serão perdidos.");
 
         Optional<ButtonType> resultado = confirmacao.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            String educandoId = getEducandoIdDoDocumento();
             limparEstado();
-            voltarParaOrigem();
+            voltarComPopup(educandoId);
         }
     }
 
-    /**
-     * Limpa o estado do documento.
-     */
+    // Limpa o estado do documento.
     protected void limparEstado() {
         EstadoDocumento<T> estado = getEstado();
         estado.telaAtual = 1;
@@ -263,74 +212,86 @@ public abstract class DocumentoControllerBase<T> {
         estado.builder = null;
     }
 
-    /**
-     * Desabilita todos os campos da tela (para modo visualização).
-     * Subclasses devem sobrescrever se necessário.
-     */
+    // Desabilita campos da tela (para modo visualização).
     protected void desabilitarCampos() {
         // Implementação padrão vazia - subclasses podem sobrescrever
     }
 
-    /**
-     * Exibe mensagem de sucesso.
-     */
+    // Exibe mensagem de sucesso.
     protected void exibirSucesso(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sucesso");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
+        exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", null, mensagem);
+    }
+
+    // Exibe mensagem de erro.
+    protected void exibirErro(String mensagem) {
+        exibirAlerta(Alert.AlertType.ERROR, "Erro", null, mensagem);
+    }
+
+    // Exibe aviso ao usuário.
+    protected void exibirAviso(String mensagem) {
+        exibirAlerta(Alert.AlertType.WARNING, "Aviso", null, mensagem);
+    }
+
+    // Exibe um alerta genérico.
+    protected void exibirAlerta(Alert.AlertType tipo, String titulo, String cabecalho, String conteudo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(cabecalho);
+        alert.setContentText(conteudo);
         alert.showAndWait();
     }
 
-    /**
-     * Alias para exibirSucesso (compatibilidade com PAEEController)
-     */
+    // Exibe confirmação e retorna se usuário clicou OK.
+    protected boolean exibirConfirmacao(String titulo, String cabecalho, String conteudo) {
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle(titulo);
+        confirmacao.setHeaderText(cabecalho);
+        confirmacao.setContentText(conteudo);
+        Optional<ButtonType> resultado = confirmacao.showAndWait();
+        return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+
+    // Exibe mensagem de sucesso
     protected void exibirMensagemSucesso(String mensagem) {
         exibirSucesso(mensagem);
     }
 
-    /**
-     * Exibe mensagem de erro.
-     */
-    protected void exibirErro(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erro");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
-    }
-
-    /**
-     * Alias para exibirErro (compatibilidade com PAEEController)
-     */
+    // Exibe mensagem de erro
     protected void exibirMensagemErro(String mensagem) {
         exibirErro(mensagem);
     }
 
-    /**
-     * Exibe mensagem de aviso.
-     */
-    protected void exibirAviso(String mensagem) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Aviso");
-        alert.setHeaderText(null);
-        alert.setContentText(mensagem);
-        alert.showAndWait();
-    }
-
-    /**
-     * Atualiza os dados do usuário logado na tela (labels de nome/cargo).
-     * Subclasses podem sobrescrever para implementação específica.
-     */
+    // Atualiza informações do usuário logado na interface (se aplicável).
     protected void atualizarUsuarioLogado() {
-        // Implementação padrão vazia - subclasses podem sobrescrever se tiverem labels de usuário
+        try {
+            Usuario usuario = br.com.amparoedu.backend.service.AuthService.getUsuarioLogado();
+            if (usuario != null) {
+                // Subclasses podem ter labels para nome e cargo
+                // Esta implementação base não faz nada
+            }
+        } catch (Exception e) {
+            // Silenciosamente ignora erros de atualização de usuário
+        }
     }
 
-    // ========== Métodos Estáticos para Factory ==========
+    // Retorna o builder tipado do estado, se disponível.
+    protected <B> B obterBuilder(Class<B> builderClass) {
+        EstadoDocumento<T> estado = getEstado();
+        if (estado.builder != null && builderClass.isInstance(estado.builder)) {
+            return builderClass.cast(estado.builder);
+        }
+        return null;
+    }
 
-    /**
-     * Inicializa um novo documento.
-     */
+    //Armazena o builder no estado.
+    protected void salvarBuilder(Object builder) {
+        getEstado().builder = builder;
+    }
+
+    // Métodos Estáticos para Factory
+
+    
+    // Inicializa um novo documento.
     public static <T> void iniciarNovo(EstadoDocumento<T> estado, T novoDocumento) {
         estado.modoAtual = ModoDocumento.NOVA;
         estado.telaAtual = 1;
@@ -338,9 +299,7 @@ public abstract class DocumentoControllerBase<T> {
         estado.navegandoEntreTelas = false;
     }
 
-    /**
-     * Inicializa edição de documento existente.
-     */
+    // Inicializa edição de documento existente.
     public static <T> void iniciarEdicao(EstadoDocumento<T> estado, T documento) {
         estado.modoAtual = ModoDocumento.EDICAO;
         estado.telaAtual = 1;
@@ -348,9 +307,7 @@ public abstract class DocumentoControllerBase<T> {
         estado.navegandoEntreTelas = false;
     }
 
-    /**
-     * Inicializa visualização de documento existente.
-     */
+    // Inicializa visualização de documento existente.
     public static <T> void iniciarVisualizacao(EstadoDocumento<T> estado, T documento) {
         estado.modoAtual = ModoDocumento.VISUALIZACAO;
         estado.telaAtual = 1;
@@ -358,9 +315,7 @@ public abstract class DocumentoControllerBase<T> {
         estado.navegandoEntreTelas = false;
     }
 
-    /**
-     * Define a turma de origem para retorno após conclusão.
-     */
+    // Define a turma de origem para retorno após conclusão.
     public static <T> void setTurmaOrigem(EstadoDocumento<T> estado, String turmaId) {
         estado.turmaIdOrigem = turmaId;
     }

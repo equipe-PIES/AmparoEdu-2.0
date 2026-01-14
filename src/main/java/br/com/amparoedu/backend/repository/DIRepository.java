@@ -1,9 +1,13 @@
 package br.com.amparoedu.backend.repository;
 
-import br.com.amparoedu.backend.model.DI;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.amparoedu.backend.model.DI;
 
 public class DIRepository {
     
@@ -58,7 +62,7 @@ public class DIRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             setStatementParameters(stmt, di, false);
-            stmt.setString(76, di.getId());
+            stmt.setString(75, di.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

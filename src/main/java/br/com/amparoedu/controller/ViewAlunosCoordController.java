@@ -150,11 +150,6 @@ public class ViewAlunosCoordController {
         exibirAlunos(filtrados);
     }
 
-    // Método antigo mantido apenas por compatibilidade temporária se necessário, 
-    // mas redirecionando para a nova lógica
-    private void filtrarAlunos(String termo) {
-        aplicarFiltros();
-    }
 
     @FXML
     private void btnInicioClick() {
