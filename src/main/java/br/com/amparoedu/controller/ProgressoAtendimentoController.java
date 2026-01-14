@@ -1,6 +1,9 @@
 package br.com.amparoedu.controller;
 
+import java.io.File;
+
 import br.com.amparoedu.backend.model.Anamnese;
+import br.com.amparoedu.backend.model.DI;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.backend.model.PDI;
@@ -8,14 +11,17 @@ import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.repository.PDIRepository;
 import br.com.amparoedu.backend.service.AnamneseService;
+import br.com.amparoedu.backend.service.DIService;
 import br.com.amparoedu.backend.service.PAEEService;
 import br.com.amparoedu.backend.service.PDIService;
 import br.com.amparoedu.backend.service.RIService;
+import br.com.amparoedu.util.RIPDFGenerator;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ProgressoAtendimentoController {
@@ -25,10 +31,12 @@ public class ProgressoAtendimentoController {
     private PDI pdiAtual;
     private PAEE paeeAtual;
     private RI riAtual;
+    private DI diAtual;
     private final AnamneseService anamneseService = new AnamneseService();
     private final PDIService pdiService = new PDIService();
     private final PAEEService paeeService = new PAEEService();
     private final RIService riService = new RIService();
+    private final DIService diService = new DIService();
     private final PDIRepository pdiRepository = new PDIRepository();
 
     @FXML
@@ -49,6 +57,7 @@ public class ProgressoAtendimentoController {
         carregarPDIAtual();
         carregarPAEEAtual();
         carregarRIAtual();
+        carregarDIAtual();
         atualizarInterface();
     }
 
@@ -106,6 +115,24 @@ public class ProgressoAtendimentoController {
         }
     }
 
+    /**
+     * Busca o DI mais recente do educando e atribui a diAtual.
+     * Se não houver, diAtual fica null.
+     */
+    private void carregarDIAtual() {
+        if (educando == null || educando.getId() == null) {
+            diAtual = null;
+            return;
+        }
+        var lista = diService.buscarPorEducando(educando.getId());
+        if (lista != null && !lista.isEmpty()) {
+            // Considera o mais recente (assumindo que o primeiro é o mais novo)
+            diAtual = lista.get(0);
+        } else {
+            diAtual = null;
+        }
+    }
+
     public void setTurma(Turma turma) {
         this.turma = turma;
     }
@@ -140,7 +167,24 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnCriarDIClick() {
-        /* Lógica para Diagnóstico Inicial */
+        if (educando == null || educando.getId() == null) {
+            System.err.println("Erro: Educando não definido ou sem ID.");
+            return;
+        }
+
+        // Inicializa novo DI e define o ID do educando
+        DIController.iniciarNovoDI();
+        DIController.setEducandoIdParaDI(educando.getId());
+        if (turma != null && turma.getId() != null) {
+            DIController.setTurmaIdOrigem(turma.getId());
+        }
+
+        // Fecha o popup de progresso antes de abrir o DI
+        Stage popupStage = (Stage) criarDI.getScene().getWindow();
+        popupStage.close();
+
+        // Abre a primeira tela do DI
+        GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
     }
 
     @FXML
@@ -311,14 +355,101 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnEditarDIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        try {
+            DIController.editarDIExistente(diAtual);
+
+            if (turma != null && turma.getId() != null) {
+                DIController.setTurmaIdOrigem(turma.getId());
+            }
+
+            Stage popupStage = (Stage) editarDI.getScene().getWindow();
+            popupStage.close();
+
+            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao editar Diagnóstico Inicial: " + e.getMessage());
+        }
     }
 
     @FXML
     private void btnVerDIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        try {
+            DIController.visualizarDI(diAtual);
+
+            if (turma != null && turma.getId() != null) {
+                DIController.setTurmaIdOrigem(turma.getId());
+            }
+
+            Stage popupStage = (Stage) verDI.getScene().getWindow();
+            popupStage.close();
+
+            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao visualizar Diagnóstico Inicial: " + e.getMessage());
+        }
     }
 
     @FXML
     private void btnExcluirDIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        String educandoId = (educando != null && educando.getId() != null)
+                ? educando.getId()
+                : (diAtual != null ? diAtual.getEducando_id() : null);
+
+        if (diAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
+            return;
+        }
+
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Confirmar Exclusão");
+        confirmacao.setHeaderText("Deseja realmente excluir este Diagnóstico Inicial?");
+        confirmacao.setContentText("Esta ação não pode ser desfeita.");
+
+        if (confirmacao.showAndWait().get() == ButtonType.OK) {
+            try {
+                boolean sucesso = diService.excluirDI(diAtual.getId());
+
+                if (sucesso) {
+                    exibirAlerta("Sucesso", "Diagnóstico Inicial excluído com sucesso!");
+                    diAtual = null;
+                    atualizarInterface();
+
+                    if (excluirDI != null && excluirDI.getScene() != null) {
+                        javafx.stage.Stage stage = (javafx.stage.Stage) excluirDI.getScene().getWindow();
+                        stage.close();
+                    }
+                } else {
+                    exibirAlerta("Erro", "Não foi possível excluir o Diagnóstico Inicial.");
+                }
+            } catch (Exception e) {
+                exibirAlerta("Erro", "Erro ao excluir Diagnóstico Inicial: " + e.getMessage());
+            }
+        }
     }
 
     @FXML
@@ -631,13 +762,43 @@ public class ProgressoAtendimentoController {
             return;
         }
 
-        // Por enquanto, apenas exibe uma mensagem informando que a funcionalidade será implementada
-        // Futuramente, aqui pode ser implementada a geração de PDF ou exportação do relatório
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Baixar Relatório Individual");
-        alert.setHeaderText("Funcionalidade em desenvolvimento");
-        alert.setContentText("A funcionalidade de download do Relatório Individual será implementada em breve.");
-        alert.showAndWait();
+        try {
+            // Abre diálogo para escolher onde salvar o arquivo
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salvar Relatório Individual");
+            fileChooser.setInitialFileName("Relatorio_Individual_" + educando.getNome().replace(" ", "_") + ".pdf");
+            fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+            );
+            
+            // Define diretório inicial como Downloads
+            String userHome = System.getProperty("user.home");
+            File downloadsDir = new File(userHome, "Downloads");
+            if (downloadsDir.exists() && downloadsDir.isDirectory()) {
+                fileChooser.setInitialDirectory(downloadsDir);
+            }
+            
+            Stage stage = (Stage) baixarRI.getScene().getWindow();
+            File arquivo = fileChooser.showSaveDialog(stage);
+            
+            if (arquivo == null) {
+                // Usuário cancelou
+                return;
+            }
+            
+            // Gera o PDF
+            RIPDFGenerator generator = new RIPDFGenerator();
+            boolean sucesso = generator.gerarRelatorioIndividual(educando, riAtual, arquivo.getAbsolutePath());
+            
+            if (sucesso) {
+                exibirAlerta("Sucesso", "Relatório Individual gerado e salvo em: " + arquivo.getAbsolutePath());
+            } else {
+                exibirAlerta("Erro", "Falha ao gerar o Relatório Individual.");
+            }
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao gerar Relatório Individual: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void exibirAlerta(String titulo, String mensagem) {

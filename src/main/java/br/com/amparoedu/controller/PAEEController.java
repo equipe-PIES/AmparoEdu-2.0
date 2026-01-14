@@ -494,8 +494,6 @@ public class PAEEController implements Initializable {
             return;
         }
 
-        System.out.println("DEBUG: Botão concluir clicado na tela " + telaAtual);
-
         // Salva os dados da tela atual primeiro
         salvarDadosTelaAtual();
 

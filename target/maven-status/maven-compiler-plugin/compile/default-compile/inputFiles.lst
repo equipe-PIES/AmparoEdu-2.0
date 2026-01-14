@@ -47,6 +47,7 @@ C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
+C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\DIController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
@@ -60,6 +61,7 @@ C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmaController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\ViewTurmasCoordController.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\Main.java
+C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\RIPDFGenerator.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObservable.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\util\SimpleObserver.java
 C:\Users\rahys\OneDrive\Desktop\Estudos Ufc\Semestre 4\PIES\refatoracao-projeto-ong\AmparoEdu-2.0\src\main\java\br\com\amparoedu\view\GerenciadorTelas.java
