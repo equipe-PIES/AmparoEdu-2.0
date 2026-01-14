@@ -1,3 +1,10 @@
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\AnamneseFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\DocumentoFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\DocumentoFluxoFactory.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\PAEEFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\PDIFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\RIFluxo.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\factory\TipoDocumento.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Anamnese.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\DI.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\backend\model\Educando.java
@@ -47,6 +54,7 @@ c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\C
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardProfEditController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\CardTurmaEditController.java
+c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\DocumentoControllerBase.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InfoAlunoController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioCoordController.java
 c:\Users\emill\Desktop\AmparoEdu-2.0\src\main\java\br\com\amparoedu\controller\InicioProfController.java
