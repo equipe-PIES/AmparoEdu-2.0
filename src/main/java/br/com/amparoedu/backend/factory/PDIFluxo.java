@@ -1,10 +1,12 @@
 package br.com.amparoedu.backend.factory;
 
 import br.com.amparoedu.backend.model.PDI;
+import br.com.amparoedu.backend.service.PDIService;
 import br.com.amparoedu.controller.PDIController;
 
 // Implementação do fluxo de documentos para PDI
 public class PDIFluxo implements DocumentoFluxo<PDI> {
+    private final PDIService service = new PDIService();
     
     @Override
     public void iniciarNovo() {
@@ -39,5 +41,18 @@ public class PDIFluxo implements DocumentoFluxo<PDI> {
     @Override
     public String getNomeDocumento() {
         return "PDI";
+    }
+
+    @Override
+    public boolean excluir(PDI documento) {
+        try {
+            if (documento == null || documento.getId() == null || documento.getId().isBlank()) {
+                throw new Exception("PDI sem identificador para exclusão.");
+            }
+            return service.excluirPDI(documento.getId());
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir PDI: " + e.getMessage());
+            return false;
+        }
     }
 }

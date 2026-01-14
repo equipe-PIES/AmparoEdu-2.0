@@ -13,7 +13,7 @@ public class DIBuilder {
         this.documento = (base != null) ? base : new DI();
     }
 
-    // Identificadores e metadados
+    // Identificadores 
     public DIBuilder comId(String id) {
         documento.setId(id);
         return this;
@@ -34,7 +34,7 @@ public class DIBuilder {
         return this;
     }
 
-    // Tela 1: Comunicacao e Afetiva
+    // Tela 1
     public DIBuilder comFalaNome(String valor) {
         documento.setFala_nome(valor);
         return this;
