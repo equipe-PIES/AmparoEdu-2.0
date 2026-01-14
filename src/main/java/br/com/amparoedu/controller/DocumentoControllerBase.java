@@ -32,6 +32,8 @@ public abstract class DocumentoControllerBase<T> {
         String turmaIdOrigem;
         ModoDocumento modoAtual = ModoDocumento.NOVA;
         boolean navegandoEntreTelas;
+        // Espaço para builder específico do documento (ex.: PAEEBuilder)
+        Object builder;
     }
 
     protected final TurmaRepository turmaRepo = new TurmaRepository();

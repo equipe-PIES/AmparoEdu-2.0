@@ -9,6 +9,7 @@ import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
+import br.com.amparoedu.backend.builder.PAEEBuilder;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.service.AuthService;
@@ -155,50 +156,74 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
 
     @Override
     protected void salvarDadosTelaAtual() {
-        if (documentoAtual == null) return;
+        // Usa o builder no estado para popular o documento
+        PAEEBuilder builder = obterOuCriarBuilder();
 
         // Tela 1
-        if (resumoTela1 != null) documentoAtual.setResumo(resumoTela1.getText().trim());
-        if (dificuldadesMotoras != null && dificuldadesMotoras.getValue() != null) documentoAtual.setDificuldades_motoras(dificuldadesMotoras.getValue());
-        if (dificuldadesCognitivas != null && dificuldadesCognitivas.getValue() != null) documentoAtual.setDificuldades_cognitivas(dificuldadesCognitivas.getValue());
-        if (dificuldadesSensoriais != null && dificuldadesSensoriais.getValue() != null) documentoAtual.setDificuldades_sensoriais(dificuldadesSensoriais.getValue());
-        if (dificuldadesComunicacao != null && dificuldadesComunicacao.getValue() != null) documentoAtual.setDificuldades_comunicacao(dificuldadesComunicacao.getValue());
-        if (dificuldadesFamiliares != null && dificuldadesFamiliares.getValue() != null) documentoAtual.setDificuldades_familiares(dificuldadesFamiliares.getValue());
-        if (dificuldadesAfetivas != null && dificuldadesAfetivas.getValue() != null) documentoAtual.setDificuldades_afetivas(dificuldadesAfetivas.getValue());
-        if (dificuldadesRaciocinio != null && dificuldadesRaciocinio.getValue() != null) documentoAtual.setDificuldades_raciocinio(dificuldadesRaciocinio.getValue());
-        if (dificuldadesAvas != null && dificuldadesAvas.getValue() != null) documentoAtual.setDificuldades_avas(dificuldadesAvas.getValue());
+        if (resumoTela1 != null) builder.comResumo(safeText(resumoTela1));
+        if (dificuldadesMotoras != null && dificuldadesMotoras.getValue() != null) builder.comDificuldadesMotoras(dificuldadesMotoras.getValue());
+        if (dificuldadesCognitivas != null && dificuldadesCognitivas.getValue() != null) builder.comDificuldadesCognitivas(dificuldadesCognitivas.getValue());
+        if (dificuldadesSensoriais != null && dificuldadesSensoriais.getValue() != null) builder.comDificuldadesSensoriais(dificuldadesSensoriais.getValue());
+        if (dificuldadesComunicacao != null && dificuldadesComunicacao.getValue() != null) builder.comDificuldadesComunicacao(dificuldadesComunicacao.getValue());
+        if (dificuldadesFamiliares != null && dificuldadesFamiliares.getValue() != null) builder.comDificuldadesFamiliares(dificuldadesFamiliares.getValue());
+        if (dificuldadesAfetivas != null && dificuldadesAfetivas.getValue() != null) builder.comDificuldadesAfetivas(dificuldadesAfetivas.getValue());
+        if (dificuldadesRaciocinio != null && dificuldadesRaciocinio.getValue() != null) builder.comDificuldadesRaciocinio(dificuldadesRaciocinio.getValue());
+        if (dificuldadesAvas != null && dificuldadesAvas.getValue() != null) builder.comDificuldadesAvas(dificuldadesAvas.getValue());
 
         // Tela 2
-        if (difDesenvolvimentoMotor != null) documentoAtual.setDif_des_motor(difDesenvolvimentoMotor.getText().trim());
-        if (intervencoesMotor != null) documentoAtual.setIntervencoes_motor(intervencoesMotor.getText().trim());
-        if (difComunicacaoLinguagem != null) documentoAtual.setDif_comunicacao(difComunicacaoLinguagem.getText().trim());
-        if (intervencoesComunicacao != null) documentoAtual.setIntervencoes_comunicacao(intervencoesComunicacao.getText().trim());
+        if (difDesenvolvimentoMotor != null) builder.comDifDesMotor(safeText(difDesenvolvimentoMotor));
+        if (intervencoesMotor != null) builder.comIntervencoesMotor(safeText(intervencoesMotor));
+        if (difComunicacaoLinguagem != null) builder.comDifComunicacao(safeText(difComunicacaoLinguagem));
+        if (intervencoesComunicacao != null) builder.comIntervencoesComunicacao(safeText(intervencoesComunicacao));
 
         // Tela 3
-        if (difRaciocinio != null) documentoAtual.setDif_raciocinio(difRaciocinio.getText().trim());
-        if (intervencoesRaciocinio != null) documentoAtual.setIntervencoes_raciocinio(intervencoesRaciocinio.getText().trim());
-        if (difAtencao != null) documentoAtual.setDif_atencao(difAtencao.getText().trim());
-        if (intervencoesAtencao != null) documentoAtual.setIntervencoes_atencao(intervencoesAtencao.getText().trim());
+        if (difRaciocinio != null) builder.comDifRaciocinio(safeText(difRaciocinio));
+        if (intervencoesRaciocinio != null) builder.comIntervencoesRaciocinio(safeText(intervencoesRaciocinio));
+        if (difAtencao != null) builder.comDifAtencao(safeText(difAtencao));
+        if (intervencoesAtencao != null) builder.comIntervencoesAtencao(safeText(intervencoesAtencao));
 
         // Tela 4
-        if (difMemoria != null) documentoAtual.setDif_memoria(difMemoria.getText().trim());
-        if (intervencoesMemoria != null) documentoAtual.setIntervencoes_memoria(intervencoesMemoria.getText().trim());
-        if (difPercepcao != null) documentoAtual.setDif_percepcao(difPercepcao.getText().trim());
-        if (intervencoesPercepcao != null) documentoAtual.setIntervencoes_percepcao(intervencoesPercepcao.getText().trim());
+        if (difMemoria != null) builder.comDifMemoria(safeText(difMemoria));
+        if (intervencoesMemoria != null) builder.comIntervencoesMemoria(safeText(intervencoesMemoria));
+        if (difPercepcao != null) builder.comDifPercepcao(safeText(difPercepcao));
+        if (intervencoesPercepcao != null) builder.comIntervencoesPercepcao(safeText(intervencoesPercepcao));
 
         // Tela 5
-        if (difSociabilidade != null) documentoAtual.setDif_sociabilidade(difSociabilidade.getText().trim());
-        if (intervencoesSociabilidade != null) documentoAtual.setIntervencoes_sociabilidade(intervencoesSociabilidade.getText().trim());
+        if (difSociabilidade != null) builder.comDifSociabilidade(safeText(difSociabilidade));
+        if (intervencoesSociabilidade != null) builder.comIntervencoesSociabilidade(safeText(intervencoesSociabilidade));
 
         // Tela 6
-        if (resumoObjetivoPlano != null) documentoAtual.setObjetivo_plano(resumoObjetivoPlano.getText().trim());
-        if (atendimentoAee != null && atendimentoAee.getValue() != null) documentoAtual.setAee(atendimentoAee.getValue());
-        if (atendimentoPsicologo != null && atendimentoPsicologo.getValue() != null) documentoAtual.setPsicologo(atendimentoPsicologo.getValue());
-        if (atendimentoFisioterapeuta != null && atendimentoFisioterapeuta.getValue() != null) documentoAtual.setFisioterapeuta(atendimentoFisioterapeuta.getValue());
-        if (atendimentoPsicopedagogo != null && atendimentoPsicopedagogo.getValue() != null) documentoAtual.setPsicopedagogo(atendimentoPsicopedagogo.getValue());
-        if (atendimentoTerapeutaOcupacional != null && atendimentoTerapeutaOcupacional.getValue() != null) documentoAtual.setTerapeuta_ocupacional(atendimentoTerapeutaOcupacional.getValue());
-        if (atendimentoEducacaoFisica != null && atendimentoEducacaoFisica.getValue() != null) documentoAtual.setEducacao_fisica(atendimentoEducacaoFisica.getValue());
-        if (atendimentoEstimulacaoPrecoce != null && atendimentoEstimulacaoPrecoce.getValue() != null) documentoAtual.setEstimulacao_precoce(atendimentoEstimulacaoPrecoce.getValue());
+        if (resumoObjetivoPlano != null) builder.comObjetivoPlano(safeText(resumoObjetivoPlano));
+        if (atendimentoAee != null && atendimentoAee.getValue() != null) builder.comAee(atendimentoAee.getValue());
+        if (atendimentoPsicologo != null && atendimentoPsicologo.getValue() != null) builder.comPsicologo(atendimentoPsicologo.getValue());
+        if (atendimentoFisioterapeuta != null && atendimentoFisioterapeuta.getValue() != null) builder.comFisioterapeuta(atendimentoFisioterapeuta.getValue());
+        if (atendimentoPsicopedagogo != null && atendimentoPsicopedagogo.getValue() != null) builder.comPsicopedagogo(atendimentoPsicopedagogo.getValue());
+        if (atendimentoTerapeutaOcupacional != null && atendimentoTerapeutaOcupacional.getValue() != null) builder.comTerapeutaOcupacional(atendimentoTerapeutaOcupacional.getValue());
+        if (atendimentoEducacaoFisica != null && atendimentoEducacaoFisica.getValue() != null) builder.comEducacaoFisica(atendimentoEducacaoFisica.getValue());
+        if (atendimentoEstimulacaoPrecoce != null && atendimentoEstimulacaoPrecoce.getValue() != null) builder.comEstimulacaoPrecoce(atendimentoEstimulacaoPrecoce.getValue());
+
+        // Atualiza documento compartilhado a partir do builder (sem validação durante navegação)
+        ESTADO.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = ESTADO.documentoCompartilhado;
+    }
+
+    private String safeText(TextArea area) {
+        return area.getText() != null ? area.getText().trim() : "";
+    }
+
+    private PAEEBuilder obterOuCriarBuilder() {
+        if (ESTADO.builder instanceof PAEEBuilder) {
+            return (PAEEBuilder) ESTADO.builder;
+        }
+        // Inicializa builder com o documento atual (para preservar dados)
+        PAEEBuilder builder = new PAEEBuilder(documentoAtual != null ? documentoAtual : new PAEE());
+        // Garante que o EducandoId já conhecido seja mantido
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        ESTADO.builder = builder;
+        return builder;
     }
 
     @Override
@@ -382,9 +407,6 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
             return;
         }
 
-        System.out.println("DEBUG: Botão concluir clicado na tela " + ESTADO.telaAtual);
-
-        // Salva os dados da tela atual primeiro
         salvarDadosTelaAtual();
 
         // Mostra aviso antes de salvar
@@ -397,11 +419,9 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
             return;
         }
 
-        // Usa documentoAtual que herda da classe base
-        documentoAtual = ESTADO.documentoCompartilhado;
-
-        // Salva o educando ID antes de resetar
-        String educandoId = ESTADO.documentoCompartilhado.getEducandoId();
+        // Garante que o builder tem os dados mais recentes
+        salvarDadosTelaAtual();
+        PAEEBuilder builder = obterOuCriarBuilder();
 
         try {
             // 1. Obtém o usuário logado
@@ -418,19 +438,29 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
                 return;
             }
 
-            // 3. Define o ID do USUÁRIO no PAEE
-            ESTADO.documentoCompartilhado.setProfessor_id(getIdProfessorLogado());
+            // 3. Garante que o educandoId está no builder antes de validar
+            String educandoId = getEducandoIdDoDocumento();
+            if (educandoId == null) {
+                exibirMensagemErro("Educando não foi definido. Impossível salvar o PAEE.");
+                return;
+            }
+            builder.comEducandoId(educandoId);
 
-            // 4. Metadados obrigatórios
-            ESTADO.documentoCompartilhado.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            // 4. Define o ID do USUÁRIO e metadados via builder
+            builder
+                .comProfessorId(getIdProfessorLogado())
+                .comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+
+            // Constrói o documento final a partir do builder
+            PAEE documentoFinal = builder.build();
+            ESTADO.documentoCompartilhado = documentoFinal;
+            documentoAtual = documentoFinal;
 
             boolean sucesso;
             boolean edicao = ESTADO.modoAtual == ModoDocumento.EDICAO;
-            if (edicao) {
-                sucesso = paeeService.atualizarPAEE(ESTADO.documentoCompartilhado);
-            } else {
-                sucesso = paeeService.cadastrarNovaPAEE(ESTADO.documentoCompartilhado);
-            }
+            sucesso = edicao
+                    ? paeeService.atualizarPAEE(documentoFinal)
+                    : paeeService.cadastrarNovaPAEE(documentoFinal);
 
             if (sucesso) {
                 exibirMensagemSucesso(edicao ? "PAEE atualizado com sucesso!" : "PAEE criado com sucesso!");
@@ -454,6 +484,22 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
             exibirMensagemErro("Erro ao salvar PAEE: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    // Handlers genéricos referenciados pelo FXML
+    @FXML
+    protected void btnCancelarClick() {
+        super.btnCancelarClick();
+    }
+
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
+
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
     }
 
     private String getIdProfessorLogado() {
@@ -546,9 +592,23 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
 
     // Métodos de fluxo - delega para a classe base
     public static void iniciarNovoPAEE() {
+        // Preserva educandoId se já foi definido antes desta chamada
+        String educandoIdAnterior = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdAnterior = ESTADO.documentoCompartilhado.getEducandoId();
+        }
+        
         ESTADO.modoAtual = ModoDocumento.NOVA;
         ESTADO.telaAtual = 1;
-        ESTADO.documentoCompartilhado = new PAEE();
+        PAEE novoPAEE = new PAEE();
+        
+        // Restaura o educandoId se havia um antes
+        if (educandoIdAnterior != null) {
+            novoPAEE.setEducando_id(educandoIdAnterior);
+        }
+        
+        ESTADO.documentoCompartilhado = novoPAEE;
+        ESTADO.builder = null; // Builder será criado ao acessar a primeira tela
         ESTADO.navegandoEntreTelas = false;
     }
 
@@ -556,6 +616,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
         ESTADO.modoAtual = ModoDocumento.EDICAO;
         ESTADO.telaAtual = 1;
         ESTADO.documentoCompartilhado = (existente != null) ? existente : new PAEE();
+        ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
         ESTADO.navegandoEntreTelas = false;
     }
 
@@ -563,6 +624,7 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
         ESTADO.modoAtual = ModoDocumento.VISUALIZACAO;
         ESTADO.telaAtual = 1;
         ESTADO.documentoCompartilhado = existente;
+        ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
         ESTADO.navegandoEntreTelas = false;
     }
 
@@ -571,6 +633,10 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
             ESTADO.documentoCompartilhado = new PAEE();
         }
         ESTADO.documentoCompartilhado.setEducando_id(educandoId);
+        if (!(ESTADO.builder instanceof PAEEBuilder)) {
+            ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
+        }
+        ((PAEEBuilder) ESTADO.builder).comEducandoId(educandoId);
     }
 
     public static void setTurmaIdOrigem(String turmaId) {
