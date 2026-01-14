@@ -1,7 +1,7 @@
 package br.com.amparoedu.util;
 
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,6 +17,10 @@ import br.com.amparoedu.backend.model.RI;
 public class RIPDFGenerator {
     
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final Charset CP1252 = Charset.forName("Windows-1252");
+    private static final int PAGE_WIDTH = 612;
+    private static final int PAGE_HEIGHT = 792;
+    private static final int MARGIN_LEFT = 60;
     
     /**
      * Gera um PDF do Relatório Individual.
@@ -28,13 +32,13 @@ public class RIPDFGenerator {
      */
     public boolean gerarRelatorioIndividual(Educando educando, RI ri, String caminhoArquivo) {
         try {
-            // Gera o conteúdo textual do relatório
-            String textoRelatorio = gerarTextoRelatorio(educando, ri);
-            
             // Gera o stream de conteúdo PDF
-            String streamContent = gerarStreamConteudo(textoRelatorio);
-            // Calcula o tamanho do stream em bytes (usando ISO_8859_1 para compatibilidade PDF)
-            byte[] streamBytes = streamContent.getBytes(StandardCharsets.ISO_8859_1);
+            StringBuilder streamBuilder = new StringBuilder();
+            gerarConteudoPDF(streamBuilder, educando, ri);
+            String streamContent = streamBuilder.toString();
+            
+            // Calcula o tamanho do stream em bytes (usando CP1252)
+            byte[] streamBytes = streamContent.getBytes(CP1252);
             int tamanhoStream = streamBytes.length;
 
             // Constrói o PDF
@@ -69,7 +73,7 @@ public class RIPDFGenerator {
             pdf.append("<<\n");
             pdf.append("/Type /Page\n");
             pdf.append("/Parent 2 0 R\n");
-            pdf.append("/MediaBox [0 0 612 792]\n");
+            pdf.append("/MediaBox [0 0 ").append(PAGE_WIDTH).append(" ").append(PAGE_HEIGHT).append("]\n");
             pdf.append("/Contents 4 0 R\n");
             pdf.append("/Resources <<\n");
             pdf.append("/Font <<\n");
@@ -77,11 +81,13 @@ public class RIPDFGenerator {
             pdf.append("/Type /Font\n");
             pdf.append("/Subtype /Type1\n");
             pdf.append("/BaseFont /Helvetica\n");
+            pdf.append("/Encoding /WinAnsiEncoding\n");
             pdf.append(">>\n");
             pdf.append("/F2 <<\n");
             pdf.append("/Type /Font\n");
             pdf.append("/Subtype /Type1\n");
             pdf.append("/BaseFont /Helvetica-Bold\n");
+            pdf.append("/Encoding /WinAnsiEncoding\n");
             pdf.append(">>\n");
             pdf.append(">>\n");
             pdf.append(">>\n");
@@ -121,7 +127,7 @@ public class RIPDFGenerator {
 
             // Escreve o arquivo
             try (FileOutputStream fos = new FileOutputStream(caminhoArquivo)) {
-                fos.write(pdf.toString().getBytes(StandardCharsets.ISO_8859_1));
+                fos.write(pdf.toString().getBytes(CP1252));
             }
 
             return true;
@@ -131,186 +137,167 @@ public class RIPDFGenerator {
             return false;
         }
     }
-
+    
     /**
-     * Gera o conteúdo textual do relatório individual.
+     * Gera o conteúdo do PDF usando helpers.
      */
-    private String gerarTextoRelatorio(Educando educando, RI ri) {
-        StringBuilder texto = new StringBuilder();
-        
-        // Cabeçalho com instituição (será formatado no PDF)
-        texto.append("APAPEQ\n");
-        texto.append("CENTRO DE ATENDIMENTO EDUCACIONAL ESPECIALIZADO DR. MARCELLO CANDIA\n");
-        texto.append("\n");
-        
-        // Título principal
-        texto.append("AVALIACAO DESCRITIVA\n");
+    private void gerarConteudoPDF(StringBuilder stream, Educando educando, RI ri) {
         int anoAtual = LocalDate.now().getYear();
-        texto.append("ATENDIMENTO EDUCACIONAL ESPECIALIZADO - ").append(anoAtual).append("\n");
-        texto.append("\n");
+        
+        // Cabeçalho centralizado
+        centerX(stream, "APAPEQ", 18, PAGE_WIDTH, 740, "/F2");
+        centerX(stream, "CENTRO DE ATENDIMENTO EDUCACIONAL ESPECIALIZADO", 9, PAGE_WIDTH, 722, "/F2");
+        centerX(stream, "DR. MARCELLO CANDIA", 9, PAGE_WIDTH, 710, "/F2");
+        centerX(stream, "AVALIACAO DESCRITIVA", 13, PAGE_WIDTH, 682, "/F2");
+        centerX(stream, "ATENDIMENTO EDUCACIONAL ESPECIALIZADO - " + anoAtual, 11, PAGE_WIDTH, 664, "/F2");
         
         // Seção 1: IDENTIFICAÇÃO DO(A) ALUNO(A)
-        texto.append("1. IDENTIFICACAO DO(A) ALUNO(A):\n");
-        texto.append("Nome: ").append(safe(educando.getNome())).append("\n");
+        textAt(stream, "1. IDENTIFICACAO DO(A) ALUNO(A):", MARGIN_LEFT, 636, 11, "/F2");
+        
+        // Linha Nome
+        textAt(stream, "Nome:", MARGIN_LEFT, 616, 10, "/F2");
+        String nome = safe(educando.getNome());
+        textAt(stream, nome, 115, 616, 10, "/F1");
+        drawLine(stream, 115, 614, 552, 0.8f);
+        
+        // Linha Data + Período
+        textAt(stream, "Data de Nascimento:", MARGIN_LEFT, 598, 10, "/F2");
         String dataNasc = formatarData(educando.getData_nascimento());
-        texto.append("Data de Nascimento: ").append(dataNasc);
-        texto.append("  Periodo: ").append(anoAtual).append("\n");
-        texto.append("Diagnostico: ").append(safe(educando.getCid())).append("\n");
-        texto.append("\n");
+        textAt(stream, dataNasc, 165, 598, 10, "/F1");
+        drawLine(stream, 165, 596, 360, 0.8f);
+        
+        textAt(stream, "Periodo:", 390, 598, 10, "/F2");
+        String periodo = String.valueOf(anoAtual);
+        textAt(stream, periodo, 445, 598, 10, "/F1");
+        drawLine(stream, 445, 596, 552, 0.8f);
+        
+        // Linha Diagnóstico
+        textAt(stream, "Diagnostico:", MARGIN_LEFT, 580, 10, "/F2");
+        String cid = safe(educando.getCid());
+        textAt(stream, cid, 135, 580, 10, "/F1");
+        drawLine(stream, 135, 578, 552, 0.8f);
         
         // Seção 2: DADOS FUNCIONAIS
-        texto.append("2. DADOS FUNCIONAIS:\n");
+        textAt(stream, "2. DADOS FUNCIONAIS:", MARGIN_LEFT, 548, 11, "/F2");
         
-        // Primeiro o texto de dados funcionais (se houver)
-        if (ri.getDados_funcionais() != null && !ri.getDados_funcionais().isBlank()) {
-            texto.append(ri.getDados_funcionais()).append("\n");
-        }
+        // Texto livre de dados funcionais
+        String dadosFuncionais = ri.getDados_funcionais() != null && !ri.getDados_funcionais().isBlank() 
+            ? ri.getDados_funcionais() 
+            : "-";
+        textAt(stream, dadosFuncionais, MARGIN_LEFT, 530, 10, "/F1");
         
-        // Depois lista os campos específicos
-        texto.append("FUNCIONALIDADE COGNITIVA: ").append(safe(ri.getFuncionalidade_cognitiva())).append("\n");
-        texto.append("ALFABETIZACAO E LETRAMENTO: ").append(safe(ri.getAlfabetizacao())).append("\n");
-        texto.append("ADAPTACOES CURRICULARES: ").append(safe(ri.getAdaptacoes_curriculares())).append("\n");
-        texto.append("PARTICIPACAO NAS ATIVIDADES PROPOSTAS: ").append(safe(ri.getParticipacao_atividade())).append("\n");
-        texto.append("AUTONOMIA: ").append(simNao(ri.getAutonomia())).append("\n");
-        texto.append("INTERACAO COM A PROFESSORA: ").append(simNao(ri.getInteracao_professora())).append("\n");
-
-        return texto.toString();
-    }
-
-    /**
-     * Gera o stream de conteúdo PDF formatado.
-     */
-    private String gerarStreamConteudo(String texto) {
-        StringBuilder stream = new StringBuilder();
-        String[] linhas = texto.split("\n");
-        int y = 750; // Posição Y inicial
+        // Lista de tópicos com bullet
+        int yAtual = 490;
+        int espacamento = 22;
         
-        // Inicia o texto
-        stream.append("BT\n");
+        // FUNCIONALIDADE COGNITIVA
+        bulletItem(stream, "FUNCIONALIDADE COGNITIVA:", safe(ri.getFuncionalidade_cognitiva()), yAtual);
+        yAtual -= espacamento;
         
-        // Processa todas as linhas do texto
-        for (int i = 0; i < linhas.length; i++) {
-            String linha = linhas[i];
-            String linhaTrim = linha.trim();
-            
-            // Se chegou no final da página, reinicia (simplificado - continua na mesma página)
-            if (y < 50) {
-                y = 750;
-                stream.append("ET\n");
-                stream.append("BT\n");
-            }
-            
-            // Cabeçalho APAPEQ (primeira linha)
-            if (i == 0 && linhaTrim.equals("APAPEQ")) {
-                stream.append("/F2 14 Tf\n");
-                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
-                String apapeq = removerAcentos(linhaTrim);
-                stream.append("(").append(escaparPDF(apapeq)).append(") Tj\n");
-                stream.append("0 -20 Td\n");
-                y -= 20;
-                continue;
-            }
-            
-            // Nome da instituição (segunda linha)
-            if (i == 1 && linhaTrim.contains("CENTRO DE ATENDIMENTO")) {
-                stream.append("/F1 10 Tf\n");
-                stream.append("50 ").append(y).append(" Td\n");
-                String instituicao = removerAcentos(linhaTrim);
-                stream.append("(").append(escaparPDF(instituicao)).append(") Tj\n");
-                stream.append("0 -25 Td\n");
-                y -= 25;
-                continue;
-            }
-            
-            // Título "AVALIAÇÃO DESCRITIVA"
-            if (linhaTrim.equals("AVALIACAO DESCRITIVA")) {
-                stream.append("/F2 16 Tf\n");
-                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
-                String titulo = removerAcentos(linhaTrim);
-                stream.append("(").append(escaparPDF(titulo)).append(") Tj\n");
-                stream.append("0 -20 Td\n");
-                stream.append("/F1 11 Tf\n");
-                y -= 20;
-                continue;
-            }
-            
-            // Subtítulo "ATENDIMENTO EDUCACIONAL ESPECIALIZADO - XXXX"
-            if (linhaTrim.startsWith("ATENDIMENTO EDUCACIONAL")) {
-                stream.append("/F1 11 Tf\n");
-                stream.append("256 ").append(y).append(" Td\n"); // Centralizado aproximadamente
-                String subtitulo = removerAcentos(linhaTrim);
-                stream.append("(").append(escaparPDF(subtitulo)).append(") Tj\n");
-                stream.append("0 -20 Td\n");
-                y -= 20;
-                continue;
-            }
-            
-            // Linha vazia
-            if (linhaTrim.isEmpty()) {
-                stream.append("0 -10 Td\n");
-                y -= 10;
-                continue;
-            }
-            
-            // Remove acentos e escapa caracteres especiais
-            String linhaSemAcentos = removerAcentos(linha);
-            String linhaEscapada = escaparPDF(linhaSemAcentos);
-            
-            // Determina fonte baseado no conteúdo
-            boolean isTituloSecao = linhaSemAcentos.matches("^[12]\\. .+:");
-            if (isTituloSecao) {
-                stream.append("/F2 12 Tf\n");
-            } else {
-                stream.append("/F1 11 Tf\n");
-            }
-            
-            // Posiciona na esquerda (50)
-            stream.append("50 ").append(y).append(" Td\n");
-            
-            // Quebra linha se muito longa
-            if (linhaEscapada.length() > 100) {
-                // Quebra em múltiplas linhas
-                int pos = 0;
-                while (pos < linhaEscapada.length()) {
-                    int fim = Math.min(pos + 100, linhaEscapada.length());
-                    String parte = linhaEscapada.substring(pos, fim);
-                    stream.append("(").append(parte).append(") Tj\n");
-                    stream.append("0 -13 Td\n");
-                    y -= 13;
-                    pos = fim;
-                }
-            } else {
-                stream.append("(").append(linhaEscapada).append(") Tj\n");
-                stream.append("0 -13 Td\n");
-                y -= 13;
-            }
-        }
+        // ALFABETIZAÇÃO E LETRAMENTO
+        bulletItem(stream, "ALFABETIZACAO E LETRAMENTO:", safe(ri.getAlfabetizacao()), yAtual);
+        yAtual -= espacamento;
         
-        stream.append("ET\n");
-        return stream.toString();
+        // ADAPTAÇÕES CURRICULARES
+        bulletItem(stream, "ADAPTACOES CURRICULARES:", safe(ri.getAdaptacoes_curriculares()), yAtual);
+        yAtual -= espacamento;
+        
+        // PARTICIPAÇÃO NAS ATIVIDADES PROPOSTAS
+        bulletItem(stream, "PARTICIPACAO NAS ATIVIDADES PROPOSTAS:", safe(ri.getParticipacao_atividade()), yAtual);
+        yAtual -= espacamento;
+        
+        // AUTONOMIA
+        String autonomia = ri.getAutonomia() == 1 ? "Sim" : "Nao";
+        bulletItem(stream, "AUTONOMIA:", autonomia, yAtual);
+        yAtual -= espacamento;
+        
+        // INTERAÇÃO COM A PROFESSORA
+        String interacao = ri.getInteracao_professora() == 1 ? "Sim" : "Nao";
+        bulletItem(stream, "INTERACAO COM A PROFESSORA:", interacao, yAtual);
     }
     
     /**
-     * Remove acentos e caracteres especiais para compatibilidade com PDF.
+     * Helper: Define fonte e tamanho.
      */
-    private String removerAcentos(String texto) {
-        if (texto == null) return "";
+    private void setFont(StringBuilder stream, String font, int size) {
+        stream.append(font).append(" ").append(size).append(" Tf\n");
+    }
+    
+    /**
+     * Helper: Posiciona texto em coordenadas absolutas.
+     */
+    private void textAt(StringBuilder stream, String text, int x, int y, int fontSize, String font) {
+        if (text == null || text.isEmpty()) {
+            text = "-";
+        }
+        setFont(stream, font, fontSize);
+        stream.append("1 0 0 1 ").append(x).append(" ").append(y).append(" Tm\n");
+        String textoEscapado = escaparPDF(text);
+        stream.append("(").append(textoEscapado).append(") Tj\n");
+    }
+    
+    /**
+     * Helper: Desenha uma linha horizontal.
+     */
+    private void drawLine(StringBuilder stream, int x1, int y, int x2, float width) {
+        stream.append("q\n"); // Save graphics state
+        stream.append(width).append(" w\n"); // Largura da linha
+        stream.append(x1).append(" ").append(y).append(" m\n"); // Move to
+        stream.append(x2).append(" ").append(y).append(" l\n"); // Line to
+        stream.append("S\n"); // Stroke
+        stream.append("Q\n"); // Restore graphics state
+    }
+    
+    /**
+     * Helper: Centraliza texto horizontalmente.
+     */
+    private void centerX(StringBuilder stream, String text, int fontSize, int pageWidth, int y, String font) {
+        if (text == null || text.isEmpty()) {
+            text = "-";
+        }
+        // Heurística: fontSize * 0.5 por caractere
+        double textWidth = text.length() * fontSize * 0.5;
+        int x = (int)((pageWidth - textWidth) / 2);
+        textAt(stream, text, x, y, fontSize, font);
+    }
+    
+    /**
+     * Helper: Desenha item com bullet.
+     */
+    private void bulletItem(StringBuilder stream, String titulo, String conteudo, int y) {
+        // Prepara o conteúdo (trim e trata null/blank)
+        String conteudoFinal = (conteudo != null && !conteudo.isBlank()) 
+            ? conteudo.trim() 
+            : "-";
         
-        return texto
-            .replace("á", "a").replace("à", "a").replace("ã", "a").replace("â", "a").replace("ä", "a")
-            .replace("é", "e").replace("è", "e").replace("ê", "e").replace("ë", "e")
-            .replace("í", "i").replace("ì", "i").replace("î", "i").replace("ï", "i")
-            .replace("ó", "o").replace("ò", "o").replace("õ", "o").replace("ô", "o").replace("ö", "o")
-            .replace("ú", "u").replace("ù", "u").replace("û", "u").replace("ü", "u")
-            .replace("ç", "c")
-            .replace("Á", "A").replace("À", "A").replace("Ã", "A").replace("Â", "A").replace("Ä", "A")
-            .replace("É", "E").replace("È", "E").replace("Ê", "E").replace("Ë", "E")
-            .replace("Í", "I").replace("Ì", "I").replace("Î", "I").replace("Ï", "I")
-            .replace("Ó", "O").replace("Ò", "O").replace("Õ", "O").replace("Ô", "O").replace("Ö", "O")
-            .replace("Ú", "U").replace("Ù", "U").replace("Û", "U").replace("Ü", "U")
-            .replace("Ç", "C")
-            .replace("º", "o").replace("ª", "a")
-            .replace("°", "o");
+        // Prepara o título (trim e garante que termine com ":")
+        String tituloFinal = titulo != null ? titulo.trim() : "";
+        if (!tituloFinal.endsWith(":")) {
+            tituloFinal = tituloFinal + ":";
+        }
+        tituloFinal = tituloFinal + " "; // Adiciona espaço após os dois pontos
+        
+        // Bullet "• " (bullet + espaço) em x=90
+        setFont(stream, "/F2", 14);
+        stream.append("1 0 0 1 90 ").append(y).append(" Tm\n");
+        stream.append("(\\267 ) Tj\n"); // • + espaço em octal (267 = 0xB7 = • em WinAnsiEncoding)
+        
+        // Título em negrito em x=110 (já com ": " no final)
+        // Usamos textAt que já desenha o título completo com o espaço
+        textAt(stream, tituloFinal, 110, y, 10, "/F2");
+        
+        // Calcula a posição X após o título
+        // Para fonte em negrito (F2) tamanho 10, usamos estimativa ajustada
+        // Fonte em negrito tende a ser ~20-25% mais larga que fonte normal
+        // Usamos 0.68 por caractere para evitar sobreposição mantendo espaçamento adequado
+        double larguraPorChar = 10 * 0.68; // Ajustado para fonte em negrito
+        int xConteudo = 110 + (int)(tituloFinal.length() * larguraPorChar);
+        
+        // Conteúdo normal na mesma linha
+        setFont(stream, "/F1", 10);
+        stream.append("1 0 0 1 ").append(xConteudo).append(" ").append(y).append(" Tm\n");
+        String conteudoEscapado = escaparPDF(conteudoFinal);
+        stream.append("(").append(conteudoEscapado).append(") Tj\n");
     }
     
     /**
@@ -325,15 +312,11 @@ public class RIPDFGenerator {
                    .replace("\r", "")
                    .replace("\n", " ");
     }
-
+    
     private String safe(String valor) {
         return (valor == null || valor.isBlank()) ? "-" : valor;
     }
-
-    private String simNao(int valor) {
-        return valor == 1 ? "Sim" : "Nao";
-    }
-
+    
     private String formatarData(String data) {
         if (data == null || data.isBlank()) {
             return "-";
