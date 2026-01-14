@@ -214,6 +214,46 @@ public class RIPDFGenerator {
         // INTERAÇÃO COM A PROFESSORA
         String interacao = ri.getInteracao_professora() == 1 ? "Sim" : "Nao";
         bulletItem(stream, "INTERACAO COM A PROFESSORA:", interacao, yAtual);
+        yAtual -= espacamento;
+        
+        // ATIVIDADES DE VIDA DIÁRIA (AVDs)
+        bulletItem(stream, "ATIVIDADES DE VIDA DIARIA (AVDs):", safe(ri.getAtividades_vida_diaria()), yAtual);
+        yAtual -= espacamento;
+        
+        // Seção de Assinaturas
+        // Espaço antes das assinaturas
+        yAtual -= 20;
+        
+        // Linha de assinatura do Professor
+        int linhaComprimento = 400;
+        int xLinha = (PAGE_WIDTH - linhaComprimento) / 2;
+        drawLine(stream, xLinha, yAtual, xLinha + linhaComprimento, 0.8f);
+        yAtual -= 15;
+        centerX(stream, "PROFESSOR(A) DE ATENDIMENTO EDUCACIONAL ESPECIALIZADO", 10, PAGE_WIDTH, yAtual, "/F2");
+        yAtual -= 30;
+        
+        // Linha de assinatura do Responsável
+        drawLine(stream, xLinha, yAtual, xLinha + linhaComprimento, 0.8f);
+        yAtual -= 15;
+        centerX(stream, "ASSINATURA DO(A) RESPONSAVEL", 10, PAGE_WIDTH, yAtual, "/F2");
+        yAtual -= 30;
+        
+        // Campo de Data
+        int linhaDataComprimento = 150;
+        int xDataLinha = (PAGE_WIDTH - linhaDataComprimento) / 2;
+        drawLine(stream, xDataLinha, yAtual, xDataLinha + linhaDataComprimento, 0.8f);
+        yAtual -= 15;
+        centerX(stream, "DATA", 10, PAGE_WIDTH, yAtual, "/F2");
+        yAtual -= 40;
+        
+        // Rodapé - Informações da instituição
+        centerX(stream, "Associacao de Pais e Amigos de Pessoas Especiais de Quixada - APAPEQ", 9, PAGE_WIDTH, yAtual, "/F1");
+        yAtual -= 15;
+        centerX(stream, "Rua Basilio Pinto, 2651, Combate. 63902-100/Quixada-CE", 9, PAGE_WIDTH, yAtual, "/F1");
+        yAtual -= 15;
+        centerX(stream, "CNAS: 8742-07/12/2003   CNPJ: 02.328.891/0001-35", 9, PAGE_WIDTH, yAtual, "/F1");
+        yAtual -= 15;
+        centerX(stream, "Email: apapeqqxd@gmail.com", 9, PAGE_WIDTH, yAtual, "/F1");
     }
     
     /**
