@@ -542,10 +542,81 @@ public class ProgressoAtendimentoController {
 
     @FXML
     private void btnEditarRIClick() {
+        if (educando == null || educando.getId() == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (riAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Relatório Individual cadastrado.");
+            return;
+        }
+
+        try {
+            RIController.editarRIExistente(riAtual);
+
+            if (turma != null && turma.getId() != null) {
+                RIController.setTurmaIdOrigem(turma.getId());
+            }
+
+            Stage popupStage = (Stage) editarRI.getScene().getWindow();
+            popupStage.close();
+
+            GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
+
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao editar Relatório Individual: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void btnExcluirRIClick() {
+        // Garante que temos um ID de educando válido, mesmo se o objeto educando
+        // estiver null
+        String educandoId = (educando != null && educando.getId() != null)
+                ? educando.getId()
+                : (riAtual != null ? riAtual.getEducando_id() : null);
+        if (educandoId == null) {
+            exibirAlerta("Erro", "Nenhum educando selecionado.");
+            return;
+        }
+
+        if (riAtual == null) {
+            exibirAlerta("Aviso", "Este educando ainda não possui Relatório Individual cadastrado.");
+            return;
+        }
+
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Confirmar Exclusão");
+        confirmacao.setHeaderText("Deseja realmente excluir este Relatório Individual?");
+        confirmacao.setContentText("Esta ação não pode ser desfeita.");
+
+        var resultado = confirmacao.showAndWait();
+        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
+            return;
+        }
+
+        try {
+            boolean sucesso = riService.excluirRI(riAtual.getId());
+
+            if (sucesso) {
+                exibirAlerta("Sucesso", "Relatório Individual excluído com sucesso!");
+                riAtual = null;
+                atualizarInterface();
+                // Fecha o popup de progresso, se estiver aberto
+                if (excluirRI != null && excluirRI.getScene() != null) {
+                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirRI.getScene().getWindow();
+                    stage.close();
+                }
+            } else {
+                exibirAlerta("Erro", "Não foi possível excluir o Relatório Individual.");
+            }
+
+        } catch (Exception e) {
+            exibirAlerta("Erro", "Erro ao excluir Relatório Individual: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
