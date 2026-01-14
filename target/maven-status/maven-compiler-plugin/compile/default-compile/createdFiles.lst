@@ -31,7 +31,6 @@ br\com\amparoedu\backend\factory\DocumentoFluxoFactory$1.class
 br\com\amparoedu\backend\model\Professor.class
 br\com\amparoedu\controller\CardAlunoEditController.class
 br\com\amparoedu\backend\repository\PAEERepository.class
-br\com\amparoedu\controller\PDIController.class
 br\com\amparoedu\controller\LoginController.class
 br\com\amparoedu\backend\repository\DatabaseConfig.class
 br\com\amparoedu\backend\repository\EnderecoRepository.class

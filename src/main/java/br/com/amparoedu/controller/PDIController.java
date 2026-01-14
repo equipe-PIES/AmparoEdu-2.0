@@ -1,5 +1,6 @@
 package br.com.amparoedu.controller;
 
+import br.com.amparoedu.backend.builder.PDIBuilder;
 import br.com.amparoedu.backend.model.PDI;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
@@ -21,6 +22,8 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
 
     // Estado estático compartilhado entre telas
     private static final EstadoDocumento<PDI> ESTADO = new EstadoDocumento<>();
+    // Evita múltiplos salvamentos caso o usuário clique mais de uma vez em "Concluir"
+    private static boolean salvando = false;
 
     // Serviço
     private final PDIService pdiService = new PDIService();
@@ -105,57 +108,22 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
 
     @Override
     protected void salvarDadosTelaAtual() {
-        if (documentoAtual == null) return;
+        PDIBuilder builder = obterOuCriarBuilder();
 
-        // Tela 1
-        if (periodoPlano != null) {
-            documentoAtual.setPeriodoAee(periodoPlano.getText().trim());
-        }
-        if (horarioAtendimento != null) {
-            documentoAtual.setHorarioAtendimento(horarioAtendimento.getText().trim());
-        }
-        if (frequenciaSemana != null && frequenciaSemana.getValue() != null) {
-            documentoAtual.setFrequenciaAtendimento(frequenciaSemana.getValue());
-        }
-        if (diasSemana != null && diasSemana.getValue() != null) {
-            documentoAtual.setDiasAtendimento(diasSemana.getValue());
-        }
-        if (composicaoGrupo != null && composicaoGrupo.getValue() != null) {
-            documentoAtual.setComposicaoGrupo(composicaoGrupo.getValue());
-        }
-        if (objetivosPlano != null) {
-            documentoAtual.setObjetivos(objetivosPlano.getText().trim());
+        EstadoDocumento<PDI> estado = getEstado();
+        if (estado.telaAtual == 1) {
+            preencherDadosTela1(builder);
+        } else if (estado.telaAtual == 2) {
+            preencherDadosTela2(builder);
+        } else if (estado.telaAtual == 3) {
+            preencherDadosTela3(builder);
+        } else if (estado.telaAtual == 4) {
+            preencherDadosTela4(builder);
         }
 
-        // Tela 2
-        if (potencialidadesTextArea != null) {
-            documentoAtual.setPotencialidades(potencialidadesTextArea.getText().trim());
-        }
-        if (necessidadesTextArea != null) {
-            documentoAtual.setNecessidadesEspeciais(necessidadesTextArea.getText().trim());
-        }
-        if (habilidadesTextArea != null) {
-            documentoAtual.setHabilidades(habilidadesTextArea.getText().trim());
-        }
-
-        // Tela 3
-        if (atividadesTextArea != null) {
-            documentoAtual.setAtividades(atividadesTextArea.getText().trim());
-        }
-        if (recursosMateriaisTextArea != null) {
-            documentoAtual.setRecursosMateriais(recursosMateriaisTextArea.getText().trim());
-        }
-        if (recursosAdequacaoTextArea != null) {
-            documentoAtual.setRecursosNecessitamAdaptacao(recursosAdequacaoTextArea.getText().trim());
-        }
-
-        // Tela 4
-        if (recursosProduzidosTextArea != null) {
-            documentoAtual.setRecursosNecessitamProduzir(recursosProduzidosTextArea.getText().trim());
-        }
-        if (parceriasTextArea != null) {
-            documentoAtual.setParceriasNecessarias(parceriasTextArea.getText().trim());
-        }
+        // Atualiza estado compartilhado com dados parciais (sem validação completa)
+        ESTADO.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = ESTADO.documentoCompartilhado;
     }
 
     @Override
@@ -268,15 +236,15 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
     // Inicializa os valores das ChoiceBoxes.
     private void inicializarChoiceBoxes() {
         if (frequenciaSemana != null) {
-            frequenciaSemana.getItems().addAll("Uma vez", "Duas vezes");
+            frequenciaSemana.getItems().setAll("Uma vez", "Duas vezes");
         }
 
         if (diasSemana != null) {
-            diasSemana.getItems().addAll("Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira");
+            diasSemana.getItems().setAll("Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira");
         }
 
         if (composicaoGrupo != null) {
-            composicaoGrupo.getItems().addAll("Individual", "Coletivo");
+            composicaoGrupo.getItems().setAll("Individual", "Coletivo");
         }
     }
 
@@ -326,6 +294,10 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
             return;
         }
 
+        if (salvando) {
+            return;
+        }
+
         salvarDadosTelaAtual();
 
         // Valida todos os campos obrigatórios
@@ -344,7 +316,18 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
             return;
         }
 
-        String educandoId = documentoAtual.getEducandoId();
+        salvando = true;
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
+
+        // Atualiza builder com a tela atual e documento compartilhado
+        salvarDadosTelaAtual();
+        String educandoId = documentoAtual != null ? documentoAtual.getEducandoId() : null;
+        PDIBuilder builder = obterOuCriarBuilder();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
 
         try {
             Usuario usuarioLogado = AuthService.getUsuarioLogado();
@@ -358,31 +341,43 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
                 return;
             }
 
-            documentoAtual.setProfessorId(AuthService.getIdProfessorLogado());
-            documentoAtual.setDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            builder.comProfessorId(AuthService.getIdProfessorLogado());
+            if (estado.modoAtual == ModoDocumento.NOVA) {
+                builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            } else if (documentoAtual != null) {
+                String dataExistente = documentoAtual.getDataCriacao();
+                if (dataExistente == null || dataExistente.isBlank()) {
+                    builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+                }
+            }
+
+            // Construção final com validação
+            PDI pdiFinal = builder.build();
+            ESTADO.documentoCompartilhado = pdiFinal;
+            documentoAtual = pdiFinal;
 
             boolean edicao = estado.modoAtual == ModoDocumento.EDICAO;
-            boolean sucesso = edicao ? pdiService.atualizarPDI(documentoAtual) : pdiService.cadastrarNovoPDI(documentoAtual);
+            boolean sucesso = edicao ? pdiService.atualizarPDI(pdiFinal) : pdiService.cadastrarNovoPDI(pdiFinal);
 
             if (sucesso) {
                 exibirSucesso(edicao ? "PDI atualizado com sucesso!" : "PDI criado com sucesso!");
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                        javafx.application.Platform.runLater(() -> {
-                            limparEstado();
-                            voltarComPopup(educandoId);
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+                limparEstado();
+                salvando = false;
+                voltarComPopup(educandoId);
             } else {
                 exibirErro(edicao ? "Erro ao atualizar PDI." : "Erro ao cadastrar PDI.");
+                salvando = false;
+                if (btnConcluir != null) {
+                    btnConcluir.setDisable(false);
+                }
             }
         } catch (Exception e) {
             exibirErro("Erro ao salvar PDI: " + e.getMessage());
             e.printStackTrace();
+            salvando = false;
+            if (btnConcluir != null) {
+                btnConcluir.setDisable(false);
+            }
         }
     }
 
@@ -442,6 +437,17 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
     @FXML
     private void btnCancelClick() {
         btnCancelarClick();
+    }
+
+    // Handlers genéricos referenciados pelo FXML
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
+
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
     }
 
     @FXML
@@ -526,18 +532,31 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
     // ========== Métodos Estáticos para Factory ===========
 
     public static void iniciarNovoPDI() {
+        salvando = false;
+        // Preserva educandoId caso tenha sido definido antes do iniciarNovo()
+        String educandoIdPreservado = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdPreservado = ESTADO.documentoCompartilhado.getEducandoId();
+        }
+
         iniciarNovo(ESTADO, new PDI());
-        GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
+        ESTADO.builder = null;
+
+        if (educandoIdPreservado != null) {
+            ((PDI) ESTADO.documentoCompartilhado).setEducandoId(educandoIdPreservado);
+        }
     }
 
     public static void editarPDIExistente(PDI existente) {
+        salvando = false;
         iniciarEdicao(ESTADO, existente != null ? existente : new PDI());
-        GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
+        ESTADO.builder = new PDIBuilder((PDI) ESTADO.documentoCompartilhado);
     }
 
     public static void visualizarPDI(PDI existente) {
+        salvando = false;
         iniciarVisualizacao(ESTADO, existente);
-        GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
+        ESTADO.builder = new PDIBuilder((PDI) ESTADO.documentoCompartilhado);
     }
 
     public static void setEducandoIdParaPDI(String educandoId) {
@@ -545,9 +564,84 @@ public class PDIController extends DocumentoControllerBase<PDI> implements Initi
             ESTADO.documentoCompartilhado = new PDI();
         }
         ESTADO.documentoCompartilhado.setEducandoId(educandoId);
+
+        // Sempre garanta que o builder aponte para o documento compartilhado atual
+        ESTADO.builder = new PDIBuilder((PDI) ESTADO.documentoCompartilhado);
+        ((PDIBuilder) ESTADO.builder).comEducandoId(educandoId);
     }
 
     public static void setTurmaIdOrigem(String turmaId) {
         setTurmaOrigem(ESTADO, turmaId);
+    }
+
+    // ========== Builder helpers e preenchimento por tela ==========
+
+    private PDIBuilder obterOuCriarBuilder() {
+        if (ESTADO.builder instanceof PDIBuilder) {
+            return (PDIBuilder) ESTADO.builder;
+        }
+
+        PDI base = documentoAtual != null ? documentoAtual : new PDI();
+        PDIBuilder builder = new PDIBuilder(base);
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        ESTADO.builder = builder;
+        return builder;
+    }
+
+    private void preencherDadosTela1(PDIBuilder builder) {
+        if (periodoPlano != null) {
+            builder.comPeriodoAee(periodoPlano.getText().trim());
+        }
+        if (horarioAtendimento != null) {
+            builder.comHorarioAtendimento(horarioAtendimento.getText().trim());
+        }
+        if (frequenciaSemana != null && frequenciaSemana.getValue() != null) {
+            builder.comFrequenciaAtendimento(frequenciaSemana.getValue());
+        }
+        if (diasSemana != null && diasSemana.getValue() != null) {
+            builder.comDiasAtendimento(diasSemana.getValue());
+        }
+        if (composicaoGrupo != null && composicaoGrupo.getValue() != null) {
+            builder.comComposicaoGrupo(composicaoGrupo.getValue());
+        }
+        if (objetivosPlano != null) {
+            builder.comObjetivos(objetivosPlano.getText().trim());
+        }
+    }
+
+    private void preencherDadosTela2(PDIBuilder builder) {
+        if (potencialidadesTextArea != null) {
+            builder.comPotencialidades(potencialidadesTextArea.getText().trim());
+        }
+        if (necessidadesTextArea != null) {
+            builder.comNecessidadesEspeciais(necessidadesTextArea.getText().trim());
+        }
+        if (habilidadesTextArea != null) {
+            builder.comHabilidades(habilidadesTextArea.getText().trim());
+        }
+    }
+
+    private void preencherDadosTela3(PDIBuilder builder) {
+        if (atividadesTextArea != null) {
+            builder.comAtividades(atividadesTextArea.getText().trim());
+        }
+        if (recursosMateriaisTextArea != null) {
+            builder.comRecursosMateriais(recursosMateriaisTextArea.getText().trim());
+        }
+        if (recursosAdequacaoTextArea != null) {
+            builder.comRecursosNecessitamAdaptacao(recursosAdequacaoTextArea.getText().trim());
+        }
+    }
+
+    private void preencherDadosTela4(PDIBuilder builder) {
+        if (recursosProduzidosTextArea != null) {
+            builder.comRecursosNecessitamProduzir(recursosProduzidosTextArea.getText().trim());
+        }
+        if (parceriasTextArea != null) {
+            builder.comParceriasNecessarias(parceriasTextArea.getText().trim());
+        }
     }
 }

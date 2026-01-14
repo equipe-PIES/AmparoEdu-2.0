@@ -260,6 +260,7 @@ public abstract class DocumentoControllerBase<T> {
         estado.documentoCompartilhado = null;
         estado.turmaIdOrigem = null;
         estado.navegandoEntreTelas = false;
+        estado.builder = null;
     }
 
     /**

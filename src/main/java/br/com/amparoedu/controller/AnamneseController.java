@@ -1,5 +1,6 @@
 package br.com.amparoedu.controller;
 
+import br.com.amparoedu.backend.builder.AnamneseBuilder;
 import br.com.amparoedu.backend.model.Anamnese;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
@@ -21,6 +22,8 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
 
     // Estado estático compartilhado entre telas
     private static final EstadoDocumento<Anamnese> ESTADO = new EstadoDocumento<>();
+    // Evita múltiplos salvamentos caso o usuário clique mais de uma vez em "Concluir"
+    private static boolean salvando = false;
 
     // Serviço
     private final AnamneseService anamneseService = new AnamneseService();
@@ -188,16 +191,20 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
 
     @Override
     protected void salvarDadosTelaAtual() {
-        if (documentoAtual == null) return;
+        AnamneseBuilder builder = obterOuCriarBuilder();
 
         EstadoDocumento<Anamnese> estado = getEstado();
         if (estado.telaAtual == 1) {
-            preencherDadosTela1();
+            preencherDadosTela1(builder);
         } else if (estado.telaAtual == 2) {
-            preencherDadosTela2();
+            preencherDadosTela2(builder);
         } else if (estado.telaAtual == 3) {
-            preencherDadosTela3();
+            preencherDadosTela3(builder);
         }
+
+        // Atualiza estado compartilhado com dados parciais (sem validação completa)
+        ESTADO.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = ESTADO.documentoCompartilhado;
     }
 
     @Override
@@ -375,43 +382,43 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     // Inicializa os valores das ChoiceBoxes.
     private void inicializarChoiceBoxes() {
         if (tipoParto != null) {
-            tipoParto.getItems().addAll("Normal", "Cesariana", "Fórceps");
+            tipoParto.getItems().setAll("Normal", "Cesariana", "Fórceps");
         }
         
         if (balbucio != null) {
-            balbucio.getItems().addAll("0-6 meses", "6-12 meses", "12-18 meses", "Não balbuciou");
+            balbucio.getItems().setAll("0-6 meses", "6-12 meses", "12-18 meses", "Não balbuciou");
         }
         
         if (tipoFala != null) {
-            tipoFala.getItems().addAll("Natural", "Inibido", "Gagueja", "Outro");
+            tipoFala.getItems().setAll("Natural", "Inibido", "Gagueja", "Outro");
         }
         
         if (dormeSozinho != null) {
-            dormeSozinho.getItems().addAll("Sim", "Não", "Às vezes");
+            dormeSozinho.getItems().setAll("Sim", "Não", "Às vezes");
         }
         
         if (temQuarto != null) {
-            temQuarto.getItems().addAll("Sim", "Não", "Compartilhado");
+            temQuarto.getItems().setAll("Sim", "Não", "Compartilhado");
         }
         
         if (sono != null) {
-            sono.getItems().addAll("Tranquilo", "Agitado", "Pesadelos", "Insônia");
+            sono.getItems().setAll("Tranquilo", "Agitado", "Pesadelos", "Insônia");
         }
         
         if (respeitaRegras != null) {
-            respeitaRegras.getItems().addAll("Sempre", "Às vezes", "Raramente", "Nunca");
+            respeitaRegras.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
         
         if (desmotivado != null) {
-            desmotivado.getItems().addAll("Sempre", "Às vezes", "Raramente", "Nunca");
+            desmotivado.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
         
         if (agressivo != null) {
-            agressivo.getItems().addAll("Sempre", "Às vezes", "Raramente", "Nunca");
+            agressivo.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
         
         if (inquietacao != null) {
-            inquietacao.getItems().addAll("Sempre", "Às vezes", "Raramente", "Nunca");
+            inquietacao.getItems().setAll("Sempre", "Às vezes", "Raramente", "Nunca");
         }
     }
     
@@ -526,126 +533,126 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     // Preenchimento do modelo
     
     //Preenche os dados da Tela 1 no objeto Anamnese.
-    private void preencherDadosTela1() {
-        documentoAtual.setTem_convulsao(getValorToggle(convulsaoSim));
-        preencherCampo(convenioSim, convenio, documentoAtual::setTem_convenio_medico, documentoAtual::setNome_convenio);
-        preencherCampo(doencaContagiosaSim, doencaContagiosa, documentoAtual::setTeve_doenca_contagiosa, documentoAtual::setQuais_doencas);
+    private void preencherDadosTela1(AnamneseBuilder builder) {
+        builder.comTemConvulsao(getValorToggle(convulsaoSim));
+        preencherCampo(convenioSim, convenio, builder::comTemConvenioMedico, builder::comNomeConvenio);
+        preencherCampo(doencaContagiosaSim, doencaContagiosa, builder::comTeveDoencaContagiosa, builder::comQuaisDoencas);
         
         // Vacinação
-        documentoAtual.setVacinas_em_dia(getValorToggle(vacinacaoSim));
+        builder.comVacinasEmDia(getValorToggle(vacinacaoSim));
 
         String inicioEscVal = inicioEscolarizacao.getText();
-        documentoAtual.setInicio_escolarizacao(inicioEscVal != null ? inicioEscVal : "");
+        builder.comInicioEscolarizacao(inicioEscVal != null ? inicioEscVal : "");
         
-        preencherCampo(dificuldadesSim, dificuldades, documentoAtual::setApresenta_dificuldades, documentoAtual::setQuais_dificuldades);
-        preencherCampo(apoioPedagogicoSim, apoioPedagogico, documentoAtual::setRecebe_apoio_pedagogico_casa, documentoAtual::setApoio_quem);
-        preencherCampo(medicacaoSim, medicacoes, documentoAtual::setUsa_medicacao, documentoAtual::setQuais_medicacoes);
+        preencherCampo(dificuldadesSim, dificuldades, builder::comApresentaDificuldades, builder::comQuaisDificuldades);
+        preencherCampo(apoioPedagogicoSim, apoioPedagogico, builder::comRecebeApoioPedagogicoCasa, builder::comApoioQuem);
+        preencherCampo(medicacaoSim, medicacoes, builder::comUsaMedicacao, builder::comQuaisMedicacoes);
 
         // Serviços de saúde ou educação frequentados (tela 1)
         if (servicosFrequentados1 != null && servicosFrequentados1.getText() != null) {
             String sv = servicosFrequentados1.getText().trim();
-            documentoAtual.setQuais_servicos(sv);
-            documentoAtual.setUsou_servico_saude_educacao(sv.isEmpty() ? "Não" : "Sim");
+            builder.comQuaisServicos(sv);
+            builder.comUsouServicoSaudeEducacao(sv.isEmpty() ? "Não" : "Sim");
         }
 
         // Dados da gestação
         if (duracaoGestacao1 != null) {
             String duracao = duracaoGestacao1.getText();
-            documentoAtual.setDuracao_da_gestacao(duracao != null ? duracao : "");
+            builder.comDuracaoGestacao(duracao != null ? duracao : "");
         }
-        documentoAtual.setFez_prenatal(getValorToggle(preNatalSim));
-        preencherCampo(prematuridadeSim, prematuridade1, documentoAtual::setHouve_prematuridade, documentoAtual::setCausa_prematuridade);
+        builder.comFezPreNatal(getValorToggle(preNatalSim));
+        preencherCampo(prematuridadeSim, prematuridade1, builder::comHouvePrematuridade, builder::comCausaPrematuridade);
     }
     
     //Preenche os dados da Tela 2 no objeto Anamnese.
-    private void preencherDadosTela2() {
+    private void preencherDadosTela2(AnamneseBuilder builder) {
         String cidadeVal = cidadeNascimento.getText();
-        documentoAtual.setCidade_nascimento(cidadeVal != null ? cidadeVal : "");
+        builder.comCidadeNascimento(cidadeVal != null ? cidadeVal : "");
         
         String maternidadeVal = maternidade.getText();
-        documentoAtual.setMaternidade(maternidadeVal != null ? maternidadeVal : "");
+        builder.comMaternidade(maternidadeVal != null ? maternidadeVal : "");
         
         String tipoPartoVal = tipoParto.getValue();
-        documentoAtual.setTipo_parto(tipoPartoVal != null ? tipoPartoVal : "");
+        builder.comTipoParto(tipoPartoVal != null ? tipoPartoVal : "");
         
-        documentoAtual.setChorou_ao_nascer(getValorToggle(chorouSim));
-        documentoAtual.setFicou_roxo(getValorToggle(ficouRoxoSim));
-        documentoAtual.setUsou_incubadora(getValorToggle(incubadoraSim));
-        documentoAtual.setFoi_amamentado(getValorToggle(amamentadoSim));
+        builder.comChorouAoNascer(getValorToggle(chorouSim));
+        builder.comFicouRoxo(getValorToggle(ficouRoxoSim));
+        builder.comUsouIncubadora(getValorToggle(incubadoraSim));
+        builder.comFoiAmamentado(getValorToggle(amamentadoSim));
         
-        preencherCampo(sustentouCabecaSim, sustentouCabeca, documentoAtual::setSustentou_a_cabeca, documentoAtual::setQuantos_meses_sustentou_cabeca);
-        preencherCampo(engatinhouSim, engatinhou, documentoAtual::setEngatinhou, documentoAtual::setQuantos_meses_engatinhou);
-        preencherCampo(sentouSim, sentou, documentoAtual::setSentou, documentoAtual::setQuantos_meses_sentou);
-        preencherCampo(andouSim, andou, documentoAtual::setAndou, documentoAtual::setQuantos_meses_andou);
-        preencherCampo(terapiaSim, terapia, documentoAtual::setPrecisou_de_terapia, documentoAtual::setQual_motivo_terapia);
-        preencherCampo(falouSim, falou, documentoAtual::setFalou, documentoAtual::setQuantos_meses_falou);
+        preencherCampo(sustentouCabecaSim, sustentouCabeca, builder::comSustentouCabeca, builder::comMesesSustentouCabeca);
+        preencherCampo(engatinhouSim, engatinhou, builder::comEngatinhou, builder::comMesesEngatinhou);
+        preencherCampo(sentouSim, sentou, builder::comSentou, builder::comMesesSentou);
+        preencherCampo(andouSim, andou, builder::comAndou, builder::comMesesAndou);
+        preencherCampo(terapiaSim, terapia, builder::comPrecisouDeTerapia, builder::comQualMotivoTerapia);
+        preencherCampo(falouSim, falou, builder::comFalou, builder::comMesesFalou);
     }
     
     //Preenche os dados da Tela 3 no objeto Anamnese.
-    private void preencherDadosTela3() {
+    private void preencherDadosTela3(AnamneseBuilder builder) {
         // Comunicação e linguagem
         String balbucioVal = balbucio.getValue();
-        documentoAtual.setQuantos_meses_balbuciou(balbucioVal != null ? balbucioVal : "");
+        builder.comMesesBalbuciou(balbucioVal != null ? balbucioVal : "");
         
         String primeiraPalavraVal = primeiraPalavra.getText();
-        documentoAtual.setQuando_primeiras_palavras(primeiraPalavraVal != null ? primeiraPalavraVal : "");
+        builder.comPrimeirasPalavras(primeiraPalavraVal != null ? primeiraPalavraVal : "");
         
         String primeiraFraseVal = primeiraFrase.getText();
-        documentoAtual.setQuando_primeiras_frases(primeiraFraseVal != null ? primeiraFraseVal : "");
+        builder.comPrimeirasFrases(primeiraFraseVal != null ? primeiraFraseVal : "");
         
         String tipoFalaVal = tipoFala.getValue();
-        documentoAtual.setFala_natural_inibido(tipoFalaVal != null ? tipoFalaVal : "");
+        builder.comTipoFala(tipoFalaVal != null ? tipoFalaVal : "");
         
-        preencherCampo(disturbioSim, disturbio, documentoAtual::setPossui_disturbio, documentoAtual::setQual_disturbio);
+        preencherCampo(disturbioSim, disturbio, builder::comPossuiDisturbio, builder::comQualDisturbio);
 
         // Serviços de saúde ou educação frequentados (tela 3, se preenchido aqui)
         if (servicos != null && servicos.getText() != null) {
             String sv = servicos.getText().trim();
             if (!sv.isEmpty()) {
-                documentoAtual.setQuais_servicos(sv);
-                documentoAtual.setUsou_servico_saude_educacao("Sim");
+                builder.comQuaisServicos(sv);
+                builder.comUsouServicoSaudeEducacao("Sim");
             }
         }
         
         // Preenche os campos opcionais da Tela 3 (sleep)
         if (dormeSozinho != null && dormeSozinho.getValue() != null) {
-            documentoAtual.setDorme_sozinho(dormeSozinho.getValue());
+            builder.comDormeSozinho(dormeSozinho.getValue());
         } else {
-            documentoAtual.setDorme_sozinho("Não");
+            builder.comDormeSozinho("Não");
         }
         
         if (temQuarto != null && temQuarto.getValue() != null) {
-            documentoAtual.setTem_seu_quarto(temQuarto.getValue());
+            builder.comTemSeuQuarto(temQuarto.getValue());
         } else {
-            documentoAtual.setTem_seu_quarto("Não");
+            builder.comTemSeuQuarto("Não");
         }
         
         String sonoVal = sono.getValue();
-        documentoAtual.setSono_calmo_agitado(sonoVal != null ? sonoVal : "");
+        builder.comSonoCalmoAgitado(sonoVal != null ? sonoVal : "");
         
         // Aspectos sociais
         if (respeitaRegras != null && respeitaRegras.getValue() != null) {
-            documentoAtual.setRespeita_regras(respeitaRegras.getValue());
+            builder.comRespeitaRegras(respeitaRegras.getValue());
         } else {
-            documentoAtual.setRespeita_regras("Nunca");
+            builder.comRespeitaRegras("Nunca");
         }
         
         if (desmotivado != null && desmotivado.getValue() != null) {
-            documentoAtual.setE_desmotivado(desmotivado.getValue());
+            builder.comDesmotivado(desmotivado.getValue());
         } else {
-            documentoAtual.setE_desmotivado("Nunca");
+            builder.comDesmotivado("Nunca");
         }
         
         if (agressivo != null && agressivo.getValue() != null) {
-            documentoAtual.setE_agressivo(agressivo.getValue());
+            builder.comAgressivo(agressivo.getValue());
         } else {
-            documentoAtual.setE_agressivo("Nunca");
+            builder.comAgressivo("Nunca");
         }
         
         if (inquietacao != null && inquietacao.getValue() != null) {
-            documentoAtual.setApresenta_inquietacao(inquietacao.getValue());
+            builder.comApresentaInquietacao(inquietacao.getValue());
         } else {
-            documentoAtual.setApresenta_inquietacao("Nunca");
+            builder.comApresentaInquietacao("Nunca");
         }
     }
     
@@ -674,6 +681,21 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     private void carregarToggleComTexto(RadioButton sim, RadioButton nao, String valorToggle, TextField campo, String valorCampo) {
         selecionarToggle(sim, nao, valorToggle);
         setTextSafe(campo, valorCampo);
+    }
+
+    private AnamneseBuilder obterOuCriarBuilder() {
+        if (ESTADO.builder instanceof AnamneseBuilder) {
+            return (AnamneseBuilder) ESTADO.builder;
+        }
+
+        Anamnese base = documentoAtual != null ? documentoAtual : new Anamnese();
+        AnamneseBuilder builder = new AnamneseBuilder(base);
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        ESTADO.builder = builder;
+        return builder;
     }
 
     // Preenche os campos da tela com os dados já digitados ao navegar para trás
@@ -749,17 +771,34 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
     
     // Inicia uma nova anamnese.
     public static void iniciarNovaAnamnese() {
+        salvando = false;
+        // Em alguns fluxos (ex.: ProgressoAtendimentoController), o educandoId é definido
+        // antes de iniciarNovo(). Precisamos preservar esse valor ao reinicializar o estado.
+        String educandoIdPreservado = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdPreservado = ESTADO.documentoCompartilhado.getEducando_id();
+        }
+
         iniciarNovo(ESTADO, new Anamnese());
+        ESTADO.builder = null; // builder criado quando necessário
+
+        if (educandoIdPreservado != null) {
+            ((Anamnese) ESTADO.documentoCompartilhado).setEducando_id(educandoIdPreservado);
+        }
     }
 
     // Inicia modo edição com uma anamnese já existente
     public static void editarAnamneseExistente(Anamnese existente) {
+        salvando = false;
         iniciarEdicao(ESTADO, (existente != null) ? existente : new Anamnese());
+        ESTADO.builder = new AnamneseBuilder((Anamnese) ESTADO.documentoCompartilhado);
     }
 
     // Inicia modo visualização com uma anamnese já existente
     public static void visualizarAnamnese(Anamnese existente) {
+        salvando = false;
         iniciarVisualizacao(ESTADO, existente);
+        ESTADO.builder = new AnamneseBuilder((Anamnese) ESTADO.documentoCompartilhado);
     }
     
     // Define o ID do educando para a anamnese
@@ -768,6 +807,10 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
             ESTADO.documentoCompartilhado = new Anamnese();
         }
         ESTADO.documentoCompartilhado.setEducando_id(educandoId);
+        // Sempre garanta que o builder aponte para o documento compartilhado atual.
+        // Isso evita reutilizar builder antigo (com dados de outra sessão).
+        ESTADO.builder = new AnamneseBuilder((Anamnese) ESTADO.documentoCompartilhado);
+        ((AnamneseBuilder) ESTADO.builder).comEducandoId(educandoId);
     }
     
     // Define a turma de origem para poder voltar
@@ -896,6 +939,11 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
             return;
         }
 
+        if (salvando) {
+            // Já existe um salvamento em andamento/aguardando retorno.
+            return;
+        }
+
         // Valida a última tela antes de exibir o alerta
         if (!validarTela3()) {
             exibirMensagemErro("Preencha todos os campos para concluir.");
@@ -912,9 +960,16 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
             return;
         }
 
-        preencherDadosTela3();
-        // Garante que o objeto compartilhado tenha os dados mais recentes
-        estado.documentoCompartilhado = documentoAtual;
+        salvando = true;
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
+
+        // Atualiza builder com a última tela e documento compartilhado
+        AnamneseBuilder builder = obterOuCriarBuilder();
+        preencherDadosTela3(builder);
+        estado.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = estado.documentoCompartilhado;
         
         // Salva o educando ID antes de resetar
         String educandoId = documentoAtual.getEducando_id();
@@ -929,36 +984,61 @@ public class AnamneseController extends DocumentoControllerBase<Anamnese> implem
                 exibirMensagemErro("Não foi possível identificar um professor para vincular à anamnese. Faça login como professor ou cadastre um professor.");
                 return;
             }
-            documentoAtual.setProfessor_id(professorId);
 
-            if (documentoAtual.getEducando_id() == null || documentoAtual.getEducando_id().isBlank()) {
+            builder.comProfessorId(professorId);
+            // Em criação, define data; em edição, preserva se já existir.
+            if (estado.modoAtual == ModoDocumento.NOVA) {
+                builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            } else if (documentoAtual != null) {
+                String dataExistente = documentoAtual.getData_criacao();
+                if (dataExistente == null || dataExistente.isBlank()) {
+                    builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+                }
+            }
+
+            // Construção final com validação
+            Anamnese anamneseFinal = builder.build();
+            if (anamneseFinal.getEducando_id() == null || anamneseFinal.getEducando_id().isBlank()) {
                 exibirMensagemErro("Educando não definido nesta anamnese. Abra a anamnese a partir do aluno desejado.");
                 return;
             }
-            
-            // Metadados obrigatórios para persistência
-            documentoAtual.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
-            
-            anamneseService.cadastrarNovaAnamnese(documentoAtual);
-            
-            exibirMensagemSucesso("Anamnese criada com sucesso!");
-            
-            // Após 2s, volta para o popup de progresso do aluno
-            new Thread(() -> {
-                try {
-                    Thread.sleep(2000);
-                    javafx.application.Platform.runLater(() -> {
-                        limparEstado();
-                        voltarComPopup(educandoId);
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            estado.documentoCompartilhado = anamneseFinal;
+            documentoAtual = anamneseFinal;
+
+            boolean ok;
+            if (estado.modoAtual == ModoDocumento.EDICAO) {
+                ok = anamneseService.atualizarAnamnese(anamneseFinal);
+            } else {
+                ok = anamneseService.cadastrarNovaAnamnese(anamneseFinal);
+            }
+
+            if (!ok) {
+                exibirMensagemErro("Não foi possível salvar a anamnese.");
+                salvando = false;
+                if (btnConcluir != null) {
+                    btnConcluir.setDisable(false);
                 }
-            }).start();
+                return;
+            }
+
+            exibirMensagemSucesso(
+                estado.modoAtual == ModoDocumento.EDICAO
+                    ? "Anamnese atualizada com sucesso!"
+                    : "Anamnese criada com sucesso!"
+            );
+
+            // Volta imediatamente para o popup de progresso do aluno
+            limparEstado();
+            salvando = false;
+            voltarComPopup(educandoId);
             
         } catch (Exception e) {
             exibirMensagemErro("Erro ao salvar anamnese: " + e.getMessage());
             e.printStackTrace();
+            salvando = false;
+            if (btnConcluir != null) {
+                btnConcluir.setDisable(false);
+            }
         }
     }
 }

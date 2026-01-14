@@ -351,51 +351,51 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
     private void inicializarChoiceBoxes() {
         // Tela 1 - Dificuldades (Sim/Não)
         if (dificuldadesMotoras != null) {
-            dificuldadesMotoras.getItems().addAll("Sim", "Não");
+            dificuldadesMotoras.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesCognitivas != null) {
-            dificuldadesCognitivas.getItems().addAll("Sim", "Não");
+            dificuldadesCognitivas.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesSensoriais != null) {
-            dificuldadesSensoriais.getItems().addAll("Sim", "Não");
+            dificuldadesSensoriais.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesComunicacao != null) {
-            dificuldadesComunicacao.getItems().addAll("Sim", "Não");
+            dificuldadesComunicacao.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesFamiliares != null) {
-            dificuldadesFamiliares.getItems().addAll("Sim", "Não");
+            dificuldadesFamiliares.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesAfetivas != null) {
-            dificuldadesAfetivas.getItems().addAll("Sim", "Não");
+            dificuldadesAfetivas.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesRaciocinio != null) {
-            dificuldadesRaciocinio.getItems().addAll("Sim", "Não");
+            dificuldadesRaciocinio.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesAvas != null) {
-            dificuldadesAvas.getItems().addAll("Sim", "Não");
+            dificuldadesAvas.getItems().setAll("Sim", "Não");
         }
 
         // Tela 6 - Atendimentos (Sim/Não)
         if (atendimentoAee != null) {
-            atendimentoAee.getItems().addAll("Sim", "Não");
+            atendimentoAee.getItems().setAll("Sim", "Não");
         }
         if (atendimentoPsicologo != null) {
-            atendimentoPsicologo.getItems().addAll("Sim", "Não");
+            atendimentoPsicologo.getItems().setAll("Sim", "Não");
         }
         if (atendimentoFisioterapeuta != null) {
-            atendimentoFisioterapeuta.getItems().addAll("Sim", "Não");
+            atendimentoFisioterapeuta.getItems().setAll("Sim", "Não");
         }
         if (atendimentoPsicopedagogo != null) {
-            atendimentoPsicopedagogo.getItems().addAll("Sim", "Não");
+            atendimentoPsicopedagogo.getItems().setAll("Sim", "Não");
         }
         if (atendimentoTerapeutaOcupacional != null) {
-            atendimentoTerapeutaOcupacional.getItems().addAll("Sim", "Não");
+            atendimentoTerapeutaOcupacional.getItems().setAll("Sim", "Não");
         }
         if (atendimentoEducacaoFisica != null) {
-            atendimentoEducacaoFisica.getItems().addAll("Sim", "Não");
+            atendimentoEducacaoFisica.getItems().setAll("Sim", "Não");
         }
         if (atendimentoEstimulacaoPrecoce != null) {
-            atendimentoEstimulacaoPrecoce.getItems().addAll("Sim", "Não");
+            atendimentoEstimulacaoPrecoce.getItems().setAll("Sim", "Não");
         }
     }
 
@@ -464,17 +464,8 @@ public class PAEEController extends DocumentoControllerBase<PAEE> implements Ini
 
             if (sucesso) {
                 exibirMensagemSucesso(edicao ? "PAEE atualizado com sucesso!" : "PAEE criado com sucesso!");
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                        javafx.application.Platform.runLater(() -> {
-                            limparEstado();
-                            voltarComPopup(educandoId);
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+                limparEstado();
+                voltarComPopup(educandoId);
             } else {
                 exibirMensagemErro(
                         edicao ? "Erro ao atualizar PAEE. Tente novamente." : "Erro ao cadastrar PAEE. Tente novamente.");
