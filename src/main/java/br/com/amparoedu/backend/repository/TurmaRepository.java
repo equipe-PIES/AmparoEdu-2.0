@@ -20,6 +20,27 @@ public class TurmaRepository {
         return turmas;
     }
 
+    public List<Turma> listarPorProfessorId(String professorId) {
+        List<Turma> turmas = new ArrayList<>();
+        if (professorId == null || professorId.isBlank()) {
+            return turmas;
+        }
+
+        String sql = "SELECT * FROM turmas WHERE professor_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, professorId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    turmas.add(extrairTurma(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return turmas;
+    }
+
     public void salvar(Turma turma) {
         String sql = "INSERT INTO turmas (id, professor_id, nome, turno, grau_ensino, faixa_etaria, sincronizado, excluido) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();

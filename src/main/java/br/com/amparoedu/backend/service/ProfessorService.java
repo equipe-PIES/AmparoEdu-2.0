@@ -5,6 +5,7 @@ import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.repository.ProfessorRepository;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
 import java.util.UUID;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class ProfessorService {
 
@@ -21,10 +22,14 @@ public class ProfessorService {
             usuario.setId(usuarioId);
             usuario.setSincronizado(0);
 
-            // Define o ID do professor e vincula o usuário
-            professor.setId(professorId);
-            professor.setUsuario_id(usuarioId);
-            professor.setSincronizado(0);
+        // Vincula o usuário ao professor criado
+        professor.setId(professorId);
+        professor.setUsuario_id(usuarioId);
+        professor.setSincronizado(0);
+
+        // Hash da senha usando bcrypt
+        String senhaHasheada = BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt());
+        usuario.setSenha(senhaHasheada);
 
             System.out.println("DEBUG: Salvando usuário ID: " + usuarioId);
             boolean usuarioSalvo = usuarioRepo.salvar(usuario) > 0;
@@ -62,6 +67,12 @@ public class ProfessorService {
             
             // Atualiza o usuário
             usuario.setSincronizado(0);
+
+            String senha = usuario.getSenha();
+            if (senha != null && !senha.isBlank() && !isBcryptHash(senha)) {
+                String senhaHasheada = BCrypt.hashpw(senha, BCrypt.gensalt());
+                usuario.setSenha(senhaHasheada);
+            }
             usuarioRepo.atualizar(usuario);
             
             System.out.println("DEBUG: Professor e usuário atualizados: " + professor.getNome());
@@ -71,6 +82,10 @@ public class ProfessorService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private static boolean isBcryptHash(String valor) {
+        return valor.startsWith("$2a$") || valor.startsWith("$2b$") || valor.startsWith("$2y$");
     }
     
 }

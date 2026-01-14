@@ -140,8 +140,8 @@ public class RIRepository {
         stmt.setString(index++, ri.getAlfabetizacao());
         stmt.setString(index++, ri.getAdaptacoes_curriculares());
         stmt.setString(index++, ri.getParticipacao_atividade());
-        stmt.setInt(index++, ri.getAutonomia());
-        stmt.setInt(index++, ri.getInteracao_professora());
+        stmt.setString(index++, ri.getAutonomia());
+        stmt.setString(index++, ri.getInteracao_professora());
         stmt.setString(index++, ri.getAtividades_vida_diaria());
         stmt.setInt(index++, ri.getSincronizado());
         stmt.setInt(index++, ri.getExcluido());
@@ -159,8 +159,8 @@ public class RIRepository {
             rs.getString("alfabetizacao"),
             rs.getString("adaptacoes_curriculares"),
             rs.getString("participacao_atividade"),
-            rs.getInt("autonomia"),
-            rs.getInt("interacao_professora"),
+            rs.getString("autonomia"),
+            rs.getString("interacao_professora"),
             rs.getString("atividades_vida_diaria"),
             rs.getInt("sincronizado"),
             rs.getInt("excluido")

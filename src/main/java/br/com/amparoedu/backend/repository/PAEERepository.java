@@ -147,14 +147,14 @@ public class PAEERepository {
         stmt.setString(index++, paee.getProfessorId());
         stmt.setString(index++, paee.getDataCriacao());
         stmt.setString(index++, paee.getResumo());
-        stmt.setInt(index++, paee.getDificuldadesMotoras());
-        stmt.setInt(index++, paee.getDificuldadesCognitivas());
-        stmt.setInt(index++, paee.getDificuldadesSensoriais());
-        stmt.setInt(index++, paee.getDificuldadesComunicacao());
-        stmt.setInt(index++, paee.getDificuldadesFamiliares());
-        stmt.setInt(index++, paee.getDificuldadesAfetivas());
-        stmt.setInt(index++, paee.getDificuldadesRaciocinio());
-        stmt.setInt(index++, paee.getDificuldadesAvas());
+        stmt.setString(index++, paee.getDificuldadesMotoras());
+        stmt.setString(index++, paee.getDificuldadesCognitivas());
+        stmt.setString(index++, paee.getDificuldadesSensoriais());
+        stmt.setString(index++, paee.getDificuldadesComunicacao());
+        stmt.setString(index++, paee.getDificuldadesFamiliares());
+        stmt.setString(index++, paee.getDificuldadesAfetivas());
+        stmt.setString(index++, paee.getDificuldadesRaciocinio());
+        stmt.setString(index++, paee.getDificuldadesAvas());
         stmt.setString(index++, paee.getDifDesMotor());
         stmt.setString(index++, paee.getIntervencoesMotor());
         stmt.setString(index++, paee.getDifComunicacao());
@@ -170,13 +170,13 @@ public class PAEERepository {
         stmt.setString(index++, paee.getDifSociabilidade());
         stmt.setString(index++, paee.getIntervencoesSociabilidade());
         stmt.setString(index++, paee.getObjetivoPlano());
-        stmt.setInt(index++, paee.getAee());
-        stmt.setInt(index++, paee.getPsicologo());
-        stmt.setInt(index++, paee.getFisioterapeuta());
-        stmt.setInt(index++, paee.getPsicopedagogo());
-        stmt.setInt(index++, paee.getTerapeutaOcupacional());
-        stmt.setInt(index++, paee.getEducacaoFisica());
-        stmt.setInt(index++, paee.getEstimulacaoPrecoce());
+        stmt.setString(index++, paee.getAee());
+        stmt.setString(index++, paee.getPsicologo());
+        stmt.setString(index++, paee.getFisioterapeuta());
+        stmt.setString(index++, paee.getPsicopedagogo());
+        stmt.setString(index++, paee.getTerapeutaOcupacional());
+        stmt.setString(index++, paee.getEducacaoFisica());
+        stmt.setString(index++, paee.getEstimulacaoPrecoce());
         stmt.setInt(index++, paee.getSincronizado());
         stmt.setInt(index++, paee.getExcluido());
     }
@@ -189,14 +189,14 @@ public class PAEERepository {
             rs.getString("professor_id"),
             rs.getString("data_criacao"),
             rs.getString("resumo"),
-            rs.getInt("dificuldades_motoras"),
-            rs.getInt("dificuldades_cognitivas"),
-            rs.getInt("dificuldades_sensoriais"),
-            rs.getInt("dificuldades_comunicacao"),
-            rs.getInt("dificuldades_familiares"),
-            rs.getInt("dificuldades_afetivas"),
-            rs.getInt("dificuldades_raciocinio"),
-            rs.getInt("dificuldades_avas"),
+            rs.getString("dificuldades_motoras"),
+            rs.getString("dificuldades_cognitivas"),
+            rs.getString("dificuldades_sensoriais"),
+            rs.getString("dificuldades_comunicacao"),
+            rs.getString("dificuldades_familiares"),
+            rs.getString("dificuldades_afetivas"),
+            rs.getString("dificuldades_raciocinio"),
+            rs.getString("dificuldades_avas"),
             rs.getString("dif_des_motor"),
             rs.getString("intervencoes_motor"),
             rs.getString("dif_comunicacao"),
@@ -212,13 +212,13 @@ public class PAEERepository {
             rs.getString("dif_sociabilidade"),
             rs.getString("intervencoes_sociabilidade"),
             rs.getString("objetivo_plano"),
-            rs.getInt("aee"),
-            rs.getInt("psicologo"),
-            rs.getInt("fisioterapeuta"),
-            rs.getInt("psicopedagogo"),
-            rs.getInt("terapeuta_ocupacional"),
-            rs.getInt("educacao_fisica"),
-            rs.getInt("estimulacao_precoce"),
+            rs.getString("aee"),
+            rs.getString("psicologo"),
+            rs.getString("fisioterapeuta"),
+            rs.getString("psicopedagogo"),
+            rs.getString("terapeuta_ocupacional"),
+            rs.getString("educacao_fisica"),
+            rs.getString("estimulacao_precoce"),
             rs.getInt("sincronizado"),
             rs.getInt("excluido")
         );

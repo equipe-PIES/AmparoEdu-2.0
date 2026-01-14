@@ -10,6 +10,7 @@ import br.com.amparoedu.backend.service.AuthService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.net.URL;
@@ -103,21 +104,27 @@ public class AnamneseController implements Initializable {
     @FXML private RadioButton sustentouCabecaSim;
     @FXML private RadioButton sustentouCabecaNao;
     @FXML private TextField sustentouCabeca;
+    @FXML private Label lblSustentouCabecaMeses;
     @FXML private RadioButton engatinhouSim;
     @FXML private RadioButton engatinhouNao;
     @FXML private TextField engatinhou;
+    @FXML private Label lblEngatinhouMeses;
     @FXML private RadioButton sentouSim;
     @FXML private RadioButton sentouNao;
     @FXML private TextField sentou;
+    @FXML private Label lblSentouMeses;
     @FXML private RadioButton andouSim;
     @FXML private RadioButton andouNao;
     @FXML private TextField andou;
+    @FXML private Label lblAndouMeses;
     @FXML private RadioButton terapiaSim;
     @FXML private RadioButton terapiaNao;
     @FXML private TextField terapia;
+    @FXML private Label lblTerapiaMotivo;
     @FXML private RadioButton falouSim;
     @FXML private RadioButton falouNao;
     @FXML private TextField falou;
+    @FXML private Label lblFalouMeses;
 
     // Controles (Tela 3)
     @FXML private ChoiceBox<String> balbucio;
@@ -127,6 +134,7 @@ public class AnamneseController implements Initializable {
     @FXML private RadioButton disturbioSim;
     @FXML private RadioButton disturbioNao;
     @FXML private TextField disturbio;
+    @FXML private Label questDisturbio;
     @FXML private ChoiceBox<String> dormeSozinho;
     @FXML private ChoiceBox<String> temQuarto;
     @FXML private ChoiceBox<String> sono;
@@ -251,17 +259,17 @@ public class AnamneseController implements Initializable {
             configurarToggle(ficouRoxoSim, ficouRoxoNao, ficouRoxoGroup, null);
             configurarToggle(incubadoraSim, incubadoraNao, incubadoraGroup, null);
             configurarToggle(amamentadoSim, amamentadoNao, amamentadoGroup, null);
-            configurarToggle(sustentouCabecaSim, sustentouCabecaNao, sustentouCabecaGroup, sustentouCabeca);
-            configurarToggle(engatinhouSim, engatinhouNao, engatinhouGroup, engatinhou);
-            configurarToggle(sentouSim, sentouNao, sentouGroup, sentou);
-            configurarToggle(andouSim, andouNao, andouGroup, andou);
-            configurarToggle(terapiaSim, terapiaNao, terapiaGroup, terapia);
-            configurarToggle(falouSim, falouNao, falouGroup, falou);
+            configurarToggle(sustentouCabecaSim, sustentouCabecaNao, sustentouCabecaGroup, sustentouCabeca, lblSustentouCabecaMeses);
+            configurarToggle(engatinhouSim, engatinhouNao, engatinhouGroup, engatinhou, lblEngatinhouMeses);
+            configurarToggle(sentouSim, sentouNao, sentouGroup, sentou, lblSentouMeses);
+            configurarToggle(andouSim, andouNao, andouGroup, andou, lblAndouMeses);
+            configurarToggle(terapiaSim, terapiaNao, terapiaGroup, terapia, lblTerapiaMotivo);
+            configurarToggle(falouSim, falouNao, falouGroup, falou, lblFalouMeses);
         }
         
         // Tela 3
         if (disturbioSim != null) {
-            configurarToggle(disturbioSim, disturbioNao, disturbioGroup, disturbio);
+            configurarToggle(disturbioSim, disturbioNao, disturbioGroup, disturbio, questDisturbio);
         }
     }
     
@@ -338,9 +346,9 @@ public class AnamneseController implements Initializable {
         return true;
     }
     
-    // Retorna 1 se o RadioButton está selecionado, 0 caso contrário.
-    private int getValorToggle(RadioButton radioButton) {
-        return radioButton.isSelected() ? 1 : 0;
+    // Retorna "Sim" se o RadioButton está selecionado, "Não" caso contrário.
+    private String getValorToggle(RadioButton radioButton) {
+        return radioButton != null && radioButton.isSelected() ? "Sim" : "Não";
     }
     
     // Retorna o texto do campo se o RadioButton está selecionado, string vazia caso contrário.
@@ -359,7 +367,7 @@ public class AnamneseController implements Initializable {
     
     // Preenche flag e texto de forma consolidada
     private void preencherCampo(RadioButton sim, TextField campo,
-                                java.util.function.IntConsumer setFlag,
+                                java.util.function.Consumer<String> setFlag,
                                 java.util.function.Consumer<String> setTexto) {
         setFlag.accept(getValorToggle(sim));
         setTexto.accept(getTextoSeSelecionado(sim, campo));
@@ -410,16 +418,29 @@ public class AnamneseController implements Initializable {
     
     // Oculta campos condicionais no carregamento inicial.
     private void ocultarCamposCondicionais() {
-        ocultarCampos(convenio, doencaContagiosa, dificuldades, apoioPedagogico, medicacoes,
-                      sustentouCabeca, engatinhou, sentou, andou, terapia, falou, prematuridade1, disturbio);
+        ocultarNos(
+                convenio, questConvenio,
+                doencaContagiosa, questDoencaContagiosa,
+                dificuldades, questDificuldade,
+                apoioPedagogico, questApioPedagogico,
+                medicacoes, questMedicacao,
+                prematuridade1, questCausaPrematuridade1,
+                sustentouCabeca, lblSustentouCabecaMeses,
+                engatinhou, lblEngatinhouMeses,
+                sentou, lblSentouMeses,
+                andou, lblAndouMeses,
+                terapia, lblTerapiaMotivo,
+                falou, lblFalouMeses,
+                disturbio, questDisturbio
+        );
     }
     
-    // Oculta múltiplos campos de uma vez
-    private void ocultarCampos(TextField... campos) {
-        for (TextField campo : campos) {
-            if (campo != null) {
-                campo.setVisible(false);
-                campo.setManaged(false);
+    // Oculta múltiplos nós de uma vez (TextField, Label, etc.)
+    private void ocultarNos(Node... nos) {
+        for (Node no : nos) {
+            if (no != null) {
+                no.setVisible(false);
+                no.setManaged(false);
             }
         }
     }
@@ -525,7 +546,7 @@ public class AnamneseController implements Initializable {
         if (servicosFrequentados1 != null && servicosFrequentados1.getText() != null) {
             String sv = servicosFrequentados1.getText().trim();
             anamneseAtual.setQuais_servicos(sv);
-            anamneseAtual.setUsou_servico_saude_educacao(sv.isEmpty() ? 0 : 1);
+            anamneseAtual.setUsou_servico_saude_educacao(sv.isEmpty() ? "Não" : "Sim");
         }
 
         // Dados da gestação
@@ -583,108 +604,63 @@ public class AnamneseController implements Initializable {
             String sv = servicos.getText().trim();
             if (!sv.isEmpty()) {
                 anamneseAtual.setQuais_servicos(sv);
-                anamneseAtual.setUsou_servico_saude_educacao(1);
+                anamneseAtual.setUsou_servico_saude_educacao("Sim");
             }
         }
         
         // Preenche os campos opcionais da Tela 3 (sleep)
-        if (dormeSozinho.getValue() != null) {
-            anamneseAtual.setDorme_sozinho(converterSimNaoAsVezes(dormeSozinho.getValue()));
+        if (dormeSozinho != null && dormeSozinho.getValue() != null) {
+            anamneseAtual.setDorme_sozinho(dormeSozinho.getValue());
         } else {
-            anamneseAtual.setDorme_sozinho(0);
+            anamneseAtual.setDorme_sozinho("Não");
         }
         
-        if (temQuarto.getValue() != null) {
-            anamneseAtual.setTem_seu_quarto(converterSimNaoAsVezes(temQuarto.getValue()));
+        if (temQuarto != null && temQuarto.getValue() != null) {
+            anamneseAtual.setTem_seu_quarto(temQuarto.getValue());
         } else {
-            anamneseAtual.setTem_seu_quarto(0);
+            anamneseAtual.setTem_seu_quarto("Não");
         }
         
         String sonoVal = sono.getValue();
         anamneseAtual.setSono_calmo_agitado(sonoVal != null ? sonoVal : "");
         
         // Aspectos sociais
-        if (respeitaRegras.getValue() != null) {
-            anamneseAtual.setRespeita_regras(converterEscalaFrequencia(respeitaRegras.getValue()));
+        if (respeitaRegras != null && respeitaRegras.getValue() != null) {
+            anamneseAtual.setRespeita_regras(respeitaRegras.getValue());
         } else {
-            anamneseAtual.setRespeita_regras(0);
+            anamneseAtual.setRespeita_regras("Nunca");
         }
         
-        if (desmotivado.getValue() != null) {
-            anamneseAtual.setE_desmotivado(converterEscalaFrequencia(desmotivado.getValue()));
+        if (desmotivado != null && desmotivado.getValue() != null) {
+            anamneseAtual.setE_desmotivado(desmotivado.getValue());
         } else {
-            anamneseAtual.setE_desmotivado(0);
+            anamneseAtual.setE_desmotivado("Nunca");
         }
         
-        if (agressivo.getValue() != null) {
-            anamneseAtual.setE_agressivo(converterEscalaFrequencia(agressivo.getValue()));
+        if (agressivo != null && agressivo.getValue() != null) {
+            anamneseAtual.setE_agressivo(agressivo.getValue());
         } else {
-            anamneseAtual.setE_agressivo(0);
+            anamneseAtual.setE_agressivo("Nunca");
         }
         
-        if (inquietacao.getValue() != null) {
-            anamneseAtual.setApresenta_inquietacao(converterEscalaFrequencia(inquietacao.getValue()));
+        if (inquietacao != null && inquietacao.getValue() != null) {
+            anamneseAtual.setApresenta_inquietacao(inquietacao.getValue());
         } else {
-            anamneseAtual.setApresenta_inquietacao(0);
+            anamneseAtual.setApresenta_inquietacao("Nunca");
         }
     }
     
     // Métodos Auxiliares
     
 
-    // Seleciona RadioButtons a partir de um valor inteiro (1 = sim, 0 = não)
-    private void selecionarToggle(RadioButton sim, RadioButton nao, int valor) {
+    // Seleciona RadioButtons a partir de um valor textual ("Sim"/"Não")
+    private void selecionarToggle(RadioButton sim, RadioButton nao, String valor) {
         if (sim == null || nao == null) return;
-        if (valor == 1) {
+        if (valor != null && valor.trim().equalsIgnoreCase("Sim")) {
             sim.setSelected(true);
-        } else if (valor == 0) {
+        } else if (valor != null && (valor.trim().equalsIgnoreCase("Não") || valor.trim().equalsIgnoreCase("Nao"))) {
             nao.setSelected(true);
         }
-    }
-
-
-    // Converte ChoiceBox Sim/Não/Às vezes para inteiro
-    private int converterSimNaoAsVezes(String valor) {
-        if (valor == null) return -1;
-        return switch (valor) {
-            case "Sim" -> 1;
-            case "Não" -> 0;
-            case "Às vezes" -> 2;
-            default -> -1;
-        };
-    }
-
-    // Converte ChoiceBox de frequência para inteiro (Sempre=3, Às vezes=2, Raramente=1, Nunca=0)
-    private int converterEscalaFrequencia(String valor) {
-        if (valor == null) return -1;
-        return switch (valor) {
-            case "Sempre" -> 3;
-            case "Às vezes" -> 2;
-            case "Raramente" -> 1;
-            case "Nunca" -> 0;
-            default -> -1;
-        };
-    }
-
-    // Mapeia inteiros para ChoiceBox Sim/Não/Às vezes
-    private String toChoiceSimNaoAsVezes(int valor) {
-        return switch (valor) {
-            case 1 -> "Sim";
-            case 0 -> "Não";
-            case 2 -> "Às vezes";
-            default -> null;
-        };
-    }
-
-    // Mapeia inteiros para ChoiceBox de frequência
-    private String toChoiceFrequencia(int valor) {
-        return switch (valor) {
-            case 3 -> "Sempre";
-            case 2 -> "Às vezes";
-            case 1 -> "Raramente";
-            case 0 -> "Nunca";
-            default -> null;
-        };
     }
 
     // Preenche os campos da tela com os dados já digitados ao navegar para trás
@@ -774,16 +750,16 @@ public class AnamneseController implements Initializable {
 
             if (servicos != null) servicos.setText(anamneseAtual.getQuais_servicos());
 
-            if (dormeSozinho != null) dormeSozinho.setValue(toChoiceSimNaoAsVezes(anamneseAtual.getDorme_sozinho()));
-            if (temQuarto != null) temQuarto.setValue(toChoiceSimNaoAsVezes(anamneseAtual.getTem_seu_quarto()));
+            if (dormeSozinho != null) dormeSozinho.setValue(anamneseAtual.getDorme_sozinho());
+            if (temQuarto != null) temQuarto.setValue(anamneseAtual.getTem_seu_quarto());
             if (sono != null && anamneseAtual.getSono_calmo_agitado() != null && !anamneseAtual.getSono_calmo_agitado().isEmpty()) {
                 sono.setValue(anamneseAtual.getSono_calmo_agitado());
             }
 
-            if (respeitaRegras != null) respeitaRegras.setValue(toChoiceFrequencia(anamneseAtual.getRespeita_regras()));
-            if (desmotivado != null) desmotivado.setValue(toChoiceFrequencia(anamneseAtual.getE_desmotivado()));
-            if (agressivo != null) agressivo.setValue(toChoiceFrequencia(anamneseAtual.getE_agressivo()));
-            if (inquietacao != null) inquietacao.setValue(toChoiceFrequencia(anamneseAtual.getApresenta_inquietacao()));
+            if (respeitaRegras != null) respeitaRegras.setValue(anamneseAtual.getRespeita_regras());
+            if (desmotivado != null) desmotivado.setValue(anamneseAtual.getE_desmotivado());
+            if (agressivo != null) agressivo.setValue(anamneseAtual.getE_agressivo());
+            if (inquietacao != null) inquietacao.setValue(anamneseAtual.getApresenta_inquietacao());
         }
     }
 
@@ -1094,10 +1070,20 @@ public class AnamneseController implements Initializable {
         String educandoId = anamneseCompartilhada.getEducando_id();
         
         try {
-            // Busca um professor válido no banco de dados
-            String professorId = anamneseService.buscarProfessorValido();
-            if (professorId != null) {
-                anamneseCompartilhada.setProfessor_id(professorId);
+            // Preferir o professor logado; fallback para qualquer professor do banco
+            String professorId = AuthService.getIdProfessorLogado();
+            if (professorId == null) {
+                professorId = anamneseService.buscarProfessorValido();
+            }
+            if (professorId == null || professorId.isBlank()) {
+                exibirMensagemErro("Não foi possível identificar um professor para vincular à anamnese. Faça login como professor ou cadastre um professor.");
+                return;
+            }
+            anamneseCompartilhada.setProfessor_id(professorId);
+
+            if (anamneseCompartilhada.getEducando_id() == null || anamneseCompartilhada.getEducando_id().isBlank()) {
+                exibirMensagemErro("Educando não definido nesta anamnese. Abra a anamnese a partir do aluno desejado.");
+                return;
             }
             
             // Metadados obrigatórios para persistência

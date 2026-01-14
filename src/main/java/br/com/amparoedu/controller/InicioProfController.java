@@ -36,9 +36,9 @@ public class InicioProfController {
 
     private void carregarCardsTurmas() {
         containerCards.getChildren().clear(); 
-        
-        // Busca a lista de todas as turmas do banco
-        List<Turma> turmas = turmaRepo.listarTodas();
+
+        String professorId = AuthService.getIdProfessorLogado();
+        List<Turma> turmas = turmaRepo.listarPorProfessorId(professorId);
 
         for (Turma turma : turmas) {
             try {

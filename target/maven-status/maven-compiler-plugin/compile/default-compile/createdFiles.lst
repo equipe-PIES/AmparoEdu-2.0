@@ -1,4 +1,3 @@
-br\com\amparoedu\controller\RIController.class
 br\com\amparoedu\controller\AnamneseController.class
 br\com\amparoedu\backend\repository\AnamneseRepository.class
 br\com\amparoedu\backend\model\TurmaEducando.class
@@ -6,16 +5,13 @@ br\com\amparoedu\backend\model\DI.class
 br\com\amparoedu\backend\repository\SupabaseClient.class
 br\com\amparoedu\backend\model\PAEE.class
 br\com\amparoedu\backend\model\RI.class
-br\com\amparoedu\controller\ViewTurmaController.class
 br\com\amparoedu\backend\model\MediaTempoGestacao.class
 br\com\amparoedu\backend\repository\ViewsRepository.class
 br\com\amparoedu\controller\CadastroTurmaController$2$1.class
 br\com\amparoedu\backend\repository\UsuarioRepository.class
 br\com\amparoedu\backend\model\Anamnese.class
-br\com\amparoedu\controller\ViewProfsCoordController.class
 br\com\amparoedu\backend\service\ProfessorService.class
 br\com\amparoedu\controller\CadastroEducandoController.class
-br\com\amparoedu\controller\ViewTurmasCoordController.class
 br\com\amparoedu\controller\InfoAlunoController.class
 br\com\amparoedu\backend\model\QtdAlunosTurmaEscolaridade.class
 br\com\amparoedu\controller\PAEEController.class
@@ -42,7 +38,6 @@ br\com\amparoedu\backend\service\TurmaService.class
 br\com\amparoedu\controller\CadastroProfessorController.class
 br\com\amparoedu\backend\model\PDI.class
 br\com\amparoedu\controller\InicioCoordController.class
-br\com\amparoedu\controller\ViewAlunosCoordController.class
 br\com\amparoedu\backend\model\Turma.class
 br\com\amparoedu\backend\repository\PDIRepository.class
 br\com\amparoedu\backend\repository\PopularDatabase.class
@@ -51,7 +46,6 @@ br\com\amparoedu\backend\repository\ProfessorRepository.class
 br\com\amparoedu\controller\AnamneseController$ModoAnamnese.class
 br\com\amparoedu\backend\repository\DIRepository.class
 br\com\amparoedu\controller\InicioProfController.class
-br\com\amparoedu\util\SimpleObserver.class
 br\com\amparoedu\controller\CardTurmaController.class
 br\com\amparoedu\backend\model\Educando.class
 br\com\amparoedu\controller\CadastroTurmaController.class
@@ -63,9 +57,6 @@ br\com\amparoedu\backend\model\Responsavel.class
 br\com\amparoedu\backend\model\Usuario.class
 br\com\amparoedu\backend\service\AuthService.class
 br\com\amparoedu\backend\service\EducandoService.class
-br\com\amparoedu\controller\RIController$ModoRI.class
-br\com\amparoedu\util\SimpleObservable.class
-br\com\amparoedu\view\GerenciadorTelas.class
 br\com\amparoedu\backend\service\RIService.class
 br\com\amparoedu\backend\repository\TurmaEducandoRepository.class
 br\com\amparoedu\controller\CadastroTurmaController$1$1.class

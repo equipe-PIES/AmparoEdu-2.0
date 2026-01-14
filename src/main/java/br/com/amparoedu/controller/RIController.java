@@ -164,15 +164,13 @@ public class RIController implements Initializable {
         if (participacaoAtividade != null && riAtual.getParticipacao_atividade() != null) {
             participacaoAtividade.setText(riAtual.getParticipacao_atividade());
         }
-        // Autonomia é int no modelo, mas tratamos como String (conversão será feita no salvar)
-        if (autonomia != null && riAtual.getAutonomia() > 0) {
-            autonomia.setText(String.valueOf(riAtual.getAutonomia()));
+        if (autonomia != null && riAtual.getAutonomia() != null) {
+            autonomia.setText(riAtual.getAutonomia());
         }
 
         // Tela 3
-        // InteracaoProfessora é int no modelo, mas tratamos como String (conversão será feita no salvar)
-        if (interacaoProfessora != null && riAtual.getInteracao_professora() > 0) {
-            interacaoProfessora.setText(String.valueOf(riAtual.getInteracao_professora()));
+        if (interacaoProfessora != null && riAtual.getInteracao_professora() != null) {
+            interacaoProfessora.setText(riAtual.getInteracao_professora());
         }
         if (atividadesVidaDiaria != null && riAtual.getAtividades_vida_diaria() != null) {
             atividadesVidaDiaria.setText(riAtual.getAtividades_vida_diaria());
@@ -490,19 +488,15 @@ public class RIController implements Initializable {
             String valor = participacaoAtividade.getText().trim();
             riCompartilhada.setParticipacao_atividade(valor);
         }
-        // Autonomia: como é int no modelo mas TextArea na interface, vamos tratar como String por enquanto
-        // Por enquanto vamos deixar como 0 (será ajustado depois se necessário)
         if (autonomia != null) {
             String texto = autonomia.getText().trim();
-            // Se não vazio, seta como 1, senão 0
-            riCompartilhada.setAutonomia(texto.isEmpty() ? 0 : 1);
+            riCompartilhada.setAutonomia(texto);
         }
 
         // Tela 3
-        // InteracaoProfessora: como é int no modelo mas TextArea na interface, vamos tratar como String por enquanto
         if (interacaoProfessora != null) {
             String texto = interacaoProfessora.getText().trim();
-            riCompartilhada.setInteracao_professora(texto.isEmpty() ? 0 : 1);
+            riCompartilhada.setInteracao_professora(texto);
         }
         if (atividadesVidaDiaria != null) {
             String valor = atividadesVidaDiaria.getText().trim();

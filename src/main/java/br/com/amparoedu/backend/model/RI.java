@@ -10,8 +10,8 @@ public class RI {
     private String alfabetizacao;
     private String adaptacoes_curriculares;
     private String participacao_atividade;
-    private int autonomia;
-    private int interacao_professora;
+    private String autonomia;
+    private String interacao_professora;
     private String atividades_vida_diaria;
     private int sincronizado;
     private int excluido;
@@ -21,8 +21,8 @@ public class RI {
 
     public RI(String id, String educando_id, String professor_id, String data_criacao,
               String dados_funcionais, String funcionalidade_cognitiva, String alfabetizacao,
-              String adaptacoes_curriculares, String participacao_atividade, int autonomia,
-              int interacao_professora, String atividades_vida_diaria, int sincronizado, int excluido) {
+              String adaptacoes_curriculares, String participacao_atividade, String autonomia,
+              String interacao_professora, String atividades_vida_diaria, int sincronizado, int excluido) {
         this.id = id;
         this.educando_id = educando_id;
         this.professor_id = professor_id;
@@ -67,10 +67,10 @@ public class RI {
     public String getParticipacao_atividade() {
         return participacao_atividade;
     }
-    public int getAutonomia() {
+    public String getAutonomia() {
         return autonomia;
     }
-    public int getInteracao_professora() {
+    public String getInteracao_professora() {
         return interacao_professora;
     }
     public String getAtividades_vida_diaria() {
@@ -111,10 +111,10 @@ public class RI {
     public void setParticipacao_atividade(String participacao_atividade) {
         this.participacao_atividade = participacao_atividade;
     }
-    public void setAutonomia(int autonomia) {
+    public void setAutonomia(String autonomia) {
         this.autonomia = autonomia;
     }
-    public void setInteracao_professora(int interacao_professora) {
+    public void setInteracao_professora(String interacao_professora) {
         this.interacao_professora = interacao_professora;
     }
     public void setAtividades_vida_diaria(String atividades_vida_diaria) {

@@ -6,14 +6,14 @@ public class PAEE {
     private String professor_id;
     private String data_criacao;
     private String resumo;
-    private int dificuldades_motoras;
-    private int dificuldades_cognitivas;
-    private int dificuldades_sensoriais;
-    private int dificuldades_comunicacao;
-    private int dificuldades_familiares;
-    private int dificuldades_afetivas;
-    private int dificuldades_raciocinio;
-    private int dificuldades_avas;
+    private String dificuldades_motoras;
+    private String dificuldades_cognitivas;
+    private String dificuldades_sensoriais;
+    private String dificuldades_comunicacao;
+    private String dificuldades_familiares;
+    private String dificuldades_afetivas;
+    private String dificuldades_raciocinio;
+    private String dificuldades_avas;
     private String dif_des_motor;
     private String intervencoes_motor;
     private String dif_comunicacao;
@@ -29,30 +29,65 @@ public class PAEE {
     private String dif_sociabilidade;
     private String intervencoes_sociabilidade;
     private String objetivo_plano;
-    private int aee;
-    private int psicologo;
-    private int fisioterapeuta;
-    private int psicopedagogo;
-    private int terapeuta_ocupacional;
-    private int educacao_fisica;
-    private int estimulacao_precoce;
+    private String aee;
+    private String psicologo;
+    private String fisioterapeuta;
+    private String psicopedagogo;
+    private String terapeuta_ocupacional;
+    private String educacao_fisica;
+    private String estimulacao_precoce;
     private int sincronizado;
     private int excluido;
 
     public PAEE() {
+        // Inicializa valores padrão para campos NOT NULL
+        this.data_criacao = "";
+        this.resumo = "";
+        this.dificuldades_motoras = "";
+        this.dificuldades_cognitivas = "";
+        this.dificuldades_sensoriais = "";
+        this.dificuldades_comunicacao = "";
+        this.dificuldades_familiares = "";
+        this.dificuldades_afetivas = "";
+        this.dificuldades_raciocinio = "";
+        this.dificuldades_avas = "";
+        this.dif_des_motor = "";
+        this.intervencoes_motor = "";
+        this.dif_comunicacao = "";
+        this.intervencoes_comunicacao = "";
+        this.dif_raciocinio = "";
+        this.intervencoes_raciocinio = "";
+        this.dif_atencao = "";
+        this.intervencoes_atencao = "";
+        this.dif_memoria = "";
+        this.intervencoes_memoria = "";
+        this.dif_percepcao = "";
+        this.intervencoes_percepcao = "";
+        this.dif_sociabilidade = "";
+        this.intervencoes_sociabilidade = "";
+        this.objetivo_plano = "";
+        this.aee = "";
+        this.psicologo = "";
+        this.fisioterapeuta = "";
+        this.psicopedagogo = "";
+        this.terapeuta_ocupacional = "";
+        this.educacao_fisica = "";
+        this.estimulacao_precoce = "";
+        this.sincronizado = 0;
+        this.excluido = 0;
     }
 
     public PAEE(String id, String educando_id, String professor_id, String data_criacao, String resumo,
-                int dificuldades_motoras, int dificuldades_cognitivas, int dificuldades_sensoriais,
-                int dificuldades_comunicacao, int dificuldades_familiares, int dificuldades_afetivas,
-                int dificuldades_raciocinio, int dificuldades_avas, String dif_des_motor,
+                String dificuldades_motoras, String dificuldades_cognitivas, String dificuldades_sensoriais,
+                String dificuldades_comunicacao, String dificuldades_familiares, String dificuldades_afetivas,
+                String dificuldades_raciocinio, String dificuldades_avas, String dif_des_motor,
                 String intervencoes_motor, String dif_comunicacao, String intervencoes_comunicacao,
                 String dif_raciocinio, String intervencoes_raciocinio, String dif_atencao,
                 String intervencoes_atencao, String dif_memoria, String intervencoes_memoria,
                 String dif_percepcao, String intervencoes_percepcao, String dif_sociabilidade,
-                String intervencoes_sociabilidade, String objetivo_plano, int aee, int psicologo,
-                int fisioterapeuta, int psicopedagogo, int terapeuta_ocupacional,
-                int educacao_fisica, int estimulacao_precoce, int sincronizado, int excluido) {
+                String intervencoes_sociabilidade, String objetivo_plano, String aee, String psicologo,
+                String fisioterapeuta, String psicopedagogo, String terapeuta_ocupacional,
+                String educacao_fisica, String estimulacao_precoce, int sincronizado, int excluido) {
         this.id = id;
         this.educando_id = educando_id;
         this.professor_id = professor_id;
@@ -108,28 +143,28 @@ public class PAEE {
     public String getResumo() {
         return resumo;
     }
-    public int getDificuldadesMotoras() {
+    public String getDificuldadesMotoras() {
         return dificuldades_motoras;
     }
-    public int getDificuldadesCognitivas() {
+    public String getDificuldadesCognitivas() {
         return dificuldades_cognitivas;
     }
-    public int getDificuldadesSensoriais() {
+    public String getDificuldadesSensoriais() {
         return dificuldades_sensoriais;
     }
-    public int getDificuldadesComunicacao() {
+    public String getDificuldadesComunicacao() {
         return dificuldades_comunicacao;
     }
-    public int getDificuldadesFamiliares() {
+    public String getDificuldadesFamiliares() {
         return dificuldades_familiares;
     }
-    public int getDificuldadesAfetivas() {
+    public String getDificuldadesAfetivas() {
         return dificuldades_afetivas;
     }
-    public int getDificuldadesRaciocinio() {
+    public String getDificuldadesRaciocinio() {
         return dificuldades_raciocinio;
     }
-    public int getDificuldadesAvas() {
+    public String getDificuldadesAvas() {
         return dificuldades_avas;
     }
     public String getDifDesMotor() {
@@ -177,25 +212,25 @@ public class PAEE {
     public String getObjetivoPlano() {
         return objetivo_plano;
     }
-    public int getAee() {
+    public String getAee() {
         return aee;
     }
-    public int getPsicologo() {
+    public String getPsicologo() {
         return psicologo;
     }
-    public int getFisioterapeuta() {
+    public String getFisioterapeuta() {
         return fisioterapeuta;
     }
-    public int getPsicopedagogo() {
+    public String getPsicopedagogo() {
         return psicopedagogo;
     }
-    public int getTerapeutaOcupacional() {
+    public String getTerapeutaOcupacional() {
         return terapeuta_ocupacional;
     }
-    public int getEducacaoFisica() {
+    public String getEducacaoFisica() {
         return educacao_fisica;
     }
-    public int getEstimulacaoPrecoce() {
+    public String getEstimulacaoPrecoce() {
         return estimulacao_precoce;
     }
     public int getSincronizado() {
@@ -222,28 +257,28 @@ public class PAEE {
     public void setResumo(String resumo) {
         this.resumo = resumo;
     }
-    public void setDificuldades_motoras(int dificuldades_motoras) {
+    public void setDificuldades_motoras(String dificuldades_motoras) {
         this.dificuldades_motoras = dificuldades_motoras;
     }
-    public void setDificuldades_cognitivas(int dificuldades_cognitivas) {
+    public void setDificuldades_cognitivas(String dificuldades_cognitivas) {
         this.dificuldades_cognitivas = dificuldades_cognitivas;
     }
-    public void setDificuldades_sensoriais(int dificuldades_sensoriais) {
+    public void setDificuldades_sensoriais(String dificuldades_sensoriais) {
         this.dificuldades_sensoriais = dificuldades_sensoriais;
     }
-    public void setDificuldades_comunicacao(int dificuldades_comunicacao) {
+    public void setDificuldades_comunicacao(String dificuldades_comunicacao) {
         this.dificuldades_comunicacao = dificuldades_comunicacao;
     }
-    public void setDificuldades_familiares(int dificuldades_familiares) {
-        this.dificuldades_familiares = dificuldades_familiares;         
+    public void setDificuldades_familiares(String dificuldades_familiares) {
+        this.dificuldades_familiares = dificuldades_familiares;
     }
-    public void setDificuldades_afetivas(int dificuldades_afetivas) {
+    public void setDificuldades_afetivas(String dificuldades_afetivas) {
         this.dificuldades_afetivas = dificuldades_afetivas;
     }
-    public void setDificuldades_raciocinio(int dificuldades_raciocinio) {
+    public void setDificuldades_raciocinio(String dificuldades_raciocinio) {
         this.dificuldades_raciocinio = dificuldades_raciocinio;
     }
-    public void setDificuldades_avas(int dificuldades_avas) {
+    public void setDificuldades_avas(String dificuldades_avas) {
         this.dificuldades_avas = dificuldades_avas;
     }
     public void setDif_des_motor(String dif_des_motor) {
@@ -291,25 +326,25 @@ public class PAEE {
     public void setObjetivo_plano(String objetivo_plano) {
         this.objetivo_plano = objetivo_plano;
     }
-    public void setAee(int aee) {
+    public void setAee(String aee) {
         this.aee = aee;
     }
-    public void setPsicologo(int psicologo) {
+    public void setPsicologo(String psicologo) {
         this.psicologo = psicologo;
     }
-    public void setFisioterapeuta(int fisioterapeuta) {
+    public void setFisioterapeuta(String fisioterapeuta) {
         this.fisioterapeuta = fisioterapeuta;
     }
-    public void setPsicopedagogo(int psicopedagogo) {
+    public void setPsicopedagogo(String psicopedagogo) {
         this.psicopedagogo = psicopedagogo;
     }
-    public void setTerapeuta_ocupacional(int terapeuta_ocupacional) {
+    public void setTerapeuta_ocupacional(String terapeuta_ocupacional) {
         this.terapeuta_ocupacional = terapeuta_ocupacional;
     }
-    public void setEducacao_fisica(int educacao_fisica) {
+    public void setEducacao_fisica(String educacao_fisica) {
         this.educacao_fisica = educacao_fisica;
     }
-    public void setEstimulacao_precoce(int estimulacao_precoce) {
+    public void setEstimulacao_precoce(String estimulacao_precoce) {
         this.estimulacao_precoce = estimulacao_precoce;
     }
     public void setSincronizado(int sincronizado) {
