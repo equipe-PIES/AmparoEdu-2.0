@@ -64,6 +64,23 @@ public class EducandoRepository {
         return null;
     }
 
+    // Listar todos os educandos ativos
+    public List<Educando> listarTodos() {
+        List<Educando> lista = new ArrayList<>();
+        String sql = "SELECT * FROM educandos WHERE excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                lista.add(extrairEducando(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     // buscar por turma
     public List<Educando> buscarPorTurma(String turmaId) {
         List<Educando> lista = new ArrayList<>();
