@@ -1,15 +1,14 @@
 package br.com.amparoedu.controller;
 
 import java.io.File;
+import java.util.List;
 
-import br.com.amparoedu.backend.model.Anamnese;
-import br.com.amparoedu.backend.model.DI;
+import br.com.amparoedu.backend.factory.DocumentoFluxo;
+import br.com.amparoedu.backend.factory.DocumentoFluxoFactory;
+import br.com.amparoedu.backend.factory.TipoDocumento;
 import br.com.amparoedu.backend.model.Educando;
-import br.com.amparoedu.backend.model.PAEE;
-import br.com.amparoedu.backend.model.PDI;
 import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.backend.model.Turma;
-import br.com.amparoedu.backend.repository.PDIRepository;
 import br.com.amparoedu.backend.service.AnamneseService;
 import br.com.amparoedu.backend.service.DIService;
 import br.com.amparoedu.backend.service.PAEEService;
@@ -20,24 +19,23 @@ import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ProgressoAtendimentoController {
 
+    private enum OperacaoDocumento {
+        CRIAR, EDITAR, VISUALIZAR, EXCLUIR
+    }
+
     private Educando educando;
     private Turma turma;
-    private PDI pdiAtual;
-    private PAEE paeeAtual;
-    private RI riAtual;
-    private DI diAtual;
+    
     private final AnamneseService anamneseService = new AnamneseService();
     private final PDIService pdiService = new PDIService();
     private final PAEEService paeeService = new PAEEService();
     private final RIService riService = new RIService();
     private final DIService diService = new DIService();
-    private final PDIRepository pdiRepository = new PDIRepository();
 
     @FXML
     private Button criarRI, editarRI, excluirRI, baixarRI;
@@ -54,700 +52,116 @@ public class ProgressoAtendimentoController {
 
     public void setEducando(Educando educando) {
         this.educando = educando;
-        carregarPDIAtual();
-        carregarPAEEAtual();
-        carregarRIAtual();
-        carregarDIAtual();
-        atualizarInterface();
     }
-
-    /**
-     * Busca o PDI mais recente do educando e atribui a pdiAtual.
-     * Se não houver, pdiAtual fica null.
-     */
-    private void carregarPDIAtual() {
-        if (educando == null || educando.getId() == null) {
-            pdiAtual = null;
-            return;
-        }
-        var lista = pdiService.buscarPorEducando(educando.getId());
-        if (lista != null && !lista.isEmpty()) {
-            // Considera o mais recente (assumindo que o primeiro é o mais novo)
-            pdiAtual = lista.get(0);
-        } else {
-            pdiAtual = null;
-        }
-    }
-
-    /**
-     * Busca o PAEE mais recente do educando e atribui a paeeAtual.
-     * Se não houver, paeeAtual fica null.
-     */
-    private void carregarPAEEAtual() {
-        if (educando == null || educando.getId() == null) {
-            paeeAtual = null;
-            return;
-        }
-        var lista = paeeService.buscarPorEducando(educando.getId());
-        if (lista != null && !lista.isEmpty()) {
-            // Considera o mais recente (assumindo que o primeiro é o mais novo)
-            paeeAtual = lista.get(0);
-        } else {
-            paeeAtual = null;
-        }
-    }
-
-    /**
-     * Busca o RI mais recente do educando e atribui a riAtual.
-     * Se não houver, riAtual fica null.
-     */
-    private void carregarRIAtual() {
-        if (educando == null || educando.getId() == null) {
-            riAtual = null;
-            return;
-        }
-        var lista = riService.buscarPorEducando(educando.getId());
-        if (lista != null && !lista.isEmpty()) {
-            // Considera o mais recente (assumindo que o primeiro é o mais novo)
-            riAtual = lista.get(0);
-        } else {
-            riAtual = null;
-        }
-    }
-
-    /**
-     * Busca o DI mais recente do educando e atribui a diAtual.
-     * Se não houver, diAtual fica null.
-     */
-    private void carregarDIAtual() {
-        if (educando == null || educando.getId() == null) {
-            diAtual = null;
-            return;
-        }
-        var lista = diService.buscarPorEducando(educando.getId());
-        if (lista != null && !lista.isEmpty()) {
-            // Considera o mais recente (assumindo que o primeiro é o mais novo)
-            diAtual = lista.get(0);
-        } else {
-            diAtual = null;
-        }
-    }
-
+    
     public void setTurma(Turma turma) {
         this.turma = turma;
     }
 
-    private void atualizarInterface() {
-        if (educando != null) {
-            // Habilitar ou desabilitar botões com base nos dados do educando
-        }
-    }
-
     @FXML
     private void btnCriarAnamneseClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        // Inicializa nova anamnese e define o ID do educando
-        AnamneseController.iniciarNovaAnamnese();
-        AnamneseController.setEducandoIdParaAnamnese(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            AnamneseController.setTurmaOrigem(turma.getId());
-        }
-
-        // Fecha o popup de progresso antes de abrir a anamnese
-        Stage popupStage = (Stage) criarAnamnese.getScene().getWindow();
-        popupStage.close();
-
-        // Abre a primeira tela de anamnese
-        GerenciadorTelas.getInstance().trocarTela("anamnese-1.fxml");
+        abrirDocumento(TipoDocumento.ANAMNESE, OperacaoDocumento.CRIAR, null);
     }
 
     @FXML
     private void btnCriarDIClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        // Inicializa novo DI e define o ID do educando
-        DIController.iniciarNovoDI();
-        DIController.setEducandoIdParaDI(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            DIController.setTurmaIdOrigem(turma.getId());
-        }
-
-        // Fecha o popup de progresso antes de abrir o DI
-        Stage popupStage = (Stage) criarDI.getScene().getWindow();
-        popupStage.close();
-
-        // Abre a primeira tela do DI
-        GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
+        abrirDocumento(TipoDocumento.DI, OperacaoDocumento.CRIAR, null);
     }
 
     @FXML
     public void btnCriarPDIClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        // Inicializa novo PDI e define o ID do educando
-        PDIController.iniciarNovoPDI();
-        PDIController.setEducandoIdParaPDI(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            PDIController.setTurmaIdOrigem(turma.getId());
-        }
-
-        // Fecha o popup de progresso antes de abrir o PDI
-        Stage popupStage = (Stage) criarPDI.getScene().getWindow();
-        popupStage.close();
-
-        // Abre a primeira tela do PDI
-        GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
+        abrirDocumento(TipoDocumento.PDI, OperacaoDocumento.CRIAR, null);
     }
 
     @FXML
     private void btnCriarPAEEClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        // Inicializa novo PAEE e define o ID do educando
-        PAEEController.iniciarNovoPAEE();
-        PAEEController.setEducandoIdParaPAEE(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            PAEEController.setTurmaIdOrigem(turma.getId());
-        }
-
-        // Fecha o popup de progresso antes de abrir o PAEE
-        Stage popupStage = (Stage) criarPAEE.getScene().getWindow();
-        popupStage.close();
-
-        // Abre a primeira tela do PAEE
-        GerenciadorTelas.getInstance().trocarTela("paee-1.fxml");
+        abrirDocumento(TipoDocumento.PAEE, OperacaoDocumento.CRIAR, null);
     }
 
     @FXML
     private void btnCriarRIClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
+        abrirDocumento(TipoDocumento.RI, OperacaoDocumento.CRIAR, null);
+    }
 
-        // Inicializa novo RI e define o ID do educando
-        RIController.iniciarNovoRI();
-        RIController.setEducandoIdParaRI(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            RIController.setTurmaIdOrigem(turma.getId());
-        }
+    @FXML
+    private void btnEditarAnamneseClick() {
+        processarOperacaoDocumento(TipoDocumento.ANAMNESE, OperacaoDocumento.EDITAR);
+    }
 
-        // Fecha o popup de progresso antes de abrir o RI
-        Stage popupStage = (Stage) criarRI.getScene().getWindow();
-        popupStage.close();
+    @FXML
+    private void btnVerAnamneseClick() {
+        processarOperacaoDocumento(TipoDocumento.ANAMNESE, OperacaoDocumento.VISUALIZAR);
+    }
 
-        // Abre a primeira tela do RI
-        GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
+    @FXML
+    private void btnExcluirAnamneseClick() {
+        processarOperacaoDocumento(TipoDocumento.ANAMNESE, OperacaoDocumento.EXCLUIR);
+    }
+
+    @FXML
+    private void btnEditarDIClick() {
+        processarOperacaoDocumento(TipoDocumento.DI, OperacaoDocumento.EDITAR);
+    }
+
+    @FXML
+    private void btnVerDIClick() {
+        processarOperacaoDocumento(TipoDocumento.DI, OperacaoDocumento.VISUALIZAR);
+    }
+
+    @FXML
+    private void btnExcluirDIClick() {
+        processarOperacaoDocumento(TipoDocumento.DI, OperacaoDocumento.EXCLUIR);
+    }
+
+    @FXML
+    private void btnEditarPDIClick() {
+        processarOperacaoDocumento(TipoDocumento.PDI, OperacaoDocumento.EDITAR);
+    }
+
+    @FXML
+    private void btnVerPDIClick() {
+        processarOperacaoDocumento(TipoDocumento.PDI, OperacaoDocumento.VISUALIZAR);
+    }
+
+    @FXML
+    private void btnExcluirPDIClick() {
+        processarOperacaoDocumento(TipoDocumento.PDI, OperacaoDocumento.EXCLUIR);
+    }
+
+    @FXML
+    private void btnEditarPAEEClick() {
+        processarOperacaoDocumento(TipoDocumento.PAEE, OperacaoDocumento.EDITAR);
+    }
+
+    @FXML
+    private void btnVerPAEEClick() {
+        processarOperacaoDocumento(TipoDocumento.PAEE, OperacaoDocumento.VISUALIZAR);
+    }
+
+    @FXML
+    private void btnExcluirPAEEClick() {
+        processarOperacaoDocumento(TipoDocumento.PAEE, OperacaoDocumento.EXCLUIR);
+    }
+
+    @FXML
+    private void btnEditarRIClick() {
+        processarOperacaoDocumento(TipoDocumento.RI, OperacaoDocumento.EDITAR);
+    }
+
+    @FXML
+    private void btnVerRIClick() {
+        processarOperacaoDocumento(TipoDocumento.RI, OperacaoDocumento.VISUALIZAR);
+    }
+
+    @FXML
+    private void btnExcluirRIClick() {
+        processarOperacaoDocumento(TipoDocumento.RI, OperacaoDocumento.EXCLUIR);
     }
 
     @FXML
     private void handleCloseAction() {
         Stage stage = (Stage) closeProgressoAtd.getScene().getWindow();
         stage.close();
-    }
-
-    // Métodos de edição e visualização
-    @FXML
-    private void btnEditarAnamneseClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        java.util.List<Anamnese> lista = anamneseService.buscarPorEducando(educando.getId());
-        if (lista == null || lista.isEmpty()) {
-            System.err.println("Nenhuma anamnese encontrada para edição.");
-            return;
-        }
-        Anamnese ultima = lista.get(0); // ordenado por data_criacao DESC
-
-        AnamneseController.editarAnamneseExistente(ultima);
-        AnamneseController.setEducandoIdParaAnamnese(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            AnamneseController.setTurmaOrigem(turma.getId());
-        }
-
-        Stage popupStage = (Stage) editarAnamnese.getScene().getWindow();
-        popupStage.close();
-        GerenciadorTelas.getInstance().trocarTela("anamnese-1.fxml");
-    }
-
-    @FXML
-    private void btnVerAnamneseClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        java.util.List<Anamnese> lista = anamneseService.buscarPorEducando(educando.getId());
-        if (lista == null || lista.isEmpty()) {
-            System.err.println("Nenhuma anamnese encontrada para visualização.");
-            return;
-        }
-        Anamnese ultima = lista.get(0);
-
-        AnamneseController.visualizarAnamnese(ultima);
-        AnamneseController.setEducandoIdParaAnamnese(educando.getId());
-        if (turma != null && turma.getId() != null) {
-            AnamneseController.setTurmaOrigem(turma.getId());
-        }
-
-        Stage popupStage = (Stage) verAnamnese.getScene().getWindow();
-        popupStage.close();
-        GerenciadorTelas.getInstance().trocarTela("anamnese-1.fxml");
-    }
-
-    @FXML
-    private void btnExcluirAnamneseClick() {
-        if (educando == null || educando.getId() == null) {
-            System.err.println("Erro: Educando não definido ou sem ID.");
-            return;
-        }
-
-        java.util.List<Anamnese> lista = anamneseService.buscarPorEducando(educando.getId());
-        if (lista == null || lista.isEmpty()) {
-            System.err.println("Nenhuma anamnese para excluir.");
-            return;
-        }
-
-        Anamnese ultima = lista.get(0);
-
-        // Confirmação antes de excluir
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar Exclusão");
-        alert.setHeaderText("Excluir Anamnese");
-        alert.setContentText("Tem certeza que deseja excluir esta anamnese? Esta ação não pode ser desfeita.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            try {
-                anamneseService.excluirAnamnese(ultima.getId());
-                System.out.println("Anamnese excluída: " + ultima.getId());
-
-                // Exibe mensagem de sucesso
-                Alert sucesso = new Alert(Alert.AlertType.INFORMATION);
-                sucesso.setTitle("Sucesso");
-                sucesso.setHeaderText(null);
-                sucesso.setContentText("Anamnese excluída com sucesso!");
-                sucesso.showAndWait();
-            } catch (Exception e) {
-                System.err.println("Erro ao excluir anamnese: " + e.getMessage());
-                Alert erro = new Alert(Alert.AlertType.ERROR);
-                erro.setTitle("Erro");
-                erro.setHeaderText(null);
-                erro.setContentText("Erro ao excluir anamnese: " + e.getMessage());
-                erro.showAndWait();
-            }
-        }
-    }
-
-    @FXML
-    private void btnEditarDIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (diAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
-            return;
-        }
-
-        try {
-            DIController.editarDIExistente(diAtual);
-
-            if (turma != null && turma.getId() != null) {
-                DIController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) editarDI.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao editar Diagnóstico Inicial: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    private void btnVerDIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (diAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
-            return;
-        }
-
-        try {
-            DIController.visualizarDI(diAtual);
-
-            if (turma != null && turma.getId() != null) {
-                DIController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) verDI.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao visualizar Diagnóstico Inicial: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    private void btnExcluirDIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        String educandoId = (educando != null && educando.getId() != null)
-                ? educando.getId()
-                : (diAtual != null ? diAtual.getEducando_id() : null);
-
-        if (diAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui Diagnóstico Inicial cadastrado.");
-            return;
-        }
-
-        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacao.setTitle("Confirmar Exclusão");
-        confirmacao.setHeaderText("Deseja realmente excluir este Diagnóstico Inicial?");
-        confirmacao.setContentText("Esta ação não pode ser desfeita.");
-
-        if (confirmacao.showAndWait().get() == ButtonType.OK) {
-            try {
-                boolean sucesso = diService.excluirDI(diAtual.getId());
-
-                if (sucesso) {
-                    exibirAlerta("Sucesso", "Diagnóstico Inicial excluído com sucesso!");
-                    diAtual = null;
-                    atualizarInterface();
-
-                    if (excluirDI != null && excluirDI.getScene() != null) {
-                        javafx.stage.Stage stage = (javafx.stage.Stage) excluirDI.getScene().getWindow();
-                        stage.close();
-                    }
-                } else {
-                    exibirAlerta("Erro", "Não foi possível excluir o Diagnóstico Inicial.");
-                }
-            } catch (Exception e) {
-                exibirAlerta("Erro", "Erro ao excluir Diagnóstico Inicial: " + e.getMessage());
-            }
-        }
-    }
-
-    @FXML
-    private void btnEditarPDIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (pdiAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
-            return;
-        }
-
-        try {
-            PDIController.editarPDIExistente(pdiAtual);
-
-            if (turma != null && turma.getId() != null) {
-                PDIController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) editarPDI.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao editar PDI: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnVerPDIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (pdiAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
-            return;
-        }
-
-        try {
-            PDIController.visualizarPDI(pdiAtual);
-
-            if (turma != null && turma.getId() != null) {
-                PDIController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) verPDI.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("pdi-1.fxml");
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao visualizar PDI: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnExcluirPDIClick() {
-
-        // Garante que temos um ID de educando válido, mesmo se o objeto educando
-        // estiver null
-        String educandoId = (educando != null && educando.getId() != null)
-                ? educando.getId()
-                : (pdiAtual != null ? pdiAtual.getEducandoId() : null);
-        if (educandoId == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (pdiAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PDI cadastrado.");
-            return;
-        }
-
-        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacao.setTitle("Confirmar Exclusão");
-        confirmacao.setHeaderText("Deseja realmente excluir este PDI?");
-        confirmacao.setContentText("Esta ação não pode ser desfeita.");
-
-        var resultado = confirmacao.showAndWait();
-        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
-            return;
-        }
-
-        try {
-            boolean sucesso = pdiService.excluirPDI(pdiAtual.getId());
-
-            if (sucesso) {
-                exibirAlerta("Sucesso", "PDI excluído com sucesso!");
-                pdiAtual = null;
-                atualizarInterface();
-                // Fecha o popup de progresso, se estiver aberto
-                if (excluirPDI != null && excluirPDI.getScene() != null) {
-                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirPDI.getScene().getWindow();
-                    stage.close();
-                }
-            } else {
-                exibirAlerta("Erro", "Não foi possível excluir o PDI.");
-            }
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao excluir PDI: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnEditarPAEEClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (paeeAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PAEE cadastrado.");
-            return;
-        }
-
-        try {
-            PAEEController.editarPAEEExistente(paeeAtual);
-
-            if (turma != null && turma.getId() != null) {
-                PAEEController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) editarPAEE.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("paee-1.fxml");
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao editar PAEE: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnVerPAEEClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (paeeAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PAEE cadastrado.");
-            return;
-        }
-
-        try {
-            PAEEController.visualizarPAEE(paeeAtual);
-
-            if (turma != null && turma.getId() != null) {
-                PAEEController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) verPAEE.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("paee-1.fxml");
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao visualizar PAEE: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnExcluirPAEEClick() {
-        // Garante que temos um ID de educando válido, mesmo se o objeto educando
-        // estiver null
-        String educandoId = (educando != null && educando.getId() != null)
-                ? educando.getId()
-                : (paeeAtual != null ? paeeAtual.getEducandoId() : null);
-        if (educandoId == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (paeeAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui PAEE cadastrado.");
-            return;
-        }
-
-        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacao.setTitle("Confirmar Exclusão");
-        confirmacao.setHeaderText("Deseja realmente excluir este PAEE?");
-        confirmacao.setContentText("Esta ação não pode ser desfeita.");
-
-        var resultado = confirmacao.showAndWait();
-        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
-            return;
-        }
-
-        try {
-            boolean sucesso = paeeService.excluirPAEE(paeeAtual.getId());
-
-            if (sucesso) {
-                exibirAlerta("Sucesso", "PAEE excluído com sucesso!");
-                paeeAtual = null;
-                atualizarInterface();
-                // Fecha o popup de progresso, se estiver aberto
-                if (excluirPAEE != null && excluirPAEE.getScene() != null) {
-                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirPAEE.getScene().getWindow();
-                    stage.close();
-                }
-            } else {
-                exibirAlerta("Erro", "Não foi possível excluir o PAEE.");
-            }
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao excluir PAEE: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnEditarRIClick() {
-        if (educando == null || educando.getId() == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (riAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui Relatório Individual cadastrado.");
-            return;
-        }
-
-        try {
-            RIController.editarRIExistente(riAtual);
-
-            if (turma != null && turma.getId() != null) {
-                RIController.setTurmaIdOrigem(turma.getId());
-            }
-
-            Stage popupStage = (Stage) editarRI.getScene().getWindow();
-            popupStage.close();
-
-            GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao editar Relatório Individual: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void btnExcluirRIClick() {
-        // Garante que temos um ID de educando válido, mesmo se o objeto educando
-        // estiver null
-        String educandoId = (educando != null && educando.getId() != null)
-                ? educando.getId()
-                : (riAtual != null ? riAtual.getEducando_id() : null);
-        if (educandoId == null) {
-            exibirAlerta("Erro", "Nenhum educando selecionado.");
-            return;
-        }
-
-        if (riAtual == null) {
-            exibirAlerta("Aviso", "Este educando ainda não possui Relatório Individual cadastrado.");
-            return;
-        }
-
-        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacao.setTitle("Confirmar Exclusão");
-        confirmacao.setHeaderText("Deseja realmente excluir este Relatório Individual?");
-        confirmacao.setContentText("Esta ação não pode ser desfeita.");
-
-        var resultado = confirmacao.showAndWait();
-        if (resultado.isEmpty() || resultado.get() != ButtonType.OK) {
-            return;
-        }
-
-        try {
-            boolean sucesso = riService.excluirRI(riAtual.getId());
-
-            if (sucesso) {
-                exibirAlerta("Sucesso", "Relatório Individual excluído com sucesso!");
-                riAtual = null;
-                atualizarInterface();
-                // Fecha o popup de progresso, se estiver aberto
-                if (excluirRI != null && excluirRI.getScene() != null) {
-                    javafx.stage.Stage stage = (javafx.stage.Stage) excluirRI.getScene().getWindow();
-                    stage.close();
-                }
-            } else {
-                exibirAlerta("Erro", "Não foi possível excluir o Relatório Individual.");
-            }
-
-        } catch (Exception e) {
-            exibirAlerta("Erro", "Erro ao excluir Relatório Individual: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -757,39 +171,34 @@ public class ProgressoAtendimentoController {
             return;
         }
 
-        if (riAtual == null) {
+        RI ri = buscarDocumentoRecente(TipoDocumento.RI);
+        if (ri == null) {
             exibirAlerta("Aviso", "Este educando ainda não possui Relatório Individual cadastrado.");
             return;
         }
 
         try {
-            // Abre diálogo para escolher onde salvar o arquivo
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Salvar Relatório Individual");
-            fileChooser.setInitialFileName("Relatorio_Individual_" + educando.getNome().replace(" ", "_") + ".pdf");
-            fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
-            );
-            
-            // Define diretório inicial como Downloads
+            fileChooser.setInitialFileName(
+                    "Relatorio_Individual_" + educando.getNome().replace(" ", "_") + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
             String userHome = System.getProperty("user.home");
             File downloadsDir = new File(userHome, "Downloads");
             if (downloadsDir.exists() && downloadsDir.isDirectory()) {
                 fileChooser.setInitialDirectory(downloadsDir);
             }
-            
+
             Stage stage = (Stage) baixarRI.getScene().getWindow();
             File arquivo = fileChooser.showSaveDialog(stage);
-            
             if (arquivo == null) {
-                // Usuário cancelou
                 return;
             }
-            
-            // Gera o PDF
+
             RIPDFGenerator generator = new RIPDFGenerator();
-            boolean sucesso = generator.gerarRelatorioIndividual(educando, riAtual, arquivo.getAbsolutePath());
-            
+            boolean sucesso = generator.gerarRelatorioIndividual(educando, ri, arquivo.getAbsolutePath());
+
             if (sucesso) {
                 exibirAlerta("Sucesso", "Relatório Individual gerado e salvo em: " + arquivo.getAbsolutePath());
             } else {
@@ -801,6 +210,122 @@ public class ProgressoAtendimentoController {
         }
     }
 
+    // Busca o documento mais recente do educando para o tipo especificado.
+    @SuppressWarnings("unchecked")
+    private <T> T buscarDocumentoRecente(TipoDocumento tipo) {
+        if (educando == null || educando.getId() == null) {
+            return null;
+        }
+        
+        List<?> lista = null;
+        
+        switch (tipo) {
+            case ANAMNESE:
+                lista = anamneseService.buscarPorEducando(educando.getId());
+                break;
+            case PDI:
+                lista = pdiService.buscarPorEducando(educando.getId());
+                break;
+            case PAEE:
+                lista = paeeService.buscarPorEducando(educando.getId());
+                break;
+            case DI:
+                lista = diService.buscarPorEducando(educando.getId());
+                break;
+            case RI:
+                lista = riService.buscarPorEducando(educando.getId());
+                break;
+        }
+        
+        if (lista == null || lista.isEmpty()) {
+            return null;
+        }
+        
+        return (T) lista.get(0);
+    }
+
+    // Método centralizado para abrir documentos usando o padrão Factory.
+    @SuppressWarnings("unchecked")
+    private <T> void abrirDocumento(TipoDocumento tipo, OperacaoDocumento operacao, T documento) {
+        if (educando == null || educando.getId() == null) {
+            System.err.println("Erro: Educando não definido ou sem ID.");
+            return;
+        }
+
+        // Cria o fluxo apropriado usando o factory
+        DocumentoFluxo<T> fluxo = (DocumentoFluxo<T>) DocumentoFluxoFactory.criar(tipo);
+        
+        // Define o contexto (educando e turma)
+        fluxo.setEducandoId(educando.getId());
+        if (turma != null && turma.getId() != null) {
+            fluxo.setTurmaOrigem(turma.getId());
+        }
+
+        // Executa a operação apropriada
+        switch (operacao) {
+            case CRIAR:
+                fluxo.iniciarNovo();
+                break;
+            case EDITAR:
+                if (documento == null) {
+                    System.err.println("Erro: Nenhum documento fornecido para edição.");
+                    return;
+                }
+                fluxo.iniciarEdicao(documento);
+                break;
+            case VISUALIZAR:
+                if (documento == null) {
+                    System.err.println("Erro: Nenhum documento fornecido para visualização.");
+                    return;
+                }
+                fluxo.iniciarVisualizacao(documento);
+                break;
+            case EXCLUIR:
+                System.err.println("Erro: Operação EXCLUIR não deve chamar abrirDocumento.");
+                return;
+        }
+
+        // Fecha o popup de progresso
+        Stage popupStage = (Stage) closeProgressoAtd.getScene().getWindow();
+        popupStage.close();
+
+        // Abre a primeira tela do documento
+        GerenciadorTelas.getInstance().trocarTela(fluxo.getPrimeiraTela());
+    }
+    
+    // Método genérico que processa operações em documentos (editar, visualizar, excluir).
+    private void processarOperacaoDocumento(TipoDocumento tipo, OperacaoDocumento operacao) {
+        if (educando == null || educando.getId() == null) {
+            System.err.println("Erro: Educando não definido ou sem ID.");
+            return;
+        }
+        
+        // Busca documento recente
+        Object documento = buscarDocumentoRecente(tipo);
+        
+        if (documento == null && operacao != OperacaoDocumento.CRIAR) {
+            String nomeDoc = DocumentoFluxoFactory.criar(tipo).getNomeDocumento();
+            exibirAlerta("Aviso", "Este educando ainda não possui " + nomeDoc + " cadastrado.");
+            return;
+        }
+        
+        // Processa operação
+        switch (operacao) {
+            case EDITAR:
+            case VISUALIZAR:
+                abrirDocumento(tipo, operacao, documento);
+                break;
+                
+            case EXCLUIR:
+                exibirAlerta("Aviso", "Funcionalidade de exclusão será implementada em breve.");
+                break;
+                
+            case CRIAR:
+                abrirDocumento(tipo, operacao, null);
+                break;
+        }
+    }
+    
     private void exibirAlerta(String titulo, String mensagem) {
         Alert.AlertType tipo;
 

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import br.com.amparoedu.backend.builder.DIBuilder;
 import br.com.amparoedu.backend.model.DI;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
@@ -16,956 +17,671 @@ import br.com.amparoedu.backend.service.DIService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class DIController implements Initializable {
+public class DIController extends DocumentoControllerBase<DI> implements Initializable {
 
-    // Modo de uso
-    public enum ModoDI {
-        NOVA, EDICAO, VISUALIZACAO
-    }
+    // Estado estático compartilhado entre telas
+    private static final EstadoDocumento<DI> ESTADO = new EstadoDocumento<>();
+    private static boolean salvando = false;
 
-    // Estado e serviços
+    // Serviço
     private final DIService diService = new DIService();
-    private DI diAtual = new DI();
-    private static int telaAtual = 1; // 1, 2 ou 3
-    private static DI diCompartilhada;
-    private static String turmaIdOrigem;
-    private static ModoDI modoAtual = ModoDI.NOVA;
-    private static boolean navegandoEntreTelas;
+    private final EducandoRepository educandoRepo = new EducandoRepository();
 
-    // Controles DI - Tela 1: Comunicação e Afetiva
+    // CONTROLES FXML
+    // Tela 1: Comunicação
     @FXML
-    private CheckBox falaSeuNome;
+    private CheckBox falaSeuNome, dizDataNascimento, lePalavras, informaNumeroTelefone;
     @FXML
-    private CheckBox dizDataNascimento;
+    private CheckBox emiteRespostas, transmiteRecado, informaEndereco, informaNomePais;
     @FXML
-    private CheckBox lePalavras;
+    private CheckBox compreendeOrdens, expoeIdeias, recontaHistorias, usaSistemaCA;
     @FXML
-    private CheckBox informaNumeroTelefone;
+    private CheckBox relataFatosComCoerencia, pronunciaLetrasAlfabeto, verbalizaMusicas, interpretaHistorias;
     @FXML
-    private CheckBox emiteRespostas;
+    private CheckBox formulaPerguntas, utilizaGestosParaSeComunicar;
+
+    // Tela 1: Afetiva
     @FXML
-    private CheckBox transmiteRecado;
+    private CheckBox demonstraCooperacao, timidoInseguro, fazBirra, solicitaOfereceAjuda;
     @FXML
-    private CheckBox informaEndereco;
-    @FXML
-    private CheckBox informaNomePais;
-    @FXML
-    private CheckBox compreendeOrdens;
-    @FXML
-    private CheckBox expoeIdeias;
-    @FXML
-    private CheckBox recontaHistorias;
-    @FXML
-    private CheckBox usaSistemaCA;
-    @FXML
-    private CheckBox relataFatosComCoerencia;
-    @FXML
-    private CheckBox pronunciaLetrasAlfabeto;
-    @FXML
-    private CheckBox verbalizaMusicas;
-    @FXML
-    private CheckBox interpretaHistorias;
-    @FXML
-    private CheckBox formulaPerguntas;
-    @FXML
-    private CheckBox utilizaGestosParaSeComunicar;
-    @FXML
-    private CheckBox demonstraCooperacao;
-    @FXML
-    private CheckBox timidoInseguro;
-    @FXML
-    private CheckBox fazBirra;
-    @FXML
-    private CheckBox solicitaOfereceAjuda;
-    @FXML
-    private CheckBox riComFrequencia;
-    @FXML
-    private CheckBox compartilhaOQueESeu;
-    @FXML
-    private CheckBox demonstraAmorGentilezaAtencao;
-    @FXML
-    private CheckBox choraComFrequencia;
+    private CheckBox riComFrequencia, compartilhaOQueESeu, demonstraAmorGentilezaAtencao, choraComFrequencia;
     @FXML
     private CheckBox interageComColegas;
 
-    // Controles DI - Tela 2: Sensorial e Motora
+    // Tela 2: Sensorial
     @FXML
-    private CheckBox captaDetalhesGravura;
+    private CheckBox captaDetalhesGravura, reconheceVozes, reconheceCancoes, percebeTexturas;
     @FXML
-    private CheckBox reconheceVozes;
+    private CheckBox percepcaoCores, discriminaSons, discriminaOdores, aceitaDiferentesTexturas;
     @FXML
-    private CheckBox reconheceCancoes;
-    @FXML
-    private CheckBox percebeTexturas;
-    @FXML
-    private CheckBox percepcaoCores;
-    @FXML
-    private CheckBox discriminaSons;
-    @FXML
-    private CheckBox discriminaOdores;
-    @FXML
-    private CheckBox aceitaDiferentesTexturas;
-    @FXML
-    private CheckBox percepcaoFormas;
-    @FXML
-    private CheckBox identificaDirecaoSom;
-    @FXML
-    private CheckBox percebeDiscriminaSabores;
-    @FXML
-    private CheckBox acompanhaFocoLuminoso;
-    @FXML
-    private CheckBox movimentoPincaComTesoura;
-    @FXML
-    private CheckBox amassaPapel;
-    @FXML
-    private CheckBox caiComFacilidade;
-    @FXML
-    private CheckBox encaixaPecas;
-    @FXML
-    private CheckBox recorta;
-    @FXML
-    private CheckBox unePontos;
-    @FXML
-    private CheckBox consegueCorrer;
-    @FXML
-    private CheckBox empilha;
-    @FXML
-    private CheckBox agitacaoMotora;
-    @FXML
-    private CheckBox andaLinhaReta;
-    @FXML
-    private CheckBox sobeDesceEscadas;
-    @FXML
-    private CheckBox arremessaBola;
+    private CheckBox percepcaoFormas, identificaDirecaoSom, percebeDiscriminaSabores, acompanhaFocoLuminoso;
 
-    // Controles DI - Tela 3: AVDs, Níveis de Aprendizagem e Observações
+    // Tela 2: Motora
     @FXML
-    private CheckBox usaSanitarioSemAjuda;
+    private CheckBox movimentoPincaComTesoura, amassaPapel, caiComFacilidade, encaixaPecas;
     @FXML
-    private CheckBox penteiaSeSo;
+    private CheckBox recorta, unePontos, consegueCorrer, empilha;
     @FXML
-    private CheckBox consegueVestirDespirSe;
+    private CheckBox agitacaoMotora, andaLinhaReta, sobeDesceEscadas, arremessaBola;
+
+    // Tela 3: AVDs
     @FXML
-    private CheckBox lavaSecaAsMaos;
+    private CheckBox usaSanitarioSemAjuda, penteiaSeSo, consegueVestirDespirSe, lavaSecaAsMaos;
     @FXML
-    private CheckBox banhoComModeracao;
+    private CheckBox banhoComModeracao, calcaSeSo, reconheceRoupas, abreFechaTorneira;
     @FXML
-    private CheckBox calcaSeSo;
+    private CheckBox escovaDentesSemAjuda, consegueDarNosLacos, abotoaDesabotoaRoupas, identificaPartesDoCorpo;
+
+    // Tela 3: Níveis de Aprendizagem
     @FXML
-    private CheckBox reconheceRoupas;
-    @FXML
-    private CheckBox abreFechaTorneira;
-    @FXML
-    private CheckBox escovaDentesSemAjuda;
-    @FXML
-    private CheckBox consegueDarNosLacos;
-    @FXML
-    private CheckBox abotoaDesabotoaRoupas;
-    @FXML
-    private CheckBox identificaPartesDoCorpo;
-    @FXML
-    private CheckBox garatujas;
-    @FXML
-    private CheckBox silabicoAlfabetico;
-    @FXML
-    private CheckBox alfabetico;
-    @FXML
-    private CheckBox preSilabico;
-    @FXML
-    private CheckBox silabico;
+    private CheckBox garatujas, silabicoAlfabetico, alfabetico, preSilabico, silabico;
+
+    // Tela 3: Observações
     @FXML
     private TextArea observacoes;
 
     // Controles comuns
     @FXML
-    private Label nomeUsuario;
-    @FXML
-    private Label cargoUsuario;
-    @FXML
-    private Label nameUser;
-    @FXML
-    private Label indicadorDeTela;
-    @FXML
-    private Label validationMsg;
+    private Label nomeUsuario, cargoUsuario, nameUser, indicadorDeTela, validationMsg;
     @FXML
     private Button btnConcluir;
 
-    // Ciclo de vida
+    // Implementação dos Métodos Abstratos
+
+    @Override
+    protected EstadoDocumento<DI> getEstado() {
+        return ESTADO;
+    }
+
+    @Override
+    protected int getTotalTelas() {
+        return 3;
+    }
+
+    @Override
+    protected String getPrefixoTela() {
+        return "diagnostico";
+    }
+
+    @Override
+    protected DI criarNovoDocumento() {
+        return new DI();
+    }
+
+    @Override
+    protected int detectarTelaAtual() {
+        if (falaSeuNome != null)
+            return 1;
+        if (captaDetalhesGravura != null)
+            return 2;
+        if (usaSanitarioSemAjuda != null)
+            return 3;
+        return -1;
+    }
+
+    @Override
+    protected void salvarDadosTelaAtual() {
+        DIBuilder builder = obterOuCriarBuilder();
+        EstadoDocumento<DI> estado = getEstado();
+
+        if (estado.telaAtual == 1) {
+            preencherDadosTela1(builder);
+        } else if (estado.telaAtual == 2) {
+            preencherDadosTela2(builder);
+        } else if (estado.telaAtual == 3) {
+            preencherDadosTela3(builder);
+        }
+
+        ESTADO.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = ESTADO.documentoCompartilhado;
+    }
+
+    @Override
+    protected void carregarDadosNaTela() {
+        if (documentoAtual == null)
+            return;
+
+        EstadoDocumento<DI> estado = getEstado();
+        if (estado.telaAtual == 1) {
+            carregarTela1();
+        } else if (estado.telaAtual == 2) {
+            carregarTela2();
+        } else if (estado.telaAtual == 3) {
+            carregarTela3();
+        }
+
+        atualizarUsuarioLogado();
+    }
+
+    @Override
+    protected boolean validarTelaAtual() {
+        return true;
+    }
+
+    @Override
+    protected void setEducandoIdNoDocumento(String educandoId) {
+        if (documentoAtual != null) {
+            documentoAtual.setEducando_id(educandoId);
+        }
+    }
+
+    @Override
+    protected String getEducandoIdDoDocumento() {
+        return documentoAtual != null ? documentoAtual.getEducando_id() : null;
+    }
+
+    @Override
+    protected String getNomeDocumento() {
+        return "Diagnóstico Inicial";
+    }
+
+    @Override
+    protected void desabilitarCampos() {
+        desabilitarTodosOsCheckBoxes();
+        if (observacoes != null)
+            observacoes.setDisable(true);
+        // if (btnConcluir != null) btnConcluir.setDisable(true);
+        if (btnConcluir != null)
+            btnConcluir.setDisable(true);
+    }
+
+    // Ciclo de Vida
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        boolean vindoDeNavegacao = navegandoEntreTelas;
-        navegandoEntreTelas = false;
-
-        // Detecta qual tela está carregada pelos controles presentes
-        if (falaSeuNome != null) {
-            telaAtual = 1;
-        } else if (captaDetalhesGravura != null) {
-            telaAtual = 2;
-        } else if (usaSanitarioSemAjuda != null) {
-            telaAtual = 3;
-        }
-
-        // Se não veio de navegação, prepara estado conforme o modo selecionado
-        if (!vindoDeNavegacao) {
-            if (modoAtual == ModoDI.NOVA) {
-                telaAtual = 1;
-                if (diCompartilhada == null) {
-                    diCompartilhada = new DI();
-                }
-            } else {
-                if (diCompartilhada == null) {
-                    diCompartilhada = new DI();
-                }
-                telaAtual = 1;
-            }
-        } else if (telaAtual == 1 && diCompartilhada == null) {
-            diCompartilhada = new DI();
-        }
-
-        // Usa o DI compartilhado
-        if (diCompartilhada != null) {
-            diAtual = diCompartilhada;
-        }
-
-        // Inicializa componentes
-        carregarDadosNaTela();
-        desabilitarEdicaoSeVisualizacao();
-        atualizarUsuarioLogado();
-        atualizarIndicadorDeTela();
+        inicializarBase();
     }
 
-    // Atualiza o indicador de tela
-    private void atualizarIndicadorDeTela() {
-        if (indicadorDeTela != null) {
-            indicadorDeTela.setText("Diagnóstico Inicial - " + telaAtual);
-        }
-    }
+    // Métodos de Carregamento por Tela
 
-    // Atualiza informações do usuário logado
-    private void atualizarUsuarioLogado() {
-        try {
-            Usuario usuario = AuthService.getUsuarioLogado();
-            if (usuario != null) {
-                if (nomeUsuario != null) {
-                    nomeUsuario.setText(usuario.getEmail());
-                }
-                if (nameUser != null) {
-                    nameUser.setText(usuario.getEmail());
-                }
-                if (cargoUsuario != null) {
-                    cargoUsuario.setText(usuario.getTipo());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Desabilita edição se estiver em modo visualização
-    private void desabilitarEdicaoSeVisualizacao() {
-        if (modoAtual != ModoDI.VISUALIZACAO)
+    private void carregarTela1() {
+        if (documentoAtual == null)
             return;
 
-        // Desabilita todos os checkboxes
-        desabilitarCheckbox(falaSeuNome);
-        desabilitarCheckbox(dizDataNascimento);
-        desabilitarCheckbox(lePalavras);
-        desabilitarCheckbox(informaNumeroTelefone);
-        desabilitarCheckbox(emiteRespostas);
-        desabilitarCheckbox(transmiteRecado);
-        desabilitarCheckbox(informaEndereco);
-        desabilitarCheckbox(informaNomePais);
-        desabilitarCheckbox(compreendeOrdens);
-        desabilitarCheckbox(expoeIdeias);
-        desabilitarCheckbox(recontaHistorias);
-        desabilitarCheckbox(usaSistemaCA);
-        desabilitarCheckbox(relataFatosComCoerencia);
-        desabilitarCheckbox(pronunciaLetrasAlfabeto);
-        desabilitarCheckbox(verbalizaMusicas);
-        desabilitarCheckbox(interpretaHistorias);
-        desabilitarCheckbox(formulaPerguntas);
-        desabilitarCheckbox(utilizaGestosParaSeComunicar);
-        desabilitarCheckbox(demonstraCooperacao);
-        desabilitarCheckbox(timidoInseguro);
-        desabilitarCheckbox(fazBirra);
-        desabilitarCheckbox(solicitaOfereceAjuda);
-        desabilitarCheckbox(riComFrequencia);
-        desabilitarCheckbox(compartilhaOQueESeu);
-        desabilitarCheckbox(demonstraAmorGentilezaAtencao);
-        desabilitarCheckbox(choraComFrequencia);
-        desabilitarCheckbox(interageComColegas);
-        desabilitarCheckbox(captaDetalhesGravura);
-        desabilitarCheckbox(reconheceVozes);
-        desabilitarCheckbox(reconheceCancoes);
-        desabilitarCheckbox(percebeTexturas);
-        desabilitarCheckbox(percepcaoCores);
-        desabilitarCheckbox(discriminaSons);
-        desabilitarCheckbox(discriminaOdores);
-        desabilitarCheckbox(aceitaDiferentesTexturas);
-        desabilitarCheckbox(percepcaoFormas);
-        desabilitarCheckbox(identificaDirecaoSom);
-        desabilitarCheckbox(percebeDiscriminaSabores);
-        desabilitarCheckbox(acompanhaFocoLuminoso);
-        desabilitarCheckbox(movimentoPincaComTesoura);
-        desabilitarCheckbox(amassaPapel);
-        desabilitarCheckbox(caiComFacilidade);
-        desabilitarCheckbox(encaixaPecas);
-        desabilitarCheckbox(recorta);
-        desabilitarCheckbox(unePontos);
-        desabilitarCheckbox(consegueCorrer);
-        desabilitarCheckbox(empilha);
-        desabilitarCheckbox(agitacaoMotora);
-        desabilitarCheckbox(andaLinhaReta);
-        desabilitarCheckbox(sobeDesceEscadas);
-        desabilitarCheckbox(arremessaBola);
-        desabilitarCheckbox(usaSanitarioSemAjuda);
-        desabilitarCheckbox(penteiaSeSo);
-        desabilitarCheckbox(consegueVestirDespirSe);
-        desabilitarCheckbox(lavaSecaAsMaos);
-        desabilitarCheckbox(banhoComModeracao);
-        desabilitarCheckbox(calcaSeSo);
-        desabilitarCheckbox(reconheceRoupas);
-        desabilitarCheckbox(abreFechaTorneira);
-        desabilitarCheckbox(escovaDentesSemAjuda);
-        desabilitarCheckbox(consegueDarNosLacos);
-        desabilitarCheckbox(abotoaDesabotoaRoupas);
-        desabilitarCheckbox(identificaPartesDoCorpo);
-        desabilitarCheckbox(garatujas);
-        desabilitarCheckbox(silabicoAlfabetico);
-        desabilitarCheckbox(alfabetico);
-        desabilitarCheckbox(preSilabico);
-        desabilitarCheckbox(silabico);
+        // Comunicação
+        setCheckBoxSelected(falaSeuNome, documentoAtual.getFala_nome());
+        setCheckBoxSelected(dizDataNascimento, documentoAtual.getFala_nascimento());
+        setCheckBoxSelected(lePalavras, documentoAtual.getLe_palavras());
+        setCheckBoxSelected(informaNumeroTelefone, documentoAtual.getFala_telefone());
+        setCheckBoxSelected(emiteRespostas, documentoAtual.getEmite_respostas());
+        setCheckBoxSelected(transmiteRecado, documentoAtual.getTransmite_recados());
+        setCheckBoxSelected(informaEndereco, documentoAtual.getFala_endereco());
+        setCheckBoxSelected(informaNomePais, documentoAtual.getFala_nome_pais());
+        setCheckBoxSelected(compreendeOrdens, documentoAtual.getCompreende_ordens());
+        setCheckBoxSelected(expoeIdeias, documentoAtual.getExpoe_ideias());
+        setCheckBoxSelected(recontaHistorias, documentoAtual.getReconta_historia());
+        setCheckBoxSelected(usaSistemaCA, documentoAtual.getUsa_sistema_ca());
+        setCheckBoxSelected(relataFatosComCoerencia, documentoAtual.getRelata_fatos());
+        setCheckBoxSelected(pronunciaLetrasAlfabeto, documentoAtual.getPronuncia_letras());
+        setCheckBoxSelected(verbalizaMusicas, documentoAtual.getVerbaliza_musicas());
+        setCheckBoxSelected(interpretaHistorias, documentoAtual.getInterpreta_historias());
+        setCheckBoxSelected(formulaPerguntas, documentoAtual.getFormula_perguntas());
+        setCheckBoxSelected(utilizaGestosParaSeComunicar, documentoAtual.getUtiliza_gestos());
 
-        // Desabilita textarea
-        if (observacoes != null) {
-            observacoes.setDisable(true);
-        }
+        // Afetiva
+        setCheckBoxSelected(demonstraCooperacao, documentoAtual.getDemonstra_cooperacao());
+        setCheckBoxSelected(timidoInseguro, documentoAtual.getTimido());
+        setCheckBoxSelected(fazBirra, documentoAtual.getBirra());
+        setCheckBoxSelected(solicitaOfereceAjuda, documentoAtual.getPede_ajuda());
+        setCheckBoxSelected(riComFrequencia, documentoAtual.getRi());
+        setCheckBoxSelected(compartilhaOQueESeu, documentoAtual.getCompartilha());
+        setCheckBoxSelected(demonstraAmorGentilezaAtencao, documentoAtual.getDemonstra_amor());
+        setCheckBoxSelected(choraComFrequencia, documentoAtual.getChora());
+        setCheckBoxSelected(interageComColegas, documentoAtual.getInterage());
+    }
 
-        // Desabilita botão de conclusão
-        if (btnConcluir != null) {
-            btnConcluir.setDisable(true);
+    private void carregarTela2() {
+        if (documentoAtual == null)
+            return;
+
+        // Sensorial
+        setCheckBoxSelected(captaDetalhesGravura, documentoAtual.getDetalhes_gravura());
+        setCheckBoxSelected(reconheceVozes, documentoAtual.getReconhece_vozes());
+        setCheckBoxSelected(reconheceCancoes, documentoAtual.getReconhece_cancoes());
+        setCheckBoxSelected(percebeTexturas, documentoAtual.getPercebe_texturas());
+        setCheckBoxSelected(percepcaoCores, documentoAtual.getPercebe_cores());
+        setCheckBoxSelected(discriminaSons, documentoAtual.getDiscrimina_sons());
+        setCheckBoxSelected(discriminaOdores, documentoAtual.getDiscrimina_odores());
+        setCheckBoxSelected(aceitaDiferentesTexturas, documentoAtual.getAceita_texturas());
+        setCheckBoxSelected(percepcaoFormas, documentoAtual.getPercepcao_formas());
+        setCheckBoxSelected(identificaDirecaoSom, documentoAtual.getIdentifica_direcao_sons());
+        setCheckBoxSelected(percebeDiscriminaSabores, documentoAtual.getDiscrimina_sabores());
+        setCheckBoxSelected(acompanhaFocoLuminoso, documentoAtual.getAcompanha_luz());
+
+        // Motora
+        setCheckBoxSelected(movimentoPincaComTesoura, documentoAtual.getMovimento_pinca());
+        setCheckBoxSelected(amassaPapel, documentoAtual.getAmassa_papel());
+        setCheckBoxSelected(caiComFacilidade, documentoAtual.getCai_facilmente());
+        setCheckBoxSelected(encaixaPecas, documentoAtual.getEncaixa_pecas());
+        setCheckBoxSelected(recorta, documentoAtual.getRecorta());
+        setCheckBoxSelected(unePontos, documentoAtual.getUne_pontos());
+        setCheckBoxSelected(consegueCorrer, documentoAtual.getCorre());
+        setCheckBoxSelected(empilha, documentoAtual.getEmpilha());
+        setCheckBoxSelected(agitacaoMotora, documentoAtual.getAgitacao_motora());
+        setCheckBoxSelected(andaLinhaReta, documentoAtual.getAnda_reto());
+        setCheckBoxSelected(sobeDesceEscadas, documentoAtual.getSobe_escada());
+        setCheckBoxSelected(arremessaBola, documentoAtual.getArremessa_bola());
+    }
+
+    private void carregarTela3() {
+        if (documentoAtual == null)
+            return;
+
+        // AVDs
+        setCheckBoxSelected(usaSanitarioSemAjuda, documentoAtual.getUsa_sanitario());
+        setCheckBoxSelected(penteiaSeSo, documentoAtual.getPenteia_cabelo());
+        setCheckBoxSelected(consegueVestirDespirSe, documentoAtual.getVeste_se());
+        setCheckBoxSelected(lavaSecaAsMaos, documentoAtual.getLava_maos());
+        setCheckBoxSelected(banhoComModeracao, documentoAtual.getBanha_se());
+        setCheckBoxSelected(calcaSeSo, documentoAtual.getCalca_se());
+        setCheckBoxSelected(reconheceRoupas, documentoAtual.getReconhece_roupas());
+        setCheckBoxSelected(abreFechaTorneira, documentoAtual.getAbre_torneira());
+        setCheckBoxSelected(escovaDentesSemAjuda, documentoAtual.getEscova_dentes());
+        setCheckBoxSelected(consegueDarNosLacos, documentoAtual.getDa_nos());
+        setCheckBoxSelected(abotoaDesabotoaRoupas, documentoAtual.getAbotoa_roupas());
+        setCheckBoxSelected(identificaPartesDoCorpo, documentoAtual.getIdentifica_partes_corpo());
+
+        // Níveis de Aprendizagem
+        setCheckBoxSelectedFromString(garatujas, documentoAtual.getGaratujas());
+        setCheckBoxSelectedFromString(silabicoAlfabetico, documentoAtual.getSilabico_alfabetico());
+        setCheckBoxSelectedFromString(alfabetico, documentoAtual.getAlfabetico());
+        setCheckBoxSelectedFromString(preSilabico, documentoAtual.getPre_silabico());
+        setCheckBoxSelectedFromString(silabico, documentoAtual.getSilabico());
+
+        // Observações
+        if (observacoes != null && documentoAtual.getObservacoes() != null) {
+            observacoes.setText(documentoAtual.getObservacoes());
         }
     }
 
-    // Método auxiliar para desabilitar checkbox
-    private void desabilitarCheckbox(CheckBox checkbox) {
+    // Métodos de Preenchimento do Builder por Tela
+
+    private void preencherDadosTela1(DIBuilder builder) {
+        if (builder == null)
+            return;
+
+        // Comunicação
+        if (falaSeuNome != null)
+            builder.comFalaNome(String.valueOf(converterBooleanParaInt(falaSeuNome.isSelected())));
+        if (dizDataNascimento != null)
+            builder.comFalaNascimento(String.valueOf(converterBooleanParaInt(dizDataNascimento.isSelected())));
+        if (lePalavras != null)
+            builder.comLePalavras(String.valueOf(converterBooleanParaInt(lePalavras.isSelected())));
+        if (informaNumeroTelefone != null)
+            builder.comFalaTelefone(String.valueOf(converterBooleanParaInt(informaNumeroTelefone.isSelected())));
+        if (emiteRespostas != null)
+            builder.comEmiteRespostas(String.valueOf(converterBooleanParaInt(emiteRespostas.isSelected())));
+        if (transmiteRecado != null)
+            builder.comTransmiteRecados(String.valueOf(converterBooleanParaInt(transmiteRecado.isSelected())));
+        if (informaEndereco != null)
+            builder.comFalaEndereco(String.valueOf(converterBooleanParaInt(informaEndereco.isSelected())));
+        if (informaNomePais != null)
+            builder.comFalaNomePais(String.valueOf(converterBooleanParaInt(informaNomePais.isSelected())));
+        if (compreendeOrdens != null)
+            builder.comComprehendeOrdens(String.valueOf(converterBooleanParaInt(compreendeOrdens.isSelected())));
+        if (expoeIdeias != null)
+            builder.comExpoeIdeias(String.valueOf(converterBooleanParaInt(expoeIdeias.isSelected())));
+        if (recontaHistorias != null)
+            builder.comRecontaHistoria(String.valueOf(converterBooleanParaInt(recontaHistorias.isSelected())));
+        if (usaSistemaCA != null)
+            builder.comUsaSistemaCA(String.valueOf(converterBooleanParaInt(usaSistemaCA.isSelected())));
+        if (relataFatosComCoerencia != null)
+            builder.comRelataFatos(String.valueOf(converterBooleanParaInt(relataFatosComCoerencia.isSelected())));
+        if (pronunciaLetrasAlfabeto != null)
+            builder.comPronunciaLetras(String.valueOf(converterBooleanParaInt(pronunciaLetrasAlfabeto.isSelected())));
+        if (verbalizaMusicas != null)
+            builder.comVerbalizaMusicas(String.valueOf(converterBooleanParaInt(verbalizaMusicas.isSelected())));
+        if (interpretaHistorias != null)
+            builder.comInterpretaHistorias(String.valueOf(converterBooleanParaInt(interpretaHistorias.isSelected())));
+        if (formulaPerguntas != null)
+            builder.comFormulaPerguntas(String.valueOf(converterBooleanParaInt(formulaPerguntas.isSelected())));
+        if (utilizaGestosParaSeComunicar != null)
+            builder.comUtilizaGestos(
+                    String.valueOf(converterBooleanParaInt(utilizaGestosParaSeComunicar.isSelected())));
+
+        // Afetiva
+        if (demonstraCooperacao != null)
+            builder.comDemonstbraCooperacao(String.valueOf(converterBooleanParaInt(demonstraCooperacao.isSelected())));
+        if (timidoInseguro != null)
+            builder.comTimido(String.valueOf(converterBooleanParaInt(timidoInseguro.isSelected())));
+        if (fazBirra != null)
+            builder.comBirra(String.valueOf(converterBooleanParaInt(fazBirra.isSelected())));
+        if (solicitaOfereceAjuda != null)
+            builder.comPedeAjuda(String.valueOf(converterBooleanParaInt(solicitaOfereceAjuda.isSelected())));
+        if (riComFrequencia != null)
+            builder.comRi(String.valueOf(converterBooleanParaInt(riComFrequencia.isSelected())));
+        if (compartilhaOQueESeu != null)
+            builder.comCompartilha(String.valueOf(converterBooleanParaInt(compartilhaOQueESeu.isSelected())));
+        if (demonstraAmorGentilezaAtencao != null)
+            builder.comDemonstbraAmor(
+                    String.valueOf(converterBooleanParaInt(demonstraAmorGentilezaAtencao.isSelected())));
+        if (choraComFrequencia != null)
+            builder.comChora(String.valueOf(converterBooleanParaInt(choraComFrequencia.isSelected())));
+        if (interageComColegas != null)
+            builder.comInterage(String.valueOf(converterBooleanParaInt(interageComColegas.isSelected())));
+    }
+
+    private void preencherDadosTela2(DIBuilder builder) {
+        if (builder == null)
+            return;
+
+        // Sensorial
+        if (captaDetalhesGravura != null)
+            builder.comDetalhesGravura(String.valueOf(converterBooleanParaInt(captaDetalhesGravura.isSelected())));
+        if (reconheceVozes != null)
+            builder.comReconheceVozes(String.valueOf(converterBooleanParaInt(reconheceVozes.isSelected())));
+        if (reconheceCancoes != null)
+            builder.comReconheceCancoes(String.valueOf(converterBooleanParaInt(reconheceCancoes.isSelected())));
+        if (percebeTexturas != null)
+            builder.comPercebeTexturas(String.valueOf(converterBooleanParaInt(percebeTexturas.isSelected())));
+        if (percepcaoCores != null)
+            builder.comPercebeCores(String.valueOf(converterBooleanParaInt(percepcaoCores.isSelected())));
+        if (discriminaSons != null)
+            builder.comDiscriminaSons(String.valueOf(converterBooleanParaInt(discriminaSons.isSelected())));
+        if (discriminaOdores != null)
+            builder.comDiscriminaOdores(String.valueOf(converterBooleanParaInt(discriminaOdores.isSelected())));
+        if (aceitaDiferentesTexturas != null)
+            builder.comAceitaTexturas(String.valueOf(converterBooleanParaInt(aceitaDiferentesTexturas.isSelected())));
+        if (percepcaoFormas != null)
+            builder.comPercepcaoFormas(String.valueOf(converterBooleanParaInt(percepcaoFormas.isSelected())));
+        if (identificaDirecaoSom != null)
+            builder.comIdentificaDirecaoSons(
+                    String.valueOf(converterBooleanParaInt(identificaDirecaoSom.isSelected())));
+        if (percebeDiscriminaSabores != null)
+            builder.comDiscriminaSabores(
+                    String.valueOf(converterBooleanParaInt(percebeDiscriminaSabores.isSelected())));
+        if (acompanhaFocoLuminoso != null)
+            builder.comAcompanhaLuz(String.valueOf(converterBooleanParaInt(acompanhaFocoLuminoso.isSelected())));
+
+        // Motora
+        if (movimentoPincaComTesoura != null)
+            builder.comMovimentoPinca(String.valueOf(converterBooleanParaInt(movimentoPincaComTesoura.isSelected())));
+        if (amassaPapel != null)
+            builder.comAmassaPapel(String.valueOf(converterBooleanParaInt(amassaPapel.isSelected())));
+        if (caiComFacilidade != null)
+            builder.comCaiFacilmente(String.valueOf(converterBooleanParaInt(caiComFacilidade.isSelected())));
+        if (encaixaPecas != null)
+            builder.comEncaixaPecas(String.valueOf(converterBooleanParaInt(encaixaPecas.isSelected())));
+        if (recorta != null)
+            builder.comRecorta(String.valueOf(converterBooleanParaInt(recorta.isSelected())));
+        if (unePontos != null)
+            builder.comUnePontos(String.valueOf(converterBooleanParaInt(unePontos.isSelected())));
+        if (consegueCorrer != null)
+            builder.comCorre(String.valueOf(converterBooleanParaInt(consegueCorrer.isSelected())));
+        if (empilha != null)
+            builder.comEmpilha(String.valueOf(converterBooleanParaInt(empilha.isSelected())));
+        if (agitacaoMotora != null)
+            builder.comAgitacaoMotora(String.valueOf(converterBooleanParaInt(agitacaoMotora.isSelected())));
+        if (andaLinhaReta != null)
+            builder.comAndaReto(String.valueOf(converterBooleanParaInt(andaLinhaReta.isSelected())));
+        if (sobeDesceEscadas != null)
+            builder.comSobeEscada(String.valueOf(converterBooleanParaInt(sobeDesceEscadas.isSelected())));
+        if (arremessaBola != null)
+            builder.comArremessaBola(String.valueOf(converterBooleanParaInt(arremessaBola.isSelected())));
+    }
+
+    private void preencherDadosTela3(DIBuilder builder) {
+        if (builder == null)
+            return;
+
+        // AVDs
+        if (usaSanitarioSemAjuda != null)
+            builder.comUsaSanitario(String.valueOf(converterBooleanParaInt(usaSanitarioSemAjuda.isSelected())));
+        if (penteiaSeSo != null)
+            builder.comPenteiaCabelo(String.valueOf(converterBooleanParaInt(penteiaSeSo.isSelected())));
+        if (consegueVestirDespirSe != null)
+            builder.comVesteSe(String.valueOf(converterBooleanParaInt(consegueVestirDespirSe.isSelected())));
+        if (lavaSecaAsMaos != null)
+            builder.comLavamaos(String.valueOf(converterBooleanParaInt(lavaSecaAsMaos.isSelected())));
+        if (banhoComModeracao != null)
+            builder.comBanhaSe(String.valueOf(converterBooleanParaInt(banhoComModeracao.isSelected())));
+        if (calcaSeSo != null)
+            builder.comCalcaSe(String.valueOf(converterBooleanParaInt(calcaSeSo.isSelected())));
+        if (reconheceRoupas != null)
+            builder.comReconheceRoupas(String.valueOf(converterBooleanParaInt(reconheceRoupas.isSelected())));
+        if (abreFechaTorneira != null)
+            builder.comAbreFechaTorneira(String.valueOf(converterBooleanParaInt(abreFechaTorneira.isSelected())));
+        if (escovaDentesSemAjuda != null)
+            builder.comEscovaDentes(String.valueOf(converterBooleanParaInt(escovaDentesSemAjuda.isSelected())));
+        if (consegueDarNosLacos != null)
+            builder.comDarNosLacos(String.valueOf(converterBooleanParaInt(consegueDarNosLacos.isSelected())));
+        if (abotoaDesabotoaRoupas != null)
+            builder.comAbotoaDesabotoa(String.valueOf(converterBooleanParaInt(abotoaDesabotoaRoupas.isSelected())));
+        if (identificaPartesDoCorpo != null)
+            builder.comIdentificaPartesCorpo(
+                    String.valueOf(converterBooleanParaInt(identificaPartesDoCorpo.isSelected())));
+
+        // Níveis de Aprendizagem
+        if (garatujas != null)
+            builder.comGaratujas(garatujas.isSelected() ? "1" : "0");
+        if (silabicoAlfabetico != null)
+            builder.comSilabicoAlfabetico(silabicoAlfabetico.isSelected() ? "1" : "0");
+        if (alfabetico != null)
+            builder.comAlfabetico(alfabetico.isSelected() ? "1" : "0");
+        if (preSilabico != null)
+            builder.comPreSilabico(preSilabico.isSelected() ? "1" : "0");
+        if (silabico != null)
+            builder.comSilabico(silabico.isSelected() ? "1" : "0");
+
+        // Observações
+        if (observacoes != null)
+            builder.comObservacoes(observacoes.getText().trim());
+    }
+
+    // Métodos Auxiliares de Conversão e UI
+
+    private void setCheckBoxSelected(CheckBox checkbox, Object valor) {
         if (checkbox != null) {
-            checkbox.setDisable(true);
+            checkbox.setSelected(converterIntParaBoolean(valor));
         }
     }
 
-    // Carrega dados do DI atual na tela
-    private void carregarDadosNaTela() {
-        if (diAtual == null)
-            return;
-
-        // Tela 1: Comunicação
-        if (falaSeuNome != null) {
-            falaSeuNome.setSelected(converterIntParaBoolean(diAtual.getFala_nome()));
-        }
-        if (dizDataNascimento != null) {
-            dizDataNascimento.setSelected(converterIntParaBoolean(diAtual.getFala_nascimento()));
-        }
-        if (lePalavras != null) {
-            lePalavras.setSelected(converterIntParaBoolean(diAtual.getLe_palavras()));
-        }
-        if (informaNumeroTelefone != null) {
-            informaNumeroTelefone.setSelected(converterIntParaBoolean(diAtual.getFala_telefone()));
-        }
-        if (emiteRespostas != null) {
-            emiteRespostas.setSelected(converterIntParaBoolean(diAtual.getEmite_respostas()));
-        }
-        if (transmiteRecado != null) {
-            transmiteRecado.setSelected(converterIntParaBoolean(diAtual.getTransmite_recados()));
-        }
-        if (informaEndereco != null) {
-            informaEndereco.setSelected(converterIntParaBoolean(diAtual.getFala_endereco()));
-        }
-        if (informaNomePais != null) {
-            informaNomePais.setSelected(converterIntParaBoolean(diAtual.getFala_nome_pais()));
-        }
-        if (compreendeOrdens != null) {
-            compreendeOrdens.setSelected(converterIntParaBoolean(diAtual.getCompreende_ordens()));
-        }
-        if (expoeIdeias != null) {
-            expoeIdeias.setSelected(converterIntParaBoolean(diAtual.getExpoe_ideias()));
-        }
-        if (recontaHistorias != null) {
-            recontaHistorias.setSelected(converterIntParaBoolean(diAtual.getReconta_historia()));
-        }
-        if (usaSistemaCA != null) {
-            usaSistemaCA.setSelected(converterIntParaBoolean(diAtual.getUsa_sistema_ca()));
-        }
-        if (relataFatosComCoerencia != null) {
-            relataFatosComCoerencia.setSelected(converterIntParaBoolean(diAtual.getRelata_fatos()));
-        }
-        if (pronunciaLetrasAlfabeto != null) {
-            pronunciaLetrasAlfabeto.setSelected(converterIntParaBoolean(diAtual.getPronuncia_letras()));
-        }
-        if (verbalizaMusicas != null) {
-            verbalizaMusicas.setSelected(converterIntParaBoolean(diAtual.getVerbaliza_musicas()));
-        }
-        if (interpretaHistorias != null) {
-            interpretaHistorias.setSelected(converterIntParaBoolean(diAtual.getInterpreta_historias()));
-        }
-        if (formulaPerguntas != null) {
-            formulaPerguntas.setSelected(converterIntParaBoolean(diAtual.getFormula_perguntas()));
-        }
-        if (utilizaGestosParaSeComunicar != null) {
-            utilizaGestosParaSeComunicar.setSelected(converterIntParaBoolean(diAtual.getUtiliza_gestos()));
-        }
-
-        // Tela 1: Afetiva
-        if (demonstraCooperacao != null) {
-            demonstraCooperacao.setSelected(converterIntParaBoolean(diAtual.getDemonstra_cooperacao()));
-        }
-        if (timidoInseguro != null) {
-            timidoInseguro.setSelected(converterIntParaBoolean(diAtual.getTimido()));
-        }
-        if (fazBirra != null) {
-            fazBirra.setSelected(converterIntParaBoolean(diAtual.getBirra()));
-        }
-        if (solicitaOfereceAjuda != null) {
-            solicitaOfereceAjuda.setSelected(converterIntParaBoolean(diAtual.getPede_ajuda()));
-        }
-        if (riComFrequencia != null) {
-            riComFrequencia.setSelected(converterIntParaBoolean(diAtual.getRi()));
-        }
-        if (compartilhaOQueESeu != null) {
-            compartilhaOQueESeu.setSelected(converterIntParaBoolean(diAtual.getCompartilha()));
-        }
-        if (demonstraAmorGentilezaAtencao != null) {
-            demonstraAmorGentilezaAtencao.setSelected(converterIntParaBoolean(diAtual.getDemonstra_amor()));
-        }
-        if (choraComFrequencia != null) {
-            choraComFrequencia.setSelected(converterIntParaBoolean(diAtual.getChora()));
-        }
-        if (interageComColegas != null) {
-            interageComColegas.setSelected(converterIntParaBoolean(diAtual.getInterage()));
-        }
-
-        // Tela 2: Sensorial
-        if (captaDetalhesGravura != null) {
-            captaDetalhesGravura.setSelected(converterIntParaBoolean(diAtual.getDetalhes_gravura()));
-        }
-        if (reconheceVozes != null) {
-            reconheceVozes.setSelected(converterIntParaBoolean(diAtual.getReconhece_vozes()));
-        }
-        if (reconheceCancoes != null) {
-            reconheceCancoes.setSelected(converterIntParaBoolean(diAtual.getReconhece_cancoes()));
-        }
-        if (percebeTexturas != null) {
-            percebeTexturas.setSelected(converterIntParaBoolean(diAtual.getPercebe_texturas()));
-        }
-        if (percepcaoCores != null) {
-            percepcaoCores.setSelected(converterIntParaBoolean(diAtual.getPercebe_cores()));
-        }
-        if (discriminaSons != null) {
-            discriminaSons.setSelected(converterIntParaBoolean(diAtual.getDiscrimina_sons()));
-        }
-        if (discriminaOdores != null) {
-            discriminaOdores.setSelected(converterIntParaBoolean(diAtual.getDiscrimina_odores()));
-        }
-        if (aceitaDiferentesTexturas != null) {
-            aceitaDiferentesTexturas.setSelected(converterIntParaBoolean(diAtual.getAceita_texturas()));
-        }
-        if (percepcaoFormas != null) {
-            percepcaoFormas.setSelected(converterIntParaBoolean(diAtual.getPercepcao_formas()));
-        }
-        if (identificaDirecaoSom != null) {
-            identificaDirecaoSom.setSelected(converterIntParaBoolean(diAtual.getIdentifica_direcao_sons()));
-        }
-        if (percebeDiscriminaSabores != null) {
-            percebeDiscriminaSabores.setSelected(converterIntParaBoolean(diAtual.getDiscrimina_sabores()));
-        }
-        if (acompanhaFocoLuminoso != null) {
-            acompanhaFocoLuminoso.setSelected(converterIntParaBoolean(diAtual.getAcompanha_luz()));
-        }
-
-        // Tela 2: Motora
-        if (movimentoPincaComTesoura != null) {
-            movimentoPincaComTesoura.setSelected(converterIntParaBoolean(diAtual.getMovimento_pinca()));
-        }
-        if (amassaPapel != null) {
-            amassaPapel.setSelected(converterIntParaBoolean(diAtual.getAmassa_papel()));
-        }
-        if (caiComFacilidade != null) {
-            caiComFacilidade.setSelected(converterIntParaBoolean(diAtual.getCai_facilmente()));
-        }
-        if (encaixaPecas != null) {
-            encaixaPecas.setSelected(converterIntParaBoolean(diAtual.getEncaixa_pecas()));
-        }
-        if (recorta != null) {
-            recorta.setSelected(converterIntParaBoolean(diAtual.getRecorta()));
-        }
-        if (unePontos != null) {
-            unePontos.setSelected(converterIntParaBoolean(diAtual.getUne_pontos()));
-        }
-        if (consegueCorrer != null) {
-            consegueCorrer.setSelected(converterIntParaBoolean(diAtual.getCorre()));
-        }
-        if (empilha != null) {
-            empilha.setSelected(converterIntParaBoolean(diAtual.getEmpilha()));
-        }
-        if (agitacaoMotora != null) {
-            agitacaoMotora.setSelected(converterIntParaBoolean(diAtual.getAgitacao_motora()));
-        }
-        if (andaLinhaReta != null) {
-            andaLinhaReta.setSelected(converterIntParaBoolean(diAtual.getAnda_reto()));
-        }
-        if (sobeDesceEscadas != null) {
-            sobeDesceEscadas.setSelected(converterIntParaBoolean(diAtual.getSobe_escada()));
-        }
-        if (arremessaBola != null) {
-            arremessaBola.setSelected(converterIntParaBoolean(diAtual.getArremessa_bola()));
-        }
-
-        // Tela 3: AVDs
-        if (usaSanitarioSemAjuda != null) {
-            usaSanitarioSemAjuda.setSelected(converterIntParaBoolean(diAtual.getUsa_sanitario()));
-        }
-        if (penteiaSeSo != null) {
-            penteiaSeSo.setSelected(converterIntParaBoolean(diAtual.getPenteia_cabelo()));
-        }
-        if (consegueVestirDespirSe != null) {
-            consegueVestirDespirSe.setSelected(converterIntParaBoolean(diAtual.getVeste_se()));
-        }
-        if (lavaSecaAsMaos != null) {
-            lavaSecaAsMaos.setSelected(converterIntParaBoolean(diAtual.getLava_maos()));
-        }
-        if (banhoComModeracao != null) {
-            banhoComModeracao.setSelected(converterIntParaBoolean(diAtual.getBanha_se()));
-        }
-        if (calcaSeSo != null) {
-            calcaSeSo.setSelected(converterIntParaBoolean(diAtual.getCalca_se()));
-        }
-        if (reconheceRoupas != null) {
-            reconheceRoupas.setSelected(converterIntParaBoolean(diAtual.getReconhece_roupas()));
-        }
-        if (abreFechaTorneira != null) {
-            abreFechaTorneira.setSelected(converterIntParaBoolean(diAtual.getAbre_torneira()));
-        }
-        if (escovaDentesSemAjuda != null) {
-            escovaDentesSemAjuda.setSelected(converterIntParaBoolean(diAtual.getEscova_dentes()));
-        }
-        if (consegueDarNosLacos != null) {
-            consegueDarNosLacos.setSelected(converterIntParaBoolean(diAtual.getDa_nos()));
-        }
-        if (abotoaDesabotoaRoupas != null) {
-            abotoaDesabotoaRoupas.setSelected(converterIntParaBoolean(diAtual.getAbotoa_roupas()));
-        }
-        if (identificaPartesDoCorpo != null) {
-            identificaPartesDoCorpo.setSelected(converterIntParaBoolean(diAtual.getIdentifica_partes_corpo()));
-        }
-
-        // Tela 3: Níveis de Aprendizagem
-        if (garatujas != null) {
-            garatujas.setSelected("1".equals(diAtual.getGaratujas()));
-        }
-        if (silabicoAlfabetico != null) {
-            silabicoAlfabetico.setSelected("1".equals(diAtual.getSilabico_alfabetico()));
-        }
-        if (alfabetico != null) {
-            alfabetico.setSelected("1".equals(diAtual.getAlfabetico()));
-        }
-        if (preSilabico != null) {
-            preSilabico.setSelected("1".equals(diAtual.getPre_silabico()));
-        }
-        if (silabico != null) {
-            silabico.setSelected("1".equals(diAtual.getSilabico()));
-        }
-
-        // Tela 3: Observações
-        if (observacoes != null && diAtual.getObservacoes() != null) {
-            observacoes.setText(diAtual.getObservacoes());
+    private void setCheckBoxSelectedFromString(CheckBox checkbox, String valor) {
+        if (checkbox != null) {
+            checkbox.setSelected("1".equals(valor));
         }
     }
 
-    // Converte int (0/1) para boolean (false/true), tratando nulos e outros valores
-    private boolean converterIntParaBoolean(int valor) {
-        return valor == 1;
-    }
-
-    private boolean converterIntParaBoolean(Integer valor) {
+    private boolean converterIntParaBoolean(Object valor) {
         if (valor == null)
             return false;
-        return valor.intValue() == 1;
-    }
-
-    // Adiciona suporte para String
-    private boolean converterIntParaBoolean(String valor) {
-        if (valor == null)
-            return false;
-        try {
-            return Integer.parseInt(valor) == 1;
-        } catch (NumberFormatException e) {
-            return false;
+        if (valor instanceof Integer) {
+            return ((Integer) valor) == 1;
+        } else if (valor instanceof String) {
+            try {
+                return Integer.parseInt((String) valor) == 1;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
+        return false;
     }
 
-    // Converte boolean (false/true) para int (0/1)
     private int converterBooleanParaInt(boolean valor) {
         return valor ? 1 : 0;
     }
 
-    // Salva os dados da tela atual no objeto compartilhado
-    private void salvarDadosTelaAtual() {
-        if (diCompartilhada == null) {
-            diCompartilhada = new DI();
-        }
+    private void desabilitarTodosOsCheckBoxes() {
+        desabilitarCheckbox(falaSeuNome, dizDataNascimento, lePalavras, informaNumeroTelefone);
+        desabilitarCheckbox(emiteRespostas, transmiteRecado, informaEndereco, informaNomePais);
+        desabilitarCheckbox(compreendeOrdens, expoeIdeias, recontaHistorias, usaSistemaCA);
+        desabilitarCheckbox(relataFatosComCoerencia, pronunciaLetrasAlfabeto, verbalizaMusicas, interpretaHistorias);
+        desabilitarCheckbox(formulaPerguntas, utilizaGestosParaSeComunicar);
 
-        // Tela 1: Comunicação
-        if (falaSeuNome != null) {
-            diCompartilhada.setFala_nome(String.valueOf(converterBooleanParaInt(falaSeuNome.isSelected())));
-        }
-        if (dizDataNascimento != null) {
-            diCompartilhada.setFala_nascimento(String.valueOf(converterBooleanParaInt(dizDataNascimento.isSelected())));
-        }
-        if (lePalavras != null) {
-            diCompartilhada.setLe_palavras(String.valueOf(converterBooleanParaInt(lePalavras.isSelected())));
-        }
-        if (informaNumeroTelefone != null) {
-            diCompartilhada
-                    .setFala_telefone(String.valueOf(converterBooleanParaInt(informaNumeroTelefone.isSelected())));
-        }
-        if (emiteRespostas != null) {
-            diCompartilhada.setEmite_respostas(String.valueOf(converterBooleanParaInt(emiteRespostas.isSelected())));
-        }
-        if (transmiteRecado != null) {
-            diCompartilhada.setTransmite_recados(String.valueOf(converterBooleanParaInt(transmiteRecado.isSelected())));
-        }
-        if (informaEndereco != null) {
-            diCompartilhada.setFala_endereco(String.valueOf(converterBooleanParaInt(informaEndereco.isSelected())));
-        }
-        if (informaNomePais != null) {
-            diCompartilhada.setFala_nome_pais(String.valueOf(converterBooleanParaInt(informaNomePais.isSelected())));
-        }
-        if (compreendeOrdens != null) {
-            diCompartilhada
-                    .setCompreende_ordens(String.valueOf(converterBooleanParaInt(compreendeOrdens.isSelected())));
-        }
-        if (expoeIdeias != null) {
-            diCompartilhada.setExpoe_ideias(String.valueOf(converterBooleanParaInt(expoeIdeias.isSelected())));
-        }
-        if (recontaHistorias != null) {
-            diCompartilhada.setReconta_historia(String.valueOf(converterBooleanParaInt(recontaHistorias.isSelected())));
-        }
-        if (usaSistemaCA != null) {
-            diCompartilhada.setUsa_sistema_ca(String.valueOf(converterBooleanParaInt(usaSistemaCA.isSelected())));
-        }
-        if (relataFatosComCoerencia != null) {
-            diCompartilhada
-                    .setRelata_fatos(String.valueOf(converterBooleanParaInt(relataFatosComCoerencia.isSelected())));
-        }
-        if (pronunciaLetrasAlfabeto != null) {
-            diCompartilhada
-                    .setPronuncia_letras(String.valueOf(converterBooleanParaInt(pronunciaLetrasAlfabeto.isSelected())));
-        }
-        if (verbalizaMusicas != null) {
-            diCompartilhada
-                    .setVerbaliza_musicas(String.valueOf(converterBooleanParaInt(verbalizaMusicas.isSelected())));
-        }
-        if (interpretaHistorias != null) {
-            diCompartilhada
-                    .setInterpreta_historias(String.valueOf(converterBooleanParaInt(interpretaHistorias.isSelected())));
-        }
-        if (formulaPerguntas != null) {
-            diCompartilhada
-                    .setFormula_perguntas(String.valueOf(converterBooleanParaInt(formulaPerguntas.isSelected())));
-        }
-        if (utilizaGestosParaSeComunicar != null) {
-            diCompartilhada.setUtiliza_gestos(
-                    String.valueOf(converterBooleanParaInt(utilizaGestosParaSeComunicar.isSelected())));
-        }
+        desabilitarCheckbox(demonstraCooperacao, timidoInseguro, fazBirra, solicitaOfereceAjuda);
+        desabilitarCheckbox(riComFrequencia, compartilhaOQueESeu, demonstraAmorGentilezaAtencao, choraComFrequencia);
+        desabilitarCheckbox(interageComColegas);
 
-        // Tela 1: Afetiva
-        if (demonstraCooperacao != null) {
-            diCompartilhada
-                    .setDemonstra_cooperacao(String.valueOf(converterBooleanParaInt(demonstraCooperacao.isSelected())));
-        }
-        if (timidoInseguro != null) {
-            diCompartilhada.setTimido(String.valueOf(converterBooleanParaInt(timidoInseguro.isSelected())));
-        }
-        if (fazBirra != null) {
-            diCompartilhada.setBirra(String.valueOf(converterBooleanParaInt(fazBirra.isSelected())));
-        }
-        if (solicitaOfereceAjuda != null) {
-            diCompartilhada.setPede_ajuda(String.valueOf(converterBooleanParaInt(solicitaOfereceAjuda.isSelected())));
-        }
-        if (riComFrequencia != null) {
-            diCompartilhada.setRi(String.valueOf(converterBooleanParaInt(riComFrequencia.isSelected())));
-        }
-        if (compartilhaOQueESeu != null) {
-            diCompartilhada.setCompartilha(String.valueOf(converterBooleanParaInt(compartilhaOQueESeu.isSelected())));
-        }
-        if (demonstraAmorGentilezaAtencao != null) {
-            diCompartilhada.setDemonstra_amor(
-                    String.valueOf(converterBooleanParaInt(demonstraAmorGentilezaAtencao.isSelected())));
-        }
-        if (choraComFrequencia != null) {
-            diCompartilhada.setChora(String.valueOf(converterBooleanParaInt(choraComFrequencia.isSelected())));
-        }
-        if (interageComColegas != null) {
-            diCompartilhada.setInterage(String.valueOf(converterBooleanParaInt(interageComColegas.isSelected())));
-        }
+        desabilitarCheckbox(captaDetalhesGravura, reconheceVozes, reconheceCancoes, percebeTexturas);
+        desabilitarCheckbox(percepcaoCores, discriminaSons, discriminaOdores, aceitaDiferentesTexturas);
+        desabilitarCheckbox(percepcaoFormas, identificaDirecaoSom, percebeDiscriminaSabores, acompanhaFocoLuminoso);
 
-        // Tela 2: Sensorial
-        if (captaDetalhesGravura != null) {
-            diCompartilhada
-                    .setDetalhes_gravura(String.valueOf(converterBooleanParaInt(captaDetalhesGravura.isSelected())));
-        }
-        if (reconheceVozes != null) {
-            diCompartilhada.setReconhece_vozes(String.valueOf(converterBooleanParaInt(reconheceVozes.isSelected())));
-        }
-        if (reconheceCancoes != null) {
-            diCompartilhada
-                    .setReconhece_cancoes(String.valueOf(converterBooleanParaInt(reconheceCancoes.isSelected())));
-        }
-        if (percebeTexturas != null) {
-            diCompartilhada.setPercebe_texturas(String.valueOf(converterBooleanParaInt(percebeTexturas.isSelected())));
-        }
-        if (percepcaoCores != null) {
-            diCompartilhada.setPercebe_cores(String.valueOf(converterBooleanParaInt(percepcaoCores.isSelected())));
-        }
-        if (discriminaSons != null) {
-            diCompartilhada.setDiscrimina_sons(String.valueOf(converterBooleanParaInt(discriminaSons.isSelected())));
-        }
-        if (discriminaOdores != null) {
-            diCompartilhada
-                    .setDiscrimina_odores(String.valueOf(converterBooleanParaInt(discriminaOdores.isSelected())));
-        }
-        if (aceitaDiferentesTexturas != null) {
-            diCompartilhada
-                    .setAceita_texturas(String.valueOf(converterBooleanParaInt(aceitaDiferentesTexturas.isSelected())));
-        }
-        if (percepcaoFormas != null) {
-            diCompartilhada.setPercepcao_formas(String.valueOf(converterBooleanParaInt(percepcaoFormas.isSelected())));
-        }
-        if (identificaDirecaoSom != null) {
-            diCompartilhada.setIdentifica_direcao_sons(
-                    String.valueOf(converterBooleanParaInt(identificaDirecaoSom.isSelected())));
-        }
-        if (percebeDiscriminaSabores != null) {
-            diCompartilhada.setDiscrimina_sabores(
-                    String.valueOf(converterBooleanParaInt(percebeDiscriminaSabores.isSelected())));
-        }
-        if (acompanhaFocoLuminoso != null) {
-            diCompartilhada
-                    .setAcompanha_luz(String.valueOf(converterBooleanParaInt(acompanhaFocoLuminoso.isSelected())));
-        }
+        desabilitarCheckbox(movimentoPincaComTesoura, amassaPapel, caiComFacilidade, encaixaPecas);
+        desabilitarCheckbox(recorta, unePontos, consegueCorrer, empilha);
+        desabilitarCheckbox(agitacaoMotora, andaLinhaReta, sobeDesceEscadas, arremessaBola);
 
-        // Tela 2: Motora
-        if (movimentoPincaComTesoura != null) {
-            diCompartilhada
-                    .setMovimento_pinca(String.valueOf(converterBooleanParaInt(movimentoPincaComTesoura.isSelected())));
-        }
-        if (amassaPapel != null) {
-            diCompartilhada.setAmassa_papel(String.valueOf(converterBooleanParaInt(amassaPapel.isSelected())));
-        }
-        if (caiComFacilidade != null) {
-            diCompartilhada.setCai_facilmente(String.valueOf(converterBooleanParaInt(caiComFacilidade.isSelected())));
-        }
-        if (encaixaPecas != null) {
-            diCompartilhada.setEncaixa_pecas(String.valueOf(converterBooleanParaInt(encaixaPecas.isSelected())));
-        }
-        if (recorta != null) {
-            diCompartilhada.setRecorta(String.valueOf(converterBooleanParaInt(recorta.isSelected())));
-        }
-        if (unePontos != null) {
-            diCompartilhada.setUne_pontos(String.valueOf(converterBooleanParaInt(unePontos.isSelected())));
-        }
-        if (consegueCorrer != null) {
-            diCompartilhada.setCorre(String.valueOf(converterBooleanParaInt(consegueCorrer.isSelected())));
-        }
-        if (empilha != null) {
-            diCompartilhada.setEmpilha(String.valueOf(converterBooleanParaInt(empilha.isSelected())));
-        }
-        if (agitacaoMotora != null) {
-            diCompartilhada.setAgitacao_motora(String.valueOf(converterBooleanParaInt(agitacaoMotora.isSelected())));
-        }
-        if (andaLinhaReta != null) {
-            diCompartilhada.setAnda_reto(String.valueOf(converterBooleanParaInt(andaLinhaReta.isSelected())));
-        }
-        if (sobeDesceEscadas != null) {
-            diCompartilhada.setSobe_escada(String.valueOf(converterBooleanParaInt(sobeDesceEscadas.isSelected())));
-        }
-        if (arremessaBola != null) {
-            diCompartilhada.setArremessa_bola(String.valueOf(converterBooleanParaInt(arremessaBola.isSelected())));
-        }
+        desabilitarCheckbox(usaSanitarioSemAjuda, penteiaSeSo, consegueVestirDespirSe, lavaSecaAsMaos);
+        desabilitarCheckbox(banhoComModeracao, calcaSeSo, reconheceRoupas, abreFechaTorneira);
+        desabilitarCheckbox(escovaDentesSemAjuda, consegueDarNosLacos, abotoaDesabotoaRoupas, identificaPartesDoCorpo);
 
-        // Tela 3: AVDs
-        if (usaSanitarioSemAjuda != null) {
-            diCompartilhada
-                    .setUsa_sanitario(String.valueOf(converterBooleanParaInt(usaSanitarioSemAjuda.isSelected())));
-        }
-        if (penteiaSeSo != null) {
-            diCompartilhada.setPenteia_cabelo(String.valueOf(converterBooleanParaInt(penteiaSeSo.isSelected())));
-        }
-        if (consegueVestirDespirSe != null) {
-            diCompartilhada.setVeste_se(String.valueOf(converterBooleanParaInt(consegueVestirDespirSe.isSelected())));
-        }
-        if (lavaSecaAsMaos != null) {
-            diCompartilhada.setLava_maos(String.valueOf(converterBooleanParaInt(lavaSecaAsMaos.isSelected())));
-        }
-        if (banhoComModeracao != null) {
-            diCompartilhada.setBanha_se(String.valueOf(converterBooleanParaInt(banhoComModeracao.isSelected())));
-        }
-        if (calcaSeSo != null) {
-            diCompartilhada.setCalca_se(String.valueOf(converterBooleanParaInt(calcaSeSo.isSelected())));
-        }
-        if (reconheceRoupas != null) {
-            diCompartilhada.setReconhece_roupas(String.valueOf(converterBooleanParaInt(reconheceRoupas.isSelected())));
-        }
-        if (abreFechaTorneira != null) {
-            diCompartilhada.setAbre_torneira(String.valueOf(converterBooleanParaInt(abreFechaTorneira.isSelected())));
-        }
-        if (escovaDentesSemAjuda != null) {
-            diCompartilhada
-                    .setEscova_dentes(String.valueOf(converterBooleanParaInt(escovaDentesSemAjuda.isSelected())));
-        }
-        if (consegueDarNosLacos != null) {
-            diCompartilhada.setDa_nos(String.valueOf(converterBooleanParaInt(consegueDarNosLacos.isSelected())));
-        }
-        if (abotoaDesabotoaRoupas != null) {
-            diCompartilhada
-                    .setAbotoa_roupas(String.valueOf(converterBooleanParaInt(abotoaDesabotoaRoupas.isSelected())));
-        }
-        if (identificaPartesDoCorpo != null) {
-            diCompartilhada.setIdentifica_partes_corpo(
-                    String.valueOf(converterBooleanParaInt(identificaPartesDoCorpo.isSelected())));
-        }
+        desabilitarCheckbox(garatujas, silabicoAlfabetico, alfabetico, preSilabico, silabico);
+    }
 
-        // Tela 3: Níveis de Aprendizagem
-        if (garatujas != null) {
-            diCompartilhada.setGaratujas(garatujas.isSelected() ? "1" : "0");
-        }
-        if (silabicoAlfabetico != null) {
-            diCompartilhada.setSilabico_alfabetico(silabicoAlfabetico.isSelected() ? "1" : "0");
-        }
-        if (alfabetico != null) {
-            diCompartilhada.setAlfabetico(alfabetico.isSelected() ? "1" : "0");
-        }
-        if (preSilabico != null) {
-            diCompartilhada.setPre_silabico(preSilabico.isSelected() ? "1" : "0");
-        }
-        if (silabico != null) {
-            diCompartilhada.setSilabico(silabico.isSelected() ? "1" : "0");
-        }
-
-        // Tela 3: Observações
-        if (observacoes != null) {
-            diCompartilhada.setObservacoes(observacoes.getText().trim());
+    private void desabilitarCheckbox(CheckBox... checkboxes) {
+        for (CheckBox cb : checkboxes) {
+            if (cb != null)
+                cb.setDisable(true);
         }
     }
 
-    // Handlers de UI
-    @FXML
-    private void btnConcluirClick() {
-        if (modoAtual == ModoDI.VISUALIZACAO) {
-            exibirMensagemErro("Modo visualização: não é possível salvar.");
-            return;
-        }
-
-        // Salva os dados da tela atual primeiro
-        salvarDadosTelaAtual();
-
-        // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir Diagnóstico Inicial");
-        alerta.setHeaderText("Deseja salvar o Diagnóstico Inicial agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
-            return;
-        }
-
-        // Garante que o objeto compartilhado tenha os dados mais recentes
-        diAtual = diCompartilhada;
-
-        // Salva o educando ID antes de resetar
-        String educandoId = diCompartilhada.getEducando_id();
-
+    protected void atualizarUsuarioLogado() {
         try {
-            // 1. Obtém o usuário logado
-            Usuario usuarioLogado = AuthService.getUsuarioLogado();
-
-            if (usuarioLogado == null) {
-                exibirMensagemErro("Usuário não está logado. Faça login novamente.");
-                return;
+            Usuario usuario = AuthService.getUsuarioLogado();
+            if (usuario != null) {
+                if (nomeUsuario != null)
+                    nomeUsuario.setText(usuario.getEmail());
+                if (nameUser != null)
+                    nameUser.setText(usuario.getEmail());
+                if (cargoUsuario != null)
+                    cargoUsuario.setText(usuario.getTipo());
             }
-
-            // 2. Verifica se é professor
-            if (!"PROFESSOR".equalsIgnoreCase(usuarioLogado.getTipo())) {
-                exibirMensagemErro("Apenas professores podem criar Diagnósticos Iniciais. Tipo do usuário: "
-                        + usuarioLogado.getTipo());
-                return;
-            }
-
-            // 3. Define o ID do professor no DI
-            diCompartilhada.setProfessor_id(getIdProfessorLogado());
-
-            // 4. Metadados obrigatórios
-            boolean edicao = modoAtual == ModoDI.EDICAO;
-            // Apenas define a data de criação se for uma nova criação
-            if (!edicao) {
-                diCompartilhada.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
-            }
-
-            boolean sucesso;
-            if (edicao) {
-                sucesso = diService.atualizarDI(diCompartilhada);
-            } else {
-                sucesso = diService.cadastrarNovoDI(diCompartilhada);
-            }
-
-            if (sucesso) {
-                exibirMensagemSucesso(edicao ? "Diagnóstico Inicial atualizado com sucesso!"
-                        : "Diagnóstico Inicial criado com sucesso!");
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                        javafx.application.Platform.runLater(() -> {
-                            resetarDI();
-                            voltarComPopup(educandoId);
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            } else {
-                exibirMensagemErro(edicao ? "Erro ao atualizar Diagnóstico Inicial. Tente novamente."
-                        : "Erro ao cadastrar Diagnóstico Inicial. Tente novamente.");
-            }
-
         } catch (Exception e) {
-            exibirMensagemErro("Erro ao salvar Diagnóstico Inicial: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private String getIdProfessorLogado() {
-        return AuthService.getIdProfessorLogado();
+    // Métodos privados de Builder e Conclusão
+
+    private DIBuilder obterOuCriarBuilder() {
+        EstadoDocumento<DI> estado = getEstado();
+        if (estado.builder instanceof DIBuilder) {
+            return (DIBuilder) estado.builder;
+        }
+
+        DI base = documentoAtual != null ? documentoAtual : new DI();
+        DIBuilder builder = new DIBuilder(base);
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        estado.builder = builder;
+        return builder;
     }
 
     @FXML
-    private void btnCancelarClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar Diagnóstico Inicial");
-        alert.setHeaderText("Deseja realmente cancelar?");
-        alert.setContentText("Todos os dados preenchidos serão perdidos.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            String educandoId = diAtual != null ? diAtual.getEducando_id() : null;
-            resetarDI();
-            voltarComPopup(educandoId);
+    protected void btnConcluirClick() {
+        EstadoDocumento<DI> estado = getEstado();
+        // No modo visualização, o botão já estará desabilitado, igual ao PDI
+        if (estado.modoAtual == ModoDocumento.VISUALIZACAO) {
+            return;
         }
+
+        if (salvando) {
+            return;
+        }
+
+        salvarDadosTelaAtual();
+
+        if (!exibirConfirmacao("Concluir Diagnóstico Inicial",
+                "Deseja salvar o Diagnóstico Inicial agora?",
+                "Todos os dados serão salvos no sistema.")) {
+            return;
+        }
+
+        salvando = true;
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
+
+        String educandoId = documentoAtual != null ? documentoAtual.getEducando_id() : null;
+        DIBuilder builder = obterOuCriarBuilder();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+
+        try {
+            Usuario usuarioLogado = AuthService.getUsuarioLogado();
+            if (usuarioLogado == null) {
+                exibirErro("Usuário não está logado. Faça login novamente.");
+                salvando = false;
+                if (btnConcluir != null)
+                    btnConcluir.setDisable(false);
+                return;
+            }
+
+            if (!"PROFESSOR".equalsIgnoreCase(usuarioLogado.getTipo())) {
+                exibirErro("Apenas professores podem criar Diagnósticos Iniciais.");
+                salvando = false;
+                if (btnConcluir != null)
+                    btnConcluir.setDisable(false);
+                return;
+            }
+
+            builder.comProfessorId(AuthService.getIdProfessorLogado());
+            if (estado.modoAtual == ModoDocumento.NOVA) {
+                builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            } else if (documentoAtual != null) {
+                try {
+                    // Tenta recuperar a data de criação existente se disponível
+                    java.lang.reflect.Method getDataMethod = documentoAtual.getClass().getMethod("getDataCriacao");
+                    String dataExistente = (String) getDataMethod.invoke(documentoAtual);
+                    if (dataExistente == null || dataExistente.isBlank()) {
+                        builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+                    }
+                } catch (Exception e) {
+                    // Se não conseguir recuperar a data, usa a atual
+                    builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+                }
+            }
+
+            DI diFinal = builder.build();
+            ESTADO.documentoCompartilhado = diFinal;
+            documentoAtual = diFinal;
+
+            boolean edicao = estado.modoAtual == ModoDocumento.EDICAO;
+            boolean sucesso = edicao ? diService.atualizarDI(diFinal) : diService.cadastrarNovoDI(diFinal);
+
+            if (sucesso) {
+                exibirSucesso(edicao ? "Diagnóstico Inicial atualizado com sucesso!"
+                        : "Diagnóstico Inicial criado com sucesso!");
+                limparEstado();
+                salvando = false;
+                voltarComPopup(educandoId);
+            } else {
+                exibirErro(
+                        edicao ? "Erro ao atualizar Diagnóstico Inicial." : "Erro ao cadastrar Diagnóstico Inicial.");
+                salvando = false;
+                if (btnConcluir != null)
+                    btnConcluir.setDisable(false);
+            }
+        } catch (Exception e) {
+            exibirErro("Erro ao salvar Diagnóstico Inicial: " + e.getMessage());
+            e.printStackTrace();
+            salvando = false;
+            if (btnConcluir != null)
+                btnConcluir.setDisable(false);
+        }
+    }
+
+    @FXML
+    @Override
+    protected void btnCancelarClick() {
+        super.btnCancelarClick();
+    }
+
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
+
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
     }
 
     @FXML
@@ -973,41 +689,91 @@ public class DIController implements Initializable {
         btnCancelarClick();
     }
 
-    @FXML
-    private void btnSeguinteClick() {
-        navegandoEntreTelas = true;
+    // Métodos de navegação
 
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
+    protected void voltarComPopup(String educandoId) {
+        EstadoDocumento<DI> estado = getEstado();
+        if (estado.turmaIdOrigem != null) {
+            try {
+                TurmaRepository turmaRepo = new TurmaRepository();
+                Turma turma = turmaRepo.buscarPorId(estado.turmaIdOrigem);
 
-        // Determina qual é a próxima tela
-        switch (telaAtual) {
-            case 1:
-                GerenciadorTelas.getInstance().trocarTela("diagnostico-2.fxml");
-                break;
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("diagnostico-3.fxml");
-                break;
+                if (turma != null) {
+                    javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
+                    javafx.scene.Parent root = loader.load();
+                    ViewTurmaController controller = loader.getController();
+                    controller.setTurma(turma);
+                    GerenciadorTelas.setRaiz(root);
+
+                    if (educandoId != null) {
+                        Educando educando = educandoRepo.buscarPorId(educandoId);
+
+                        if (educando != null) {
+                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas
+                                    .getLoader("progresso-atendimento.fxml");
+                            javafx.scene.Parent popupRoot = popupLoader.load();
+                            ProgressoAtendimentoController popupController = popupLoader.getController();
+                            popupController.setTurma(turma);
+                            popupController.setEducando(educando);
+                            GerenciadorTelas.getInstance().abrirPopup(popupRoot, "Progresso do Atendimento");
+                        }
+                    }
+                    estado.turmaIdOrigem = null;
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        estado.turmaIdOrigem = null;
+        GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
+    }
+
+    // Métodos de fluxo estáticos (compatíveis com DIFluxo)
+
+    public static void iniciarNovoDI() {
+        salvando = false;
+
+        String educandoIdPreservado = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdPreservado = ESTADO.documentoCompartilhado.getEducando_id();
+        }
+
+        iniciarNovo(ESTADO, new DI());
+        ESTADO.builder = null;
+
+        if (educandoIdPreservado != null) {
+            ((DI) ESTADO.documentoCompartilhado).setEducando_id(educandoIdPreservado);
         }
     }
 
-    @FXML
-    private void btnVoltarClick() {
-        navegandoEntreTelas = true;
-
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
-
-        // Determina qual é a tela anterior
-        switch (telaAtual) {
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("diagnostico-1.fxml");
-                break;
-            case 3:
-                GerenciadorTelas.getInstance().trocarTela("diagnostico-2.fxml");
-                break;
-        }
+    public static void editarDIExistente(DI existente) {
+        ESTADO.modoAtual = ModoDocumento.EDICAO;
+        ESTADO.telaAtual = 1;
+        ESTADO.documentoCompartilhado = (existente != null) ? existente : new DI();
+        ESTADO.navegandoEntreTelas = false;
     }
+
+    public static void visualizarDI(DI existente) {
+        ESTADO.modoAtual = ModoDocumento.VISUALIZACAO;
+        ESTADO.telaAtual = 1;
+        ESTADO.documentoCompartilhado = existente;
+        ESTADO.navegandoEntreTelas = false;
+    }
+
+    public static void setEducandoIdParaDI(String educandoId) {
+        if (ESTADO.documentoCompartilhado == null) {
+            ESTADO.documentoCompartilhado = new DI();
+        }
+        ESTADO.documentoCompartilhado.setEducando_id(educandoId);
+    }
+
+    public static void setTurmaIdOrigem(String turmaId) {
+        ESTADO.turmaIdOrigem = turmaId;
+    }
+
+    // Métodos de navegação da interface
 
     @FXML
     private void btnSairClick() {
@@ -1025,58 +791,12 @@ public class DIController implements Initializable {
         voltarParaTurma();
     }
 
-    @FXML
-    private void btnRelatoriosClick() {
-        // Implementar navegação para relatórios se necessário
-    }
-
-    // Volta para a turma com popup do educando
-    private void voltarComPopup(String educandoId) {
-        if (turmaIdOrigem != null) {
-            try {
-                TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
-
-                if (turma != null) {
-                    javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
-                    javafx.scene.Parent root = loader.load();
-                    ViewTurmaController controller = loader.getController();
-                    controller.setTurma(turma);
-                    GerenciadorTelas.setRaiz(root);
-
-                    if (educandoId != null) {
-                        EducandoRepository educandoRepo = new EducandoRepository();
-                        Educando educando = educandoRepo.buscarPorId(educandoId);
-
-                        if (educando != null) {
-                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas
-                                    .getLoader("progresso-atendimento.fxml");
-                            javafx.scene.Parent popupRoot = popupLoader.load();
-                            ProgressoAtendimentoController popupController = popupLoader.getController();
-                            popupController.setTurma(turma);
-                            popupController.setEducando(educando);
-                            GerenciadorTelas.getInstance().abrirPopup(popupRoot, "Progresso do Atendimento");
-                        }
-                    }
-                    turmaIdOrigem = null;
-                    return;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        turmaIdOrigem = null;
-        GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
-    }
-
-    // Método auxiliar para voltar à turma de origem
     private void voltarParaTurma() {
-        if (turmaIdOrigem != null) {
+        EstadoDocumento<DI> estado = getEstado();
+        if (estado.turmaIdOrigem != null) {
             try {
                 TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
-
+                Turma turma = turmaRepo.buscarPorId(estado.turmaIdOrigem);
                 if (turma != null) {
                     javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
                     javafx.scene.Parent root = loader.load();
@@ -1092,72 +812,4 @@ public class DIController implements Initializable {
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    private void resetarDI() {
-        modoAtual = ModoDI.NOVA;
-        telaAtual = 1;
-        diCompartilhada = new DI();
-        navegandoEntreTelas = false;
-    }
-
-    // Mensagens
-    private void exibirMensagemErro(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: red;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
-        }
-    }
-
-    private void exibirMensagemSucesso(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: green;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
-        }
-    }
-
-    // Métodos de fluxo estáticos
-    public static void iniciarNovoDI() {
-        modoAtual = ModoDI.NOVA;
-        telaAtual = 1;
-        diCompartilhada = new DI();
-        navegandoEntreTelas = false;
-    }
-
-    public static void editarDIExistente(DI existente) {
-        modoAtual = ModoDI.EDICAO;
-        telaAtual = 1;
-        diCompartilhada = (existente != null) ? existente : new DI();
-        navegandoEntreTelas = false;
-    }
-
-    public static void visualizarDI(DI existente) {
-        modoAtual = ModoDI.VISUALIZACAO;
-        telaAtual = 1;
-        diCompartilhada = existente;
-        navegandoEntreTelas = false;
-    }
-
-    public static void setEducandoIdParaDI(String educandoId) {
-        if (diCompartilhada == null) {
-            diCompartilhada = new DI();
-        }
-        diCompartilhada.setEducando_id(educandoId);
-    }
-
-    public static void setTurmaIdOrigem(String turmaId) {
-        turmaIdOrigem = turmaId;
-    }
 }

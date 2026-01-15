@@ -142,6 +142,8 @@ public class RIPDFGenerator {
      * Gera o conteúdo do PDF usando helpers.
      */
     private void gerarConteudoPDF(StringBuilder stream, Educando educando, RI ri) {
+        stream.append("BT\n"); // Begin Text
+        
         int anoAtual = LocalDate.now().getYear();
         
         // Cabeçalho centralizado
@@ -207,13 +209,11 @@ public class RIPDFGenerator {
         yAtual -= espacamento;
         
         // AUTONOMIA
-        String autonomia = "1".equals(ri.getAutonomia()) ? "Sim" : "Nao";
-        bulletItem(stream, "AUTONOMIA:", autonomia, yAtual);
+        bulletItem(stream, "AUTONOMIA:", safe(ri.getAutonomia()), yAtual);
         yAtual -= espacamento;
         
         // INTERAÇÃO COM A PROFESSORA
-        String interacao = "1".equals(ri.getInteracao_professora()) ? "Sim" : "Nao";
-        bulletItem(stream, "INTERACAO COM A PROFESSORA:", interacao, yAtual);
+        bulletItem(stream, "INTERACAO COM A PROFESSORA:", safe(ri.getInteracao_professora()), yAtual);
         yAtual -= espacamento;
         
         // ATIVIDADES DE VIDA DIÁRIA (AVDs)
@@ -254,6 +254,8 @@ public class RIPDFGenerator {
         centerX(stream, "CNAS: 8742-07/12/2003   CNPJ: 02.328.891/0001-35", 9, PAGE_WIDTH, yAtual, "/F1");
         yAtual -= 15;
         centerX(stream, "Email: apapeqqxd@gmail.com", 9, PAGE_WIDTH, yAtual, "/F1");
+        
+        stream.append("ET\n"); // End Text
     }
     
     /**

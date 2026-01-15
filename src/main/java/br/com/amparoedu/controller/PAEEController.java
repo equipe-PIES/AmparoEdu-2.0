@@ -9,6 +9,7 @@ import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.PAEE;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
+import br.com.amparoedu.backend.builder.PAEEBuilder;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.service.AuthService;
@@ -16,28 +17,19 @@ import br.com.amparoedu.backend.service.PAEEService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class PAEEController implements Initializable {
+public class PAEEController extends DocumentoControllerBase<PAEE> implements Initializable {
 
-    // Modo de uso
-    public enum ModoPAEE {
-        NOVA, EDICAO, VISUALIZACAO
-    }
+    // Estado estático compartilhado entre telas
+    private static final EstadoDocumento<PAEE> ESTADO = new EstadoDocumento<>();
 
-    // Estado e serviços
+    // Serviço
     private final PAEEService paeeService = new PAEEService();
-    private PAEE paeeAtual = new PAEE();
-    private static int telaAtual = 1; // 1, 2, 3, 4, 5 ou 6
-    private static PAEE paeeCompartilhada;
-    private static String turmaIdOrigem;
-    private static ModoPAEE modoAtual = ModoPAEE.NOVA;
-    private static boolean navegandoEntreTelas;
+    private final EducandoRepository educandoRepo = new EducandoRepository();
 
     // Controles PAEE - Tela 1
     @FXML
@@ -121,114 +113,201 @@ public class PAEEController implements Initializable {
     @FXML
     private ChoiceBox<String> atendimentoEstimulacaoPrecoce;
 
-    // Ciclo de vida
+    // Controles comuns
+    @FXML
+    private Label nomeUsuario;
+    @FXML
+    private Label cargoUsuario;
+
+    //  Implementação dos Métodos Abstratos
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        boolean vindoDeNavegacao = navegandoEntreTelas;
-        navegandoEntreTelas = false;
-
-        // Detecta qual tela está carregada pelos controles presentes
-        if (resumoTela1 != null) {
-            telaAtual = 1;
-        } else if (difDesenvolvimentoMotor != null) {
-            telaAtual = 2;
-        } else if (difRaciocinio != null) {
-            telaAtual = 3;
-        } else if (difMemoria != null) {
-            telaAtual = 4;
-        } else if (difSociabilidade != null) {
-            telaAtual = 5;
-        } else if (resumoObjetivoPlano != null) {
-            telaAtual = 6;
-        }
-
-        // Se não veio de navegação, prepara estado conforme o modo selecionado
-        if (!vindoDeNavegacao) {
-            if (modoAtual == ModoPAEE.NOVA) {
-                telaAtual = 1;
-                if (paeeCompartilhada == null) {
-                    paeeCompartilhada = new PAEE();
-                }
-            } else {
-                if (paeeCompartilhada == null) {
-                    paeeCompartilhada = new PAEE();
-                }
-                telaAtual = 1;
-            }
-        } else if (telaAtual == 1 && paeeCompartilhada == null) {
-            paeeCompartilhada = new PAEE();
-        }
-
-        // Usa a PAEE compartilhada
-        if (paeeCompartilhada != null) {
-            paeeAtual = paeeCompartilhada;
-        }
-
-        // Inicializa componentes
-        inicializarChoiceBoxes();
-        carregarDadosNaTela();
-        desabilitarEdicaoSeVisualizacao();
+    protected EstadoDocumento<PAEE> getEstado() {
+        return ESTADO;
     }
 
-    // Inicializa os valores das ChoiceBoxes
-    private void inicializarChoiceBoxes() {
-        // Tela 1 - Dificuldades (Sim/Não)
-        if (dificuldadesMotoras != null) {
-            dificuldadesMotoras.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesCognitivas != null) {
-            dificuldadesCognitivas.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesSensoriais != null) {
-            dificuldadesSensoriais.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesComunicacao != null) {
-            dificuldadesComunicacao.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesFamiliares != null) {
-            dificuldadesFamiliares.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesAfetivas != null) {
-            dificuldadesAfetivas.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesRaciocinio != null) {
-            dificuldadesRaciocinio.getItems().addAll("Sim", "Não");
-        }
-        if (dificuldadesAvas != null) {
-            dificuldadesAvas.getItems().addAll("Sim", "Não");
-        }
+    @Override
+    protected int getTotalTelas() {
+        return 6;
+    }
 
-        // Tela 6 - Atendimentos (Sim/Não)
-        if (atendimentoAee != null) {
-            atendimentoAee.getItems().addAll("Sim", "Não");
+    @Override
+    protected String getPrefixoTela() {
+        return "paee";
+    }
+
+    @Override
+    protected PAEE criarNovoDocumento() {
+        return new PAEE();
+    }
+
+    @Override
+    protected int detectarTelaAtual() {
+        if (resumoTela1 != null) return 1;
+        if (difDesenvolvimentoMotor != null) return 2;
+        if (difRaciocinio != null) return 3;
+        if (difMemoria != null) return 4;
+        if (difSociabilidade != null) return 5;
+        if (resumoObjetivoPlano != null) return 6;
+        return -1;
+    }
+
+    @Override
+    protected void salvarDadosTelaAtual() {
+        // Usa o builder no estado para popular o documento
+        PAEEBuilder builder = obterOuCriarBuilder();
+
+        // Tela 1
+        if (resumoTela1 != null) builder.comResumo(safeText(resumoTela1));
+        if (dificuldadesMotoras != null && dificuldadesMotoras.getValue() != null) builder.comDificuldadesMotoras(dificuldadesMotoras.getValue());
+        if (dificuldadesCognitivas != null && dificuldadesCognitivas.getValue() != null) builder.comDificuldadesCognitivas(dificuldadesCognitivas.getValue());
+        if (dificuldadesSensoriais != null && dificuldadesSensoriais.getValue() != null) builder.comDificuldadesSensoriais(dificuldadesSensoriais.getValue());
+        if (dificuldadesComunicacao != null && dificuldadesComunicacao.getValue() != null) builder.comDificuldadesComunicacao(dificuldadesComunicacao.getValue());
+        if (dificuldadesFamiliares != null && dificuldadesFamiliares.getValue() != null) builder.comDificuldadesFamiliares(dificuldadesFamiliares.getValue());
+        if (dificuldadesAfetivas != null && dificuldadesAfetivas.getValue() != null) builder.comDificuldadesAfetivas(dificuldadesAfetivas.getValue());
+        if (dificuldadesRaciocinio != null && dificuldadesRaciocinio.getValue() != null) builder.comDificuldadesRaciocinio(dificuldadesRaciocinio.getValue());
+        if (dificuldadesAvas != null && dificuldadesAvas.getValue() != null) builder.comDificuldadesAvas(dificuldadesAvas.getValue());
+
+        // Tela 2
+        if (difDesenvolvimentoMotor != null) builder.comDifDesMotor(safeText(difDesenvolvimentoMotor));
+        if (intervencoesMotor != null) builder.comIntervencoesMotor(safeText(intervencoesMotor));
+        if (difComunicacaoLinguagem != null) builder.comDifComunicacao(safeText(difComunicacaoLinguagem));
+        if (intervencoesComunicacao != null) builder.comIntervencoesComunicacao(safeText(intervencoesComunicacao));
+
+        // Tela 3
+        if (difRaciocinio != null) builder.comDifRaciocinio(safeText(difRaciocinio));
+        if (intervencoesRaciocinio != null) builder.comIntervencoesRaciocinio(safeText(intervencoesRaciocinio));
+        if (difAtencao != null) builder.comDifAtencao(safeText(difAtencao));
+        if (intervencoesAtencao != null) builder.comIntervencoesAtencao(safeText(intervencoesAtencao));
+
+        // Tela 4
+        if (difMemoria != null) builder.comDifMemoria(safeText(difMemoria));
+        if (intervencoesMemoria != null) builder.comIntervencoesMemoria(safeText(intervencoesMemoria));
+        if (difPercepcao != null) builder.comDifPercepcao(safeText(difPercepcao));
+        if (intervencoesPercepcao != null) builder.comIntervencoesPercepcao(safeText(intervencoesPercepcao));
+
+        // Tela 5
+        if (difSociabilidade != null) builder.comDifSociabilidade(safeText(difSociabilidade));
+        if (intervencoesSociabilidade != null) builder.comIntervencoesSociabilidade(safeText(intervencoesSociabilidade));
+
+        // Tela 6
+        if (resumoObjetivoPlano != null) builder.comObjetivoPlano(safeText(resumoObjetivoPlano));
+        if (atendimentoAee != null && atendimentoAee.getValue() != null) builder.comAee(atendimentoAee.getValue());
+        if (atendimentoPsicologo != null && atendimentoPsicologo.getValue() != null) builder.comPsicologo(atendimentoPsicologo.getValue());
+        if (atendimentoFisioterapeuta != null && atendimentoFisioterapeuta.getValue() != null) builder.comFisioterapeuta(atendimentoFisioterapeuta.getValue());
+        if (atendimentoPsicopedagogo != null && atendimentoPsicopedagogo.getValue() != null) builder.comPsicopedagogo(atendimentoPsicopedagogo.getValue());
+        if (atendimentoTerapeutaOcupacional != null && atendimentoTerapeutaOcupacional.getValue() != null) builder.comTerapeutaOcupacional(atendimentoTerapeutaOcupacional.getValue());
+        if (atendimentoEducacaoFisica != null && atendimentoEducacaoFisica.getValue() != null) builder.comEducacaoFisica(atendimentoEducacaoFisica.getValue());
+        if (atendimentoEstimulacaoPrecoce != null && atendimentoEstimulacaoPrecoce.getValue() != null) builder.comEstimulacaoPrecoce(atendimentoEstimulacaoPrecoce.getValue());
+
+        // Atualiza documento compartilhado a partir do builder
+        ESTADO.documentoCompartilhado = builder.buildPartial();
+        documentoAtual = ESTADO.documentoCompartilhado;
+    }
+
+    private String safeText(TextArea area) {
+        return area.getText() != null ? area.getText().trim() : "";
+    }
+
+    private PAEEBuilder obterOuCriarBuilder() {
+        if (ESTADO.builder instanceof PAEEBuilder) {
+            return (PAEEBuilder) ESTADO.builder;
         }
-        if (atendimentoPsicologo != null) {
-            atendimentoPsicologo.getItems().addAll("Sim", "Não");
+        // Inicializa builder com o documento atual (para preservar dados)
+        PAEEBuilder builder = new PAEEBuilder(documentoAtual != null ? documentoAtual : new PAEE());
+        // Garante que o EducandoId já conhecido seja mantido
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
         }
-        if (atendimentoFisioterapeuta != null) {
-            atendimentoFisioterapeuta.getItems().addAll("Sim", "Não");
-        }
-        if (atendimentoPsicopedagogo != null) {
-            atendimentoPsicopedagogo.getItems().addAll("Sim", "Não");
-        }
-        if (atendimentoTerapeutaOcupacional != null) {
-            atendimentoTerapeutaOcupacional.getItems().addAll("Sim", "Não");
-        }
-        if (atendimentoEducacaoFisica != null) {
-            atendimentoEducacaoFisica.getItems().addAll("Sim", "Não");
-        }
-        if (atendimentoEstimulacaoPrecoce != null) {
-            atendimentoEstimulacaoPrecoce.getItems().addAll("Sim", "Não");
+        ESTADO.builder = builder;
+        return builder;
+    }
+
+    @Override
+    protected void carregarDadosNaTela() {
+        if (documentoAtual == null) return;
+
+        // Tela 1
+        if (resumoTela1 != null && documentoAtual.getResumo() != null) resumoTela1.setText(documentoAtual.getResumo());
+        if (dificuldadesMotoras != null && documentoAtual.getDificuldadesMotoras() != null) dificuldadesMotoras.setValue(documentoAtual.getDificuldadesMotoras());
+        if (dificuldadesCognitivas != null && documentoAtual.getDificuldadesCognitivas() != null) dificuldadesCognitivas.setValue(documentoAtual.getDificuldadesCognitivas());
+        if (dificuldadesSensoriais != null && documentoAtual.getDificuldadesSensoriais() != null) dificuldadesSensoriais.setValue(documentoAtual.getDificuldadesSensoriais());
+        if (dificuldadesComunicacao != null && documentoAtual.getDificuldadesComunicacao() != null) dificuldadesComunicacao.setValue(documentoAtual.getDificuldadesComunicacao());
+        if (dificuldadesFamiliares != null && documentoAtual.getDificuldadesFamiliares() != null) dificuldadesFamiliares.setValue(documentoAtual.getDificuldadesFamiliares());
+        if (dificuldadesAfetivas != null && documentoAtual.getDificuldadesAfetivas() != null) dificuldadesAfetivas.setValue(documentoAtual.getDificuldadesAfetivas());
+        if (dificuldadesRaciocinio != null && documentoAtual.getDificuldadesRaciocinio() != null) dificuldadesRaciocinio.setValue(documentoAtual.getDificuldadesRaciocinio());
+        if (dificuldadesAvas != null && documentoAtual.getDificuldadesAvas() != null) dificuldadesAvas.setValue(documentoAtual.getDificuldadesAvas());
+
+        // Tela 2
+        if (difDesenvolvimentoMotor != null && documentoAtual.getDifDesMotor() != null) difDesenvolvimentoMotor.setText(documentoAtual.getDifDesMotor());
+        if (intervencoesMotor != null && documentoAtual.getIntervencoesMotor() != null) intervencoesMotor.setText(documentoAtual.getIntervencoesMotor());
+        if (difComunicacaoLinguagem != null && documentoAtual.getDifComunicacao() != null) difComunicacaoLinguagem.setText(documentoAtual.getDifComunicacao());
+        if (intervencoesComunicacao != null && documentoAtual.getIntervencoesComunicacao() != null) intervencoesComunicacao.setText(documentoAtual.getIntervencoesComunicacao());
+
+        // Tela 3
+        if (difRaciocinio != null && documentoAtual.getDifRaciocinio() != null) difRaciocinio.setText(documentoAtual.getDifRaciocinio());
+        if (intervencoesRaciocinio != null && documentoAtual.getIntervencoesRaciocinio() != null) intervencoesRaciocinio.setText(documentoAtual.getIntervencoesRaciocinio());
+        if (difAtencao != null && documentoAtual.getDifAtencao() != null) difAtencao.setText(documentoAtual.getDifAtencao());
+        if (intervencoesAtencao != null && documentoAtual.getIntervencoesAtencao() != null) intervencoesAtencao.setText(documentoAtual.getIntervencoesAtencao());
+
+        // Tela 4
+        if (difMemoria != null && documentoAtual.getDifMemoria() != null) difMemoria.setText(documentoAtual.getDifMemoria());
+        if (intervencoesMemoria != null && documentoAtual.getIntervencoesMemoria() != null) intervencoesMemoria.setText(documentoAtual.getIntervencoesMemoria());
+        if (difPercepcao != null && documentoAtual.getDifPercepcao() != null) difPercepcao.setText(documentoAtual.getDifPercepcao());
+        if (intervencoesPercepcao != null && documentoAtual.getIntervencoesPercepcao() != null) intervencoesPercepcao.setText(documentoAtual.getIntervencoesPercepcao());
+
+        // Tela 5
+        if (difSociabilidade != null && documentoAtual.getDifSociabilidade() != null) difSociabilidade.setText(documentoAtual.getDifSociabilidade());
+        if (intervencoesSociabilidade != null && documentoAtual.getIntervencoesSociabilidade() != null) intervencoesSociabilidade.setText(documentoAtual.getIntervencoesSociabilidade());
+
+        // Tela 6
+        if (resumoObjetivoPlano != null && documentoAtual.getObjetivoPlano() != null) resumoObjetivoPlano.setText(documentoAtual.getObjetivoPlano());
+        if (atendimentoAee != null && documentoAtual.getAee() != null) atendimentoAee.setValue(documentoAtual.getAee());
+        if (atendimentoPsicologo != null && documentoAtual.getPsicologo() != null) atendimentoPsicologo.setValue(documentoAtual.getPsicologo());
+        if (atendimentoFisioterapeuta != null && documentoAtual.getFisioterapeuta() != null) atendimentoFisioterapeuta.setValue(documentoAtual.getFisioterapeuta());
+        if (atendimentoPsicopedagogo != null && documentoAtual.getPsicopedagogo() != null) atendimentoPsicopedagogo.setValue(documentoAtual.getPsicopedagogo());
+        if (atendimentoTerapeutaOcupacional != null && documentoAtual.getTerapeutaOcupacional() != null) atendimentoTerapeutaOcupacional.setValue(documentoAtual.getTerapeutaOcupacional());
+        if (atendimentoEducacaoFisica != null && documentoAtual.getEducacaoFisica() != null) atendimentoEducacaoFisica.setValue(documentoAtual.getEducacaoFisica());
+        if (atendimentoEstimulacaoPrecoce != null && documentoAtual.getEstimulacaoPrecoce() != null) atendimentoEstimulacaoPrecoce.setValue(documentoAtual.getEstimulacaoPrecoce());
+
+        // Atualiza usuário logado
+        atualizarUsuarioLogado();
+    }
+
+    @Override
+    protected boolean validarTelaAtual() {
+        return true;
+    }
+
+    @Override
+    protected void setEducandoIdNoDocumento(String educandoId) {
+        if (documentoAtual != null) {
+            documentoAtual.setEducando_id(educandoId);
         }
     }
 
-    // Desabilita edição se estiver em modo visualização
-    private void desabilitarEdicaoSeVisualizacao() {
-        if (modoAtual != ModoPAEE.VISUALIZACAO)
-            return;
+    @Override
+    protected String getEducandoIdDoDocumento() {
+        return documentoAtual != null ? documentoAtual.getEducandoId() : null;
+    }
 
-        // Desabilita campos textuais
+    @Override
+    protected String getNomeDocumento() {
+        return "PAEE";
+    }
+
+    @Override
+    protected void desabilitarCampos() {
         desabilitarCampo(resumoTela1);
+        desabilitarCampo(dificuldadesMotoras);
+        desabilitarCampo(dificuldadesCognitivas);
+        desabilitarCampo(dificuldadesSensoriais);
+        desabilitarCampo(dificuldadesComunicacao);
+        desabilitarCampo(dificuldadesFamiliares);
+        desabilitarCampo(dificuldadesAfetivas);
+        desabilitarCampo(dificuldadesRaciocinio);
+        desabilitarCampo(dificuldadesAvas);
         desabilitarCampo(difDesenvolvimentoMotor);
         desabilitarCampo(intervencoesMotor);
         desabilitarCampo(difComunicacaoLinguagem);
@@ -243,19 +322,7 @@ public class PAEEController implements Initializable {
         desabilitarCampo(intervencoesPercepcao);
         desabilitarCampo(difSociabilidade);
         desabilitarCampo(intervencoesSociabilidade);
-        desabilitarCampo(difAva);
-        desabilitarCampo(intervencoesAva);
         desabilitarCampo(resumoObjetivoPlano);
-
-        // Desabilita ChoiceBoxes
-        desabilitarCampo(dificuldadesMotoras);
-        desabilitarCampo(dificuldadesCognitivas);
-        desabilitarCampo(dificuldadesSensoriais);
-        desabilitarCampo(dificuldadesComunicacao);
-        desabilitarCampo(dificuldadesFamiliares);
-        desabilitarCampo(dificuldadesAfetivas);
-        desabilitarCampo(dificuldadesRaciocinio);
-        desabilitarCampo(dificuldadesAvas);
         desabilitarCampo(atendimentoAee);
         desabilitarCampo(atendimentoPsicologo);
         desabilitarCampo(atendimentoFisioterapeuta);
@@ -263,211 +330,93 @@ public class PAEEController implements Initializable {
         desabilitarCampo(atendimentoTerapeutaOcupacional);
         desabilitarCampo(atendimentoEducacaoFisica);
         desabilitarCampo(atendimentoEstimulacaoPrecoce);
-
-        // Desabilita botão de conclusão
-        if (btnConcluir != null) {
-            btnConcluir.setDisable(true);
-        }
+        if (btnConcluir != null) btnConcluir.setDisable(true);
     }
 
-    // Método auxiliar para desabilitar campos
     private void desabilitarCampo(javafx.scene.Node campo) {
-        if (campo != null) {
-            campo.setDisable(true);
-        }
+        if (campo != null) campo.setDisable(true);
     }
 
-    // Carrega dados do PAEE atual na tela
-    private void carregarDadosNaTela() {
-        if (paeeAtual == null)
-            return;
+    // Ciclo de Vida
 
-        // Tela 1
-        if (resumoTela1 != null && paeeAtual.getResumo() != null) {
-            resumoTela1.setText(paeeAtual.getResumo());
-        }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        inicializarChoiceBoxes();
+        inicializarBase();
+    }
+
+    // Inicializa os valores das ChoiceBoxes
+    private void inicializarChoiceBoxes() {
+        // Tela 1 - Dificuldades (Sim/Não)
         if (dificuldadesMotoras != null) {
-            String valor = paeeAtual.getDificuldadesMotoras();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesMotoras.setValue(valor);
-            }
+            dificuldadesMotoras.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesCognitivas != null) {
-            String valor = paeeAtual.getDificuldadesCognitivas();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesCognitivas.setValue(valor);
-            }
+            dificuldadesCognitivas.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesSensoriais != null) {
-            String valor = paeeAtual.getDificuldadesSensoriais();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesSensoriais.setValue(valor);
-            }
+            dificuldadesSensoriais.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesComunicacao != null) {
-            String valor = paeeAtual.getDificuldadesComunicacao();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesComunicacao.setValue(valor);
-            }
+            dificuldadesComunicacao.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesFamiliares != null) {
-            String valor = paeeAtual.getDificuldadesFamiliares();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesFamiliares.setValue(valor);
-            }
+            dificuldadesFamiliares.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesAfetivas != null) {
-            String valor = paeeAtual.getDificuldadesAfetivas();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesAfetivas.setValue(valor);
-            }
+            dificuldadesAfetivas.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesRaciocinio != null) {
-            String valor = paeeAtual.getDificuldadesRaciocinio();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesRaciocinio.setValue(valor);
-            }
+            dificuldadesRaciocinio.getItems().setAll("Sim", "Não");
         }
         if (dificuldadesAvas != null) {
-            String valor = paeeAtual.getDificuldadesAvas();
-            if (valor != null && !valor.isEmpty()) {
-                dificuldadesAvas.setValue(valor);
-            }
+            dificuldadesAvas.getItems().setAll("Sim", "Não");
         }
 
-        // Tela 2
-        if (difDesenvolvimentoMotor != null && paeeAtual.getDifDesMotor() != null) {
-            difDesenvolvimentoMotor.setText(paeeAtual.getDifDesMotor());
+        // Tela 6 - Atendimentos (Sim/Não)
+        if (atendimentoAee != null) {
+            atendimentoAee.getItems().setAll("Sim", "Não");
         }
-        if (intervencoesMotor != null && paeeAtual.getIntervencoesMotor() != null) {
-            intervencoesMotor.setText(paeeAtual.getIntervencoesMotor());
+        if (atendimentoPsicologo != null) {
+            atendimentoPsicologo.getItems().setAll("Sim", "Não");
         }
-        if (difComunicacaoLinguagem != null && paeeAtual.getDifComunicacao() != null) {
-            difComunicacaoLinguagem.setText(paeeAtual.getDifComunicacao());
+        if (atendimentoFisioterapeuta != null) {
+            atendimentoFisioterapeuta.getItems().setAll("Sim", "Não");
         }
-        if (intervencoesComunicacao != null && paeeAtual.getIntervencoesComunicacao() != null) {
-            intervencoesComunicacao.setText(paeeAtual.getIntervencoesComunicacao());
+        if (atendimentoPsicopedagogo != null) {
+            atendimentoPsicopedagogo.getItems().setAll("Sim", "Não");
         }
-
-        // Tela 3
-        if (difRaciocinio != null && paeeAtual.getDifRaciocinio() != null) {
-            difRaciocinio.setText(paeeAtual.getDifRaciocinio());
+        if (atendimentoTerapeutaOcupacional != null) {
+            atendimentoTerapeutaOcupacional.getItems().setAll("Sim", "Não");
         }
-        if (intervencoesRaciocinio != null && paeeAtual.getIntervencoesRaciocinio() != null) {
-            intervencoesRaciocinio.setText(paeeAtual.getIntervencoesRaciocinio());
+        if (atendimentoEducacaoFisica != null) {
+            atendimentoEducacaoFisica.getItems().setAll("Sim", "Não");
         }
-        if (difAtencao != null && paeeAtual.getDifAtencao() != null) {
-            difAtencao.setText(paeeAtual.getDifAtencao());
-        }
-        if (intervencoesAtencao != null && paeeAtual.getIntervencoesAtencao() != null) {
-            intervencoesAtencao.setText(paeeAtual.getIntervencoesAtencao());
-        }
-
-        // Tela 4
-        if (difMemoria != null && paeeAtual.getDifMemoria() != null) {
-            difMemoria.setText(paeeAtual.getDifMemoria());
-        }
-        if (intervencoesMemoria != null && paeeAtual.getIntervencoesMemoria() != null) {
-            intervencoesMemoria.setText(paeeAtual.getIntervencoesMemoria());
-        }
-        if (difPercepcao != null && paeeAtual.getDifPercepcao() != null) {
-            difPercepcao.setText(paeeAtual.getDifPercepcao());
-        }
-        if (intervencoesPercepcao != null && paeeAtual.getIntervencoesPercepcao() != null) {
-            intervencoesPercepcao.setText(paeeAtual.getIntervencoesPercepcao());
-        }
-
-        // Tela 5
-        if (difSociabilidade != null && paeeAtual.getDifSociabilidade() != null) {
-            difSociabilidade.setText(paeeAtual.getDifSociabilidade());
-        }
-        if (intervencoesSociabilidade != null && paeeAtual.getIntervencoesSociabilidade() != null) {
-            intervencoesSociabilidade.setText(paeeAtual.getIntervencoesSociabilidade());
-        }
-        // OBS: AVA não tem campo específico no modelo
-
-        // Tela 6
-        if (resumoObjetivoPlano != null && paeeAtual.getObjetivoPlano() != null) {
-            resumoObjetivoPlano.setText(paeeAtual.getObjetivoPlano());
-        }
-        if (atendimentoAee != null && paeeAtual.getAee() != null && !paeeAtual.getAee().isEmpty()) {
-            atendimentoAee.setValue(paeeAtual.getAee());
-        }
-        if (atendimentoPsicologo != null && paeeAtual.getPsicologo() != null && !paeeAtual.getPsicologo().isEmpty()) {
-            atendimentoPsicologo.setValue(paeeAtual.getPsicologo());
-        }
-        if (atendimentoFisioterapeuta != null && paeeAtual.getFisioterapeuta() != null && !paeeAtual.getFisioterapeuta().isEmpty()) {
-            atendimentoFisioterapeuta.setValue(paeeAtual.getFisioterapeuta());
-        }
-        if (atendimentoPsicopedagogo != null && paeeAtual.getPsicopedagogo() != null && !paeeAtual.getPsicopedagogo().isEmpty()) {
-            atendimentoPsicopedagogo.setValue(paeeAtual.getPsicopedagogo());
-        }
-        if (atendimentoTerapeutaOcupacional != null && paeeAtual.getTerapeutaOcupacional() != null && !paeeAtual.getTerapeutaOcupacional().isEmpty()) {
-            atendimentoTerapeutaOcupacional.setValue(paeeAtual.getTerapeutaOcupacional());
-        }
-        if (atendimentoEducacaoFisica != null && paeeAtual.getEducacaoFisica() != null && !paeeAtual.getEducacaoFisica().isEmpty()) {
-            atendimentoEducacaoFisica.setValue(paeeAtual.getEducacaoFisica());
-        }
-        if (atendimentoEstimulacaoPrecoce != null && paeeAtual.getEstimulacaoPrecoce() != null && !paeeAtual.getEstimulacaoPrecoce().isEmpty()) {
-            atendimentoEstimulacaoPrecoce.setValue(paeeAtual.getEstimulacaoPrecoce());
-        }
-    }
-
-    // Mensagens
-    private void exibirMensagemErro(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: red;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
-        }
-    }
-
-    private void exibirMensagemSucesso(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: green;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
+        if (atendimentoEstimulacaoPrecoce != null) {
+            atendimentoEstimulacaoPrecoce.getItems().setAll("Sim", "Não");
         }
     }
 
     // Handlers de UI
     @FXML
     private void btnConcluirClick() {
-        if (modoAtual == ModoPAEE.VISUALIZACAO) {
+        if (ESTADO.modoAtual == ModoDocumento.VISUALIZACAO) {
             exibirMensagemErro("Modo visualização: não é possível salvar.");
             return;
         }
 
-        // Salva os dados da tela atual primeiro
         salvarDadosTelaAtual();
 
         // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir PAEE");
-        alerta.setHeaderText("Deseja salvar o PAEE agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (!exibirConfirmacao("Concluir PAEE", 
+                               "Deseja salvar o PAEE agora?", 
+                               "Todos os dados serão salvos no sistema.")) {
             return;
         }
 
-        // Garante que o objeto compartilhado tenha os dados mais recentes
-        paeeAtual = paeeCompartilhada;
-
-        // Salva o educando ID antes de resetar
-        String educandoId = paeeCompartilhada.getEducandoId();
+        // Garante que o builder tem os dados mais recentes
+        salvarDadosTelaAtual();
+        PAEEBuilder builder = obterOuCriarBuilder();
 
         try {
             // 1. Obtém o usuário logado
@@ -484,33 +433,34 @@ public class PAEEController implements Initializable {
                 return;
             }
 
-            // 3. Define o ID do USUÁRIO no PAEE
-            paeeCompartilhada.setProfessor_id(getIdProfessorLogado());
+            // 3. Garante que o educandoId está no builder antes de validar
+            String educandoId = getEducandoIdDoDocumento();
+            if (educandoId == null) {
+                exibirMensagemErro("Educando não foi definido. Impossível salvar o PAEE.");
+                return;
+            }
+            builder.comEducandoId(educandoId);
 
-            // 4. Metadados obrigatórios
-            paeeCompartilhada.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            // 4. Define o ID do USUÁRIO e metadados via builder
+            builder
+                .comProfessorId(getIdProfessorLogado())
+                .comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+
+            // Constrói o documento final a partir do builder
+            PAEE documentoFinal = builder.build();
+            ESTADO.documentoCompartilhado = documentoFinal;
+            documentoAtual = documentoFinal;
 
             boolean sucesso;
-            boolean edicao = modoAtual == ModoPAEE.EDICAO;
-            if (edicao) {
-                sucesso = paeeService.atualizarPAEE(paeeCompartilhada);
-            } else {
-                sucesso = paeeService.cadastrarNovaPAEE(paeeCompartilhada);
-            }
+            boolean edicao = ESTADO.modoAtual == ModoDocumento.EDICAO;
+            sucesso = edicao
+                    ? paeeService.atualizarPAEE(documentoFinal)
+                    : paeeService.cadastrarNovaPAEE(documentoFinal);
 
             if (sucesso) {
                 exibirMensagemSucesso(edicao ? "PAEE atualizado com sucesso!" : "PAEE criado com sucesso!");
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(2000);
-                        javafx.application.Platform.runLater(() -> {
-                            resetarPAEE();
-                            voltarComPopup(educandoId);
-                        });
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+                limparEstado();
+                voltarComPopup(educandoId);
             } else {
                 exibirMensagemErro(
                         edicao ? "Erro ao atualizar PAEE. Tente novamente." : "Erro ao cadastrar PAEE. Tente novamente.");
@@ -520,6 +470,22 @@ public class PAEEController implements Initializable {
             exibirMensagemErro("Erro ao salvar PAEE: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    // Handlers genéricos referenciados pelo FXML
+    @FXML
+    protected void btnCancelarClick() {
+        super.btnCancelarClick();
+    }
+
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
+
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
     }
 
     private String getIdProfessorLogado() {
@@ -533,28 +499,14 @@ public class PAEEController implements Initializable {
         GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
 
-    // Handler para o botão Cancelar - cancela o processo de PAEE
-    @FXML
-    private void btnCancelarClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar PAEE");
-        alert.setHeaderText("Deseja realmente cancelar?");
-        alert.setContentText("Todos os dados preenchidos serão perdidos.");
 
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            // Salva o educando ID antes de resetar
-            String educandoId = paeeAtual.getEducandoId();
-            resetarPAEE();
-            voltarComPopup(educandoId);
-        }
-    }
 
     // Volta para a turma com popup do educando
-    private void voltarComPopup(String educandoId) {
-        if (turmaIdOrigem != null) {
+    protected void voltarComPopup(String educandoId) {
+        if (ESTADO.turmaIdOrigem != null) {
             try {
                 TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
+                Turma turma = turmaRepo.buscarPorId(ESTADO.turmaIdOrigem);
 
                 if (turma != null) {
                     javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
@@ -564,7 +516,6 @@ public class PAEEController implements Initializable {
                     GerenciadorTelas.setRaiz(root);
 
                     if (educandoId != null) {
-                        EducandoRepository educandoRepo = new EducandoRepository();
                         Educando educando = educandoRepo.buscarPorId(educandoId);
 
                         if (educando != null) {
@@ -577,7 +528,7 @@ public class PAEEController implements Initializable {
                             GerenciadorTelas.getInstance().abrirPopup(popupRoot, "Progresso do Atendimento");
                         }
                     }
-                    turmaIdOrigem = null;
+                    ESTADO.turmaIdOrigem = null;
                     return;
                 }
             } catch (Exception e) {
@@ -585,7 +536,7 @@ public class PAEEController implements Initializable {
             }
         }
 
-        turmaIdOrigem = null;
+        ESTADO.turmaIdOrigem = null;
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
@@ -601,18 +552,12 @@ public class PAEEController implements Initializable {
         voltarParaTurma();
     }
 
-    private void resetarPAEE() {
-        telaAtual = 1;
-        paeeCompartilhada = null;
-        paeeAtual = new PAEE();
-    }
-
     // Método auxiliar para voltar à turma de origem
     private void voltarParaTurma() {
-        if (turmaIdOrigem != null) {
+        if (ESTADO.turmaIdOrigem != null) {
             try {
                 TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
+                Turma turma = turmaRepo.buscarPorId(ESTADO.turmaIdOrigem);
 
                 if (turma != null) {
                     javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
@@ -629,194 +574,58 @@ public class PAEEController implements Initializable {
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    // Handler para o botão Seguinte - navega para próxima tela
-    @FXML
-    private void btnSeguinteClick() {
-        navegandoEntreTelas = true;
 
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
 
-        // Determina qual é a próxima tela
-        switch (telaAtual) {
-            case 1:
-                GerenciadorTelas.getInstance().trocarTela("paee-2.fxml");
-                break;
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("paee-3.fxml");
-                break;
-            case 3:
-                GerenciadorTelas.getInstance().trocarTela("paee-4.fxml");
-                break;
-            case 4:
-                GerenciadorTelas.getInstance().trocarTela("paee-5.fxml");
-                break;
-            case 5:
-                GerenciadorTelas.getInstance().trocarTela("paee-6.fxml");
-                break;
-        }
-    }
-
-    // Handler para o botão Voltar - navega para tela anterior
-    @FXML
-    private void btnVoltarClick() {
-        navegandoEntreTelas = true;
-
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
-
-        // Determina qual é a tela anterior
-        switch (telaAtual) {
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("paee-1.fxml");
-                break;
-            case 3:
-                GerenciadorTelas.getInstance().trocarTela("paee-2.fxml");
-                break;
-            case 4:
-                GerenciadorTelas.getInstance().trocarTela("paee-3.fxml");
-                break;
-            case 5:
-                GerenciadorTelas.getInstance().trocarTela("paee-4.fxml");
-                break;
-            case 6:
-                GerenciadorTelas.getInstance().trocarTela("paee-5.fxml");
-                break;
-        }
-    }
-
-    // Salva os dados da tela atual no objeto compartilhado
-    private void salvarDadosTelaAtual() {
-        if (paeeCompartilhada == null) {
-            System.out.println("DEBUG: paeeCompartilhada é null em salvarDadosTelaAtual");
-            return;
-        }
-
-        System.out.println("DEBUG: Salvando dados da tela " + telaAtual);
-
-        // Tela 1
-        if (resumoTela1 != null) {
-            String valor = resumoTela1.getText().trim();
-            paeeCompartilhada.setResumo(valor);
-        }
-        if (dificuldadesMotoras != null) {
-            paeeCompartilhada.setDificuldades_motoras(dificuldadesMotoras.getValue() != null ? dificuldadesMotoras.getValue() : "Não");
-        }
-        if (dificuldadesCognitivas != null) {
-            paeeCompartilhada.setDificuldades_cognitivas(dificuldadesCognitivas.getValue() != null ? dificuldadesCognitivas.getValue() : "Não");
-        }
-        if (dificuldadesSensoriais != null) {
-            paeeCompartilhada.setDificuldades_sensoriais(dificuldadesSensoriais.getValue() != null ? dificuldadesSensoriais.getValue() : "Não");
-        }
-        if (dificuldadesComunicacao != null) {
-            paeeCompartilhada.setDificuldades_comunicacao(dificuldadesComunicacao.getValue() != null ? dificuldadesComunicacao.getValue() : "Não");
-        }
-        if (dificuldadesFamiliares != null) {
-            paeeCompartilhada.setDificuldades_familiares(dificuldadesFamiliares.getValue() != null ? dificuldadesFamiliares.getValue() : "Não");
-        }
-        if (dificuldadesAfetivas != null) {
-            paeeCompartilhada.setDificuldades_afetivas(dificuldadesAfetivas.getValue() != null ? dificuldadesAfetivas.getValue() : "Não");
-        }
-        if (dificuldadesRaciocinio != null) {
-            paeeCompartilhada.setDificuldades_raciocinio(dificuldadesRaciocinio.getValue() != null ? dificuldadesRaciocinio.getValue() : "Não");
-        }
-        if (dificuldadesAvas != null) {
-            paeeCompartilhada.setDificuldades_avas(dificuldadesAvas.getValue() != null ? dificuldadesAvas.getValue() : "Não");
-        }
-
-        // Tela 2
-        if (difDesenvolvimentoMotor != null)
-            paeeCompartilhada.setDif_des_motor(difDesenvolvimentoMotor.getText().trim());
-        if (intervencoesMotor != null)
-            paeeCompartilhada.setIntervencoes_motor(intervencoesMotor.getText().trim());
-        if (difComunicacaoLinguagem != null)
-            paeeCompartilhada.setDif_comunicacao(difComunicacaoLinguagem.getText().trim());
-        if (intervencoesComunicacao != null)
-            paeeCompartilhada.setIntervencoes_comunicacao(intervencoesComunicacao.getText().trim());
-
-        // Tela 3
-        if (difRaciocinio != null)
-            paeeCompartilhada.setDif_raciocinio(difRaciocinio.getText().trim());
-        if (intervencoesRaciocinio != null)
-            paeeCompartilhada.setIntervencoes_raciocinio(intervencoesRaciocinio.getText().trim());
-        if (difAtencao != null)
-            paeeCompartilhada.setDif_atencao(difAtencao.getText().trim());
-        if (intervencoesAtencao != null)
-            paeeCompartilhada.setIntervencoes_atencao(intervencoesAtencao.getText().trim());
-
-        // Tela 4
-        if (difMemoria != null)
-            paeeCompartilhada.setDif_memoria(difMemoria.getText().trim());
-        if (intervencoesMemoria != null)
-            paeeCompartilhada.setIntervencoes_memoria(intervencoesMemoria.getText().trim());
-        if (difPercepcao != null)
-            paeeCompartilhada.setDif_percepcao(difPercepcao.getText().trim());
-        if (intervencoesPercepcao != null)
-            paeeCompartilhada.setIntervencoes_percepcao(intervencoesPercepcao.getText().trim());
-
-        // Tela 5
-        if (difSociabilidade != null)
-            paeeCompartilhada.setDif_sociabilidade(difSociabilidade.getText().trim());
-        if (intervencoesSociabilidade != null)
-            paeeCompartilhada.setIntervencoes_sociabilidade(intervencoesSociabilidade.getText().trim());
-        // Nota: AVA não tem campo específico no modelo
-
-        // Tela 6
-        if (resumoObjetivoPlano != null)
-            paeeCompartilhada.setObjetivo_plano(resumoObjetivoPlano.getText().trim());
-        if (atendimentoAee != null) {
-            paeeCompartilhada.setAee(atendimentoAee.getValue() != null ? atendimentoAee.getValue() : "Não");
-        }
-        if (atendimentoPsicologo != null) {
-            paeeCompartilhada.setPsicologo(atendimentoPsicologo.getValue() != null ? atendimentoPsicologo.getValue() : "Não");
-        }
-        if (atendimentoFisioterapeuta != null) {
-            paeeCompartilhada.setFisioterapeuta(atendimentoFisioterapeuta.getValue() != null ? atendimentoFisioterapeuta.getValue() : "Não");
-        }
-        if (atendimentoPsicopedagogo != null) {
-            paeeCompartilhada.setPsicopedagogo(atendimentoPsicopedagogo.getValue() != null ? atendimentoPsicopedagogo.getValue() : "Não");
-        }
-        if (atendimentoTerapeutaOcupacional != null) {
-            paeeCompartilhada.setTerapeuta_ocupacional(atendimentoTerapeutaOcupacional.getValue() != null ? atendimentoTerapeutaOcupacional.getValue() : "Não");
-        }
-        if (atendimentoEducacaoFisica != null) {
-            paeeCompartilhada.setEducacao_fisica(atendimentoEducacaoFisica.getValue() != null ? atendimentoEducacaoFisica.getValue() : "Não");
-        }
-        if (atendimentoEstimulacaoPrecoce != null) {
-            paeeCompartilhada.setEstimulacao_precoce(atendimentoEstimulacaoPrecoce.getValue() != null ? atendimentoEstimulacaoPrecoce.getValue() : "Não");
-        }
-    }
-
-    // Métodos de fluxo
+    // Métodos de fluxo - delega para a classe base
     public static void iniciarNovoPAEE() {
-        modoAtual = ModoPAEE.NOVA;
-        telaAtual = 1;
-        paeeCompartilhada = new PAEE();
-        navegandoEntreTelas = false;
+        // Preserva educandoId se já foi definido antes desta chamada
+        String educandoIdAnterior = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdAnterior = ESTADO.documentoCompartilhado.getEducandoId();
+        }
+        
+        ESTADO.modoAtual = ModoDocumento.NOVA;
+        ESTADO.telaAtual = 1;
+        PAEE novoPAEE = new PAEE();
+        
+        // Restaura o educandoId se havia um antes
+        if (educandoIdAnterior != null) {
+            novoPAEE.setEducando_id(educandoIdAnterior);
+        }
+        
+        ESTADO.documentoCompartilhado = novoPAEE;
+        ESTADO.builder = null; // Builder será criado ao acessar a primeira tela
+        ESTADO.navegandoEntreTelas = false;
     }
 
     public static void editarPAEEExistente(PAEE existente) {
-        modoAtual = ModoPAEE.EDICAO;
-        telaAtual = 1;
-        paeeCompartilhada = (existente != null) ? existente : new PAEE();
-        navegandoEntreTelas = false;
+        ESTADO.modoAtual = ModoDocumento.EDICAO;
+        ESTADO.telaAtual = 1;
+        ESTADO.documentoCompartilhado = (existente != null) ? existente : new PAEE();
+        ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
+        ESTADO.navegandoEntreTelas = false;
     }
 
     public static void visualizarPAEE(PAEE existente) {
-        modoAtual = ModoPAEE.VISUALIZACAO;
-        telaAtual = 1;
-        paeeCompartilhada = existente;
-        navegandoEntreTelas = false;
+        ESTADO.modoAtual = ModoDocumento.VISUALIZACAO;
+        ESTADO.telaAtual = 1;
+        ESTADO.documentoCompartilhado = existente;
+        ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
+        ESTADO.navegandoEntreTelas = false;
     }
 
     public static void setEducandoIdParaPAEE(String educandoId) {
-        if (paeeCompartilhada == null) {
-            paeeCompartilhada = new PAEE();
+        if (ESTADO.documentoCompartilhado == null) {
+            ESTADO.documentoCompartilhado = new PAEE();
         }
-        paeeCompartilhada.setEducando_id(educandoId);
+        ESTADO.documentoCompartilhado.setEducando_id(educandoId);
+        if (!(ESTADO.builder instanceof PAEEBuilder)) {
+            ESTADO.builder = new PAEEBuilder((PAEE) ESTADO.documentoCompartilhado);
+        }
+        ((PAEEBuilder) ESTADO.builder).comEducandoId(educandoId);
     }
 
     public static void setTurmaIdOrigem(String turmaId) {
-        turmaIdOrigem = turmaId;
+        ESTADO.turmaIdOrigem = turmaId;
     }
 }

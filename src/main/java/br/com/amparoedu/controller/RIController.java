@@ -10,33 +10,25 @@ import br.com.amparoedu.backend.model.RI;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.Usuario;
 import br.com.amparoedu.backend.repository.EducandoRepository;
-import br.com.amparoedu.backend.repository.TurmaRepository;
 import br.com.amparoedu.backend.service.AuthService;
 import br.com.amparoedu.backend.service.RIService;
+import br.com.amparoedu.backend.builder.RIBuilder;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class RIController implements Initializable {
+public class RIController extends DocumentoControllerBase<RI> implements Initializable {
 
-    // Modo de uso
-    public enum ModoRI {
-        NOVA, EDICAO, VISUALIZACAO
-    }
+    // Estado estático compartilhado entre telas
+    private static final EstadoDocumento<RI> ESTADO = new EstadoDocumento<>();
+    private static boolean salvando = false;
 
-    // Estado e serviços
+    // Serviço
     private final RIService riService = new RIService();
-    private RI riAtual = new RI();
-    private static int telaAtual = 1; // 1, 2 ou 3
-    private static RI riCompartilhada;
-    private static String turmaIdOrigem;
-    private static ModoRI modoAtual = ModoRI.NOVA;
-    private static boolean navegandoEntreTelas;
+    private final EducandoRepository educandoRepo = new EducandoRepository();
 
     // Controles RI - Tela 1
     @FXML
@@ -70,55 +62,133 @@ public class RIController implements Initializable {
     @FXML
     private Label cargoUsuario;
 
-    // Ciclo de vida
+    // ========== Implementação dos Métodos Abstratos ==========
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        boolean vindoDeNavegacao = navegandoEntreTelas;
-        navegandoEntreTelas = false;
+    protected EstadoDocumento<RI> getEstado() {
+        return ESTADO;
+    }
 
-        // Detecta qual tela está carregada pelos controles presentes
+    @Override
+    protected int getTotalTelas() {
+        return 3;
+    }
+
+    @Override
+    protected String getPrefixoTela() {
+        return "relatorio-individual";
+    }
+
+    @Override
+    protected RI criarNovoDocumento() {
+        return new RI();
+    }
+
+    @Override
+    protected int detectarTelaAtual() {
+        if (dadosFuncionais != null) return 1;
+        if (adaptacoesCurriculares != null) return 2;
+        if (interacaoProfessora != null) return 3;
+        return -1;
+    }
+
+    @Override
+    protected void salvarDadosTelaAtual() {
+        RIBuilder builder = obterOuCriarBuilder();
+
+        // Tela 1
         if (dadosFuncionais != null) {
-            telaAtual = 1;
-        } else if (adaptacoesCurriculares != null) {
-            telaAtual = 2;
-        } else if (interacaoProfessora != null) {
-            telaAtual = 3;
+            builder.comDadosFuncionais(dadosFuncionais.getText().trim());
+        }
+        if (funcionalidadeCognitiva != null) {
+            builder.comFuncionalidadeCognitiva(funcionalidadeCognitiva.getText().trim());
+        }
+        if (alfabetizacao != null) {
+            builder.comAlfabetizacao(alfabetizacao.getText().trim());
         }
 
-        // Se não veio de navegação, prepara estado conforme o modo selecionado
-        if (!vindoDeNavegacao) {
-            if (modoAtual == ModoRI.NOVA) {
-                telaAtual = 1;
-                if (riCompartilhada == null) {
-                    riCompartilhada = new RI();
-                }
-            } else {
-                if (riCompartilhada == null) {
-                    riCompartilhada = new RI();
-                }
-                telaAtual = 1;
-            }
-        } else if (telaAtual == 1 && riCompartilhada == null) {
-            riCompartilhada = new RI();
+        // Tela 2
+        if (adaptacoesCurriculares != null) {
+            builder.comAdaptacoesCurriculares(adaptacoesCurriculares.getText().trim());
+        }
+        if (participacaoAtividade != null) {
+            builder.comParticipacaoAtividade(participacaoAtividade.getText().trim());
+        }
+        if (autonomia != null) {
+            builder.comAutonomia(autonomia.getText().trim());
         }
 
-        // Usa o RI compartilhado
-        if (riCompartilhada != null) {
-            riAtual = riCompartilhada;
+        // Tela 3
+        if (interacaoProfessora != null) {
+            builder.comInteracaoProfessora(interacaoProfessora.getText().trim());
+        }
+        if (atividadesVidaDiaria != null) {
+            builder.comAtividadesVidaDiaria(atividadesVidaDiaria.getText().trim());
+        }
+    }
+
+    @Override
+    protected void carregarDadosNaTela() {
+        if (documentoAtual == null) return;
+
+        // Tela 1
+        if (dadosFuncionais != null && documentoAtual.getDados_funcionais() != null) {
+            dadosFuncionais.setText(documentoAtual.getDados_funcionais());
+        }
+        if (funcionalidadeCognitiva != null && documentoAtual.getFuncionalidade_cognitiva() != null) {
+            funcionalidadeCognitiva.setText(documentoAtual.getFuncionalidade_cognitiva());
+        }
+        if (alfabetizacao != null && documentoAtual.getAlfabetizacao() != null) {
+            alfabetizacao.setText(documentoAtual.getAlfabetizacao());
         }
 
-        // Inicializa componentes
-        carregarDadosNaTela();
-        desabilitarEdicaoSeVisualizacao();
+        // Tela 2
+        if (adaptacoesCurriculares != null && documentoAtual.getAdaptacoes_curriculares() != null) {
+            adaptacoesCurriculares.setText(documentoAtual.getAdaptacoes_curriculares());
+        }
+        if (participacaoAtividade != null && documentoAtual.getParticipacao_atividade() != null) {
+            participacaoAtividade.setText(documentoAtual.getParticipacao_atividade());
+        }
+        if (autonomia != null && documentoAtual.getAutonomia() != null) {
+            autonomia.setText(documentoAtual.getAutonomia());
+        }
+
+        // Tela 3
+        if (interacaoProfessora != null && documentoAtual.getInteracao_professora() != null) {
+            interacaoProfessora.setText(documentoAtual.getInteracao_professora());
+        }
+        if (atividadesVidaDiaria != null && documentoAtual.getAtividades_vida_diaria() != null) {
+            atividadesVidaDiaria.setText(documentoAtual.getAtividades_vida_diaria());
+        }
+
+        // Atualiza usuário logado
         atualizarUsuarioLogado();
     }
 
-    // Desabilita edição se estiver em modo visualização
-    private void desabilitarEdicaoSeVisualizacao() {
-        if (modoAtual != ModoRI.VISUALIZACAO)
-            return;
+    @Override
+    protected boolean validarTelaAtual() {
+        return true; // RI não tem validação específica entre telas
+    }
 
-        // Desabilita campos textuais
+    @Override
+    protected void setEducandoIdNoDocumento(String educandoId) {
+        if (documentoAtual != null) {
+            documentoAtual.setEducando_id(educandoId);
+        }
+    }
+
+    @Override
+    protected String getEducandoIdDoDocumento() {
+        return documentoAtual != null ? documentoAtual.getEducando_id() : null;
+    }
+
+    @Override
+    protected String getNomeDocumento() {
+        return "Relatório Individual";
+    }
+
+    @Override
+    protected void desabilitarCampos() {
         desabilitarCampo(dadosFuncionais);
         desabilitarCampo(funcionalidadeCognitiva);
         desabilitarCampo(alfabetizacao);
@@ -127,165 +197,84 @@ public class RIController implements Initializable {
         desabilitarCampo(autonomia);
         desabilitarCampo(interacaoProfessora);
         desabilitarCampo(atividadesVidaDiaria);
-
-        // Desabilita botão de conclusão
-        if (btnConcluir != null) {
-            btnConcluir.setDisable(true);
-        }
+        if (btnConcluir != null) btnConcluir.setDisable(true);
     }
 
-    // Método auxiliar para desabilitar campos
     private void desabilitarCampo(javafx.scene.Node campo) {
-        if (campo != null) {
-            campo.setDisable(true);
-        }
+        if (campo != null) campo.setDisable(true);
     }
 
-    // Carrega dados do RI atual na tela
-    private void carregarDadosNaTela() {
-        if (riAtual == null)
-            return;
+    // Ciclo de Vida
 
-        // Tela 1
-        if (dadosFuncionais != null && riAtual.getDados_funcionais() != null) {
-            dadosFuncionais.setText(riAtual.getDados_funcionais());
-        }
-        if (funcionalidadeCognitiva != null && riAtual.getFuncionalidade_cognitiva() != null) {
-            funcionalidadeCognitiva.setText(riAtual.getFuncionalidade_cognitiva());
-        }
-        if (alfabetizacao != null && riAtual.getAlfabetizacao() != null) {
-            alfabetizacao.setText(riAtual.getAlfabetizacao());
-        }
-
-        // Tela 2
-        if (adaptacoesCurriculares != null && riAtual.getAdaptacoes_curriculares() != null) {
-            adaptacoesCurriculares.setText(riAtual.getAdaptacoes_curriculares());
-        }
-        if (participacaoAtividade != null && riAtual.getParticipacao_atividade() != null) {
-            participacaoAtividade.setText(riAtual.getParticipacao_atividade());
-        }
-        if (autonomia != null && riAtual.getAutonomia() != null) {
-            autonomia.setText(riAtual.getAutonomia());
-        }
-
-        // Tela 3
-        if (interacaoProfessora != null && riAtual.getInteracao_professora() != null) {
-            interacaoProfessora.setText(riAtual.getInteracao_professora());
-        }
-        if (atividadesVidaDiaria != null && riAtual.getAtividades_vida_diaria() != null) {
-            atividadesVidaDiaria.setText(riAtual.getAtividades_vida_diaria());
-        }
-    }
-
-    // Atualiza informações do usuário logado
-    private void atualizarUsuarioLogado() {
-        try {
-            Usuario usuario = AuthService.getUsuarioLogado();
-            if (usuario != null) {
-                if (nomeUsuario != null) {
-                    nomeUsuario.setText(usuario.getEmail());
-                }
-                if (cargoUsuario != null) {
-                    cargoUsuario.setText(usuario.getTipo());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Mensagens
-    private void exibirMensagemErro(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: red;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
-        }
-    }
-
-    private void exibirMensagemSucesso(String mensagem) {
-        if (validationMsg != null) {
-            validationMsg.setText(mensagem);
-            validationMsg.setStyle("-fx-text-fill: green;");
-            validationMsg.setVisible(true);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText(mensagem);
-            alert.show();
-        }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        inicializarBase();
     }
 
     // Handlers de UI
+
     @FXML
-    private void btnConcluirClick() {
-        if (modoAtual == ModoRI.VISUALIZACAO) {
-            exibirMensagemErro("Modo visualização: não é possível salvar.");
+    protected void btnConcluirClick() {
+        EstadoDocumento<RI> estado = getEstado();
+        if (estado.modoAtual == ModoDocumento.VISUALIZACAO) {
+            exibirErro("Modo visualização: não é possível salvar.");
             return;
         }
 
-        // Salva os dados da tela atual primeiro
+        if (salvando) {
+            return;
+        }
+
         salvarDadosTelaAtual();
 
-        // Mostra aviso antes de salvar
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Concluir Relatório Individual");
-        alerta.setHeaderText("Deseja salvar o Relatório Individual agora?");
-        alerta.setContentText("Todos os dados serão salvos no sistema.");
-        var opcao = alerta.showAndWait();
-        if (opcao.isEmpty() || opcao.get() != ButtonType.OK) {
+        if (!exibirConfirmacao("Concluir Relatório Individual", 
+                               "Deseja salvar o Relatório Individual agora?", 
+                               "Todos os dados serão salvos no sistema.")) {
             return;
         }
 
-        // Garante que o objeto compartilhado tenha os dados mais recentes
-        riAtual = riCompartilhada;
+        salvando = true;
+        if (btnConcluir != null) {
+            btnConcluir.setDisable(true);
+        }
 
-        // Salva o educando ID antes de resetar
-        String educandoId = riCompartilhada.getEducando_id();
+        String educandoId = documentoAtual != null ? documentoAtual.getEducando_id() : null;
+        RIBuilder builder = obterOuCriarBuilder();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
 
         try {
-            // 1. Obtém o usuário logado
             Usuario usuarioLogado = AuthService.getUsuarioLogado();
-
             if (usuarioLogado == null) {
-                exibirMensagemErro("Usuário não está logado. Faça login novamente.");
+                exibirErro("Usuário não está logado. Faça login novamente.");
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
                 return;
             }
 
-            // 2. Verifica se é professor
             if (!"PROFESSOR".equalsIgnoreCase(usuarioLogado.getTipo())) {
-                exibirMensagemErro("Apenas professores podem criar Relatórios Individuais. Tipo do usuário: " + usuarioLogado.getTipo());
+                exibirErro("Apenas professores podem criar Relatórios Individuais.");
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
                 return;
             }
 
-            // 3. Define o ID do professor no RI
-            riCompartilhada.setProfessor_id(getIdProfessorLogado());
-
-            // 4. Metadados obrigatórios
-            riCompartilhada.setData_criacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
-
-            boolean sucesso;
-            boolean edicao = modoAtual == ModoRI.EDICAO;
-            if (edicao) {
-                sucesso = riService.atualizarRI(riCompartilhada);
-            } else {
-                sucesso = riService.cadastrarNovoRI(riCompartilhada);
-            }
+            builder.comProfessorId(AuthService.getIdProfessorLogado());
+            builder.comDataCriacao(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+            
+            RI riParaSalvar = builder.build();
+            boolean edicao = estado.modoAtual == ModoDocumento.EDICAO;
+            boolean sucesso = edicao ? riService.atualizarRI(riParaSalvar) : riService.cadastrarNovoRI(riParaSalvar);
 
             if (sucesso) {
-                exibirMensagemSucesso(edicao ? "Relatório Individual atualizado com sucesso!" : "Relatório Individual criado com sucesso!");
+                exibirSucesso(edicao ? "Relatório Individual atualizado com sucesso!" : "Relatório Individual criado com sucesso!");
                 new Thread(() -> {
                     try {
                         Thread.sleep(2000);
                         javafx.application.Platform.runLater(() -> {
-                            resetarRI();
+                            salvando = false;
+                            limparEstado();
                             voltarComPopup(educandoId);
                         });
                     } catch (InterruptedException e) {
@@ -293,55 +282,79 @@ public class RIController implements Initializable {
                     }
                 }).start();
             } else {
-                exibirMensagemErro(edicao ? "Erro ao atualizar Relatório Individual. Tente novamente." : "Erro ao cadastrar Relatório Individual. Tente novamente.");
+                salvando = false;
+                if (btnConcluir != null) btnConcluir.setDisable(false);
+                exibirErro(edicao ? "Erro ao atualizar Relatório Individual." : "Erro ao cadastrar Relatório Individual.");
             }
-
         } catch (Exception e) {
-            exibirMensagemErro("Erro ao salvar Relatório Individual: " + e.getMessage());
+            salvando = false;
+            if (btnConcluir != null) btnConcluir.setDisable(false);
+            exibirErro("Erro ao salvar Relatório Individual: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private String getIdProfessorLogado() {
-        return AuthService.getIdProfessorLogado();
-    }
-
-    // Handler para o botão Sair - fecha a janela/volta para a tela anterior
     @FXML
     private void btnSairClick() {
         AuthService.logout();
         GerenciadorTelas.getInstance().trocarTela("tela-de-login.fxml");
     }
 
-    // Handler para o botão Cancelar - cancela o processo de RI
     @FXML
-    private void btnCancelarClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar Relatório Individual");
-        alert.setHeaderText("Deseja realmente cancelar?");
-        alert.setContentText("Todos os dados preenchidos serão perdidos.");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            // Salva o educando ID antes de resetar
-            String educandoId = riAtual != null ? riAtual.getEducando_id() : null;
-            resetarRI();
-            voltarComPopup(educandoId);
-        }
+    private void btnTurmasClick() {
+        GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    // Handler para o botão Cancelar (versão alternativa)
+    @FXML
+    private void btnAlunosClick() {
+        voltarParaTurma();
+    }
+
+    @FXML
+    private void btnRelatoriosClick() {
+        btnTurmasClick();
+    }
+
+    @FXML
+    protected void btnCancelarClick() {
+        super.btnCancelarClick();
+    }
+
     @FXML
     private void btnCancelClick() {
         btnCancelarClick();
     }
 
-    // Volta para a turma com popup do educando
-    private void voltarComPopup(String educandoId) {
-        if (turmaIdOrigem != null) {
-            try {
-                TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
+    @FXML
+    protected void btnVoltarClick() {
+        super.btnVoltarClick();
+    }
 
+    @FXML
+    protected void btnSeguinteClick() {
+        super.btnProximoClick();
+    }
+
+    // Métodos Auxiliares
+
+    @Override
+    protected void atualizarUsuarioLogado() {
+        try {
+            Usuario usuario = AuthService.getUsuarioLogado();
+            if (usuario != null) {
+                if (nomeUsuario != null) nomeUsuario.setText(usuario.getEmail());
+                if (cargoUsuario != null) cargoUsuario.setText(usuario.getTipo());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void voltarComPopup(String educandoId) {
+        EstadoDocumento<RI> estado = getEstado();
+        if (estado.turmaIdOrigem != null) {
+            try {
+                Turma turma = turmaRepo.buscarPorId(estado.turmaIdOrigem);
                 if (turma != null) {
                     javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
                     javafx.scene.Parent root = loader.load();
@@ -350,12 +363,9 @@ public class RIController implements Initializable {
                     GerenciadorTelas.setRaiz(root);
 
                     if (educandoId != null) {
-                        EducandoRepository educandoRepo = new EducandoRepository();
                         Educando educando = educandoRepo.buscarPorId(educandoId);
-
                         if (educando != null) {
-                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas
-                                    .getLoader("progresso-atendimento.fxml");
+                            javafx.fxml.FXMLLoader popupLoader = GerenciadorTelas.getLoader("progresso-atendimento.fxml");
                             javafx.scene.Parent popupRoot = popupLoader.load();
                             ProgressoAtendimentoController popupController = popupLoader.getController();
                             popupController.setTurma(turma);
@@ -363,49 +373,22 @@ public class RIController implements Initializable {
                             GerenciadorTelas.getInstance().abrirPopup(popupRoot, "Progresso do Atendimento");
                         }
                     }
-                    turmaIdOrigem = null;
+                    estado.turmaIdOrigem = null;
                     return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        turmaIdOrigem = null;
+        estado.turmaIdOrigem = null;
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    // Handler para o botão Turmas - navega para a tela de turmas
-    @FXML
-    private void btnTurmasClick() {
-        GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
-    }
-
-    // Handler para o botão Alunos - navega para a tela de alunos
-    @FXML
-    private void btnAlunosClick() {
-        voltarParaTurma();
-    }
-
-    // Handler para o botão Relatórios
-    @FXML
-    private void btnRelatoriosClick() {
-        btnTurmasClick();
-    }
-
-    private void resetarRI() {
-        telaAtual = 1;
-        riCompartilhada = null;
-        riAtual = new RI();
-    }
-
-    // Método auxiliar para voltar à turma de origem
     private void voltarParaTurma() {
-        if (turmaIdOrigem != null) {
+        EstadoDocumento<RI> estado = getEstado();
+        if (estado.turmaIdOrigem != null) {
             try {
-                TurmaRepository turmaRepo = new TurmaRepository();
-                Turma turma = turmaRepo.buscarPorId(turmaIdOrigem);
-
+                Turma turma = turmaRepo.buscarPorId(estado.turmaIdOrigem);
                 if (turma != null) {
                     javafx.fxml.FXMLLoader loader = GerenciadorTelas.getLoader("view-turma.fxml");
                     javafx.scene.Parent root = loader.load();
@@ -421,120 +404,59 @@ public class RIController implements Initializable {
         GerenciadorTelas.getInstance().trocarTela("tela-inicio-professor.fxml");
     }
 
-    // Handler para o botão Seguinte - navega para próxima tela
-    @FXML
-    private void btnSeguinteClick() {
-        navegandoEntreTelas = true;
-
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
-
-        // Determina qual é a próxima tela
-        switch (telaAtual) {
-            case 1:
-                GerenciadorTelas.getInstance().trocarTela("relatorio-individual-2.fxml");
-                break;
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("relatorio-individual-3.fxml");
-                break;
+    private RIBuilder obterOuCriarBuilder() {
+        EstadoDocumento<RI> estado = getEstado();
+        if (estado.builder instanceof RIBuilder) {
+            return (RIBuilder) estado.builder;
         }
+
+        RI base = documentoAtual != null ? documentoAtual : new RI();
+        RIBuilder builder = new RIBuilder(base);
+        String educandoId = getEducandoIdDoDocumento();
+        if (educandoId != null) {
+            builder.comEducandoId(educandoId);
+        }
+        estado.builder = builder;
+        return builder;
     }
 
-    // Handler para o botão Voltar - navega para tela anterior
-    @FXML
-    private void btnVoltarClick() {
-        navegandoEntreTelas = true;
+    // Métodos Estáticos para Factory
 
-        // Salva os dados da tela atual antes de navegar
-        salvarDadosTelaAtual();
-
-        // Determina qual é a tela anterior
-        switch (telaAtual) {
-            case 2:
-                GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
-                break;
-            case 3:
-                GerenciadorTelas.getInstance().trocarTela("relatorio-individual-2.fxml");
-                break;
-        }
-    }
-
-    // Salva os dados da tela atual no objeto compartilhado
-    private void salvarDadosTelaAtual() {
-        if (riCompartilhada == null) {
-            return;
-        }
-
-        // Tela 1
-        if (dadosFuncionais != null) {
-            String valor = dadosFuncionais.getText().trim();
-            riCompartilhada.setDados_funcionais(valor);
-        }
-        if (funcionalidadeCognitiva != null) {
-            String valor = funcionalidadeCognitiva.getText().trim();
-            riCompartilhada.setFuncionalidade_cognitiva(valor);
-        }
-        if (alfabetizacao != null) {
-            String valor = alfabetizacao.getText().trim();
-            riCompartilhada.setAlfabetizacao(valor);
-        }
-
-        // Tela 2
-        if (adaptacoesCurriculares != null) {
-            String valor = adaptacoesCurriculares.getText().trim();
-            riCompartilhada.setAdaptacoes_curriculares(valor);
-        }
-        if (participacaoAtividade != null) {
-            String valor = participacaoAtividade.getText().trim();
-            riCompartilhada.setParticipacao_atividade(valor);
-        }
-        if (autonomia != null) {
-            String texto = autonomia.getText().trim();
-            riCompartilhada.setAutonomia(texto);
-        }
-
-        // Tela 3
-        if (interacaoProfessora != null) {
-            String texto = interacaoProfessora.getText().trim();
-            riCompartilhada.setInteracao_professora(texto);
-        }
-        if (atividadesVidaDiaria != null) {
-            String valor = atividadesVidaDiaria.getText().trim();
-            riCompartilhada.setAtividades_vida_diaria(valor);
-        }
-    }
-
-    // Métodos de fluxo
     public static void iniciarNovoRI() {
-        modoAtual = ModoRI.NOVA;
-        telaAtual = 1;
-        riCompartilhada = new RI();
-        navegandoEntreTelas = false;
+        salvando = false;
+        String educandoIdPreservado = null;
+        if (ESTADO.documentoCompartilhado != null) {
+            educandoIdPreservado = ESTADO.documentoCompartilhado.getEducando_id();
+        }
+
+        iniciarNovo(ESTADO, new RI());
+        ESTADO.builder = null;
+
+        if (educandoIdPreservado != null) {
+            ((RI) ESTADO.documentoCompartilhado).setEducando_id(educandoIdPreservado);
+        }
+        GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
     }
 
     public static void editarRIExistente(RI existente) {
-        modoAtual = ModoRI.EDICAO;
-        telaAtual = 1;
-        riCompartilhada = (existente != null) ? existente : new RI();
-        navegandoEntreTelas = false;
+        iniciarEdicao(ESTADO, existente != null ? existente : new RI());
+        GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
     }
 
     public static void visualizarRI(RI existente) {
-        modoAtual = ModoRI.VISUALIZACAO;
-        telaAtual = 1;
-        riCompartilhada = existente;
-        navegandoEntreTelas = false;
+        iniciarVisualizacao(ESTADO, existente);
+        GerenciadorTelas.getInstance().trocarTela("relatorio-individual-1.fxml");
     }
 
     public static void setEducandoIdParaRI(String educandoId) {
-        if (riCompartilhada == null) {
-            riCompartilhada = new RI();
+        if (ESTADO.documentoCompartilhado == null) {
+            ESTADO.documentoCompartilhado = new RI();
         }
-        riCompartilhada.setEducando_id(educandoId);
+        ESTADO.documentoCompartilhado.setEducando_id(educandoId);
     }
 
     public static void setTurmaIdOrigem(String turmaId) {
-        turmaIdOrigem = turmaId;
+        setTurmaOrigem(ESTADO, turmaId);
     }
-
 }
+
