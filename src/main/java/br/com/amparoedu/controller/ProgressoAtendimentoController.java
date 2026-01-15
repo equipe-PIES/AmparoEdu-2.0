@@ -19,6 +19,7 @@ import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -294,17 +295,24 @@ public class ProgressoAtendimentoController {
     }
     
     // Método genérico que processa operações em documentos (editar, visualizar, excluir).
+    @SuppressWarnings("unchecked")
     private void processarOperacaoDocumento(TipoDocumento tipo, OperacaoDocumento operacao) {
         if (educando == null || educando.getId() == null) {
             System.err.println("Erro: Educando não definido ou sem ID.");
             return;
         }
         
+        DocumentoFluxo<Object> fluxo = (DocumentoFluxo<Object>) DocumentoFluxoFactory.criar(tipo);
+        fluxo.setEducandoId(educando.getId());
+        if (turma != null && turma.getId() != null) {
+            fluxo.setTurmaOrigem(turma.getId());
+        }
+
         // Busca documento recente
         Object documento = buscarDocumentoRecente(tipo);
         
         if (documento == null && operacao != OperacaoDocumento.CRIAR) {
-            String nomeDoc = DocumentoFluxoFactory.criar(tipo).getNomeDocumento();
+            String nomeDoc = fluxo.getNomeDocumento();
             exibirAlerta("Aviso", "Este educando ainda não possui " + nomeDoc + " cadastrado.");
             return;
         }
@@ -317,7 +325,15 @@ public class ProgressoAtendimentoController {
                 break;
                 
             case EXCLUIR:
-                exibirAlerta("Aviso", "Funcionalidade de exclusão será implementada em breve.");
+                String nomeDoc = fluxo.getNomeDocumento();
+                if (!confirmarExclusao(nomeDoc)) {
+                    return;
+                }
+
+                boolean sucesso = fluxo.excluir(documento);
+                if (sucesso) {
+                    exibirAlerta("Sucesso", nomeDoc + " excluído com sucesso.");
+                }
                 break;
                 
             case CRIAR:
@@ -348,5 +364,14 @@ public class ProgressoAtendimentoController {
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.show();
+    }
+
+    // Confirmação simples antes de excluir um documento.
+    private boolean confirmarExclusao(String nomeDocumento) {
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Excluir " + nomeDocumento);
+        confirmacao.setHeaderText("Deseja realmente excluir este " + nomeDocumento + "?");
+        confirmacao.setContentText("Esta ação não pode ser desfeita.");
+        return confirmacao.showAndWait().filter(btn -> btn == ButtonType.OK).isPresent();
     }
 }

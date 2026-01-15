@@ -13,7 +13,7 @@ public class PDIBuilder {
         this.documento = (base != null) ? base : new PDI();
     }
 
-    // Identificadores e metadados
+    // Identificadores
     public PDIBuilder comId(String id) {
         documento.setId(id);
         return this;

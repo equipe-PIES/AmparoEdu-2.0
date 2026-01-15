@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-/** Classe base abstrata para controllers de documentos multi-tela (PDI, PAEE, RI, Anamnese).
+/* Classe base abstrata para controllers de documentos multi-tela (PDI, PAEE, RI, Anamnese).
     Centraliza toda a lógica comum de navegação, estado e gerenciamento de modo. */
 public abstract class DocumentoControllerBase<T> {
 

@@ -1,10 +1,12 @@
 package br.com.amparoedu.backend.factory;
 
 import br.com.amparoedu.backend.model.Anamnese;
+import br.com.amparoedu.backend.service.AnamneseService;
 import br.com.amparoedu.controller.AnamneseController;
 
 // Implementação do fluxo de documentos para Anamnese
 public class AnamneseFluxo implements DocumentoFluxo<Anamnese> {
+    private final AnamneseService service = new AnamneseService();
     
     @Override
     public void iniciarNovo() {
@@ -39,5 +41,18 @@ public class AnamneseFluxo implements DocumentoFluxo<Anamnese> {
     @Override
     public String getNomeDocumento() {
         return "Anamnese";
+    }
+
+    @Override
+    public boolean excluir(Anamnese documento) {
+        try {
+            if (documento == null || documento.getId() == null || documento.getId().isBlank()) {
+                throw new Exception("Anamnese sem identificador para exclusão.");
+            }
+            return service.excluirAnamnese(documento.getId());
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir Anamnese: " + e.getMessage());
+            return false;
+        }
     }
 }

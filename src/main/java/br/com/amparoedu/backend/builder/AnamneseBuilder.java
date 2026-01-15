@@ -12,7 +12,7 @@ public class AnamneseBuilder {
         this.documento = (base != null) ? base : new Anamnese();
     }
 
-    // Identificadores e metadados
+    // Identificadores
     public AnamneseBuilder comId(String id) {
         documento.setId(id);
         return this;

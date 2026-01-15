@@ -11,7 +11,7 @@ public class PAEEBuilder {
         this.documento = (base != null) ? base : new PAEE();
     }
 
-    // Identificadores e metadados
+    // Identificadores 
     public PAEEBuilder comId(String id) {
         documento.setId(id);
         return this;

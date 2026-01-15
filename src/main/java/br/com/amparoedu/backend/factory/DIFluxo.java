@@ -1,10 +1,12 @@
 package br.com.amparoedu.backend.factory;
 
 import br.com.amparoedu.backend.model.DI;
+import br.com.amparoedu.backend.service.DIService;
 import br.com.amparoedu.controller.DIController;
 
 // Implementação do fluxo de documentos para DI
 public class DIFluxo implements DocumentoFluxo<DI> {
+    private final DIService service = new DIService();
 
     @Override
     public void iniciarNovo() {
@@ -39,5 +41,18 @@ public class DIFluxo implements DocumentoFluxo<DI> {
     @Override
     public String getNomeDocumento() {
         return "Diagnóstico Inicial";
+    }
+
+    @Override
+    public boolean excluir(DI documento) {
+        try {
+            if (documento == null || documento.getId() == null || documento.getId().isBlank()) {
+                throw new Exception("DI sem identificador para exclusão.");
+            }
+            return service.excluirDI(documento.getId());
+        } catch (Exception e) {
+            System.err.println("Erro ao excluir DI: " + e.getMessage());
+            return false;
+        }
     }
 }

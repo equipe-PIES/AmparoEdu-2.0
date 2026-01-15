@@ -13,7 +13,7 @@ public class RIBuilder {
         this.documento = (base != null) ? base : new RI();
     }
 
-    // Identificadores e metadados
+    // Identificadores
     public RIBuilder comId(String id) {
         documento.setId(id);
         return this;
