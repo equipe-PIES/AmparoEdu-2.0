@@ -24,13 +24,12 @@ public class TurmaEducandoRepository {
     }
 
 
-    public void desvincular(String turmaId, String educandoId, int sincronizado) {
-        String sql = "UPDATE turma_educando SET excluido = 1 WHERE turma_id = ? AND educando_id = ?";
+    public void desvincular(String turmaId, String educandoId) {
+        String sql = "UPDATE turma_educando SET excluido = 1, sincronizado = 0 WHERE turma_id = ? AND educando_id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, turmaId);
             stmt.setString(2, educandoId);
-            stmt.setInt(3, sincronizado);
             stmt.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
@@ -79,10 +78,31 @@ public class TurmaEducandoRepository {
         return lista;
     }
 
-    // buscar vinculos não sincronizados
+    public void excluirPorTurma(String turmaId) {
+        String sql = "UPDATE turma_educando SET excluido = 1, sincronizado = 0 WHERE turma_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, turmaId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void excluirPorEducando(String educandoId) {
+        String sql = "UPDATE turma_educando SET excluido = 1, sincronizado = 0 WHERE educando_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, educandoId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<TurmaEducando> buscarNaoSincronizados() {
         List<TurmaEducando> lista = new ArrayList<>();
-        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {

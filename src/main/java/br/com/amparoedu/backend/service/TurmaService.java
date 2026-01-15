@@ -58,7 +58,7 @@ public class TurmaService {
 
     public boolean desvincularAlunoDaTurma(String turmaId, String educandoId) {
         try {
-            turmaEducandoRepo.desvincular(turmaId, educandoId, 0);
+            turmaEducandoRepo.desvincular(turmaId, educandoId);
             return true;
         } catch (Exception e) {
             System.err.println("Erro ao desvincular aluno: " + e.getMessage());

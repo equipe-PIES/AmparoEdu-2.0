@@ -149,6 +149,7 @@ public class CardAlunoEditController {
          Optional<ButtonType> result = alert.showAndWait();
          if (result.isPresent() && result.get() == btnExcluir) {
              educandoRepo.excluir(educando.getId());
+             turmaEducandoRepo.excluirPorEducando(educando.getId());
              // Atualizar a tela recarregando a view de alunos
              GerenciadorTelas.getInstance().trocarTela("view-alunos-coord.fxml");
          }

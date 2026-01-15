@@ -4,6 +4,7 @@ import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
+import br.com.amparoedu.backend.repository.TurmaEducandoRepository;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -26,6 +27,7 @@ public class CardTurmaEditController {
     private Turma turma;
     private final TurmaRepository turmaRepo = new TurmaRepository();
     private final EducandoRepository educandoRepo = new EducandoRepository();
+    private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
 
     public void setTurma(Turma turma) {
         this.turma = turma;
@@ -66,6 +68,7 @@ public class CardTurmaEditController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == btnExcluir) {
             turmaRepo.excluir(turma.getId());
+            turmaEducandoRepo.excluirPorTurma(turma.getId());
             GerenciadorTelas.getInstance().trocarTela("view-turmas-coord.fxml");
         }
     }
