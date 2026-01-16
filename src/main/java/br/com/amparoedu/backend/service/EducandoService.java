@@ -97,6 +97,43 @@ public class EducandoService {
         }
     }
 
+    public boolean excluirEducando(String educandoId) {
+        try {
+            // Busca o educando
+            Educando educando = educandoRepo.buscarPorId(educandoId);
+            if (educando == null) {
+                return false;
+            }
+            
+            // Marca o educando como excluído
+            educando.setExcluido(1);
+            educando.setSincronizado(0);
+            educandoRepo.atualizar(educando);
+            
+            // Marca o responsável como excluído
+            Responsavel responsavel = responsavelRepo.buscarPorEducando(educandoId);
+            if (responsavel != null) {
+                responsavel.setExcluido(1);
+                responsavel.setSincronizado(0);
+                responsavelRepo.atualizar(responsavel);
+            }
+            
+            // Marca o endereço como excluído
+            Endereco endereco = enderecoRepo.buscarPorEducando(educandoId);
+            if (endereco != null) {
+                endereco.setExcluido(1);
+                endereco.setSincronizado(0);
+                enderecoRepo.atualizar(endereco);
+            }
+            
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Validação básica de CPF
     private boolean isCPFValido(String cpf) {
         cpf = cpf.replaceAll("\\D", "");

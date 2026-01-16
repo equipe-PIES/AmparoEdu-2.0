@@ -2,8 +2,8 @@ package br.com.amparoedu.controller;
 
 import br.com.amparoedu.backend.model.Professor;
 import br.com.amparoedu.backend.model.Usuario;
-import br.com.amparoedu.backend.repository.ProfessorRepository;
 import br.com.amparoedu.backend.repository.UsuarioRepository;
+import br.com.amparoedu.backend.service.ProfessorService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,8 +20,8 @@ public class CardProfEditController {
     @FXML private Button editarProf;
 
     private Professor professor;
-    private final ProfessorRepository professorRepo = new ProfessorRepository();
     private final UsuarioRepository usuarioRepo = new UsuarioRepository();
+    private final ProfessorService professorService = new ProfessorService();
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
@@ -76,22 +76,19 @@ public class CardProfEditController {
          
          Optional<ButtonType> result = alert.showAndWait();
          if (result.isPresent() && result.get() == btnExcluir) {
-             professor.setExcluido(1);
-             professor.setSincronizado(0);
-             professorRepo.atualizar(professor);
+             // Usa o service para excluir o professor e seu usuário
+             boolean sucesso = professorService.excluirProfessor(professor.getId());
              
-             // Também poderíamos marcar o usuário como excluído se desejado
-             if (professor.getUsuario_id() != null) {
-                 Usuario usuario = usuarioRepo.buscarPorId(professor.getUsuario_id());
-                 if (usuario != null) {
-                     usuario.setExcluido(1);
-                     usuario.setSincronizado(0);
-                     usuarioRepo.atualizar(usuario);
-                 }
+             if (sucesso) {
+                 // Atualizar a tela recarregando a view de professores
+                 GerenciadorTelas.getInstance().trocarTela("view-profs-coord.fxml");
+             } else {
+                 Alert erro = new Alert(Alert.AlertType.ERROR);
+                 erro.setTitle("Erro");
+                 erro.setHeaderText(null);
+                 erro.setContentText("Erro ao excluir o professor. Tente novamente.");
+                 erro.showAndWait();
              }
-             
-             // Atualizar a tela recarregando a view de professores
-             GerenciadorTelas.getInstance().trocarTela("view-profs-coord.fxml");
          }
     }
 

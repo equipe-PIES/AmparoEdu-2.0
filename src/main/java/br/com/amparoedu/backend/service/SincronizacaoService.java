@@ -26,14 +26,14 @@ public class SincronizacaoService {
 
     private static ScheduledExecutorService scheduler;
 
-    //faz com que a sincronização ocorra obrigatoriamente a cada 5 minutos
+    //faz com que a sincronização ocorra obrigatoriamente a cada 2 minutos
     public void iniciarAgendamento() {
         if (scheduler == null || scheduler.isShutdown()) {
             scheduler = Executors.newSingleThreadScheduledExecutor();
             
             scheduler.scheduleAtFixedRate(() -> {
                 sincronizarTudo();
-            }, 0, 5, TimeUnit.MINUTES);
+            }, 0, 2, TimeUnit.MINUTES);
             
         }
     }

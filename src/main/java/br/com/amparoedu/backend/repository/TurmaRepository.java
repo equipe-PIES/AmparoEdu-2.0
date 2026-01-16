@@ -98,7 +98,7 @@ public class TurmaRepository {
     // buscar turmas não sincronizadas
     public List<Turma> buscarNaoSincronizados() {
         List<Turma> turmas = new ArrayList<>();
-        String sql = "SELECT * FROM turmas WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM turmas WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

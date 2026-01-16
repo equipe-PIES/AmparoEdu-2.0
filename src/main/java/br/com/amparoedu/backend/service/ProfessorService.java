@@ -84,6 +84,37 @@ public class ProfessorService {
         }
     }
 
+    public boolean excluirProfessor(String professorId) {
+        try {
+            // Busca o professor
+            Professor professor = professorRepo.buscarPorId(professorId);
+            if (professor == null) {
+                return false;
+            }
+            
+            // Marca o professor como excluído
+            professor.setExcluido(1);
+            professor.setSincronizado(0);
+            professorRepo.atualizar(professor);
+            
+            // Marca o usuário associado como excluído
+            if (professor.getUsuario_id() != null) {
+                Usuario usuario = usuarioRepo.buscarPorId(professor.getUsuario_id());
+                if (usuario != null) {
+                    usuario.setExcluido(1);
+                    usuario.setSincronizado(0);
+                    usuarioRepo.atualizar(usuario);
+                }
+            }
+            
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static boolean isBcryptHash(String valor) {
         return valor.startsWith("$2a$") || valor.startsWith("$2b$") || valor.startsWith("$2y$");
     }

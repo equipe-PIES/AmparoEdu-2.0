@@ -3,7 +3,7 @@ package br.com.amparoedu.controller;
 import br.com.amparoedu.backend.model.Educando;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.repository.EducandoRepository;
-import br.com.amparoedu.backend.repository.TurmaRepository;
+import br.com.amparoedu.backend.service.TurmaService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,8 +24,8 @@ public class CardTurmaEditController {
     @FXML private Button editarTurma;
 
     private Turma turma;
-    private final TurmaRepository turmaRepo = new TurmaRepository();
     private final EducandoRepository educandoRepo = new EducandoRepository();
+    private final TurmaService turmaService = new TurmaService();
 
     public void setTurma(Turma turma) {
         this.turma = turma;
@@ -65,8 +65,17 @@ public class CardTurmaEditController {
         
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == btnExcluir) {
-            turmaRepo.excluir(turma.getId());
-            GerenciadorTelas.getInstance().trocarTela("view-turmas-coord.fxml");
+            boolean sucesso = turmaService.excluirTurma(turma.getId());
+            
+            if (sucesso) {
+                GerenciadorTelas.getInstance().trocarTela("view-turmas-coord.fxml");
+            } else {
+                Alert erro = new Alert(Alert.AlertType.ERROR);
+                erro.setTitle("Erro");
+                erro.setHeaderText(null);
+                erro.setContentText("Erro ao excluir a turma. Tente novamente.");
+                erro.showAndWait();
+            }
         }
     }
 

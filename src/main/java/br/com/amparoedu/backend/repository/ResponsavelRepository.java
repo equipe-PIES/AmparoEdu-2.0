@@ -101,7 +101,7 @@ public class ResponsavelRepository {
     // Buscar não sincronizados
     public List<Responsavel> buscarNaoSincronizados() {
         List<Responsavel> responsaveis = new ArrayList<>();
-        String sql = "SELECT * FROM responsaveis WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM responsaveis WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

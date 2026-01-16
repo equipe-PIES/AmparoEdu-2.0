@@ -65,4 +65,34 @@ public class TurmaService {
             return false;
         }
     }
+
+    public boolean excluirTurma(String turmaId) {
+        try {
+            Turma turma = turmaRepo.buscarPorId(turmaId);
+            if (turma == null) {
+                return false;
+            }
+            
+            // Marca a turma como excluída
+            turma.setExcluido(1);
+            turma.setSincronizado(0);
+            turmaRepo.atualizar(turma);
+            
+            // Marca todos os vínculos de alunos como excluídos
+            java.util.List<TurmaEducando> vinculos = turmaEducandoRepo.buscarPorTurma(turmaId);
+            if (vinculos != null) {
+                for (TurmaEducando vinculo : vinculos) {
+                    vinculo.setExcluido(1);
+                    vinculo.setSincronizado(0);
+                    turmaEducandoRepo.atualizar(vinculo);
+                }
+            }
+            
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

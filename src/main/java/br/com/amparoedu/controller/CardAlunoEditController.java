@@ -6,12 +6,12 @@ import br.com.amparoedu.backend.model.PDI;
 import br.com.amparoedu.backend.model.Responsavel;
 import br.com.amparoedu.backend.model.Turma;
 import br.com.amparoedu.backend.model.TurmaEducando;
-import br.com.amparoedu.backend.repository.EducandoRepository;
 import br.com.amparoedu.backend.repository.EnderecoRepository;
 import br.com.amparoedu.backend.repository.PDIRepository;
 import br.com.amparoedu.backend.repository.ResponsavelRepository;
 import br.com.amparoedu.backend.repository.TurmaEducandoRepository;
 import br.com.amparoedu.backend.repository.TurmaRepository;
+import br.com.amparoedu.backend.service.EducandoService;
 import br.com.amparoedu.view.GerenciadorTelas;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,12 +41,12 @@ public class CardAlunoEditController {
     @FXML private Button editarAluno;
 
     private Educando educando;
-    private final EducandoRepository educandoRepo = new EducandoRepository();
     private final ResponsavelRepository responsavelRepo = new ResponsavelRepository();
     private final EnderecoRepository enderecoRepo = new EnderecoRepository();
     private final PDIRepository pdiRepo = new PDIRepository();
     private final TurmaRepository turmaRepo = new TurmaRepository();
     private final TurmaEducandoRepository turmaEducandoRepo = new TurmaEducandoRepository();
+    private final EducandoService educandoService = new EducandoService();
 
     public void setEducando(Educando educando) {
         this.educando = educando;
@@ -148,9 +148,18 @@ public class CardAlunoEditController {
          
          Optional<ButtonType> result = alert.showAndWait();
          if (result.isPresent() && result.get() == btnExcluir) {
-             educandoRepo.excluir(educando.getId());
-             // Atualizar a tela recarregando a view de alunos
-             GerenciadorTelas.getInstance().trocarTela("view-alunos-coord.fxml");
+             boolean sucesso = educandoService.excluirEducando(educando.getId());
+             
+             if (sucesso) {
+                 // Atualizar a tela recarregando a view de alunos
+                 GerenciadorTelas.getInstance().trocarTela("view-alunos-coord.fxml");
+             } else {
+                 Alert erro = new Alert(Alert.AlertType.ERROR);
+                 erro.setTitle("Erro");
+                 erro.setHeaderText(null);
+                 erro.setContentText("Erro ao excluir o educando. Tente novamente.");
+                 erro.showAndWait();
+             }
          }
     }
 

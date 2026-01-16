@@ -92,7 +92,7 @@ public class PDIRepository {
     // Busca PDIs não sincronizados
     public List<PDI> buscarNaoSincronizados() {
         List<PDI> pdis = new ArrayList<>();
-        String sql = "SELECT * FROM pdis WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM pdis WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

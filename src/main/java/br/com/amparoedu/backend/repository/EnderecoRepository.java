@@ -103,7 +103,7 @@ public class EnderecoRepository {
 
     // Buscar não sincronizados
     public List<Endereco> buscarNaoSincronizados() {
-        String sql = "SELECT * FROM enderecos WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM enderecos WHERE sincronizado = 0";
         List<Endereco> enderecos = new ArrayList<>();
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

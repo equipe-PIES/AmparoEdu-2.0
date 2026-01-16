@@ -116,7 +116,7 @@ public class AnamneseRepository {
     // Busca anamneses não sincronizadas
     public List<Anamnese> buscarNaoSincronizados() {
         List<Anamnese> anamneses = new ArrayList<>();
-        String sql = "SELECT * FROM anamneses WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM anamneses WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

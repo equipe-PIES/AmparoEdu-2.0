@@ -20,8 +20,8 @@ public class AuthService {
     public Usuario fazerLogin(String email, String senha) {
         Usuario usuario = usuarioRepository.buscarPorEmail(email);
 
-        // validação da senha usando bcrypt
-        if (usuario != null && BCrypt.checkpw(senha, usuario.getSenha())) {
+        // Validação da senha usando bcrypt e verifica se o usuário não está excluído
+        if (usuario != null && usuario.getExcluido() == 0 && BCrypt.checkpw(senha, usuario.getSenha())) {
             usuarioLogado = usuario;
             return usuario;
         }
@@ -52,7 +52,11 @@ public class AuthService {
 }
 
     public static void logout() {
+        // Realiza sincronização final antes de fazer logout
+        SincronizacaoService syncService = new SincronizacaoService();
+        syncService.sincronizarTudo();
+        syncService.pararAgendamento();
+        
         usuarioLogado = null;
-        new SincronizacaoService().pararAgendamento();
     }
 }

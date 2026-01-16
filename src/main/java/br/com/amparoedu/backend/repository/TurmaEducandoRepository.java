@@ -79,10 +79,32 @@ public class TurmaEducandoRepository {
         return lista;
     }
 
+    public List<TurmaEducando> buscarPorTurma(String turmaId) {
+        List<TurmaEducando> lista = new ArrayList<>();
+        String sql = "SELECT * FROM turma_educando WHERE turma_id = ? AND excluido = 0";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, turmaId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new TurmaEducando(
+                        rs.getString("turma_id"),
+                        rs.getString("educando_id"),
+                        rs.getInt("sincronizado"),
+                        rs.getInt("excluido")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     // buscar vinculos não sincronizados
     public List<TurmaEducando> buscarNaoSincronizados() {
         List<TurmaEducando> lista = new ArrayList<>();
-        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM turma_educando WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
@@ -99,6 +121,21 @@ public class TurmaEducandoRepository {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    // atualizar um vinculo completo
+    public void atualizar(TurmaEducando turmaEducando) {
+        String sql = "UPDATE turma_educando SET sincronizado = ?, excluido = ? WHERE turma_id = ? AND educando_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, turmaEducando.getSincronizado());
+            stmt.setInt(2, turmaEducando.getExcluido());
+            stmt.setString(3, turmaEducando.getTurma_id());
+            stmt.setString(4, turmaEducando.getEducando_id());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // atualizar a sincronização

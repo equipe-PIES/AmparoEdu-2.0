@@ -122,7 +122,7 @@ public class DIRepository {
     // Busca DIs não sincronizados
     public List<DI> buscarNaoSincronizados() {
         List<DI> dis = new ArrayList<>();
-        String sql = "SELECT * FROM dis WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM dis WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

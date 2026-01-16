@@ -97,7 +97,7 @@ public class RIRepository {
     // Busca RIs não sincronizados
     public List<RI> buscarNaoSincronizados() {
         List<RI> ris = new ArrayList<>();
-        String sql = "SELECT * FROM ris WHERE sincronizado = 0 AND excluido = 0";
+        String sql = "SELECT * FROM ris WHERE sincronizado = 0";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
